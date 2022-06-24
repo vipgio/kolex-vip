@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { UserContext } from "./context/UserContext";
+import { Login } from "./pages/Login";
+import { Home } from "./pages/Home";
+import { Circulation } from "./pages/Circulation";
+import { PackSearch } from "./pages/PackSearch";
+import { Navbar } from "./components/Navbar";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const { user } = useContext(UserContext);
+	return (
+		<BrowserRouter>
+			{user && (
+				<div className='container relative mx-auto h-screen bg-gray-700'>
+					<Navbar />
+					<Routes>
+						<Route index element={<Home user={user} />} />
+						<Route path='/circulation' element={<Circulation />}></Route>
+						<Route path='/packs' element={<PackSearch />}></Route>
+						{/* <Route index element={<Home />} /> */}
+						{/* <Route path='teams' element={<Teams />}>
+						<Route path=':teamId' element={<Team />} />
+						<Route path='new' element={<NewTeamForm />} />
+						<Route index element={<LeagueStandings />} />
+					</Route> */}
+						{/* </Route> */}
+					</Routes>
+				</div>
+			)}
+			{!user && (
+				<div className='h-screen w-full overflow-auto bg-gray-700'>
+					<Login />
+				</div>
+			)}
+		</BrowserRouter>
+	);
 }
 
 export default App;
