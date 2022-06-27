@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 const { useContext, useState, useEffect } = require("react");
 
 export const PackSearch = () => {
-	const { getPacks, loading, setLoading } = useContext(UserContext);
+	const { getPacks, loading, setLoading, setActive } = useContext(UserContext);
 	const [packs, setPacks] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [results, setResults] = useState([]);
@@ -22,6 +22,7 @@ export const PackSearch = () => {
 	};
 
 	useEffect(() => {
+		setActive(3);
 		if (packs.length === 0) {
 			setLoading(true);
 			getAllPacks(1);

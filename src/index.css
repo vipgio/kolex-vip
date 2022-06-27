@@ -14,3 +14,7 @@
 body {
 	@apply bg-gray-700;
 }
+
+.indicator {
+	@apply pointer-events-none absolute top-3 h-16 w-16 rounded-full border-4 border-gray-700 bg-orange-400 transition-all duration-500 before:absolute before:-left-5 before:h-5 before:w-6 before:rounded-br-full before:shadow-[0_8px_0_0_#374151] after:absolute after:left-[48px] after:h-5 after:w-6 after:rounded-bl-full after:shadow-[0_8px_0_0_#374151];
+}

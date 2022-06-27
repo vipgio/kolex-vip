@@ -2,10 +2,10 @@ import { useState } from "react";
 export const CircList = ({ data }) => {
 	const [packCount, setPackCount] = useState("");
 	return (
-		<div className='justify-center flex'>
-			<div className='grid border mt-3 border-indigo-400 mb-10 divide-y divide-indigo-400'>
+		<div className='flex justify-center px-2'>
+			<div className='mt-3 mb-2 grid divide-y divide-indigo-400 border border-indigo-400'>
 				<div className='flex items-center'>
-					<div className='text-gray-200 font-semibold text-lg p-3 text-center'>
+					<div className='p-3 text-center text-lg font-semibold text-gray-200'>
 						Total : {data.reduce((cur, acc) => cur + acc.inCirculation, 0)}
 					</div>
 					<input
@@ -15,11 +15,11 @@ export const CircList = ({ data }) => {
 						value={packCount}
 						onChange={(e) => setPackCount(e.target.value)}
 						decimal='false'
-						className='rounded-md border w-28 border-gray-300 m-3 p-2 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 bg-gray-200'
+						className='m-3 w-28 rounded-md border border-gray-300 bg-gray-200 p-2 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
 					/>
 					<div>
 						{packCount > 0 && (
-							<span className='text-gray-300 mr-2'>
+							<span className='mr-2 text-gray-300'>
 								Packs opened:{" "}
 								{Math.ceil(
 									data.reduce((cur, acc) => cur + acc.inCirculation, 0) / packCount

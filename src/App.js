@@ -5,6 +5,7 @@ import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
 import { Circulation } from "./pages/Circulation";
 import { PackSearch } from "./pages/PackSearch";
+import { Spinner } from "./pages/Spinner";
 import { Navbar } from "./components/Navbar";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
 						<Route index element={<Home user={user} />} />
 						<Route path='/circulation' element={<Circulation />}></Route>
 						<Route path='/packs' element={<PackSearch />}></Route>
+						<Route path='/spinner' element={<Spinner />}></Route>
 						{/* <Route index element={<Home />} /> */}
 						{/* <Route path='teams' element={<Teams />}>
 						<Route path=':teamId' element={<Team />} />

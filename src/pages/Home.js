@@ -1,9 +1,12 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 export const Home = () => {
-	const { user, setUser } = useContext(UserContext);
+	const { user, setUser, setActive } = useContext(UserContext);
+	useEffect(() => {
+		setActive(1);
+	}, []);
 	return (
-		<div className='container flex border py-2 text-gray-300'>
+		<div className='container mt-10 flex border py-2 text-gray-300'>
 			<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border'>
 				<img
 					src={`http://cdn.epics.gg${user.user.avatar}`}

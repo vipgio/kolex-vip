@@ -8,11 +8,12 @@ export const UserContext = createContext();
 const UserContextProvider = (props) => {
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useState(null);
+	const [active, setActive] = useState(0);
 
 	useEffect(() => {
 		const localUser = localStorage.getItem("user");
 		if (localUser) {
-			if (localUser.expires < Date.now() / 1000) {
+			if (JSON.parse(localUser).expires < Date.now() / 1000) {
 				setUser(null);
 			} else {
 				setUser(JSON.parse(localUser));
@@ -24,7 +25,7 @@ const UserContextProvider = (props) => {
 		localStorage.setItem("user", JSON.stringify(user));
 	}, [user]);
 
-	const login = (auth) => {
+	const login = async (auth) => {
 		return http("https://api.epics.gg/api/v1/auth/login", {
 			method: "POST",
 			headers: {
@@ -34,7 +35,7 @@ const UserContextProvider = (props) => {
 		});
 	};
 
-	const getCirc = (collectionId) => {
+	const getCirc = async (collectionId) => {
 		return http(
 			`https://api.epics.gg/api/v1/collections/${collectionId}/card-templates?categoryId=1`,
 			{
@@ -47,7 +48,7 @@ const UserContextProvider = (props) => {
 		);
 	};
 
-	const getCollections = () => {
+	const getCollections = async () => {
 		return http(
 			`https://api.epics.gg/api/v1/collections/users/${user.user.id}/user-summary?categoryId=1`,
 			{
@@ -60,8 +61,18 @@ const UserContextProvider = (props) => {
 		);
 	};
 
-	const getPacks = (page) => {
+	const getPacks = async (page) => {
 		return http(`https://api.epics.gg/api/v1/packs?page=${page}&categoryId=1`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"x-user-jwt": user.jwt,
+			},
+		});
+	};
+
+	const spinnerOdds = async (jwt, category) => {
+		return http(`https://api.epics.gg/api/v1/spinner?categoryId=1`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -81,6 +92,9 @@ const UserContextProvider = (props) => {
 				getCirc,
 				getCollections,
 				getPacks,
+				spinnerOdds,
+				active,
+				setActive,
 			}}
 		>
 			{props.children}

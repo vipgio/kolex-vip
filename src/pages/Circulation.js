@@ -1,16 +1,19 @@
 import { UserContext } from "../context/UserContext";
 import { CircList } from "../components/CircList";
 
-const { useContext, useState } = require("react");
+const { useContext, useState, useEffect } = require("react");
 
 export const Circulation = () => {
-	const { getCirc, getCollections, loading, setLoading } = useContext(UserContext);
+	const { getCirc, getCollections, loading, setLoading, setActive } =
+		useContext(UserContext);
 	const [collectionID, setCollectionID] = useState("");
 	const [collection, setCollection] = useState({ info: {}, items: [] });
 
+	useEffect(() => {
+		setActive(2);
+	}, []);
 	const onSubmit = async (e) => {
 		e.preventDefault();
-
 		try {
 			setLoading(true);
 			const everything = await getCollections();
@@ -39,8 +42,8 @@ export const Circulation = () => {
 	};
 	return (
 		<div className='flex flex-col items-center'>
-			<div className='w-full flex justify-center h-full items-start pt-10'>
-				<form className='flex flex-col space-y-2 items-center' onSubmit={onSubmit}>
+			<div className='flex h-full w-full items-start justify-center pt-10'>
+				<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
 					<input
 						type='text'
 						name='collection-id'
@@ -49,7 +52,7 @@ export const Circulation = () => {
 						onChange={(e) => setCollectionID(e.target.value)}
 						disabled={loading}
 						autoComplete='off'
-						className={`input-field ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 					/>
 					<button
 						type='submit'
@@ -61,7 +64,7 @@ export const Circulation = () => {
 				</form>
 			</div>
 			{collection.info?.length > 0 && (
-				<div className='text-gray-300 font-bold text-xl mt-3'>
+				<div className='mt-3 text-xl font-bold text-gray-300'>
 					{collection.info[0].collection.properties.seasons[0]}{" "}
 					{collection.info[0].collection.description}
 				</div>
