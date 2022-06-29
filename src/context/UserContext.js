@@ -14,7 +14,7 @@ const UserContextProvider = (props) => {
 		const localUser = localStorage.getItem("user");
 		if (localUser) {
 			if (JSON.parse(localUser).expires < Date.now() / 1000) {
-				setUser(null);
+				setUser("potato");
 			} else {
 				setUser(JSON.parse(localUser));
 			}
@@ -22,7 +22,11 @@ const UserContextProvider = (props) => {
 	}, []);
 
 	useEffect(() => {
-		localStorage.setItem("user", JSON.stringify(user));
+		if (user) {
+			localStorage.setItem("user", JSON.stringify(user));
+		} else {
+			localStorage.removeItem("user");
+		}
 	}, [user]);
 
 	const login = async (auth) => {
@@ -81,6 +85,32 @@ const UserContextProvider = (props) => {
 		});
 	};
 
+	const buySpin = async () => {
+		return http(`https://api.epics.gg/api/v1/spinner/buy-spin?categoryId=1`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"x-user-jwt": user.jwt,
+			},
+			data: JSON.stringify({
+				amount: 1,
+			}),
+		});
+	};
+
+	const spin = async (id) => {
+		return http(`https://api.epics.gg/api/v1/spinner/spin?categoryId=1`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"x-user-jwt": user.jwt,
+			},
+			data: JSON.stringify({
+				spinnerId: id,
+			}),
+		});
+	};
+
 	return (
 		<UserContext.Provider
 			value={{
@@ -95,6 +125,8 @@ const UserContextProvider = (props) => {
 				spinnerOdds,
 				active,
 				setActive,
+				buySpin,
+				spin,
 			}}
 		>
 			{props.children}

@@ -11,6 +11,7 @@ export const Circulation = () => {
 
 	useEffect(() => {
 		setActive(2);
+		document.title = "Kolex VIP | Circulations";
 	}, []);
 	const onSubmit = async (e) => {
 		e.preventDefault();

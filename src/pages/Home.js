@@ -4,6 +4,7 @@ export const Home = () => {
 	const { user, setUser, setActive } = useContext(UserContext);
 	useEffect(() => {
 		setActive(1);
+		document.title = "Kolex VIP | Home";
 	}, []);
 	return (
 		<div className='container mt-10 flex border py-2 text-gray-300'>

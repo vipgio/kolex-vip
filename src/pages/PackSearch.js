@@ -1,3 +1,4 @@
+import { parse } from "postcss";
 import { PackResults } from "../components/PackResults";
 import { UserContext } from "../context/UserContext";
 
@@ -21,9 +22,24 @@ export const PackSearch = () => {
 		});
 	};
 
+	const refreshPacks = () => {
+		setLoading(true);
+		setPacks([]);
+		localStorage.removeItem("packs");
+		getAllPacks(1);
+	};
+
+	useEffect(() => {
+		packs.length > 0 && localStorage.setItem("packs", JSON.stringify(packs));
+	}, [packs]);
+
 	useEffect(() => {
 		setActive(3);
-		if (packs.length === 0) {
+		document.title = "Kolex VIP | Packs";
+		const localPacks = JSON.parse(localStorage.getItem("packs"));
+		if (localPacks) {
+			setPacks(localPacks);
+		} else {
 			setLoading(true);
 			getAllPacks(1);
 		}
@@ -37,7 +53,6 @@ export const PackSearch = () => {
 		//search for packs
 		e.preventDefault();
 		try {
-			// console.log(/^\d+$/.test(searchQuery));
 			setResults(
 				/^\d+$/.test(searchQuery)
 					? packs.filter((pack) => pack.id === Number(searchQuery))
@@ -80,7 +95,34 @@ export const PackSearch = () => {
 					</button>
 				)}
 			</form>
-			<button onClick={() => console.log(results)}>packs</button>
+			<button
+				title='Refresh packs'
+				className='absolute top-28 right-2 flex flex-col items-center rounded-md bg-red-500 p-1 font-semibold disabled:cursor-not-allowed disabled:opacity-50'
+				disabled={loading}
+			>
+				Refresh packs
+				<svg
+					xmlns='http://www.w3.org/2000/svg'
+					className={`h-6 w-6 cursor-pointer ${loading && "animate-spin-ac"}`}
+					fill='none'
+					viewBox='0 0 24 24'
+					stroke='currentColor'
+					strokeWidth={2}
+					onClick={refreshPacks}
+				>
+					<path
+						strokeLinecap='round'
+						strokeLinejoin='round'
+						d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
+					/>
+				</svg>
+			</button>
+			{/* <button onClick={() => console.log(JSON.parse(localStorage.getItem("packs")))}>
+				local
+			</button>
+			<button onClick={() => console.log(results)}>results</button>
+			<button onClick={() => console.log(packs)}>packs</button> */}
+
 			{results.length > 0 &&
 				results.map((res) => (
 					<div key={res.id}>
