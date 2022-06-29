@@ -14,7 +14,7 @@ const UserContextProvider = (props) => {
 		const localUser = localStorage.getItem("user");
 		if (localUser) {
 			if (JSON.parse(localUser).expires < Date.now() / 1000) {
-				setUser("potato");
+				setUser(null);
 			} else {
 				setUser(JSON.parse(localUser));
 			}
@@ -75,7 +75,7 @@ const UserContextProvider = (props) => {
 		});
 	};
 
-	const spinnerOdds = async (jwt, category) => {
+	const spinnerOdds = async () => {
 		return http(`https://api.epics.gg/api/v1/spinner?categoryId=1`, {
 			method: "GET",
 			headers: {

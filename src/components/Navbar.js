@@ -6,7 +6,7 @@ export const Navbar = () => {
 	const { active, setActive } = useContext(UserContext);
 
 	return (
-		<div className='h-12 bg-indigo-300 text-gray-700'>
+		<div className='h-12 bg-indigo-300 font-semibold text-gray-700'>
 			<nav className='relative h-full'>
 				<ul className='flex h-full items-center justify-around rounded-full rounded-b-md py-2'>
 					<li onClick={() => setActive(1)} className='relative z-10'>

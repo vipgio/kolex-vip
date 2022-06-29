@@ -17,7 +17,7 @@ export const Spinner = () => {
 		document.title = "Kolex VIP | Spinner";
 	}, []);
 	return (
-		<>
+		<div className='mx-3 pt-10 sm:mx-0'>
 			<div>
 				Spin cost: {spinnerInfo.cost} {spinnerInfo.costType}
 			</div>
@@ -43,6 +43,6 @@ export const Spinner = () => {
 				</table>
 			)}
 			<SpinArea info={spinnerInfo} />
-		</>
+		</div>
 	);
 };

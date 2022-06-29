@@ -7,7 +7,7 @@ export const PackResults = ({ pack }) => {
 		<div className='m-2 flex border-t p-2'>
 			<div className='pt-1'>
 				<img
-					src={`http://cdn.epics.gg${
+					src={`https://cdn.epics.gg${
 						pack.images.filter(
 							(images) => images.name === "image"
 							// || images.name === "pack-store"

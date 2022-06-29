@@ -97,10 +97,10 @@ export const PackSearch = () => {
 			</form>
 			<button
 				title='Refresh packs'
-				className='absolute top-28 right-2 flex flex-col items-center rounded-md bg-red-500 p-1 font-semibold disabled:cursor-not-allowed disabled:opacity-50'
+				className='absolute top-28 right-2 mt-2 flex flex-col items-center rounded-md bg-red-500 p-1 font-semibold disabled:cursor-not-allowed disabled:opacity-50'
 				disabled={loading}
 			>
-				Refresh packs
+				{/* Refresh packs */}
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					className={`h-6 w-6 cursor-pointer ${loading && "animate-spin-ac"}`}

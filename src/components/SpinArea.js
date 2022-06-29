@@ -74,11 +74,11 @@ export const SpinArea = ({ info }) => {
 					</button>
 				</div>
 
-				<div>
+				<div className='h-36 overflow-scroll'>
 					{info.id &&
-						spinRes
-							.slice(-5)
-							.map((res, index) => <SpinResult result={res} info={info} key={index} />)}
+						spinRes.map((res, index) => (
+							<SpinResult result={res} info={info} key={index} />
+						))}
 				</div>
 			</div>
 		</>
