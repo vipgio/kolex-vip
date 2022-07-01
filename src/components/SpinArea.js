@@ -13,7 +13,7 @@ export const SpinArea = ({ info }) => {
 		console.log(buySpinRes);
 		if (buySpinRes.data.success) {
 			const spinResult = await spin(info.id);
-			setSpinRes((prev) => [...prev, spinResult.data]);
+			setSpinRes((prev) => [spinResult.data, ...prev]);
 		}
 	};
 
@@ -74,7 +74,7 @@ export const SpinArea = ({ info }) => {
 					</button>
 				</div>
 
-				<div className='h-36 overflow-scroll'>
+				<div className='h-36 overflow-auto'>
 					{info.id &&
 						spinRes.map((res, index) => (
 							<SpinResult result={res} info={info} key={index} />
