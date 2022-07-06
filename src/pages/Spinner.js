@@ -7,17 +7,16 @@ const Spinner = () => {
 	const { spinnerOdds, setActive, user } = useContext(UserContext);
 	const [spinnerInfo, setSpinnerInfo] = useState({});
 
-	const stuff = async () => {
-		const data = await spinnerOdds();
-		if (data.data.success) {
-			setSpinnerInfo(data.data.data);
-		}
-	};
 	useEffect(() => {
+		const stuff = async () => {
+			const data = await spinnerOdds();
+			if (data.data.success) {
+				setSpinnerInfo(data.data.data);
+			}
+		};
 		user && stuff();
 	}, [user]);
 	useEffect(() => {
-		// stuff();
 		setActive(4);
 		document.title = "Kolex VIP | Spinner";
 	}, []);

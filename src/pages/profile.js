@@ -13,8 +13,8 @@ const Profile = () => {
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border'>
 						<img
-							src={`https://cdn.epics.gg${user.user.avatar}`}
-							alt={user.user.username}
+							src={`https://cdn.epics.gg${user?.user.avatar}` || ""}
+							alt={user?.user.username || "loading"}
 							className='h-full w-full object-cover'
 						/>
 					</div>
@@ -35,58 +35,63 @@ const Profile = () => {
 					</div>
 				</div>
 				<div className='ml-3 flex flex-col'>
-					<div className='text-2xl font-semibold'>{user.user.username}</div>
-					<div>
-						Balance:{" "}
-						<span className='font-semibold text-indigo-500'>{user.user.balance}</span>
-					</div>
+					{user && (
+						<>
+							<div className='text-2xl font-semibold'>{user.user.username}</div>
+							<div>
+								Balance:{" "}
+								<span className='font-semibold text-indigo-500'>{user.user.balance}</span>
+							</div>
 
-					<div>
-						Created:{" "}
-						<span className='font-semibold text-indigo-500'>
-							{user.user.created.split("T")[0]}
-						</span>
-					</div>
+							<div>
+								Created:{" "}
+								<span className='font-semibold text-indigo-500'>
+									{user.user.created.split("T")[0]}
+								</span>
+							</div>
 
-					<div>{user.user.banned ? "Banned lol" : "Not banned (yet)"}</div>
+							<div>{user.user.banned ? "Banned lol" : "Not banned (yet)"}</div>
 
-					<div>
-						User ID: <span className='font-semibold text-indigo-500'>{user.user.id}</span>
-					</div>
+							<div>
+								User ID:{" "}
+								<span className='font-semibold text-indigo-500'>{user.user.id}</span>
+							</div>
 
-					{user.user.ethAddress && (
-						<div>
-							ETH Wallet:{" "}
-							<span className='break-all font-semibold text-indigo-500'>
-								{user.user.ethAddress}
-							</span>
-						</div>
-					)}
+							{user.user.ethAddress && (
+								<div>
+									ETH Wallet:{" "}
+									<span className='break-all font-semibold text-indigo-500'>
+										{user.user.ethAddress}
+									</span>
+								</div>
+							)}
 
-					{user.user.verifiedPhone ? (
-						<div className='flex'>
-							<span>Phone number verified</span>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								width='24'
-								height='24'
-								style={{ fill: "#6366f1" }}
-							>
-								<path d='m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z'></path>
-							</svg>
-						</div>
-					) : (
-						<div className='flex'>
-							<span>Phone number not verified</span>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								width='24'
-								height='24'
-								style={{ fill: "#dc2626" }}
-							>
-								<path d='m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z'></path>
-							</svg>
-						</div>
+							{user.user.verifiedPhone ? (
+								<div className='flex'>
+									<span>Phone number verified</span>
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										width='24'
+										height='24'
+										style={{ fill: "#6366f1" }}
+									>
+										<path d='m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z'></path>
+									</svg>
+								</div>
+							) : (
+								<div className='flex'>
+									<span>Phone number not verified</span>
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										width='24'
+										height='24'
+										style={{ fill: "#dc2626" }}
+									>
+										<path d='m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z'></path>
+									</svg>
+								</div>
+							)}
+						</>
 					)}
 				</div>
 				<div

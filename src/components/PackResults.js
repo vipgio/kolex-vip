@@ -62,6 +62,7 @@ export const PackResults = ({ pack }) => {
 						href={`https://app.epics.gg/csgo/marketplace/pack/${pack.id}`}
 						className='ml-1 flex items-center text-indigo-500 hover:underline'
 						target='_blank'
+						rel='noreferrer'
 					>
 						Here
 						<svg

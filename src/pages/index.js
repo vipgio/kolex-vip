@@ -1,11 +1,9 @@
-import React from "react";
 import { useContext } from "react";
-import { Login } from "./Login";
 import { UserContext } from "../context/UserContext";
-import { Profile } from "./profile";
-import Layout from "../components/Layout";
+import Login from "./Login";
+import Profile from "./profile";
 
-export default function index() {
+const Index = () => {
 	const { user } = useContext(UserContext);
 	console.log(user);
 	return (
@@ -22,4 +20,5 @@ export default function index() {
 			)}
 		</>
 	);
-}
+};
+export default Index;
