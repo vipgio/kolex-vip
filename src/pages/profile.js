@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import { UserContext } from "../context/UserContext";
-export const Profile = () => {
+const Profile = () => {
 	const { user, setUser, setActive } = useContext(UserContext);
 	useEffect(() => {
 		setActive(1);
@@ -108,3 +108,4 @@ export const Profile = () => {
 		</Layout>
 	);
 };
+export default Profile;

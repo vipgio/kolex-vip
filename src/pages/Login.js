@@ -2,7 +2,7 @@ import { UserContext } from "../context/UserContext";
 
 const { useContext, useState } = require("react");
 
-export const Login = () => {
+const Login = () => {
 	const { setUser, login, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -22,8 +22,8 @@ export const Login = () => {
 
 	return (
 		<>
-			<div className='w-full flex justify-center h-full items-center'>
-				<form className='flex flex-col space-y-2 items-center' onSubmit={onSubmit}>
+			<div className='flex h-full w-full items-center justify-center'>
+				<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
 					<input
 						type='email'
 						name='email'
@@ -32,7 +32,7 @@ export const Login = () => {
 						onChange={(e) => setEmail(e.target.value)}
 						autoComplete='email'
 						disabled={loading}
-						className={`input-field ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 					/>
 
 					<input
@@ -43,12 +43,12 @@ export const Login = () => {
 						onChange={(e) => setPassword(e.target.value)}
 						autoComplete='current-password'
 						disabled={loading}
-						className={`input-field ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 					/>
 					<button
 						type='submit'
 						disabled={loading}
-						className={`big-button ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+						className={`big-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 					>
 						Login
 					</button>
@@ -57,3 +57,4 @@ export const Login = () => {
 		</>
 	);
 };
+export default Login;
