@@ -43,41 +43,41 @@ export default function Circulation() {
 		}
 	};
 	return (
-		<Layout>
-			<div className='flex flex-col items-center'>
-				<div className='flex h-full w-full items-start justify-center pt-10'>
-					<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
-						<input
-							type='text'
-							name='collection-id'
-							placeholder='Collection ID'
-							value={collectionID}
-							onChange={(e) => setCollectionID(e.target.value)}
-							disabled={loading}
-							autoComplete='off'
-							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-						/>
-						<button
-							type='submit'
-							disabled={loading}
-							className={`big-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-						>
-							Get Circulations
-						</button>
-					</form>
-				</div>
-				{collection.info?.length > 0 && (
-					<div className='mt-3 text-xl font-bold text-gray-300'>
-						{collection.info[0].collection.properties.seasons[0]}{" "}
-						{collection.info[0].collection.description}
-					</div>
-				)}
-				{collection.items.length > 0 && (
-					<div className='overflow-hidden'>
-						<CircList data={collection.items} />
-					</div>
-				)}
+		// <Layout>
+		<div className='flex flex-col items-center'>
+			<div className='flex h-full w-full items-start justify-center pt-10'>
+				<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
+					<input
+						type='text'
+						name='collection-id'
+						placeholder='Collection ID'
+						value={collectionID}
+						onChange={(e) => setCollectionID(e.target.value)}
+						disabled={loading}
+						autoComplete='off'
+						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+					/>
+					<button
+						type='submit'
+						disabled={loading}
+						className={`big-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+					>
+						Get Circulations
+					</button>
+				</form>
 			</div>
-		</Layout>
+			{collection.info?.length > 0 && (
+				<div className='mt-3 text-xl font-bold text-gray-300'>
+					{collection.info[0].collection.properties.seasons[0]}{" "}
+					{collection.info[0].collection.description}
+				</div>
+			)}
+			{collection.items.length > 0 && (
+				<div className='overflow-hidden'>
+					<CircList data={collection.items} />
+				</div>
+			)}
+		</div>
+		// </Layout>
 	);
 }

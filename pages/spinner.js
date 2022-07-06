@@ -21,35 +21,33 @@ export default function Spinner() {
 		document.title = "Kolex VIP | Spinner";
 	}, []);
 	return (
-		<Layout>
-			<div className='mx-3 pt-10 pb-3 sm:mx-0'>
-				<div>
-					Spin cost: {spinnerInfo.cost} {spinnerInfo.costType}
-				</div>
-
-				{spinnerInfo.items && (
-					<table className='text-gray-300'>
-						<thead className='border'>
-							<tr>
-								<th>Item Name</th>
-								<th>Chance (%)</th>
-							</tr>
-						</thead>
-						<tbody>
-							{spinnerInfo.items
-								.sort((a, b) => b.chance - a.chance)
-								.map((item) => (
-									<tr key={item.id} className='border-b border-b-gray-500'>
-										<td>{item.name}</td>
-										<th>{item.chance}</th>
-									</tr>
-								))}
-						</tbody>
-					</table>
-				)}
-
-				<SpinArea info={spinnerInfo} />
+		<div className='mx-3 pt-10 pb-3 sm:mx-0'>
+			<div>
+				Spin cost: {spinnerInfo.cost} {spinnerInfo.costType}
 			</div>
-		</Layout>
+
+			{spinnerInfo.items && (
+				<table className='text-gray-300'>
+					<thead className='border'>
+						<tr>
+							<th>Item Name</th>
+							<th>Chance (%)</th>
+						</tr>
+					</thead>
+					<tbody>
+						{spinnerInfo.items
+							.sort((a, b) => b.chance - a.chance)
+							.map((item) => (
+								<tr key={item.id} className='border-b border-b-gray-500'>
+									<td>{item.name}</td>
+									<th>{item.chance}</th>
+								</tr>
+							))}
+					</tbody>
+				</table>
+			)}
+
+			<SpinArea info={spinnerInfo} />
+		</div>
 	);
 }

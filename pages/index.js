@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import Layout from "../components/Layout";
 import { UserContext } from "../context/UserContext";
 import Login from "./Login";
 import Profile from "./profile";
