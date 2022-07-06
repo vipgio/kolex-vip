@@ -10,7 +10,7 @@ module.exports = {
 				},
 			},
 			animation: {
-				"spin-ac": "rotate_ac 1.5s linear infinite",
+				"spin-ac": "rotate_ac 2s linear infinite",
 			},
 		},
 	},
