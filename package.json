@@ -16,13 +16,8 @@
 	"scripts": {
 		"dev": "explorer http://localhost:3000 & next dev",
 		"build": "next build",
-		"start": "next start"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
+		"start": "next start",
+		"lint": "next lint"
 	},
 	"browserslist": {
 		"production": [
