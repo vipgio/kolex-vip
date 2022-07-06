@@ -3,6 +3,7 @@ import { PackOdds } from "./PackOdds";
 
 export const PackResults = ({ pack }) => {
 	const [showOdds, setShowOdds] = useState(false);
+	console.log(pack);
 	return (
 		<div className='m-2 flex border-t p-2'>
 			<div className='pt-1'>

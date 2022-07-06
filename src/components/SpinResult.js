@@ -1,8 +1,6 @@
 export const SpinResult = ({ result, info }) => {
 	// console.log("result", result, "info", info);
-	console.log(result);
-	const reward = info.items.filter((item) => item.id === result.data.id);
-	console.log(reward[0]);
+	// console.log(result);
 	return (
 		<div>
 			{result.data.cards.length > 0 ? (
@@ -12,7 +10,10 @@ export const SpinResult = ({ result, info }) => {
 						{result.data.cards[0].mintBatch}
 						{result.data.cards[0].mintNumber}{" "}
 					</span>
-					<span>{result.data.cards[0].cardTemplate.title}</span>
+					<span className='text-indigo-300'>
+						{result.data.cards[0].cardTemplate.title}{" "}
+					</span>
+					at {result.time.toLocaleString()}
 				</div>
 			) : (
 				info.items
@@ -20,8 +21,8 @@ export const SpinResult = ({ result, info }) => {
 					.map((reward) => (
 						<div key={`${reward.id}${reward}`}>
 							{/* {JSON.stringify(reward)} */}
-							You won {reward.name}
-							{/* at {new Date().toLocaleString()} */}
+							You won <span className='text-indigo-300'>{reward.name} </span>
+							at {result.time.toLocaleString()}
 						</div>
 					))
 			)}

@@ -111,6 +111,16 @@ const UserContextProvider = (props) => {
 		});
 	};
 
+	const getFunds = async () => {
+		return http(`https://api.epics.gg/api/v1/user/funds?categoryId=1`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"x-user-jwt": user.jwt,
+			},
+		});
+	};
+
 	return (
 		<UserContext.Provider
 			value={{
@@ -127,6 +137,7 @@ const UserContextProvider = (props) => {
 				setActive,
 				buySpin,
 				spin,
+				getFunds,
 			}}
 		>
 			{props.children}

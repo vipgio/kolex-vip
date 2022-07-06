@@ -4,7 +4,7 @@ export const PackOdds = ({ odds }) => {
 			{odds
 				.sort((a, b) => b.chance - a.chance)
 				.map((odd) => (
-					<div className='flex'>
+					<div className='flex' key={odd.name}>
 						{odd.name} ({odd.tier})<div className='ml-auto'>{odd.chance}%</div>
 					</div>
 				))}

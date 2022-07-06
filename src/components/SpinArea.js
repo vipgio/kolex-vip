@@ -1,19 +1,37 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SpinResult } from "./SpinResult";
 import { UserContext } from "../context/UserContext";
 
 export const SpinArea = ({ info }) => {
-	const { buySpin, spin } = useContext(UserContext);
+	const { buySpin, spin, getFunds, user } = useContext(UserContext);
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
 	const [intervalId, setIntervalId] = useState(null);
+	const [funds, setFunds] = useState({
+		craftingcoins: 0,
+		epicoins: 0,
+		silvercoins: 0,
+	});
+	const getBalance = async () => {
+		if (user) {
+			const allFunds = await getFunds();
+			if (allFunds.data.success) {
+				setFunds(allFunds.data.data);
+			}
+		}
+	};
+	useEffect(() => {
+		getBalance();
+	}, [user]);
+	useEffect(() => {
+		getBalance();
+	}, []);
 
 	const doSpin = async () => {
 		const buySpinRes = await buySpin();
-		console.log(buySpinRes);
 		if (buySpinRes.data.success) {
 			const spinResult = await spin(info.id);
-			setSpinRes((prev) => [spinResult.data, ...prev]);
+			setSpinRes((prev) => [{ ...spinResult.data, time: new Date() }, ...prev]);
 		}
 	};
 
@@ -35,7 +53,12 @@ export const SpinArea = ({ info }) => {
 	return (
 		<>
 			<div className='my-3 flex flex-col border border-gray-500'>
-				<div className='flex w-full'>
+				<div className='flex justify-evenly'>
+					<div className='text-yellow-500'>Epicoins: {funds.epicoins}</div>
+					<div className='text-gray-400'>Silver: {funds.silvercoins}</div>
+					<div className='text-green-600'>Crafting: {funds.craftingcoins}</div>
+				</div>
+				<div className='flex w-full items-center'>
 					{spinActive ? (
 						<button
 							onClick={stopSpin}
@@ -51,6 +74,7 @@ export const SpinArea = ({ info }) => {
 							Start Spinning
 						</button>
 					)}
+
 					{/* <button onClick={doSpin}>Do one spin</button> */}
 					<button
 						className='ml-auto flex items-center rounded-md border border-gray-400 p-2'
