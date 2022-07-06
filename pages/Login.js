@@ -2,7 +2,7 @@ import { UserContext } from "../context/UserContext";
 
 const { useContext, useState } = require("react");
 
-const Login = () => {
+export default function Login() {
 	const { setUser, login, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -56,5 +56,4 @@ const Login = () => {
 			</div>
 		</>
 	);
-};
-export default Login;
+}

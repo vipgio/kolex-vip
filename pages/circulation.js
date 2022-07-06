@@ -4,7 +4,7 @@ import Layout from "../components/Layout";
 
 const { useContext, useState, useEffect } = require("react");
 
-const Circulation = () => {
+export default function Circulation() {
 	const { getCirc, getCollections, loading, setLoading, setActive } =
 		useContext(UserContext);
 	const [collectionID, setCollectionID] = useState("");
@@ -80,5 +80,4 @@ const Circulation = () => {
 			</div>
 		</Layout>
 	);
-};
-export default Circulation;
+}

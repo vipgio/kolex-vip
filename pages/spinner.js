@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 import { SpinArea } from "../components/SpinArea";
 import { UserContext } from "../context/UserContext";
 
-const Spinner = () => {
+export default function Spinner() {
 	const { spinnerOdds, setActive, user } = useContext(UserContext);
 	const [spinnerInfo, setSpinnerInfo] = useState({});
 
@@ -52,5 +52,4 @@ const Spinner = () => {
 			</div>
 		</Layout>
 	);
-};
-export default Spinner;
+}

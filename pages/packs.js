@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserContext";
 
 const { useContext, useState, useEffect } = require("react");
 
-const PackSearch = () => {
+export default function PackSearch() {
 	const { getPacks, loading, setLoading, setActive } = useContext(UserContext);
 	const [packs, setPacks] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -134,5 +134,4 @@ const PackSearch = () => {
 			</div>
 		</Layout>
 	);
-};
-export default PackSearch;
+}
