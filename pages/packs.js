@@ -23,7 +23,7 @@ const PackSearch = () => {
 			setLoading(true);
 			getAllPacks(1);
 		}
-	}, [user]);
+	}, [user, setActive]);
 
 	useEffect(() => {
 		searchQuery.length === 0 && setResults([]);

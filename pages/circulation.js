@@ -12,7 +12,7 @@ const Circulation = () => {
 
 	useEffect(() => {
 		setActive(2);
-	}, []);
+	}, [setActive]);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();

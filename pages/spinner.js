@@ -16,7 +16,7 @@ export default function Spinner() {
 			}
 		};
 		user && stuff();
-	}, [user]);
+	}, [user, setActive, spinnerOdds]);
 
 	return (
 		<>

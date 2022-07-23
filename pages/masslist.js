@@ -61,7 +61,7 @@ const Masslist = () => {
 			setLoading(true);
 			user && getAllPacks(1);
 		}
-	}, [user]);
+	}, [user, setActive, setLoading, getAllPacks]);
 
 	useEffect(() => {
 		packs.length > 0 && localStorage.setItem("userPacks", JSON.stringify(packs));
@@ -70,23 +70,6 @@ const Masslist = () => {
 	return (
 		<>
 			<Meta title='Mass List | Kolex VIP' />
-			{/* <div>
-				<button
-					className='m-1 rounded-md bg-red-400 p-1 disabled:cursor-not-allowed disabled:opacity-50'
-					disabled={loading}
-					onClick={() => console.log(packs)}
-				>
-					Packs
-				</button>
-
-				<button
-					className='m-1 rounded-md bg-red-400 p-1 disabled:cursor-not-allowed disabled:opacity-50'
-					disabled={loading}
-					onClick={refreshPacks}
-				>
-					Refresh Packs
-				</button>
-			</div> */}
 
 			<div className='my-4 mx-2 mt-12 grid grid-cols-2 gap-16 border-gray-200 sm:grid-cols-3'>
 				{packs
@@ -99,50 +82,3 @@ const Masslist = () => {
 	);
 };
 export default Masslist;
-// setPackTemplates((prev) => ({
-// 		...prev,
-// 		[pack.packTemplate.name]: {
-// 			...prev[pack.packTemplate.name],
-// 			packs: [
-// 				...prev[pack.packTemplate.name].packs,
-// 				{
-// 					id: pack.id,
-// 					created: pack.created.split("T")[0],
-// 				},
-// 			],
-// 		},
-//   }))
-
-// setPackTemplates((prev) => ({
-// 		...prev,
-// 		[pack.packTemplate.name]: {
-// 			id: pack.packTemplate.id,
-// 			description: pack.packTemplate.description,
-// 			releaseTime: pack.packTemplate.releaseTime.split("T")[0],
-// 			image: _.values(
-// 				_.pickBy(
-// 					pack.packTemplate.images,
-// 					(image) => image.name === "image"
-// 				)
-// 			)[0].url,
-// 			packs: [{ id: pack.id, created: pack.created.split("T")[0] }],
-// 		},
-//   }));
-
-//works for objOfObj
-// const packIncluded = pack.packTemplate.name in templates;
-
-// packIncluded
-// 	? templates[pack.packTemplate.name].packs.push({
-// 			id: pack.id,
-// 			created: pack.created.split("T")[0],
-// 	  })
-// 	: (templates[pack.packTemplate.name] = {
-// 			id: pack.packTemplate.id,
-// 			description: pack.packTemplate.description,
-// 			releaseTime: pack.packTemplate.releaseTime?.split("T")[0],
-// 			image: _.values(
-// 				_.pickBy(pack.packTemplate.images, (image) => image.name === "image")
-// 			)[0].url,
-// 			packs: [{ id: pack.id, created: pack.created.split("T")[0] }],
-// 	  });

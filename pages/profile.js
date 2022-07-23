@@ -8,7 +8,7 @@ const Profile = () => {
 
 	useEffect(() => {
 		setActive(1);
-	}, []);
+	}, [setActive]);
 
 	return (
 		<>

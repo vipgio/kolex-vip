@@ -22,9 +22,6 @@ const Login = () => {
 			} else {
 				alert(loginData.message);
 			}
-			// loginData.success && loginData.data.user.username === "nerfan"
-			// 	? setUser({ ...loginData.data, premium: true })
-			// 	: alert("Login failed");
 		} catch (err) {
 			alert(err);
 			setLoading(false);
