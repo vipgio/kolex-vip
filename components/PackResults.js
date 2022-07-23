@@ -1,23 +1,21 @@
 import { useState } from "react";
-import { PackOdds } from "./PackOdds";
+import Image from "next/future/image";
+import PackOdds from "./PackOdds";
 
-export const PackResults = ({ pack }) => {
+const PackResults = ({ pack }) => {
 	const [showOdds, setShowOdds] = useState(false);
 	console.log(pack);
 	return (
 		<div className='m-2 flex border-t p-2'>
 			<div className='pt-1'>
-				<img
+				<Image
 					src={`https://cdn.epics.gg${
-						pack.images.filter(
-							(images) => images.name === "image"
-							// || images.name === "pack-store"
-						)[0].url
+						pack.images.filter((images) => images.name === "image")[0].url
 					}`}
-					width='200'
-					height='200'
+					width={200}
+					height={200}
 					alt={pack.name}
-					style={{ objectFit: "contain" }}
+					// style={{ objectFit: "contain" }}
 				/>
 			</div>
 			<div className='mx-2 space-y-1 text-gray-200'>
@@ -91,3 +89,4 @@ export const PackResults = ({ pack }) => {
 		</div>
 	);
 };
+export default PackResults;

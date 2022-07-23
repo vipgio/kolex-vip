@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { SpinResult } from "./SpinResult";
 import { UserContext } from "../context/UserContext";
+import SpinResult from "./SpinResult";
 
-export const SpinArea = ({ info }) => {
+const SpinArea = ({ info }) => {
 	const { buySpin, spin, getFunds, user } = useContext(UserContext);
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
@@ -108,3 +108,4 @@ export const SpinArea = ({ info }) => {
 		</>
 	);
 };
+export default SpinArea;

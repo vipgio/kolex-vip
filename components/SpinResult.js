@@ -1,4 +1,4 @@
-export const SpinResult = ({ result, info }) => {
+const SpinResult = ({ result, info }) => {
 	// console.log("result", result, "info", info);
 	// console.log(result);
 	return (
@@ -29,3 +29,4 @@ export const SpinResult = ({ result, info }) => {
 		</div>
 	);
 };
+export default SpinResult;

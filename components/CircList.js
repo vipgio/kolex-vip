@@ -1,5 +1,5 @@
 import { useState } from "react";
-export const CircList = ({ data }) => {
+const CircList = ({ data }) => {
 	const [packCount, setPackCount] = useState("");
 	return (
 		<div className='flex justify-center px-2'>
@@ -40,3 +40,4 @@ export const CircList = ({ data }) => {
 		</div>
 	);
 };
+export default CircList;

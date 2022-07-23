@@ -1,4 +1,4 @@
-export const PackOdds = ({ odds }) => {
+const PackOdds = ({ odds }) => {
 	return (
 		<div className='divide-y divide-gray-500'>
 			{odds
@@ -11,3 +11,4 @@ export const PackOdds = ({ odds }) => {
 		</div>
 	);
 };
+export default PackOdds;

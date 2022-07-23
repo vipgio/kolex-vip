@@ -1,16 +1,17 @@
 import { useContext } from "react";
-import Layout from "../components/Layout";
 import { UserContext } from "../context/UserContext";
-import Login from "./Login";
+import Login from "./login";
 import Profile from "./profile";
+import Meta from "../components/Meta";
 
 const Index = () => {
 	const { user } = useContext(UserContext);
-	console.log(user);
+	// console.log(user);
 	return (
 		<>
+			<Meta title='Login | Kolex VIP' />
 			{user && (
-				<div className='container relative mx-auto h-screen bg-gray-700'>
+				<div className='container relative mx-auto h-full bg-gray-700'>
 					<Profile />
 				</div>
 			)}

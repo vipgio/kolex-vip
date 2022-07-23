@@ -75,6 +75,16 @@ const UserContextProvider = (props) => {
 		});
 	};
 
+	const userPacks = async (page) => {
+		return http(`https://api.epics.gg/api/v1/packs/user?page=${page}&categoryId=1`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"x-user-jwt": user.jwt,
+			},
+		});
+	};
+
 	const spinnerOdds = async () => {
 		return http(`https://api.epics.gg/api/v1/spinner?categoryId=1`, {
 			method: "GET",
@@ -138,6 +148,7 @@ const UserContextProvider = (props) => {
 				buySpin,
 				spin,
 				getFunds,
+				userPacks,
 			}}
 		>
 			{props.children}

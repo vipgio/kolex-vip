@@ -1,11 +1,13 @@
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { UserContext } from "../context/UserContext";
-
 const { useContext, useState } = require("react");
 
-export default function Login() {
+const Login = () => {
 	const { setUser, login, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const whitelist = ["nerfan", "vipgio"];
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
@@ -13,7 +15,16 @@ export default function Login() {
 			const loginDataPromise = await login({ email, password });
 			setLoading(false);
 			const loginData = loginDataPromise.data;
-			loginData.success ? setUser(loginData.data) : alert("Login failed");
+			if (loginData.success) {
+				whitelist.includes(loginData.data.user.username)
+					? setUser({ ...loginData.data, premium: true })
+					: setUser({ ...loginData.data, premium: false });
+			} else {
+				alert(loginData.message);
+			}
+			// loginData.success && loginData.data.user.username === "nerfan"
+			// 	? setUser({ ...loginData.data, premium: true })
+			// 	: alert("Login failed");
 		} catch (err) {
 			alert(err);
 			setLoading(false);
@@ -56,4 +67,5 @@ export default function Login() {
 			</div>
 		</>
 	);
-}
+};
+export default Login;
