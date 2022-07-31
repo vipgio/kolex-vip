@@ -6,7 +6,7 @@ const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const whitelist = ["nerfan", "vipgio", "TeaAndBiscuits"];
+	const whitelist = ["nerfan", "vipgio", "TeaAndBiscuits", "PR1D3", "squid_cxm"];
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
