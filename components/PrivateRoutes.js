@@ -6,18 +6,17 @@ import { UserContext } from "../context/UserContext";
 
 const PrivateRoute = ({ protectedRoutes, children }) => {
 	const router = useRouter();
-	const { user } = useContext(UserContext);
+	const { user, initialLoading } = useContext(UserContext);
 
 	const pathIsProtected = protectedRoutes.indexOf(router.pathname) !== -1;
 
 	useEffect(() => {
-		if (!user && pathIsProtected) {
-			// Redirect route, you can point this to /login
+		if (!initialLoading && !user && pathIsProtected) {
 			router.push("/");
 		}
-	}, [user, pathIsProtected]);
+	}, [user, pathIsProtected, initialLoading]);
 
-	if (!user && pathIsProtected) {
+	if ((initialLoading || !user) && pathIsProtected) {
 		return <FullPageLoader />;
 	}
 

@@ -1,6 +1,8 @@
 import { UserContext } from "../context/UserContext";
+import { BsQuestionCircle } from "react-icons/bs";
 import Meta from "../components/Meta";
 import PackResults from "../components/PackResults";
+import Tooltip from "../components/Tooltip";
 
 const { useContext, useState, useEffect } = require("react");
 
@@ -8,7 +10,7 @@ const PackSearch = () => {
 	const { getPacks, loading, setLoading, setActive, user } = useContext(UserContext);
 	const [packs, setPacks] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
-	const [results, setResults] = useState([]);
+	const [results, setResults] = useState(null);
 
 	useEffect(() => {
 		packs.length > 0 && localStorage.setItem("packs", JSON.stringify(packs));
@@ -26,7 +28,8 @@ const PackSearch = () => {
 	}, [user, setActive]);
 
 	useEffect(() => {
-		searchQuery.length === 0 && setResults([]);
+		searchQuery.length === 0 && setResults(null);
+		/^\s*$/.test(searchQuery) && setSearchQuery("");
 	}, [searchQuery]);
 
 	const getAllPacks = async (page) => {
@@ -51,7 +54,7 @@ const PackSearch = () => {
 	const onSubmit = async (e) => {
 		//search for packs
 		e.preventDefault();
-		try {
+		searchQuery.length > 0 &&
 			setResults(
 				/^\d+$/.test(searchQuery)
 					? packs.filter((pack) => pack.id === Number(searchQuery))
@@ -62,11 +65,8 @@ const PackSearch = () => {
 									.replace(":", "")
 									.includes(searchQuery.toLowerCase())
 							)
-							.sort((a, b) => a.purchaseStart?.localeCompare(b.purchaseStart))
+							.sort((a, b) => b.id - a.id)
 			);
-		} catch (err) {
-			console.log(err);
-		}
 	};
 
 	return (
@@ -74,10 +74,29 @@ const PackSearch = () => {
 			<Meta title='Pack Search | Kolex VIP' />
 			<div className='flex flex-col justify-center pt-10'>
 				<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
-					<label htmlFor='pack'>Enter pack ID or pack name</label>
+					<label
+						htmlFor='pack'
+						className={`flex items-center text-gray-300 ${
+							user.premium ? "flex-row-reverse" : ""
+						}`}
+					>
+						<div
+							className={`group relative ${
+								user.premium ? "ml-2" : "mr-2"
+							} hidden opacity-20 transition-opacity duration-300 hover:opacity-100 sm:block`}
+						>
+							<BsQuestionCircle />
+							<Tooltip
+								text='If your input is a number only, it will search for pack id. If there is any other text in it, it will search for pack name; ignoring lowercase, uppercase and colon.'
+								direction={`${user.premium ? "right" : "left"}`}
+							/>
+						</div>
+						Enter pack ID or pack name
+					</label>
 					<input
 						type='text'
 						name='pack'
+						id='pack'
 						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 						value={searchQuery}
 						placeholder='Pack ID / Pack name'
@@ -119,12 +138,18 @@ const PackSearch = () => {
 					</svg>
 				</button>
 
-				{results.length > 0 &&
-					results.map((res) => (
-						<div key={res.id}>
-							<PackResults pack={res} />
-						</div>
-					))}
+				{results?.length > 0
+					? results.map((res) => (
+							<div key={res.id}>
+								<PackResults pack={res} />
+							</div>
+					  ))
+					: searchQuery.length > 0 &&
+					  results && (
+							<div className='mt-2 flex justify-center text-gray-300'>
+								No results found
+							</div>
+					  )}
 			</div>
 		</>
 	);

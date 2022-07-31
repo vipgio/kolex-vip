@@ -12,6 +12,7 @@ const CircList = ({ data }) => {
 						type='number'
 						name='packCards'
 						placeholder='Pack Cards'
+						min={0}
 						value={packCount}
 						onChange={(e) => setPackCount(e.target.value)}
 						decimal='false'

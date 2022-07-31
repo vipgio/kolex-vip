@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import axiosRateLimit from "axios-rate-limit";
 const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
@@ -6,20 +7,26 @@ const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds:
 export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
-	const [loading, setLoading] = useState(false);
-	const [user, setUser] = useState(null);
-	const [active, setActive] = useState(0);
+	const [loading, setLoading] = useState(false); // loading state for fetchig data
+	const [user, setUser] = useState(null); // user object
+	const [active, setActive] = useState(0); // navbar active state
+	const [initialLoading, setInitialLoading] = useState(true); // used to show loading screen on first load and redirect
+	const router = useRouter();
 
 	useEffect(() => {
 		const localUser = localStorage.getItem("user");
 		if (localUser) {
+			console.log("expires in", JSON.parse(localUser).expires);
+			console.log("now", Date.now() / 1000);
+			console.log("diff", JSON.parse(localUser).expires - Date.now() / 1000);
 			if (JSON.parse(localUser).expires < Date.now() / 1000) {
 				setUser(null);
 			} else {
 				setUser(JSON.parse(localUser));
 			}
 		}
-	}, []);
+		setInitialLoading(false);
+	}, [router.asPath]);
 
 	useEffect(() => {
 		if (user) {
@@ -27,6 +34,7 @@ const UserContextProvider = (props) => {
 		} else {
 			localStorage.removeItem("user");
 		}
+		setInitialLoading(false);
 	}, [user]);
 
 	const login = async (auth) => {
@@ -149,6 +157,7 @@ const UserContextProvider = (props) => {
 				spin,
 				getFunds,
 				userPacks,
+				initialLoading,
 			}}
 		>
 			{props.children}

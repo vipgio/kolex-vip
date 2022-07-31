@@ -1,29 +1,30 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
-const { useContext, useState } = require("react");
+import axios from "axios";
 
 const Login = () => {
-	const { setUser, login, loading, setLoading } = useContext(UserContext);
+	const { setUser, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const whitelist = ["nerfan", "vipgio"];
+	const whitelist = ["nerfan", "vipgio", "CuppaTea"];
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const loginDataPromise = await login({ email, password });
+			// const dataPromise = await login({ email, password });
+			const { data } = await axios.post("/api/login", { email, password });
 			setLoading(false);
-			const loginData = loginDataPromise.data;
-			if (loginData.success) {
-				whitelist.includes(loginData.data.user.username)
-					? setUser({ ...loginData.data, premium: true })
-					: setUser({ ...loginData.data, premium: false });
+			if (data.success) {
+				whitelist.includes(data.data.user.username)
+					? setUser({ ...data.data, premium: true })
+					: setUser({ ...data.data, premium: false });
 			} else {
-				alert(loginData.message);
+				console.log(data);
+				alert(data);
 			}
 		} catch (err) {
-			alert(err);
+			console.log(err);
+			alert(err.response.data.error);
 			setLoading(false);
 		}
 	};
@@ -37,6 +38,7 @@ const Login = () => {
 						name='email'
 						placeholder='Email address'
 						value={email}
+						required={true}
 						onChange={(e) => setEmail(e.target.value)}
 						autoComplete='email'
 						disabled={loading}
@@ -48,6 +50,7 @@ const Login = () => {
 						name='password'
 						placeholder='Password'
 						value={password}
+						required={true}
 						onChange={(e) => setPassword(e.target.value)}
 						autoComplete='current-password'
 						disabled={loading}

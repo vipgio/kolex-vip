@@ -7,10 +7,10 @@ const NavbarIcon = ({ index, name, link, svg }) => {
 	return (
 		<>
 			{/* <button onClick={() => console.log(active, index)}>Info</button> */}
-			<li onClick={() => setActive(index)} className='relative z-10'>
+			<li onClick={() => setActive(index)} className='no-highlight relative z-10'>
 				<Link href={link}>
 					<a
-						className='group relative flex flex-col items-center justify-center transition-all duration-150'
+						className='group relative flex flex-col items-center justify-center transition-all duration-150 focus-visible:outline-none focus-visible:ring-0'
 						title={name}
 					>
 						<div

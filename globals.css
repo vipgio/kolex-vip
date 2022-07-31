@@ -16,5 +16,35 @@ body {
 }
 
 .indicator {
-	@apply pointer-events-none absolute top-3 h-16 w-16 rounded-full border-4 border-gray-700 bg-orange-400 transition-all duration-500 before:absolute before:-left-5 before:h-5 before:w-6 before:rounded-br-full before:shadow-[0_8px_0_0_#374151] after:absolute after:left-[48px] after:h-5 after:w-6 after:rounded-bl-full after:shadow-[0_8px_0_0_#374151];
+	@apply pointer-events-none absolute top-3 h-16 w-16 rounded-full border-4 border-gray-700 bg-orange-400 transition-all duration-500 before:absolute before:-left-5 before:h-5 before:w-6 before:rounded-br-full before:shadow-[0_8px_0_0_#374151] after:absolute after:left-[52px] after:h-5 after:w-6 after:rounded-bl-full after:shadow-[0_8px_0_0_#374151] sm:after:left-[48px];
+}
+
+.tooltip {
+	@apply pointer-events-none absolute bottom-1/2 z-30 h-fit w-48 translate-y-1/2 bg-orange-400 p-1 text-center text-sm text-white opacity-0 transition-opacity duration-300 after:absolute after:top-1/2 after:-mt-2 after:border-8 after:border-transparent after:content-["_"] group-hover:opacity-90;
+}
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	border-radius: 50vh;
+	background: #6b7280;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #fb923c; /*navbar blue*/
+	border-radius: 100vh;
+	border: 2px solid #6b7280;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #f97316;
+}
+.no-highlight {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-tap-highlight-color: transparent;
+}
+.Toastify__toast-container--top-right {
+	position: absolute !important;
 }

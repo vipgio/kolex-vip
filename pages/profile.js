@@ -27,6 +27,7 @@ const Profile = () => {
 							className='h-full w-full object-cover'
 							height={500}
 							width={500}
+							priority='true'
 						/>
 					</div>
 					<div

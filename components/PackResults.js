@@ -4,7 +4,6 @@ import PackOdds from "./PackOdds";
 
 const PackResults = ({ pack }) => {
 	const [showOdds, setShowOdds] = useState(false);
-	console.log(pack);
 	return (
 		<div className='m-2 flex border-t p-2'>
 			<div className='pt-1'>
@@ -45,12 +44,14 @@ const PackResults = ({ pack }) => {
 						<span className='font-semibold text-indigo-500'>{pack.marketStart}</span>
 					</div>
 				)}
-				<div>
-					Price:{" "}
-					<span className='font-semibold text-indigo-500'>
-						{pack.cost} {pack.costType}
-					</span>
-				</div>
+				{pack.cost < 9999 && (
+					<div>
+						Price:{" "}
+						<span className='font-semibold text-indigo-500'>
+							{pack.cost} {pack.costType}
+						</span>
+					</div>
+				)}
 				<div>
 					Pack ID: <span className='font-semibold text-indigo-500'>{pack.id}</span>
 				</div>
