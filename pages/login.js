@@ -9,11 +9,11 @@ const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 		try {
 			const { data } = await axios.post("/api/login", { email, password });
 			setLoading(false);
