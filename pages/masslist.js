@@ -2,8 +2,6 @@ import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import MassPackGrid from "../components/masslist/MassPackGrid";
 import findIndex from "lodash/findIndex";
-import values from "lodash/values";
-import pickBy from "lodash/pickBy";
 import uniq from "lodash/uniq";
 import Meta from "../components/Meta";
 
@@ -29,8 +27,8 @@ const Masslist = () => {
 									id: pack.packTemplate.id,
 									description: pack.packTemplate.description,
 									releaseTime: pack.packTemplate.releaseTime?.split("T")[0],
-									image: values(
-										pickBy(pack.packTemplate.images, (image) => image.name === "image")
+									image: pack.packTemplate.images.filter(
+										(image) => image.name === "image"
 									)[0].url,
 									packs: [{ id: pack.id, created: pack.created.split("T")[0] }],
 							  }); // add the pack template to the array

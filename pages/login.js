@@ -1,21 +1,28 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../context/UserContext";
 
 const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const whitelist = ["nerfan", "vipgio", "TeaAndBiscuits", "PR1D3", "squid_cxm"];
+
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
+		const supabaseUrl = "https://npdkorffphcxibroqdvh.supabase.co";
+		const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+		const supabase = createClient(supabaseUrl, supabaseKey);
 		try {
-			// const dataPromise = await login({ email, password });
 			const { data } = await axios.post("/api/login", { email, password });
 			setLoading(false);
 			if (data.success) {
-				whitelist.includes(data.data.user.username)
+				let { data: whitelist, error } = await supabase.from("whitelist").select("*");
+				console.log(error);
+				whitelist.some((item) => item.username === data.data.user.username)
 					? setUser({ ...data.data, premium: true })
 					: setUser({ ...data.data, premium: false });
 			} else {
@@ -24,7 +31,16 @@ const Login = () => {
 			}
 		} catch (err) {
 			console.log(err);
-			alert(err.response.data.error);
+			toast.error(err.response.data.error, {
+				position: "top-right",
+				autoClose: 3500,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				toastId: err.response.data.errorCode,
+			});
 			setLoading(false);
 		}
 	};
@@ -32,6 +48,17 @@ const Login = () => {
 	return (
 		<>
 			<div className='flex h-full w-full items-center justify-center'>
+				<ToastContainer
+					position='top-right'
+					autoClose={3500}
+					hideProgressBar={false}
+					newestOnTop
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+				/>
 				<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
 					<input
 						type='email'

@@ -16,9 +16,6 @@ const UserContextProvider = (props) => {
 	useEffect(() => {
 		const localUser = localStorage.getItem("user");
 		if (localUser) {
-			console.log("expires in", JSON.parse(localUser).expires);
-			console.log("now", Date.now() / 1000);
-			console.log("diff", JSON.parse(localUser).expires - Date.now() / 1000);
 			if (JSON.parse(localUser).expires < Date.now() / 1000) {
 				setUser(null);
 			} else {

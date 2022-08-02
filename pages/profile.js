@@ -68,6 +68,14 @@ const Profile = () => {
 								User ID:{" "}
 								<span className='font-semibold text-indigo-500'>{user.user.id}</span>
 							</div>
+							<div>
+								Premium:{" "}
+								{user.premium ? (
+									<span className='font-semibold text-green-500'>Yes</span>
+								) : (
+									<span className='font-semibold text-rose-600'>No</span>
+								)}
+							</div>
 
 							{user.user.ethAddress && (
 								<div>

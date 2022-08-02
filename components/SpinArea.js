@@ -23,6 +23,7 @@ const SpinArea = ({ info }) => {
 	useEffect(() => {
 		getBalance();
 	}, [user]);
+
 	useEffect(() => {
 		getBalance();
 	}, []);
@@ -41,6 +42,7 @@ const SpinArea = ({ info }) => {
 		setIntervalId(
 			setInterval(() => {
 				doSpin();
+				getBalance();
 			}, 5 * 1000)
 		);
 	};
@@ -52,7 +54,7 @@ const SpinArea = ({ info }) => {
 
 	return (
 		<>
-			<div className='my-3 flex flex-col border border-gray-500'>
+			<div className='ml-3 flex w-full flex-col border border-gray-500'>
 				<div className='flex justify-evenly'>
 					<div className='text-yellow-500'>Epicoins: {funds.epicoins}</div>
 					<div className='text-gray-400'>Silver: {funds.silvercoins}</div>
@@ -98,7 +100,7 @@ const SpinArea = ({ info }) => {
 					</button>
 				</div>
 
-				<div className='h-36 overflow-auto'>
+				<div className='max-h-96 overflow-auto'>
 					{info.id &&
 						spinRes.map((res, index) => (
 							<SpinResult result={res} info={info} key={index} />
