@@ -13,9 +13,7 @@ const Login = () => {
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		const supabaseUrl = "https://npdkorffphcxibroqdvh.supabase.co";
-		const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
-		const supabase = createClient(supabaseUrl, supabaseKey);
+		const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 		try {
 			const { data } = await axios.post("/api/login", { email, password });
 			setLoading(false);
