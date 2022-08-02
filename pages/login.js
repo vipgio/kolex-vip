@@ -9,7 +9,9 @@ const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+	const supabaseUrl = process.env.SUPABASE_URL;
+	const supabaseKey = process.env.SUPABASE_KEY;
+	const supabase = createClient(supabaseUrl, supabaseKey);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
