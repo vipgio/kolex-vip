@@ -1,13 +1,12 @@
-import { UserContext } from "../context/UserContext";
+import { useContext, useState, useEffect } from "react";
 import { BsQuestionCircle } from "react-icons/bs";
+import { UserContext } from "../context/UserContext";
 import Meta from "../components/Meta";
 import PackResults from "../components/PackResults";
 import Tooltip from "../components/Tooltip";
 
-const { useContext, useState, useEffect } = require("react");
-
 const PackSearch = () => {
-	const { getPacks, loading, setLoading, setActive, user } = useContext(UserContext);
+	const { getPacks, loading, setLoading, user } = useContext(UserContext);
 	const [packs, setPacks] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [results, setResults] = useState(null);
@@ -17,7 +16,6 @@ const PackSearch = () => {
 	}, [packs]);
 
 	useEffect(() => {
-		setActive(3);
 		const localPacks = JSON.parse(localStorage.getItem("packs"));
 		if (localPacks) {
 			setPacks(localPacks);
@@ -25,7 +23,7 @@ const PackSearch = () => {
 			setLoading(true);
 			getAllPacks(1);
 		}
-	}, [user, setActive]);
+	}, [user]);
 
 	useEffect(() => {
 		searchQuery.length === 0 && setResults(null);
@@ -72,7 +70,7 @@ const PackSearch = () => {
 	return (
 		<>
 			<Meta title='Pack Search | Kolex VIP' />
-			<div className='flex flex-col justify-center pt-10'>
+			<div className='mt-10 flex flex-col justify-center'>
 				<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
 					<label
 						htmlFor='pack'

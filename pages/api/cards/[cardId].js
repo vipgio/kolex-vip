@@ -1,26 +1,23 @@
 import axios from "axios";
 import axiosRateLimit from "axios-rate-limit";
 const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
-const { API } = require("../../../../config/config");
+const { API } = require("../../../config/config");
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { id } = req.query;
+	const { cardId } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 	try {
-		const getMarketInfo = async (jwt, id) => {
-			return http(
-				`${API}/market/buy?page=1&sort=price&templateId=${id}&type=pack&categoryId=1`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						"x-user-jwt": jwt,
-					},
-				}
-			);
+		const getCardInfo = async (jwt, cardId) => {
+			return http(`${API}/cards/${cardId}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"x-user-jwt": jwt,
+				},
+			});
 		};
-		const { data } = await getMarketInfo(jwt, id);
+		const { data } = await getCardInfo(jwt, cardId);
 		res.status(200).json(data);
 	} catch (err) {
 		console.log(err);

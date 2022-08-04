@@ -1,14 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Image from "next/future/image";
 import { UserContext } from "../context/UserContext";
 import Meta from "../components/Meta";
 
 const Profile = () => {
-	const { user, setUser, setActive } = useContext(UserContext);
-
-	useEffect(() => {
-		setActive(1);
-	}, [setActive]);
+	const { user, setUser } = useContext(UserContext);
 
 	return (
 		<>

@@ -4,11 +4,10 @@ import Meta from "../components/Meta";
 import SpinArea from "../components/SpinArea";
 
 export default function Spinner() {
-	const { spinnerOdds, setActive, user } = useContext(UserContext);
+	const { spinnerOdds, user } = useContext(UserContext);
 	const [spinnerInfo, setSpinnerInfo] = useState({});
 
 	useEffect(() => {
-		setActive(4);
 		const stuff = async () => {
 			const data = await spinnerOdds();
 			if (data.data.success) {
@@ -16,7 +15,7 @@ export default function Spinner() {
 			}
 		};
 		user && stuff();
-	}, [user, setActive, spinnerOdds]);
+	}, [user]);
 
 	return (
 		<>

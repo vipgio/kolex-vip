@@ -5,12 +5,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../context/UserContext";
 import CoolButton from "./CoolButton";
 import sortBy from "lodash/sortBy";
-const ModalPage2 = ({ selected, packTemplate, action, setAction }) => {
+import remove from "lodash/remove";
+import _ from "lodash/";
+const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { user, setLoading, loading } = useContext(UserContext);
 	const [price, setPrice] = useState(0);
 	const [minOffer, setMinOffer] = useState(0);
 	const [offerEnabled, setOfferEnabled] = useState(false);
 	const [openedCards, setOpenedCards] = useState([]);
+
+	const updateLocal = () => {
+		const localPacks = JSON.parse(localStorage.getItem("userPacks"));
+		remove(packTemplate.packs, (o) => selected.includes(o.id));
+		const idx = _.findIndex(localPacks, (o) => o.id === packTemplate.id);
+		localPacks[idx] = packTemplate;
+		localStorage.setItem("userPacks", JSON.stringify(localPacks));
+		setSelected([]);
+	};
 
 	const list = async (e) => {
 		e.preventDefault();
@@ -32,7 +43,7 @@ const ModalPage2 = ({ selected, packTemplate, action, setAction }) => {
 				setLoading(false);
 				if (data.success) {
 					console.log(data);
-					toast.success("Listed item on the market", {
+					toast.success("Listed items on the market!", {
 						position: "top-right",
 						autoClose: 3500,
 						hideProgressBar: false,
@@ -59,12 +70,12 @@ const ModalPage2 = ({ selected, packTemplate, action, setAction }) => {
 				setLoading(false);
 			}
 		});
+		updateLocal();
 	};
 
-	const open = async (e) => {
-		e.preventDefault();
+	const open = async () => {
 		setLoading(true);
-		selected.forEach(async (packId) => {
+		selected.forEach(async (packId, index) => {
 			try {
 				const headers = {
 					headers: {
@@ -74,7 +85,7 @@ const ModalPage2 = ({ selected, packTemplate, action, setAction }) => {
 				const { data } = await axios.post(`/api/pack/open/${packId}`, null, headers);
 				setLoading(false);
 				if (data.success) {
-					console.log(data);
+					console.log(`Pack ${index + 1} opened: `, data.data);
 					setOpenedCards((prev) => [...prev, ...data.data.cards, ...data.data.stickers]);
 				} else {
 					console.log(data);
@@ -92,9 +103,10 @@ const ModalPage2 = ({ selected, packTemplate, action, setAction }) => {
 					progress: undefined,
 					toastId: err.response.data.errorCode,
 				});
-				setLoading(false);
 			}
 		});
+		setLoading(false);
+		updateLocal();
 	};
 
 	return (
@@ -110,10 +122,12 @@ const ModalPage2 = ({ selected, packTemplate, action, setAction }) => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='mt-3 flex items-center justify-center text-xl font-semibold text-gray-300'>
-				x{selected.length} {selected.length > 1 ? "Packs" : "Pack"} selected from{" "}
-				{packTemplate.name}
-			</div>
+			{selected.length > 0 && (
+				<div className='mt-3 flex items-center justify-center text-xl font-semibold text-gray-300'>
+					x{selected.length} {selected.length > 1 ? "Packs" : "Pack"} selected from{" "}
+					{packTemplate.name}
+				</div>
+			)}
 			<div className='mt-4'>
 				<CoolButton
 					action={action}
@@ -197,26 +211,25 @@ const ModalPage2 = ({ selected, packTemplate, action, setAction }) => {
 								)}
 							</button>
 						</form>
-						{/* <button onClick={() => console.log(`price: ${price}\nminOffer: ${minOffer}`)}>
-							States
-						</button> */}
 					</div>
-
-					{/* <div className='m-2 flex-1 overflow-auto border-t border-b border-gray-500 py-2 text-gray-300'>
-						{selected.map((id) => (
-							<div key={id}>{id}</div>
-						))}
-					</div> */}
 				</>
 			) : (
 				<>
 					<div className='flex flex-col items-center justify-center'>
 						<button
-							className='mt-6 rounded-md border bg-indigo-600 p-2 text-gray-300 hover:bg-gray-300 hover:text-indigo-600'
+							className='mt-6 rounded-md border bg-indigo-600 p-2 text-gray-300 enabled:hover:bg-gray-300 enabled:hover:text-indigo-600 disabled:cursor-not-allowed disabled:opacity-50'
 							onClick={open}
+							disabled={loading || selected.length === 0}
 						>
 							Open all Packs
 						</button>
+						{/* <div className='text-gray-300'>
+							{loading ? (
+								<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
+							) : (
+								"Open all Packs"
+							)}
+						</div> */}
 					</div>
 					<div className='m-2 flex flex-1 flex-col overflow-auto'>
 						{openedCards.length > 0 && (

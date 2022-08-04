@@ -21,7 +21,7 @@ const Login = () => {
 			setLoading(false);
 			if (data.success) {
 				let { data: whitelist, error } = await supabase.from("whitelist").select("*");
-				console.log(error);
+				error && console.log(error);
 				whitelist.some((item) => item.username === data.data.user.username)
 					? setUser({ ...data.data, premium: true })
 					: setUser({ ...data.data, premium: false });

@@ -22,19 +22,15 @@ const MassPackModal = ({ packTemplate, setShowModal }) => {
 		fetchData();
 	}, []);
 
-	const getMarketInfo = async (id) => {
-		const { data } = await axios.get(`/api/market/pack/${id}`, {
+	const getMarketInfo = async (packId) => {
+		const { data } = await axios.get(`/api/market/pack/${packId}`, {
 			headers: {
 				jwt: user.jwt,
 			},
 		});
 		return data;
 	};
-	// const getMarketInfo = async () => {
-	// 	const { data } = await getMarketInfo(packTemplate.id);
-	// 	console.log(data);
-	// 	return data.market.length > 0 ? data.market[0][0].price : -1;
-	// };
+
 	return (
 		<>
 			<div className='pointer fixed inset-0 z-10 flex flex-col items-center justify-center bg-black/70'>
@@ -74,6 +70,7 @@ const MassPackModal = ({ packTemplate, setShowModal }) => {
 					) : (
 						<ModalPage2
 							selected={selected}
+							setSelected={setSelected}
 							packTemplate={packTemplate}
 							action={action}
 							setAction={setAction}

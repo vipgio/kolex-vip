@@ -1,15 +1,27 @@
 import "../globals.css";
 import UserContextProvider from "../context/UserContext";
 import PrivateRoute from "../components/PrivateRoutes";
+import PremiumRoutes from "../components/PremiumRoutes";
 import Layout from "../components/Layout";
 
 const App = ({ Component, pageProps }) => {
-	const protectedRoutes = ["/spinner", "/masslist", "/circulation", "/packs", "/profile"];
+	const protectedRoutes = [
+		"/spinner",
+		"/masslist",
+		"/circulation",
+		"/packs",
+		"/profile",
+		"/history",
+		"/scanner",
+	];
+	const premiumRoutes = ["/masslist", "/history", "/scanner"];
 	return (
 		<UserContextProvider>
 			<Layout>
 				<PrivateRoute protectedRoutes={protectedRoutes}>
-					<Component {...pageProps} />
+					<PremiumRoutes premiumRoutes={premiumRoutes}>
+						<Component {...pageProps} />
+					</PremiumRoutes>
 				</PrivateRoute>
 			</Layout>
 		</UserContextProvider>

@@ -1,18 +1,12 @@
+import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import Meta from "../components/Meta";
 import CircList from "../components/CircList";
 
-const { useContext, useState, useEffect } = require("react");
-
 const Circulation = () => {
-	const { getCirc, getCollections, loading, setLoading, setActive } =
-		useContext(UserContext);
-	const [collectionID, setCollectionID] = useState("");
+	const { getCirc, getCollections, loading, setLoading } = useContext(UserContext);
+	const [collectionId, setCollectionId] = useState("");
 	const [collection, setCollection] = useState({ info: {}, items: [] });
-
-	useEffect(() => {
-		setActive(2);
-	}, [setActive]);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -22,7 +16,7 @@ const Circulation = () => {
 			setCollection((collection) => ({
 				...collection,
 				info: everything.data.data.filter(
-					(item) => item.collection.id === Number(collectionID)
+					(item) => item.collection.id === Number(collectionId)
 				),
 			}));
 		} catch (err) {
@@ -30,7 +24,7 @@ const Circulation = () => {
 		}
 
 		try {
-			const collectionDataPromise = await getCirc(collectionID);
+			const collectionDataPromise = await getCirc(collectionId);
 			collectionDataPromise && setLoading(false);
 			const collectionData = collectionDataPromise.data.data;
 			!collectionData.length && setCollection("");
@@ -45,15 +39,15 @@ const Circulation = () => {
 	return (
 		<>
 			<Meta title='Circulation | Kolex VIP' />
-			<div className='flex flex-col items-center'>
+			<div className='mt-10 flex flex-col items-center'>
 				<div className='flex h-full w-full items-start justify-center pt-10'>
 					<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
 						<input
 							type='text'
 							name='collection-id'
 							placeholder='Collection ID'
-							value={collectionID}
-							onChange={(e) => setCollectionID(e.target.value)}
+							value={collectionId}
+							onChange={(e) => setCollectionId(e.target.value)}
 							disabled={loading}
 							autoComplete='off'
 							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}

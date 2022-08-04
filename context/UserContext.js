@@ -9,7 +9,6 @@ export const UserContext = createContext();
 const UserContextProvider = (props) => {
 	const [loading, setLoading] = useState(false); // loading state for fetchig data
 	const [user, setUser] = useState(null); // user object
-	const [active, setActive] = useState(0); // navbar active state
 	const [initialLoading, setInitialLoading] = useState(true); // used to show loading screen on first load and redirect
 	const router = useRouter();
 
@@ -148,8 +147,6 @@ const UserContextProvider = (props) => {
 				getCollections,
 				getPacks,
 				spinnerOdds,
-				active,
-				setActive,
 				buySpin,
 				spin,
 				getFunds,

@@ -15,7 +15,7 @@ const MassPackGrid = ({ packTemplate }) => {
 	return (
 		<>
 			<div
-				className='m-2 mx-2 flex flex-col items-center rounded-md border border-gray-600 p-2 text-gray-300 transition-transform duration-200 hover:scale-110 hover:cursor-pointer hover:shadow-xl'
+				className='m-2 mx-2 flex flex-col items-center rounded-md border border-gray-600 p-2 text-gray-300 transition-transform duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-xl'
 				onClick={() => setShowModal(true)}
 			>
 				<div className='relative aspect-auto w-28 overflow-hidden'>

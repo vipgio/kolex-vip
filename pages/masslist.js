@@ -6,7 +6,7 @@ import uniq from "lodash/uniq";
 import Meta from "../components/Meta";
 
 const Masslist = () => {
-	const { userPacks, setLoading, setActive, loading, user } = useContext(UserContext);
+	const { userPacks, setLoading, loading, user } = useContext(UserContext);
 	const [packs, setPacks] = useState([]);
 
 	let templates = [];
@@ -49,7 +49,6 @@ const Masslist = () => {
 	};
 
 	useEffect(() => {
-		setActive(5);
 		const localPacks = JSON.parse(localStorage.getItem("userPacks"));
 		if (localPacks) {
 			setPacks(localPacks);
@@ -57,7 +56,7 @@ const Masslist = () => {
 			setLoading(true);
 			user && getAllPacks(1);
 		}
-	}, [user, setActive, setLoading]);
+	}, [user, setLoading]);
 
 	useEffect(() => {
 		packs.length > 0 && localStorage.setItem("userPacks", JSON.stringify(packs));
@@ -66,7 +65,7 @@ const Masslist = () => {
 	return (
 		<>
 			<Meta title='Mass List | Kolex VIP' />
-			<div className='my-4 mx-2 mt-12 grid max-h-screen grid-cols-2 gap-16 border-gray-200 sm:grid-cols-3'>
+			<div className='max-h-screen border-gray-200'>
 				<button
 					title='Refresh packs'
 					className='absolute top-14 right-2 mt-2 flex flex-col items-center rounded-md bg-red-500 p-1 font-semibold disabled:cursor-not-allowed disabled:opacity-50'
@@ -89,11 +88,13 @@ const Masslist = () => {
 						/>
 					</svg>
 				</button>
-				{packs
-					.sort((a, b) => b.id - a.id)
-					.map((packTemplate) => (
-						<MassPackGrid key={packTemplate.id} packTemplate={packTemplate} />
-					))}
+				<div className='mx-2 mt-16 grid grid-cols-2 gap-16 pb-8 sm:grid-cols-3'>
+					{packs
+						.sort((a, b) => b.id - a.id)
+						.map((packTemplate) => (
+							<MassPackGrid key={packTemplate.id} packTemplate={packTemplate} />
+						))}
+				</div>
 			</div>
 		</>
 	);
