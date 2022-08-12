@@ -89,18 +89,18 @@ const Scanner = () => {
 	}, []);
 
 	const handleScan = async () => {
-		// if (!selectedUser) {
-		// 	toast.error("Please select a user", {
-		// 		toastId: "user-not-selected",
-		// 	});
-		// 	return;
-		// }
-		// if (!selectedCollection) {
-		// 	toast.error("Please select a collection", {
-		// 		toastId: "collection-not-selected",
-		// 	});
-		// 	return;
-		// }
+		if (!selectedUser) {
+			toast.error("Please select a user", {
+				toastId: "user-not-selected",
+			});
+			return;
+		}
+		if (!selectedCollection) {
+			toast.error("Please select a collection", {
+				toastId: "collection-not-selected",
+			});
+			return;
+		}
 		const scanUser = async (userId, collectionId) => {
 			setLoading(true);
 			setScanResults({});
@@ -116,8 +116,8 @@ const Scanner = () => {
 			setLoading(false);
 			return data;
 		};
-		const { data } = await scanUser(348314, 8944);
-		// const { data } = await scanUser(selectedUser.id, selectedCollection.collection.id);
+		// const { data } = await scanUser(348314, 8944);
+		const { data } = await scanUser(selectedUser.id, selectedCollection.collection.id);
 		setScanResults(data);
 		// toast.success(selectedUser.username);
 	};

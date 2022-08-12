@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { UserContext } from "../context/UserContext";
 import SpinResult from "./SpinResult";
 
@@ -12,21 +12,21 @@ const SpinArea = ({ info }) => {
 		epicoins: 0,
 		silvercoins: 0,
 	});
-	const getBalance = async () => {
+	const getBalance = useCallback(async () => {
 		if (user) {
 			const allFunds = await getFunds();
 			if (allFunds.data.success) {
 				setFunds(allFunds.data.data);
 			}
 		}
-	};
+	}, [user]);
 	useEffect(() => {
 		getBalance();
-	}, [user]);
+	}, [user, getBalance]);
 
 	useEffect(() => {
 		getBalance();
-	}, []);
+	}, [getBalance]);
 
 	const doSpin = async () => {
 		const buySpinRes = await buySpin();

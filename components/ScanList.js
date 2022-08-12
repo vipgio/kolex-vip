@@ -71,7 +71,7 @@ const ScanList = React.memo(
 						(o) => (o.cardTemplate ? o.cardTemplate.id : o.stickerTemplate.id)
 					)
 				);
-		}, [filterMethod]);
+		}, [filterMethod, sorted]);
 
 		const handleExport = (filename) => {
 			const blob = new Blob(["hi"], { type: "text/csv;charset=utf-8;" });
@@ -173,4 +173,5 @@ const ScanList = React.memo(
 	},
 	(oldProps, newProps) => _.isEqual(oldProps, newProps)
 );
+ScanList.displayName = "ScanList";
 export default ScanList;
