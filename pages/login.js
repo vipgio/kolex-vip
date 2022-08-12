@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,9 +8,6 @@ const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-	const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
-	const supabase = createClient(supabaseUrl, supabaseKey);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -20,9 +16,11 @@ const Login = () => {
 			const { data } = await axios.post("/api/login", { email, password });
 			setLoading(false);
 			if (data.success) {
-				let { data: whitelist, error } = await supabase.from("whitelist").select("*");
-				error && console.log(error);
-				whitelist.some((item) => item.username === data.data.user.username)
+				console.log(data);
+				const whitelist = await axios.get(
+					`/api/whitelist?username=${data.data.user.username}`
+				);
+				whitelist.data // true or false depending on if the user is whitelisted
 					? setUser({ ...data.data, premium: true })
 					: setUser({ ...data.data, premium: false });
 			} else {
@@ -32,13 +30,6 @@ const Login = () => {
 		} catch (err) {
 			console.log(err);
 			toast.error(err.response.data.error, {
-				position: "top-right",
-				autoClose: 3500,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
 				toastId: err.response.data.errorCode,
 			});
 			setLoading(false);

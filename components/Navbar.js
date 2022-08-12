@@ -83,12 +83,12 @@ export const Navbar = () => {
 										link='/history'
 										svg={<FaHistory className='text-black' />}
 									/>
-									{/* <NavbarIcon
+									<NavbarIcon
 										index={7}
-										name='Scan a collection'
+										name='Scanner'
 										link='/scanner'
 										svg={<FaSearch className='text-black' />}
-									/> */}
+									/>
 								</>
 							)}
 							{/* <div

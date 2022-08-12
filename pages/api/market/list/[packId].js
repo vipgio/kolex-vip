@@ -1,7 +1,7 @@
 import axios from "axios";
 import axiosRateLimit from "axios-rate-limit";
 const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
-const { API } = require("../../../../config/config");
+const { API } = require("@/config/config");
 
 export default async function handler(req, res) {
 	const { price, minOffer } = req.body.data;

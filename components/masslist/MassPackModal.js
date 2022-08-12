@@ -2,8 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { HiOutlineArrowCircleRight, HiOutlineArrowCircleLeft } from "react-icons/hi";
 
-import { UserContext } from "../../context/UserContext";
-import { CDN } from "../../config/config";
+import { UserContext } from "context/UserContext";
+import { CDN } from "@/config/config";
 import PackSelection from "./PackSelection";
 import ModalPage2 from "./ModalPage2";
 

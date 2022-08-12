@@ -54,13 +54,8 @@ const SpinArea = ({ info }) => {
 
 	return (
 		<>
-			<div className='ml-3 flex w-full flex-col border border-gray-500'>
-				<div className='flex justify-evenly'>
-					<div className='text-yellow-500'>Epicoins: {funds.epicoins}</div>
-					<div className='text-gray-400'>Silver: {funds.silvercoins}</div>
-					<div className='text-green-600'>Crafting: {funds.craftingcoins}</div>
-				</div>
-				<div className='flex w-full items-center'>
+			<div className='mt-3 flex w-full flex-col border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
+				<div className='flex w-full items-center justify-evenly border-b border-gray-500 pb-2'>
 					{spinActive ? (
 						<button
 							onClick={stopSpin}
@@ -71,15 +66,17 @@ const SpinArea = ({ info }) => {
 					) : (
 						<button
 							onClick={startSpin}
-							className='rounded-md bg-green-500 p-2 font-semibold'
+							className='rounded-md bg-green-500 p-2 font-semibold hover:bg-green-600'
 						>
 							Start Spinning
 						</button>
 					)}
 
-					{/* <button onClick={doSpin}>Do one spin</button> */}
+					<div className='flex-1 text-center text-lg font-semibold text-gray-400'>
+						Silver: {funds.silvercoins}
+					</div>
 					<button
-						className='ml-auto flex items-center rounded-md border border-gray-400 p-2'
+						className='flex items-center rounded-md bg-red-500 p-2 hover:bg-red-600'
 						onClick={() => setSpinRes([])}
 					>
 						Clear history
@@ -100,7 +97,7 @@ const SpinArea = ({ info }) => {
 					</button>
 				</div>
 
-				<div className='max-h-96 overflow-auto'>
+				<div className='max-h-96 min-h-[20rem] overflow-auto'>
 					{info.id &&
 						spinRes.map((res, index) => (
 							<SpinResult result={res} info={info} key={index} />

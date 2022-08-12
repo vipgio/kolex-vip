@@ -5,11 +5,11 @@ const { API } = require("@/config/config");
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { cardId } = req.query;
+	const { username } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 	try {
-		const getCardInfo = async (jwt, cardId) => {
-			return http(`${API}/cards/${cardId}`, {
+		const searchUser = async (jwt, username) => {
+			return http(`${API}/users/search?username=${username}&categoryId=1`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 				},
 			});
 		};
-		const { data } = await getCardInfo(jwt, cardId);
+		const { data } = await searchUser(jwt, username);
 		res.status(200).json(data);
 	} catch (err) {
 		console.log(err);

@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import { UserContext } from "../../context/UserContext";
+import { UserContext } from "context/UserContext";
 import CoolButton from "./CoolButton";
 import sortBy from "lodash/sortBy";
 import remove from "lodash/remove";
@@ -44,26 +44,12 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				if (data.success) {
 					console.log(data);
 					toast.success("Listed items on the market!", {
-						position: "top-right",
-						autoClose: 3500,
-						hideProgressBar: false,
-						closeOnClick: true,
-						pauseOnHover: true,
-						draggable: true,
-						progress: undefined,
 						toastId: "success",
 					});
 				}
 			} catch (err) {
 				console.log(err.response.data);
 				toast.error(err.response.data.error, {
-					position: "top-right",
-					autoClose: 3500,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
 					toastId: err.response.data.errorCode,
 				});
 				// alert(err.response.data.error);
@@ -94,13 +80,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 			} catch (err) {
 				console.log(err.response.data);
 				toast.error(err.response.data.error, {
-					position: "top-right",
-					autoClose: 3500,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
 					toastId: err.response.data.errorCode,
 				});
 			}

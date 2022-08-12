@@ -1,10 +1,9 @@
+import { v4 as uuidv4 } from "uuid";
 const SpinResult = ({ result, info }) => {
-	// console.log("result", result, "info", info);
-	// console.log(result);
 	return (
 		<div>
 			{result.data.cards.length > 0 ? (
-				<div>
+				<div className='text-gray-300'>
 					You won{" "}
 					<span className='text-red-400'>
 						{result.data.cards[0].mintBatch}
@@ -19,8 +18,7 @@ const SpinResult = ({ result, info }) => {
 				info.items
 					.filter((item) => item.id === result.data.id)
 					.map((reward) => (
-						<div key={`${reward.id}${reward}`}>
-							{/* {JSON.stringify(reward)} */}
+						<div key={uuidv4()} className='text-gray-300'>
 							You won <span className='text-indigo-300'>{reward.name} </span>
 							at {result.time.toLocaleString()}
 						</div>
