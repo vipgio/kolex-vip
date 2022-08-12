@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
-import axios from "axios";
 import Image from "next/future/image";
+import axios from "axios";
+import debounce from "lodash/debounce";
 import { CDN } from "@/config/config";
 import { useEffect } from "react";
 const UserSearch = ({
@@ -37,7 +38,7 @@ const UserSearch = ({
 		}
 	};
 
-	const debounceSearch = useCallback(_.debounce(handleDebounce, 1000), []);
+	const debounceSearch = useCallback(debounce(handleDebounce, 1000), []);
 
 	return (
 		<div>

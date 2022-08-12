@@ -6,7 +6,8 @@ import { UserContext } from "context/UserContext";
 import CoolButton from "./CoolButton";
 import sortBy from "lodash/sortBy";
 import remove from "lodash/remove";
-import _ from "lodash/";
+import findIndex from "lodash/findIndex";
+
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { user, setLoading, loading } = useContext(UserContext);
 	const [price, setPrice] = useState(0);
@@ -17,7 +18,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	const updateLocal = () => {
 		const localPacks = JSON.parse(localStorage.getItem("userPacks"));
 		remove(packTemplate.packs, (o) => selected.includes(o.id));
-		const idx = _.findIndex(localPacks, (o) => o.id === packTemplate.id);
+		const idx = findIndex(localPacks, (o) => o.id === packTemplate.id);
 		localPacks[idx] = packTemplate;
 		localStorage.setItem("userPacks", JSON.stringify(localPacks));
 		setSelected([]);
@@ -42,7 +43,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				const { data } = await axios.post(`/api/market/list/${packId}`, payload, headers);
 				setLoading(false);
 				if (data.success) {
-					console.log(data);
 					toast.success("Listed items on the market!", {
 						toastId: "success",
 					});
@@ -71,7 +71,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				const { data } = await axios.post(`/api/pack/open/${packId}`, null, headers);
 				setLoading(false);
 				if (data.success) {
-					console.log(`Pack ${index + 1} opened: `, data.data);
 					setOpenedCards((prev) => [...prev, ...data.data.cards, ...data.data.stickers]);
 				} else {
 					console.log(data);
@@ -108,11 +107,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				</div>
 			)}
 			<div className='mt-4'>
-				<CoolButton
-					action={action}
-					setAction={setAction}
-					onClick={() => console.log("clicked")}
-				/>
+				<CoolButton action={action} setAction={setAction} />
 			</div>
 			{action === "list" ? (
 				<>
@@ -151,10 +146,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 									name='minOffer'
 									id='minOffer'
 									className='ml-2'
-									onChange={(e) => {
-										console.log(e.target.checked);
-										setOfferEnabled(e.target.checked);
-									}}
+									onChange={(e) => setOfferEnabled(e.target.checked)}
 								/>
 							</div>
 							<input

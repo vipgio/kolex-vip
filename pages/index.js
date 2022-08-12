@@ -6,7 +6,6 @@ import Meta from "../components/Meta";
 
 const Index = () => {
 	const { user } = useContext(UserContext);
-	// console.log(user);
 	return (
 		<>
 			<Meta title='Login | Kolex VIP' />

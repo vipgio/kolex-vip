@@ -1,65 +1,131 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../context/UserContext";
-import Meta from "../components/Meta";
-import CircList from "../components/CircList";
-
+import { useContext, useState, useEffect } from "react";
+import isEmpty from "lodash/isEmpty";
+import groupBy from "lodash/groupBy";
+import pickBy from "lodash/pickBy";
+import { UserContext } from "context/UserContext";
+import Meta from "@/components/Meta";
+import CircList from "@/components/CircList";
+import Dropdown from "@/components/Dropdown";
+const coreNames = [
+	"Common",
+	"Uncommon",
+	"Rare",
+	"Epic",
+	"Legendary",
+	"Roles",
+	"Mastery Roles",
+	"Legendary Roles",
+	"Tier 1 Superior",
+	"Tier 2 Epic",
+	"Tier 3 Legendary",
+	"Pinnacle",
+	"Signature Series",
+];
+const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022"];
 const Circulation = () => {
 	const { getCirc, getCollections, loading, setLoading } = useContext(UserContext);
-	const [collectionId, setCollectionId] = useState("");
 	const [collection, setCollection] = useState({ info: {}, items: [] });
+	const [collections, setCollections] = useState([]);
+	const [selectedCollection, setSelectedCollection] = useState(null);
 
-	const onSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			setLoading(true);
-			const everything = await getCollections();
-			setCollection((collection) => ({
-				...collection,
-				info: everything.data.data.filter(
-					(item) => item.collection.id === Number(collectionId)
-				),
-			}));
-		} catch (err) {
-			console.log(err);
-		}
+	useEffect(() => {
+		const groupCollections = async () => {
+			const { data } = await getCollections();
+			const grouped = groupBy(data.data, (col) => col.collection.properties.seasons[0]);
+			Object.entries(grouped).forEach(([season, seasonCollections]) => {
+				const coreGrouped = groupBy(
+					pickBy(
+						seasonCollections,
+						(col) =>
+							coreNames.includes(col.collection.properties.tiers[0]) &&
+							!col.collection.physical
+					),
+					(col) => col.collection.properties.tiers[0]
+				);
 
+				const eventsGrouped = groupBy(
+					pickBy(
+						seasonCollections,
+						(col) => col.collection.properties.types[0] === "event_primary"
+					),
+					(col) => col.collection.properties.tiers[0]
+				);
+
+				const nonEventsGrouped = groupBy(
+					pickBy(
+						seasonCollections,
+						(col) =>
+							col.collection.properties.types[0] !== "event_primary" &&
+							!coreNames.includes(col.collection.properties.tiers[0])
+					),
+					(col) => col.collection.properties.tiers[0]
+				);
+				setCollections((prev) => [
+					...prev,
+					[
+						season,
+						isEmpty(eventsGrouped)
+							? Object.entries({
+									Core: [...Object.entries(coreGrouped)],
+									...nonEventsGrouped,
+							  })
+							: Object.entries({
+									Events: [...Object.entries(eventsGrouped)],
+									Core: [...Object.entries(coreGrouped)],
+									...nonEventsGrouped,
+							  }),
+					],
+				]);
+			});
+		};
+		groupCollections();
+	}, []);
+
+	const displayCirc = async () => {
+		setLoading(true);
 		try {
-			const collectionDataPromise = await getCirc(collectionId);
-			collectionDataPromise && setLoading(false);
-			const collectionData = collectionDataPromise.data.data;
-			!collectionData.length && setCollection("");
-			collectionData.length
-				? setCollection((collection) => ({ ...collection, items: collectionData }))
-				: alert("Collection not found");
+			setCollection({ info: {}, items: [] });
+			const { data } = await getCirc(selectedCollection.collection.id);
+			if (data.success) {
+				setCollection((collection) => ({ ...collection, items: data.data }));
+				setLoading(false);
+			}
 		} catch (err) {
 			alert(err);
 			setLoading(false);
 		}
 	};
+
 	return (
 		<>
 			<Meta title='Circulation | Kolex VIP' />
 			<div className='mt-10 flex flex-col items-center'>
-				<div className='flex h-full w-full items-start justify-center pt-10'>
-					<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
-						<input
-							type='text'
-							name='collection-id'
-							placeholder='Collection ID'
-							value={collectionId}
-							onChange={(e) => setCollectionId(e.target.value)}
-							disabled={loading}
-							autoComplete='off'
-							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-						/>
-						<button
-							type='submit'
-							disabled={loading}
-							className={`big-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-						>
-							Get Circulations
-						</button>
-					</form>
+				<div className='flex h-full w-full flex-col items-start justify-center pt-10 sm:items-center'>
+					<div className='px-4 pt-2 font-semibold text-gray-300'>
+						Selected Collection:
+						{selectedCollection && (
+							<span>
+								{" "}
+								{selectedCollection.collection.properties.seasons[0]} -{" "}
+								{selectedCollection.collection.properties.tiers[0]} -{" "}
+								{selectedCollection.collection.name}
+							</span>
+						)}
+					</div>
+					<Dropdown
+						collections={collections}
+						setSelectedCollection={setSelectedCollection}
+					/>
+					<button
+						type='submit'
+						disabled={loading}
+						className={`big-button mx-3 sm:mx-0 ${
+							loading ? "cursor-not-allowed opacity-50" : ""
+						}`}
+						onClick={displayCirc}
+					>
+						Get Circulations
+					</button>
 				</div>
 				{collection.info?.length > 0 && (
 					<div className='mt-3 text-xl font-bold text-gray-300'>

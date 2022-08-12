@@ -1,10 +1,13 @@
-import _ from "lodash";
 import React, { useState, useEffect } from "react";
+import sortBy from "lodash/sortBy";
+import isEqual from "lodash/isEqual";
+import sumBy from "lodash/sumBy";
+import uniqBy from "lodash/uniqBy";
+import ExportButton from "./ExportButton";
 
 const ScanList = React.memo(
-	({ scanResults }) => {
-		console.log(scanResults);
-		const sorted = _.sortBy(
+	({ scanResults, user, collection }) => {
+		const sorted = sortBy(
 			[...scanResults.cards, ...scanResults.stickers],
 			["mintBatch", "mintNumber"]
 		);
@@ -15,7 +18,7 @@ const ScanList = React.memo(
 			filterMethod === "all" && setFilteredResults(sorted);
 			filterMethod === "best" &&
 				setFilteredResults(
-					_.uniqBy(sorted, (o) =>
+					uniqBy(sorted, (o) =>
 						o.cardTemplate ? o.cardTemplate.id : o.stickerTemplate.id
 					)
 				);
@@ -45,7 +48,7 @@ const ScanList = React.memo(
 				);
 			filterMethod === "second" &&
 				setFilteredResults(
-					_.uniqBy(
+					uniqBy(
 						sorted
 							.filter(
 								// don't show the best set then show the remaining sets
@@ -71,27 +74,8 @@ const ScanList = React.memo(
 						(o) => (o.cardTemplate ? o.cardTemplate.id : o.stickerTemplate.id)
 					)
 				);
-		}, [filterMethod, sorted]);
+		}, [filterMethod]);
 
-		const handleExport = (filename) => {
-			const blob = new Blob(["hi"], { type: "text/csv;charset=utf-8;" });
-			if (navigator.msSaveBlob) {
-				// In case of IE 10+
-				navigator.msSaveBlob(blob, filename);
-			} else {
-				const link = document.createElement("a");
-				if (link.download !== undefined) {
-					// Browsers that support HTML5 download attribute
-					const url = URL.createObjectURL(blob);
-					link.setAttribute("href", url);
-					link.setAttribute("download", filename);
-					link.style.visibility = "hidden";
-					document.body.appendChild(link);
-					link.click();
-					document.body.removeChild(link);
-				}
-			}
-		};
 		return (
 			<>
 				<div className='my-5 px-5'>
@@ -110,8 +94,11 @@ const ScanList = React.memo(
 							<option value='dupes'>All duplicates</option>
 							<option value='second'>Second set</option>
 						</select>
-						<div className='ml-auto' onClick={() => handleExport(`fileee.csv`)}>
-							EXPORT
+						<div className='ml-auto'>
+							<ExportButton
+								filename={`${user.username} - ${collection.collection.properties.seasons[0]} - ${collection.collection.properties.tiers[0]} - ${collection.collection.name}`}
+								data={filteredResults}
+							/>
 						</div>
 					</div>
 					<div className='mb-1 flex flex-col justify-center overflow-x-auto rounded-md border border-gray-300'>
@@ -123,8 +110,8 @@ const ScanList = React.memo(
 									<th className='py-1 px-2 sm:py-3 sm:px-6'>Circulation</th>
 									<th className='py-1 px-2 sm:py-3 sm:px-6'>Listed</th>
 									<th className='py-1 px-2 sm:py-3 sm:px-6'>Immutable</th>
-									<th className='py-1 px-2 sm:py-3 sm:px-6'>Item ID</th>
-									<th className='py-1 px-2 sm:py-3 sm:px-6'>Item Score</th>
+									<th className='py-1 px-2 sm:py-3 sm:px-6'>ID</th>
+									<th className='py-1 px-2 sm:py-3 sm:px-6'>Item Points</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -137,7 +124,7 @@ const ScanList = React.memo(
 											{card.mintBatch}
 											{card.mintNumber}
 										</td>
-										<td className='py-1 px-2 sm:py-3 sm:px-6'>
+										<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>
 											{card.cardTemplate
 												? card.cardTemplate.title
 												: card.stickerTemplate.title}
@@ -164,14 +151,14 @@ const ScanList = React.memo(
 					</div>
 					{(filterMethod === "best" || filterMethod === "second") && (
 						<div className='font-semibold text-orange-400'>
-							Total points: {(_.sumBy(filteredResults, "rating") * 10).toFixed(2)}
+							Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}
 						</div>
 					)}
 				</div>
 			</>
 		);
 	},
-	(oldProps, newProps) => _.isEqual(oldProps, newProps)
+	(oldProps, newProps) => isEqual(oldProps, newProps)
 );
 ScanList.displayName = "ScanList";
 export default ScanList;

@@ -42,7 +42,6 @@ const History = () => {
 				}
 			});
 		} else {
-			console.log("j");
 			toast.error("Please enter a valid input", {
 				position: "top-right",
 				autoClose: 3500,

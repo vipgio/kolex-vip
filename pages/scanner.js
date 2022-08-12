@@ -1,6 +1,9 @@
 import { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import _ from "lodash";
+import groupBy from "lodash/groupBy";
+import isEmpty from "lodash/isEmpty";
+import pickBy from "lodash/pickBy";
+import sortBy from "lodash/sortBy";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,10 +41,10 @@ const Scanner = () => {
 	useEffect(() => {
 		const groupCollections = async () => {
 			const { data } = await getCollections();
-			const grouped = _.groupBy(data.data, (col) => col.collection.properties.seasons[0]);
+			const grouped = groupBy(data.data, (col) => col.collection.properties.seasons[0]);
 			Object.entries(grouped).forEach(([season, seasonCollections]) => {
-				const coreGrouped = _.groupBy(
-					_.pickBy(
+				const coreGrouped = groupBy(
+					pickBy(
 						seasonCollections,
 						(col) =>
 							coreNames.includes(col.collection.properties.tiers[0]) &&
@@ -50,16 +53,16 @@ const Scanner = () => {
 					(col) => col.collection.properties.tiers[0]
 				);
 
-				const eventsGrouped = _.groupBy(
-					_.pickBy(
+				const eventsGrouped = groupBy(
+					pickBy(
 						seasonCollections,
 						(col) => col.collection.properties.types[0] === "event_primary"
 					),
 					(col) => col.collection.properties.tiers[0]
 				);
 
-				const nonEventsGrouped = _.groupBy(
-					_.pickBy(
+				const nonEventsGrouped = groupBy(
+					pickBy(
 						seasonCollections,
 						(col) =>
 							col.collection.properties.types[0] !== "event_primary" &&
@@ -71,7 +74,7 @@ const Scanner = () => {
 					...prev,
 					[
 						season,
-						_.isEmpty(eventsGrouped)
+						isEmpty(eventsGrouped)
 							? Object.entries({
 									Core: [...Object.entries(coreGrouped)],
 									...nonEventsGrouped,
@@ -116,16 +119,14 @@ const Scanner = () => {
 			setLoading(false);
 			return data;
 		};
-		// const { data } = await scanUser(348314, 8944);
 		const { data } = await scanUser(selectedUser.id, selectedCollection.collection.id);
 		setScanResults(data);
-		// toast.success(selectedUser.username);
 	};
 	return (
 		<>
 			<Meta title='Scanner | Kolex VIP' />
 
-			<div className='flex flex-col justify-center'>
+			<div className='mt-2 flex flex-col justify-center px-2'>
 				<ToastContainer
 					position='top-right'
 					autoClose={3500}
@@ -195,7 +196,7 @@ const Scanner = () => {
 
 						<div tabIndex={-1}>
 							<Dropdown
-								collections={_.sortBy(collections, (item) => seasons.indexOf(item[0]))}
+								collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
 								setSelectedCollection={setSelectedCollection}
 								setShowDropdown={setShowDropdown}
 							/>
@@ -238,9 +239,13 @@ const Scanner = () => {
 						)}
 					</button>
 				</div>
-				{!_.isEmpty(scanResults) && (
+				{!isEmpty(scanResults) && (
 					<div>
-						<ScanList scanResults={scanResults} />
+						<ScanList
+							scanResults={scanResults}
+							user={selectedUser}
+							collection={selectedCollection}
+						/>
 					</div>
 				)}
 			</div>

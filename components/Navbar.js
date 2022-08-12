@@ -60,10 +60,16 @@ export const Navbar = () => {
 									</svg>
 								}
 							/>
+							<NavbarIcon
+								index={5}
+								name='Scanner'
+								link='/scanner'
+								svg={<FaSearch className='text-black' />}
+							/>
 							{user.premium && (
 								<>
 									<NavbarIcon
-										index={5}
+										index={6}
 										name='Mass List'
 										link='/masslist'
 										svg={
@@ -78,22 +84,13 @@ export const Navbar = () => {
 										}
 									/>
 									<NavbarIcon
-										index={6}
+										index={7}
 										name='Card history'
 										link='/history'
 										svg={<FaHistory className='text-black' />}
 									/>
-									<NavbarIcon
-										index={7}
-										name='Scanner'
-										link='/scanner'
-										svg={<FaSearch className='text-black' />}
-									/>
 								</>
 							)}
-							{/* <div
-						className={`absolute left-[128px] top-5 h-16 w-16 rounded-full border-4 border-gray-700 bg-green-400 transition-transform duration-500 before:absolute before:-left-4 before:h-5 before:w-5 before:rounded-br-full before:shadow-[0_8px_0_0_#374151] after:absolute after:left-[48px] after:h-5 after:w-5 after:rounded-bl-full after:shadow-[0_8px_0_0_#374151]`}
-					></div> */}
 						</ul>
 					</nav>
 				</div>

@@ -10,13 +10,12 @@ import {
 } from "@szhsin/react-menu";
 // import "@szhsin/react-menu/dist/index.css";
 const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
-	console.log(collections);
 	const [filter, setFilter] = useState("");
 	return (
 		<div tabIndex={-1}>
 			<Menu
 				menuButton={
-					<MenuButton className='m-3 box-border rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-800 shadow-md'>
+					<MenuButton className='m-3 box-border rounded-md border border-gray-300 bg-white p-2 text-sm text-gray-800 shadow-md'>
 						Select a collection
 					</MenuButton>
 				}
@@ -76,7 +75,7 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 													.map((col, idx) => (
 														<div
 															key={`${season}-${tier}-${
-																col.collection ? col.collection.name : col[0]
+																col.collection ? col.collection.id : col[0]
 															}`}
 														>
 															{idx !== 0 && (
@@ -89,7 +88,8 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 																	value={col}
 																	onClick={(e) => {
 																		setSelectedCollection(e.value);
-																		setShowDropdown(false);
+																		typeof setShowDropdown === "function" &&
+																			setShowDropdown(false);
 																	}}
 																>
 																	{col.collection.name}
@@ -107,7 +107,8 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 																				value={subCol}
 																				onClick={(e) => {
 																					setSelectedCollection(e.value);
-																					setShowDropdown(false);
+																					typeof setShowDropdown === "function" &&
+																						setShowDropdown(false);
 																				}}
 																			>
 																				{subCol.collection.name}
@@ -133,7 +134,7 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 export default Dropdown;
 
 const menuClassName = ({ state }) =>
-	`box-border absolute z-50 text-sm bg-white p-1.5 border rounded-md shadow-lg select-none focus:outline-none min-w-[12rem] ${
+	`box-border absolute z-50 text-sm bg-white p-1.5 border border-gray-700 rounded-md shadow-lg select-none focus:outline-none min-w-[12rem] ${
 		state === "closed" && "hidden"
 	} ${state === "opening" && "animate-fadeIn"} ${
 		state === "closing" && "animate-fadeOut"

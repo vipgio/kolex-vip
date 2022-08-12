@@ -17,7 +17,7 @@ const NavbarIcon = ({ name, link, svg }) => {
 							}`}
 						></div>
 						<span
-							className={`absolute w-max -translate-y-4 opacity-0 transition-all duration-500 ${
+							className={`absolute w-max -translate-y-4 text-sm opacity-0 transition-all duration-500 sm:text-base ${
 								router.pathname == link && "-translate-y-[10px] opacity-100"
 							}`}
 						>

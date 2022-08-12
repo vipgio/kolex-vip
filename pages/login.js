@@ -16,7 +16,6 @@ const Login = () => {
 			const { data } = await axios.post("/api/login", { email, password });
 			setLoading(false);
 			if (data.success) {
-				console.log(data);
 				const whitelist = await axios.get(
 					`/api/whitelist?username=${data.data.user.username}`
 				);
