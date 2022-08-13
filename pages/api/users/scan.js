@@ -27,3 +27,8 @@ export default async function handler(req, res) {
 		res.status(err.response.status).json(err.response.data);
 	}
 }
+export const config = {
+	api: {
+		responseLimit: false,
+	},
+};

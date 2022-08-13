@@ -14,11 +14,11 @@ const Login = () => {
 		setLoading(true);
 		try {
 			const { data } = await axios.post("/api/login", { email, password });
-			setLoading(false);
 			if (data.success) {
 				const whitelist = await axios.get(
 					`/api/whitelist?username=${data.data.user.username}`
 				);
+				setLoading(false);
 				whitelist.data // true or false depending on if the user is whitelisted
 					? setUser({ ...data.data, premium: true })
 					: setUser({ ...data.data, premium: false });
