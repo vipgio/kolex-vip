@@ -11,7 +11,7 @@ import { UserContext } from "context/UserContext";
 import Dropdown from "@/components/Dropdown";
 import Meta from "@/components/Meta";
 import UserSearch from "@/components/UserSearch";
-import ScanList from "@/components/ScanList";
+import ScanResult from "@/components/scanner/ScanResults";
 const coreNames = [
 	"Common",
 	"Uncommon",
@@ -241,7 +241,7 @@ const Scanner = () => {
 				</div>
 				{!isEmpty(scanResults) && (
 					<div>
-						<ScanList
+						<ScanResult
 							scanResults={scanResults}
 							user={selectedUser}
 							collection={selectedCollection}
