@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import sortBy from "lodash/sortBy";
-import orderBy from "lodash/orderBy";
 import isEqual from "lodash/isEqual";
 import sumBy from "lodash/sumBy";
 import uniqBy from "lodash/uniqBy";
+import countBy from "lodash/countBy";
 import ExportButton from "../ExportButton";
 import CompactList from "./CompactList";
 import FullList from "./FullList";
-import _ from "lodash";
 
 const ScanResult = React.memo(
 	({ scanResults, user, collection }) => {
@@ -63,7 +62,7 @@ const ScanResult = React.memo(
 					sorted
 						.map((item) => ({
 							...item,
-							owned: _.countBy(sorted, (o) => o.templateId)[item.templateId],
+							owned: countBy(sorted, (o) => o.templateId)[item.templateId],
 						}))
 						.filter(
 							(item, index, self) =>
