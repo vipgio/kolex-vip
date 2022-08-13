@@ -65,7 +65,7 @@ const PackSelection = ({
 							<div>
 								Recent sales:{" "}
 								{marketInfo.recentSales.slice(0, 4).map((sale) => (
-									<div key={sale.updated} className='flex border-b border-gray-600'>
+									<div className='flex border-b border-gray-600' key={sale.updated}>
 										<span className='text-orange-400'>{sale.price} </span>
 										<span className='ml-1 mr-16'>Coins</span>
 										<span className='ml-auto mr-2'>

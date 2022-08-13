@@ -38,18 +38,13 @@ const History = () => {
 					setLoading(false);
 				} catch (err) {
 					setLoading(false);
-					console.log(err);
+					toast.error(`${err.response.data.error} ${cardId}`, {
+						toastId: cardId,
+					});
 				}
 			});
 		} else {
 			toast.error("Please enter a valid input", {
-				position: "top-right",
-				autoClose: 3500,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
 				toastId: "valid input",
 			});
 			setLoading(false);

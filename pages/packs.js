@@ -137,11 +137,7 @@ const PackSearch = () => {
 				</button>
 
 				{results?.length > 0
-					? results.map((res) => (
-							<div key={res.id}>
-								<PackResults pack={res} />
-							</div>
-					  ))
+					? results.map((res) => <PackResults pack={res} key={res.id} />)
 					: searchQuery.length > 0 &&
 					  results && (
 							<div className='mt-2 flex justify-center text-gray-300'>

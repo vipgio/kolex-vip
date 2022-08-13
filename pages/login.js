@@ -22,12 +22,8 @@ const Login = () => {
 				whitelist.data // true or false depending on if the user is whitelisted
 					? setUser({ ...data.data, premium: true })
 					: setUser({ ...data.data, premium: false });
-			} else {
-				console.log(data);
-				alert(data);
 			}
 		} catch (err) {
-			console.log(err);
 			toast.error(err.response.data.error, {
 				toastId: err.response.data.errorCode,
 			});

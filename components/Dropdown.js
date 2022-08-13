@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import {
 	Menu as MenuInner,
 	MenuItem as MenuItemInner,
@@ -23,7 +23,7 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 				onMenuChange={() => setFilter("")}
 			>
 				{collections.map(([season, seasonCollections], index) => (
-					<div key={season}>
+					<Fragment key={season}>
 						{index !== 0 && <MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />}
 						<SubMenu
 							label={season}
@@ -34,7 +34,7 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 						>
 							<MenuGroup takeOverflow>
 								{seasonCollections.map(([tier, tierCollections], idx) => (
-									<div key={`${season}-${tier}`}>
+									<Fragment key={`${season}-${tier}`}>
 										{idx !== 0 && (
 											<MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />
 										)}
@@ -73,7 +73,7 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 													)
 
 													.map((col, idx) => (
-														<div
+														<Fragment
 															key={`${season}-${tier}-${
 																col.collection ? col.collection.id : col[0]
 															}`}
@@ -98,7 +98,7 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 																// if collection is false, then it is a set
 																<SubMenu label={col[0]}>
 																	{col[1].map((subCol, idx) => (
-																		<div key={subCol.collection.name}>
+																		<Fragment key={subCol.collection.name}>
 																			{idx !== 0 && (
 																				<MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />
 																			)}
@@ -113,19 +113,19 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 																			>
 																				{subCol.collection.name}
 																			</MenuItem>
-																		</div>
+																		</Fragment>
 																	))}
 																</SubMenu>
 															)}
-														</div>
+														</Fragment>
 													))}
 											</MenuGroup>
 										</SubMenu>
-									</div>
+									</Fragment>
 								))}
 							</MenuGroup>
 						</SubMenu>
-					</div>
+					</Fragment>
 				))}
 			</Menu>
 		</div>

@@ -1,7 +1,12 @@
 import { useContext } from "react";
 import Image from "next/future/image";
-import { UserContext } from "../context/UserContext";
-import Meta from "../components/Meta";
+import { UserContext } from "context/UserContext";
+import Meta from "components/Meta";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const Profile = () => {
 	const { user, setUser } = useContext(UserContext);
@@ -9,14 +14,9 @@ const Profile = () => {
 	return (
 		<>
 			<Meta title='Profile | Kolex VIP' description='stuff' />
-			<div className='container mt-10 flex flex-col border py-2 text-gray-300 sm:flex-row'>
+			<div className='container mt-12 flex flex-col rounded-md border py-2 text-gray-300 sm:flex-row'>
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border'>
-						{/* <img
-							src={`https://cdn.epics.gg${user?.user.avatar}` || ""}
-							alt={user?.user.username || "loading"}
-							className='h-full w-full object-cover'
-						/> */}
 						<Image
 							src={`https://cdn.epics.gg${user?.user.avatar}` || ""}
 							alt={user?.user.username || "loading"}
@@ -127,7 +127,6 @@ const Profile = () => {
 				</div>
 			</div>
 		</>
-		// </Layout>
 	);
 };
 export default Profile;

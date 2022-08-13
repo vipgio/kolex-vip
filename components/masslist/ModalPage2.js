@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
-import { UserContext } from "context/UserContext";
-import CoolButton from "./CoolButton";
 import sortBy from "lodash/sortBy";
 import remove from "lodash/remove";
 import findIndex from "lodash/findIndex";
+import { UserContext } from "context/UserContext";
+import CoolButton from "./CoolButton";
+import "react-toastify/dist/ReactToastify.css";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { user, setLoading, loading } = useContext(UserContext);
@@ -48,11 +48,9 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					});
 				}
 			} catch (err) {
-				console.log(err.response.data);
 				toast.error(err.response.data.error, {
 					toastId: err.response.data.errorCode,
 				});
-				// alert(err.response.data.error);
 				setLoading(false);
 			}
 		});
@@ -70,14 +68,9 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				};
 				const { data } = await axios.post(`/api/pack/open/${packId}`, null, headers);
 				setLoading(false);
-				if (data.success) {
+				if (data.success)
 					setOpenedCards((prev) => [...prev, ...data.data.cards, ...data.data.stickers]);
-				} else {
-					console.log(data);
-					alert(data);
-				}
 			} catch (err) {
-				console.log(err.response.data);
 				toast.error(err.response.data.error, {
 					toastId: err.response.data.errorCode,
 				});
@@ -206,7 +199,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 						{openedCards.length > 0 && (
 							<div className='my-4 w-full overflow-auto border border-gray-500 px-2 text-gray-300'>
 								{sortBy(openedCards, ["mintBatch", "mintNumber"]).map((card) => (
-									<div key={card.uuid} className='flex'>
+									<div className='flex' key={card.uuid}>
 										<span className='text-orange-400'>
 											{card.mintBatch}
 											{card.mintNumber}
