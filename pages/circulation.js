@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import isEmpty from "lodash/isEmpty";
 import groupBy from "lodash/groupBy";
 import pickBy from "lodash/pickBy";
+import sortBy from "lodash/sortBy";
 import { UserContext } from "context/UserContext";
 import Meta from "@/components/Meta";
 import CircList from "@/components/CircList";
@@ -113,7 +114,7 @@ const Circulation = () => {
 						)}
 					</div>
 					<Dropdown
-						collections={collections}
+						collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
 						setSelectedCollection={setSelectedCollection}
 					/>
 					<button
