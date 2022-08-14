@@ -9,7 +9,7 @@ import {
 	MenuGroup,
 } from "@szhsin/react-menu";
 // import "@szhsin/react-menu/dist/index.css";
-const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
+const Dropdown = ({ collections, setSelectedCollection }) => {
 	const [filter, setFilter] = useState("");
 	return (
 		<div tabIndex={-1}>
@@ -86,11 +86,7 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 																<MenuItem
 																	key={col.collection.name}
 																	value={col}
-																	onClick={(e) => {
-																		setSelectedCollection(e.value);
-																		typeof setShowDropdown === "function" &&
-																			setShowDropdown(false);
-																	}}
+																	onClick={(e) => setSelectedCollection(e.value)}
 																>
 																	{col.collection.name}
 																</MenuItem>
@@ -105,11 +101,7 @@ const Dropdown = ({ collections, setSelectedCollection, setShowDropdown }) => {
 																			<MenuItem
 																				key={subCol.collection.name}
 																				value={subCol}
-																				onClick={(e) => {
-																					setSelectedCollection(e.value);
-																					typeof setShowDropdown === "function" &&
-																						setShowDropdown(false);
-																				}}
+																				onClick={(e) => setSelectedCollection(e.value)}
 																			>
 																				{subCol.collection.name}
 																			</MenuItem>

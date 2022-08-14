@@ -14,7 +14,6 @@ const UserSearch = ({
 	const [loading, setLoading] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [results, setResults] = useState([]);
-	const [showResults, setShowResults] = useState(false);
 
 	useEffect(() => {
 		searchQuery.length === 0 && setResults([]);
@@ -50,13 +49,13 @@ const UserSearch = ({
 						setSearchQuery(e.target.value);
 					}}
 					value={searchQuery}
-					className='input-field m-2'
-					// disabled={loading}
+					className='input-field m-2 disabled:cursor-not-allowed disabled:opacity-50'
+					disabled={loading}
 					placeholder='Search for a user'
 					tabIndex={disabled ? -1 : 0}
 				/>
 			</form>
-			{searchQuery.length > 2 && (
+			{searchQuery.length > 1 && (
 				<div className='flex overflow-auto'>
 					{results.slice(0, 15).map((result) => (
 						<button
@@ -82,9 +81,6 @@ const UserSearch = ({
 							<span className='mt-2 font-semibold text-gray-300'>{result.username}</span>
 						</button>
 					))}
-					{results.length === 0 && (
-						<div className='m-2 w-1/3 rounded-md border p-2'>No results</div>
-					)}
 				</div>
 			)}
 		</div>

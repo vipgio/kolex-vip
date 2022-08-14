@@ -34,7 +34,6 @@ const Scanner = () => {
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [showSearchSection, setShowSearchSection] = useState(false);
-	const [showDropdown, setShowDropdown] = useState(false);
 	const [scanResults, setScanResults] = useState({});
 	const [loading, setLoading] = useState(false);
 
@@ -140,12 +139,30 @@ const Scanner = () => {
 				/>
 				<div
 					className={`mt-10 flex ${
-						showSearchSection ? "max-h-96" : "max-h-10"
+						showSearchSection ? "max-h-96" : "max-h-11"
 					} relative mb-5 overflow-y-hidden rounded-md border border-gray-300 pb-2 transition-all duration-300`}
 				>
 					<div className='overflow-hidden'>
 						<div className='p-2 px-4 font-semibold text-gray-300'>
-							Selected User: {selectedUser?.username}
+							<span>Selected User: {selectedUser?.username}</span>
+							{selectedUser ? (
+								<span
+									className='ml-1 cursor-pointer text-red-500'
+									title='Clear selection'
+									onClick={() => setSelectedUser(null)}
+								>
+									x
+								</span>
+							) : (
+								<span className='ml-2'>
+									<button
+										className='rounded-md border px-1 hover:bg-gray-100 hover:text-gray-900'
+										onClick={() => setSelectedUser(user.user)}
+									>
+										Me
+									</button>
+								</span>
+							)}
 						</div>
 						<UserSearch
 							jwt={user.jwt}
@@ -182,11 +199,7 @@ const Scanner = () => {
 					</div>
 				</div>
 
-				<div
-					className={`flex ${
-						showDropdown ? "max-h-96 overflow-visible" : "max-h-10 overflow-hidden"
-					} relative mb-5 rounded-md border border-gray-300 pb-2 transition-all duration-300`}
-				>
+				<div className='relative mb-5 flex max-h-96 overflow-visible rounded-md border border-gray-300 pb-2 transition-all duration-300'>
 					<div>
 						<div className='p-2 px-4 font-semibold text-gray-300'>
 							Selected Collection:
@@ -204,32 +217,8 @@ const Scanner = () => {
 							<Dropdown
 								collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
 								setSelectedCollection={setSelectedCollection}
-								setShowDropdown={setShowDropdown}
 							/>
 						</div>
-					</div>
-					<div className='absolute right-2 top-2'>
-						{showDropdown ? (
-							<IoIosArrowDropup
-								className='cursor-pointer text-orange-400 hover:text-orange-500'
-								size={24}
-								onClick={() => setShowDropdown(false)}
-								tabIndex={0}
-								onKeyDown={(e) =>
-									(e.key === "Enter" || e.key === "ArrowUp") && setShowDropdown(false)
-								}
-							/>
-						) : (
-							<IoIosArrowDropdown
-								className='cursor-pointer text-orange-400 hover:text-orange-500'
-								size={24}
-								onClick={() => setShowDropdown(true)}
-								tabIndex={0}
-								onKeyDown={(e) =>
-									(e.key === "Enter" || e.key === "ArrowDown") && setShowDropdown(true)
-								}
-							/>
-						)}
 					</div>
 				</div>
 				<div className='flex w-full justify-center'>
