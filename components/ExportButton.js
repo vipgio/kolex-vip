@@ -11,15 +11,11 @@ const ExportButton = ({ data, filename }) => {
 	const createCSV = () => {
 		const exportArray = data.map(
 			(item) =>
-				`${item.mintBatch}${item.mintNumber}|${
-					item.cardTemplate ? item.cardTemplate.title : item.stickerTemplate.title
-				}|${
-					item.cardTemplate
-						? item.cardTemplate.inCirculation
-						: item.stickerTemplate.inCirculation
-				}|${item.status === "market" ? "Yes" : "No"}|${
-					item.status === "imx_locked" ? "Yes" : "No"
-				}|${item.id}|${(item.rating * 10).toFixed(2)}`
+				`${item.mintBatch}${item.mintNumber}|${item.title}|${item.inCirculation}|${
+					item.status === "market" ? "Yes" : "No"
+				}|${item.status === "imx_locked" ? "Yes" : "No"}|${item.id}|${(
+					item.rating * 10
+				).toFixed(2)}`
 		);
 		exportArray.unshift(headers.join("|"));
 		return exportArray.toString().split(",").join("\n");
