@@ -189,9 +189,15 @@ const Scanner = () => {
 				>
 					<div>
 						<div className='p-2 px-4 font-semibold text-gray-300'>
-							Selected Collection: {selectedCollection?.collection.properties.seasons[0]}{" "}
-							- {selectedCollection?.collection.properties.tiers[0]} -{" "}
-							{selectedCollection?.collection.name}
+							Selected Collection:
+							{selectedCollection && (
+								<span>
+									{" "}
+									{selectedCollection.collection.properties.seasons[0]} -{" "}
+									{selectedCollection.collection.properties.tiers[0]} -{" "}
+									{selectedCollection.collection.name}
+								</span>
+							)}
 						</div>
 
 						<div tabIndex={-1}>

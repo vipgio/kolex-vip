@@ -24,7 +24,8 @@ const coreNames = [
 ];
 const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022"];
 const Circulation = () => {
-	const { getCirc, getCollections, loading, setLoading } = useContext(UserContext);
+	const { getCardCirc, getStickerCirc, getCollections, loading, setLoading } =
+		useContext(UserContext);
 	const [collection, setCollection] = useState({ info: {}, items: [] });
 	const [collections, setCollections] = useState([]);
 	const [selectedCollection, setSelectedCollection] = useState(null);
@@ -86,9 +87,13 @@ const Circulation = () => {
 		setLoading(true);
 		try {
 			setCollection({ info: {}, items: [] });
-			const { data } = await getCirc(selectedCollection.collection.id);
-			if (data.success) {
-				setCollection((collection) => ({ ...collection, items: data.data }));
+			const { data: cards } = await getCardCirc(selectedCollection.collection.id);
+			const { data: stickers } = await getStickerCirc(selectedCollection.collection.id);
+			if (cards.success && stickers.success) {
+				setCollection((collection) => ({
+					...collection,
+					items: [...cards.data, ...stickers.data],
+				}));
 				setLoading(false);
 			}
 		} catch (err) {

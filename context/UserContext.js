@@ -43,9 +43,21 @@ const UserContextProvider = (props) => {
 		});
 	};
 
-	const getCirc = async (collectionId) => {
+	const getCardCirc = async (collectionId) => {
 		return http(
 			`https://api.epics.gg/api/v1/collections/${collectionId}/card-templates?categoryId=1`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"x-user-jwt": user.jwt,
+				},
+			}
+		);
+	};
+	const getStickerCirc = async (collectionId) => {
+		return http(
+			`https://api.epics.gg/api/v1/collections/${collectionId}/sticker-templates?categoryId=1`,
 			{
 				method: "GET",
 				headers: {
@@ -143,7 +155,8 @@ const UserContextProvider = (props) => {
 				loading,
 				setLoading,
 				login,
-				getCirc,
+				getCardCirc,
+				getStickerCirc,
 				getCollections,
 				getPacks,
 				spinnerOdds,
