@@ -43,7 +43,8 @@ const PackSelection = ({
 											target='_blank'
 											rel='noreferrer'
 										>
-											{marketInfo.market[0][0].price} Coins
+											{marketInfo.market[0][0].price}
+											<span className='ml-1 text-gray-300'>USD</span>
 										</a>
 									</div>
 									<div></div>
@@ -67,7 +68,7 @@ const PackSelection = ({
 								{marketInfo.recentSales.slice(0, 4).map((sale) => (
 									<div className='flex border-b border-gray-600' key={sale.updated}>
 										<span className='text-orange-400'>{sale.price} </span>
-										<span className='ml-1 mr-16'>Coins</span>
+										<span className='ml-1 mr-16'>USD</span>
 										<span className='ml-auto mr-2'>
 											{sale.updated.split("T")[0]}
 											{/* {" - "} */}

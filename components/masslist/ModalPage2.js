@@ -121,14 +121,11 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 								id='price'
 								value={price}
 								className='input-field w-28'
-								min={1}
 								max={200000}
-								onChange={(e) =>
-									setPrice(e.target.value.replace(/^0+(?=\d)/, "").replace(/\D/g, ""))
-								} // remove leading zeros and non-numeric characters
+								onChange={(e) => setPrice(e.target.value)} // remove leading zeros and non-numeric characters
 								onFocus={(e) => e.target.select()}
-								/*step={0.01}
-							min={0.5}*/
+								step={0.01}
+								min={0.1}
 							/>
 							<div className='flex justify-center'>
 								<label htmlFor='minOffer' className='text-gray-300'>
@@ -149,9 +146,9 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 								value={minOffer}
 								disabled={!offerEnabled}
 								className='input-field w-28 disabled:cursor-not-allowed'
-								min={1}
-								max={price - 1}
-								onChange={(e) => setMinOffer(e.target.value.replace(/^0+(?=\d)/, ""))} // remove leading zeros and non-numeric characters
+								min={0.1}
+								max={price - 0.01}
+								onChange={(e) => setMinOffer(e.target.value)} // remove leading zeros and non-numeric characters
 								onBlur={(e) => {
 									if (Number(e.target.value) > Number(price)) {
 										console.log("bigger than price");
@@ -159,8 +156,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 									}
 								}}
 								onFocus={(e) => e.target.select()}
-								/*step={0.01}
-								min={0.5}*/
+								step={0.01}
 							/>
 
 							<button

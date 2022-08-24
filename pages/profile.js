@@ -46,11 +46,15 @@ const Profile = () => {
 					{user && (
 						<>
 							<div className='text-2xl font-semibold'>{user.user.username}</div>
-							<div>
-								Balance:{" "}
-								<span className='font-semibold text-indigo-500'>{user.user.balance}</span>
-							</div>
 
+							<div>
+								Premium:{" "}
+								{user.premium ? (
+									<span className='font-semibold text-green-500'>Yes</span>
+								) : (
+									<span className='font-semibold text-rose-600'>No</span>
+								)}
+							</div>
 							<div>
 								Created:{" "}
 								<span className='font-semibold text-indigo-500'>
@@ -64,14 +68,6 @@ const Profile = () => {
 								User ID:{" "}
 								<span className='font-semibold text-indigo-500'>{user.user.id}</span>
 							</div>
-							<div>
-								Premium:{" "}
-								{user.premium ? (
-									<span className='font-semibold text-green-500'>Yes</span>
-								) : (
-									<span className='font-semibold text-rose-600'>No</span>
-								)}
-							</div>
 
 							{user.user.ethAddress && (
 								<div>
@@ -82,9 +78,9 @@ const Profile = () => {
 								</div>
 							)}
 
-							{user.user.verifiedPhone ? (
+							{user.user.kycCompleted ? (
 								<div className='flex'>
-									<span>Phone number verified</span>
+									<span>KYC completed</span>
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										width='24'
@@ -96,7 +92,7 @@ const Profile = () => {
 								</div>
 							) : (
 								<div className='flex'>
-									<span>Phone number not verified</span>
+									<span>KYC not completed</span>
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										width='24'

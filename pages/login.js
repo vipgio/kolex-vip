@@ -8,12 +8,14 @@ const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [codeEnabled, setCodeEnabled] = useState(false);
+	const [code, setCode] = useState("");
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const { data } = await axios.post("/api/login", { email, password });
+			const { data } = await axios.post("/api/login", { email, password, code });
 			if (data.success) {
 				const whitelist = await axios.get(
 					`/api/whitelist?username=${data.data.user.username}`
@@ -24,9 +26,16 @@ const Login = () => {
 					: setUser({ ...data.data, premium: false });
 			}
 		} catch (err) {
-			toast.error(err.response.data.error, {
-				toastId: err.response.data.errorCode,
-			});
+			if (!codeEnabled && err.response.data.errorCode === "2fa_invalid") {
+				setCodeEnabled(true);
+				toast.warning("Enter your 2FA code", {
+					toastId: err.response.data.errorCode,
+				});
+			} else {
+				toast.error(err.response.data.error, {
+					toastId: err.response.data.errorCode,
+				});
+			}
 			setLoading(false);
 		}
 	};
@@ -69,6 +78,20 @@ const Login = () => {
 						disabled={loading}
 						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 					/>
+
+					{codeEnabled && (
+						<input
+							type='text'
+							name='2fa'
+							placeholder='Two Factor Authentication'
+							value={code}
+							// required={true}
+							onChange={(e) => setCode(e.target.value)}
+							// autoComplete='current-password'
+							disabled={loading}
+							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+						/>
+					)}
 					<button
 						type='submit'
 						disabled={loading}

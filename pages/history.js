@@ -13,10 +13,12 @@ const History = () => {
 	const { user, loading, setLoading } = useContext(UserContext);
 	const [cardId, setCardId] = useState("");
 	const [history, setHistory] = useState([]);
+	const [templateIds, setTemplateIds] = useState([]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
+		setHistory([]);
 
 		const inputList = uniq(
 			cardId
@@ -25,7 +27,6 @@ const History = () => {
 				.filter((item) => item !== "") // remove empty items
 				.filter((id) => !isNaN(id)) // remove non-numbers
 		);
-		setHistory([]);
 		if (inputList.length > 0) {
 			inputList.forEach(async (cardId) => {
 				try {
@@ -34,14 +35,24 @@ const History = () => {
 							jwt: user.jwt,
 						},
 					});
+					setTemplateIds((prev) => [...prev, data.data.cardTemplateId]);
 					setHistory((prev) => [...prev, data.data]);
 					setLoading(false);
+					console.log(templateIds);
 				} catch (err) {
 					setLoading(false);
 					toast.error(`${err.response.data.error} ${cardId}`, {
 						toastId: cardId,
 					});
 				}
+			});
+			const { data: templates } = await axios.get(`/api/cards/templates`, {
+				params: {
+					cardIds: templateIds.toString(),
+				},
+				headers: {
+					jwt: user.jwt,
+				},
 			});
 		} else {
 			toast.error("Please enter a valid input", {

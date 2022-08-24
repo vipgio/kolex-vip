@@ -9,10 +9,13 @@ export default async function handler(req, res) {
 	}
 	try {
 		const login = async (auth) => {
-			return http("https://api.epics.gg/api/v1/auth/login", {
-				method: "POST",
-				data: auth,
-			});
+			return http(
+				`https://api.epics.gg/api/v1/auth/${auth.code.length > 0 ? "2fa/" : ""}login`,
+				{
+					method: "POST",
+					data: auth,
+				}
+			);
 		};
 		const { data } = await login(req.body);
 

@@ -23,7 +23,7 @@ const CardHistory = React.memo(
 								{item.mintNumber}{" "}
 							</span>
 							<span>
-								{item.cardTemplate.title}: {item.id}
+								{item.cardTemplateId}: {item.id}
 							</span>
 						</div>
 
@@ -128,7 +128,7 @@ const CardHistory = React.memo(
 													purchased the item from{" "}
 													<span className='text-red-400'>{event.sender.username} </span>
 													for <span>{event.value} </span>
-													coins.
+													<span>{event.costType === "USD" ? "USD. " : "coins. "}</span>
 													<span className='text-gray-500'>
 														{event.created.replace("T", " ").split(".")[0]}
 													</span>
