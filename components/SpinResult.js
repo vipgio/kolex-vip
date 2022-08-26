@@ -1,4 +1,5 @@
 const SpinResult = ({ result, info }) => {
+	console.log(result);
 	return (
 		<div>
 			{result.data.cards.length > 0 ? (
@@ -8,9 +9,7 @@ const SpinResult = ({ result, info }) => {
 						{result.data.cards[0].mintBatch}
 						{result.data.cards[0].mintNumber}{" "}
 					</span>
-					<span className='text-indigo-300'>
-						{result.data.cards[0].cardTemplate.title}{" "}
-					</span>
+					<span className='text-indigo-300'>{result.title} </span>
 					at {result.time.toLocaleString()}
 				</div>
 			) : (

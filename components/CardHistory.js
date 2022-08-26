@@ -3,19 +3,22 @@ import Image from "next/future/image";
 import isEqual from "lodash/isEqual";
 const CardHistory = React.memo(
 	({ item }) => {
+		console.log(item);
 		return (
 			<>
 				<div className='m-5 flex basis-3/4 items-start border border-gray-300 p-2 lg:basis-[calc(50%_-_40px)]'>
-					<div className='mr-2 min-w-fit'>
-						<Image
-							src={item.images.size402}
-							alt={item.id}
-							width={50 * 1.5}
-							height={75 * 1.5}
-							quality={100}
-							className='h-full w-full object-cover'
-						/>
-					</div>
+					{item.images.size402 && (
+						<div className='mr-2 min-w-fit'>
+							<Image
+								src={item.template.images.size402}
+								alt={item.id}
+								width={50 * 1.5}
+								height={75 * 1.5}
+								quality={100}
+								className='h-full w-full object-cover'
+							/>
+						</div>
+					)}
 					<div>
 						<div className='mb-2 w-full border-b text-gray-300'>
 							<span className='text-orange-400'>
@@ -23,7 +26,7 @@ const CardHistory = React.memo(
 								{item.mintNumber}{" "}
 							</span>
 							<span>
-								{item.cardTemplateId}: {item.id}
+								{item.template?.title}: {item.id}
 							</span>
 						</div>
 

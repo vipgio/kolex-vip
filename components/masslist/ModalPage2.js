@@ -46,6 +46,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					toast.success("Listed items on the market!", {
 						toastId: "success",
 					});
+					updateLocal();
 				}
 			} catch (err) {
 				toast.error(err.response.data.error, {
@@ -54,7 +55,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				setLoading(false);
 			}
 		});
-		updateLocal();
 	};
 
 	const open = async () => {
@@ -68,8 +68,10 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				};
 				const { data } = await axios.post(`/api/pack/open/${packId}`, null, headers);
 				setLoading(false);
-				if (data.success)
+				if (data.success) {
 					setOpenedCards((prev) => [...prev, ...data.data.cards, ...data.data.stickers]);
+					updateLocal();
+				}
 			} catch (err) {
 				toast.error(err.response.data.error, {
 					toastId: err.response.data.errorCode,
@@ -77,7 +79,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 			}
 		});
 		setLoading(false);
-		updateLocal();
 	};
 
 	return (

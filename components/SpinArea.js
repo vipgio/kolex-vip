@@ -1,8 +1,11 @@
 import { useContext, useEffect, useState, useCallback } from "react";
-import { UserContext } from "../context/UserContext";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { UserContext } from "context/UserContext";
 import SpinResult from "./SpinResult";
 
 const SpinArea = ({ info }) => {
+	const router = useRouter();
 	const { buySpin, spin, getFunds, user } = useContext(UserContext);
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
@@ -12,6 +15,7 @@ const SpinArea = ({ info }) => {
 		epicoins: 0,
 		silvercoins: 0,
 	});
+
 	const getBalance = useCallback(async () => {
 		if (user) {
 			const allFunds = await getFunds();
@@ -20,37 +24,59 @@ const SpinArea = ({ info }) => {
 			}
 		}
 	}, [user]);
+
 	useEffect(() => {
 		getBalance();
 	}, [user, getBalance]);
 
-	useEffect(() => {
-		getBalance();
-	}, [getBalance]);
-
 	const doSpin = async () => {
 		const buySpinRes = await buySpin();
 		if (buySpinRes.data.success) {
-			const spinResult = await spin(info.id);
-			setSpinRes((prev) => [{ ...spinResult.data, time: new Date() }, ...prev]);
+			const { data: spinResult } = await spin(info.id);
+			console.log(spinResult);
+			if (spinResult.data.cards.length > 0) {
+				const { data: templates } = await axios.get(`/api/cards/templates`, {
+					params: {
+						cardIds: spinResult.data.cards[0].cardTemplateId,
+					},
+					headers: {
+						jwt: user.jwt,
+					},
+				});
+				setSpinRes((prev) => [
+					{ ...spinResult, time: new Date(), title: templates.data[0].title },
+					...prev,
+				]);
+			} else {
+				setSpinRes((prev) => [{ ...spinResult, time: new Date() }, ...prev]);
+			}
 		}
 	};
 
 	const startSpin = () => {
 		setSpinActive(true);
-		doSpin();
+		// doSpin();
+		// getBalance();
 		setIntervalId(
 			setInterval(() => {
-				doSpin();
-				getBalance();
-			}, 5 * 1000)
+				// doSpin();
+				// getBalance();
+				console.log("hi", intervalId);
+			}, 3 * 1000)
 		);
 	};
 
-	const stopSpin = () => {
+	const stopSpin = async () => {
 		setSpinActive(false);
 		clearInterval(intervalId);
 	};
+
+	useEffect(() => {
+		return () => {
+			console.log("stopped");
+			stopSpin();
+		};
+	}, []);
 
 	return (
 		<>
@@ -99,9 +125,7 @@ const SpinArea = ({ info }) => {
 
 				<div className='max-h-96 min-h-[20rem] overflow-auto'>
 					{info.id &&
-						spinRes.map((res, index) => (
-							<SpinResult result={res} info={info} key={index} />
-						))}
+						spinRes.map((res) => <SpinResult result={res} info={info} key={res.time} />)}
 				</div>
 			</div>
 		</>
