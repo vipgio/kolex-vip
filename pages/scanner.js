@@ -214,14 +214,14 @@ const Scanner = () => {
 							"Scan"
 						)}
 					</button>
-					<div className='text-gray-300'>
+					{/* <div className='text-gray-300'>
 						<Tooltip
 							text={
 								"If there are too many cards in a set, it'll break. There is a hard cap from the site provider and a bad implementation from Kolex; blame the latter."
 							}
 							direction='right'
 						/>
-					</div>
+					</div> */}
 				</div>
 				{!isEmpty(scanResults) && (
 					<div>
