@@ -4,14 +4,14 @@ import groupBy from "lodash/groupBy";
 import isEmpty from "lodash/isEmpty";
 import pickBy from "lodash/pickBy";
 import sortBy from "lodash/sortBy";
-import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "context/UserContext";
-import Dropdown from "@/components/Dropdown";
-import Meta from "@/components/Meta";
-import UserSearch from "@/components/UserSearch";
-import ScanResult from "@/components/scanner/ScanResults";
+import Dropdown from "components/Dropdown";
+import Meta from "components/Meta";
+import UserSearch from "components/UserSearch";
+import ScanResult from "components/scanner/ScanResults";
+import Tooltip from "components/Tooltip";
+import "react-toastify/dist/ReactToastify.css";
 const coreNames = [
 	"Common",
 	"Uncommon",
@@ -33,8 +33,8 @@ const Scanner = () => {
 	const [collections, setCollections] = useState([]);
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [selectedUser, setSelectedUser] = useState(null);
-	const [showSearchSection, setShowSearchSection] = useState(false);
 	const [scanResults, setScanResults] = useState({});
+	const [collectionTemplates, setCollectionTemplates] = useState({});
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -118,7 +118,19 @@ const Scanner = () => {
 			setLoading(false);
 			return data;
 		};
+		const getCollection = async (collectionId) => {
+			setLoading(true);
+			const { data } = await axios.get(`/api/collections/${collectionId}`, {
+				headers: {
+					jwt: user.jwt,
+				},
+			});
+			setLoading(false);
+			return data;
+		};
 		const { data } = await scanUser(selectedUser.id, selectedCollection.collection.id);
+		const { data: templates } = await getCollection(selectedCollection.collection.id);
+		setCollectionTemplates(templates);
 		setScanResults(data);
 	};
 	return (
@@ -137,11 +149,7 @@ const Scanner = () => {
 					draggable
 					pauseOnHover
 				/>
-				<div
-					className={`mt-10 flex ${
-						showSearchSection ? "max-h-96" : "max-h-11"
-					} relative mb-5 overflow-y-hidden rounded-md border border-gray-300 pb-2 transition-all duration-300`}
-				>
+				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-300 pb-2 transition-all duration-300'>
 					<div className='overflow-hidden'>
 						<div className='p-2 px-4 font-semibold text-gray-300'>
 							<span>Selected User: {selectedUser?.username}</span>
@@ -168,34 +176,7 @@ const Scanner = () => {
 							jwt={user.jwt}
 							setSelectedUser={setSelectedUser}
 							selectedUser={selectedUser}
-							setShowSearchSection={setShowSearchSection}
-							disabled={!showSearchSection}
 						/>
-					</div>
-					<div className='absolute right-2 top-2'>
-						{showSearchSection ? (
-							<IoIosArrowDropup
-								className='cursor-pointer text-orange-400 hover:text-orange-500'
-								size={24}
-								onClick={() => setShowSearchSection(false)}
-								tabIndex={0}
-								onKeyDown={(e) =>
-									(e.key === "Enter" || e.key === "ArrowUp") &&
-									setShowSearchSection(false)
-								}
-							/>
-						) : (
-							<IoIosArrowDropdown
-								className='cursor-pointer text-orange-400 hover:text-orange-500'
-								size={24}
-								onClick={() => setShowSearchSection(true)}
-								tabIndex={0}
-								onKeyDown={(e) =>
-									(e.key === "Enter" || e.key === "ArrowDown") &&
-									setShowSearchSection(true)
-								}
-							/>
-						)}
 					</div>
 				</div>
 
@@ -221,7 +202,7 @@ const Scanner = () => {
 						</div>
 					</div>
 				</div>
-				<div className='flex w-full justify-center'>
+				<div className='flex w-full items-center justify-center'>
 					<button
 						className='big-button disabled:cursor-not-allowed'
 						onClick={handleScan}
@@ -233,11 +214,20 @@ const Scanner = () => {
 							"Scan"
 						)}
 					</button>
+					<div className='text-gray-300'>
+						<Tooltip
+							text={
+								"If there are too many cards in a set, it'll break. There is a hard cap from the site provider and a bad implementation from Kolex; blame the latter."
+							}
+							direction='right'
+						/>
+					</div>
 				</div>
 				{!isEmpty(scanResults) && (
 					<div>
 						<ScanResult
 							scanResults={scanResults}
+							templates={collectionTemplates}
 							user={selectedUser}
 							collection={selectedCollection}
 						/>

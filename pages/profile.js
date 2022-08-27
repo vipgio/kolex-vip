@@ -2,11 +2,6 @@ import { useContext } from "react";
 import Image from "next/future/image";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 const Profile = () => {
 	const { user, setUser } = useContext(UserContext);

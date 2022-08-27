@@ -3,7 +3,6 @@ import Image from "next/future/image";
 import isEqual from "lodash/isEqual";
 const CardHistory = React.memo(
 	({ item }) => {
-		console.log(item);
 		return (
 			<>
 				<div className='m-5 flex basis-3/4 items-start border border-gray-300 p-2 lg:basis-[calc(50%_-_40px)]'>

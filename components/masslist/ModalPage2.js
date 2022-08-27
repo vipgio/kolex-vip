@@ -32,7 +32,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				const payload = {
 					data: {
 						price: price,
-						minOffer: offerEnabled ? minOffer : null,
+						minOffer: offerEnabled ? minOffer.toString() : null,
 					},
 				};
 				const headers = {
@@ -59,7 +59,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 
 	const open = async () => {
 		setLoading(true);
-		selected.forEach(async (packId, index) => {
+		selected.forEach(async (packId) => {
 			try {
 				const headers = {
 					headers: {
@@ -142,8 +142,8 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							</div>
 							<input
 								type='number'
-								name='minOffer'
-								id='minOffer'
+								name='minOfferPrice'
+								id='minOfferPrice'
 								value={minOffer}
 								disabled={!offerEnabled}
 								className='input-field w-28 disabled:cursor-not-allowed'
@@ -151,9 +151,8 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 								max={price - 0.01}
 								onChange={(e) => setMinOffer(e.target.value)} // remove leading zeros and non-numeric characters
 								onBlur={(e) => {
-									if (Number(e.target.value) > Number(price)) {
-										console.log("bigger than price");
-										setMinOffer(price - 1);
+									if (Number(e.target.value) >= Number(price)) {
+										setMinOffer(price - 0.01);
 									}
 								}}
 								onFocus={(e) => e.target.select()}
@@ -163,7 +162,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							<button
 								onClick={list}
 								className='big-button mt-2 disabled:cursor-not-allowed disabled:opacity-50'
-								disabled={loading}
+								disabled={loading || selected.length === 0}
 							>
 								{loading ? (
 									<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
@@ -182,15 +181,8 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							onClick={open}
 							disabled={loading || selected.length === 0}
 						>
-							Open all Packs
+							Open selected Packs
 						</button>
-						{/* <div className='text-gray-300'>
-							{loading ? (
-								<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
-							) : (
-								"Open all Packs"
-							)}
-						</div> */}
 					</div>
 					<div className='m-2 flex flex-1 flex-col overflow-auto'>
 						{openedCards.length > 0 && (

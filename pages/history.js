@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { BsQuestionCircle } from "react-icons/bs";
 import uniq from "lodash/uniq";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "context/UserContext";
@@ -69,7 +68,6 @@ const History = () => {
 					}
 				})
 			);
-			console.log(`All history complete!`);
 			const { data } = await axios.get(`/api/cards/templates`, {
 				params: {
 					cardIds: uniq(templateIds).toString(),
@@ -104,15 +102,12 @@ const History = () => {
 			<div className='mt-10 mb-10 flex flex-col items-center'>
 				<div className='flex h-full w-full items-start justify-center pt-10'>
 					<form className='flex flex-col items-center space-y-2' onSubmit={handleSubmit}>
-						<label htmlFor='card-id' className={`flex items-center text-gray-300`}>
+						<label htmlFor='card-id' className='flex items-center text-gray-300'>
 							Enter card IDs
-							<div className='group relative ml-2 hidden opacity-20 transition-opacity duration-300 hover:opacity-100 sm:block'>
-								<BsQuestionCircle />
-								<Tooltip
-									text='Enter a list of card IDs, separated with commas, to see their history. You can use any tool to find the card Id or use the scanner in the app.'
-									direction='right'
-								/>
-							</div>
+							<Tooltip
+								text='Enter a list of card IDs, separated with commas, to see their history. You can use any tool to find the card Id or use the scanner in the app.'
+								direction='right'
+							/>
 						</label>
 						<input
 							type='text'

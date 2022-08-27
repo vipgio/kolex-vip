@@ -33,19 +33,9 @@ const UserContextProvider = (props) => {
 		setInitialLoading(false);
 	}, [user]);
 
-	const login = async (auth) => {
-		return http("https://api.epics.gg/api/v1/auth/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: JSON.stringify(auth),
-		});
-	};
-
 	const getCardCirc = async (collectionId) => {
 		return http(
-			`https://api.epics.gg/api/v1/collections/${collectionId}/card-templates?categoryId=1`,
+			`https://api.kolex.gg/api/v1/collections/${collectionId}/card-templates?categoryId=1`,
 			{
 				method: "GET",
 				headers: {
@@ -57,7 +47,7 @@ const UserContextProvider = (props) => {
 	};
 	const getStickerCirc = async (collectionId) => {
 		return http(
-			`https://api.epics.gg/api/v1/collections/${collectionId}/sticker-templates?categoryId=1`,
+			`https://api.kolex.gg/api/v1/collections/${collectionId}/sticker-templates?categoryId=1`,
 			{
 				method: "GET",
 				headers: {
@@ -70,7 +60,7 @@ const UserContextProvider = (props) => {
 
 	const getCollections = async () => {
 		return http(
-			`https://api.epics.gg/api/v1/collections/users/${user.user.id}/user-summary?categoryId=1`,
+			`https://api.kolex.gg/api/v1/collections/users/${user.user.id}/user-summary?categoryId=1`,
 			{
 				method: "GET",
 				headers: {
@@ -82,7 +72,7 @@ const UserContextProvider = (props) => {
 	};
 
 	const getPacks = async (page) => {
-		return http(`https://api.epics.gg/api/v1/packs?page=${page}&categoryId=1`, {
+		return http(`https://api.kolex.gg/api/v1/packs?page=${page}&categoryId=1`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -92,7 +82,7 @@ const UserContextProvider = (props) => {
 	};
 
 	const userPacks = async (page) => {
-		return http(`https://api.epics.gg/api/v1/packs/user?page=${page}&categoryId=1`, {
+		return http(`https://api.kolex.gg/api/v1/packs/user?page=${page}&categoryId=1`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -102,7 +92,7 @@ const UserContextProvider = (props) => {
 	};
 
 	const spinnerOdds = async () => {
-		return http(`https://api.epics.gg/api/v1/spinner?categoryId=1`, {
+		return http(`https://api.kolex.gg/api/v1/spinner?categoryId=1`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -112,7 +102,7 @@ const UserContextProvider = (props) => {
 	};
 
 	const buySpin = async () => {
-		return http(`https://api.epics.gg/api/v1/spinner/buy-spin?categoryId=1`, {
+		return http(`https://api.kolex.gg/api/v1/spinner/buy-spin?categoryId=1`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -125,7 +115,7 @@ const UserContextProvider = (props) => {
 	};
 
 	const spin = async (id) => {
-		return http(`https://api.epics.gg/api/v1/spinner/spin?categoryId=1`, {
+		return http(`https://api.kolex.gg/api/v1/spinner/spin?categoryId=1`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -138,7 +128,7 @@ const UserContextProvider = (props) => {
 	};
 
 	const getFunds = async () => {
-		return http(`https://api.epics.gg/api/v1/user/funds?categoryId=1`, {
+		return http(`https://api.kolex.gg/api/v1/user/funds?categoryId=1`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -154,7 +144,6 @@ const UserContextProvider = (props) => {
 				setUser,
 				loading,
 				setLoading,
-				login,
 				getCardCirc,
 				getStickerCirc,
 				getCollections,

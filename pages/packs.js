@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from "react";
-import { BsQuestionCircle } from "react-icons/bs";
 import { UserContext } from "../context/UserContext";
 import Meta from "../components/Meta";
 import PackResults from "../components/PackResults";
@@ -78,17 +77,10 @@ const PackSearch = () => {
 							user.premium ? "flex-row-reverse" : ""
 						}`}
 					>
-						<div
-							className={`group relative ${
-								user.premium ? "ml-2" : "mr-2"
-							} hidden opacity-20 transition-opacity duration-300 hover:opacity-100 sm:block`}
-						>
-							<BsQuestionCircle />
-							<Tooltip
-								text='If your input is a number only, it will search for pack id. If there is any other text in it, it will search for pack name; ignoring lowercase, uppercase and colon.'
-								direction={`${user.premium ? "right" : "left"}`}
-							/>
-						</div>
+						<Tooltip
+							text='If your input is a number only, it will search for pack id. If there is any other text in it, it will search for pack name; ignoring lowercase, uppercase and colon.'
+							direction='right'
+						/>
 						Enter pack ID or pack name
 					</label>
 					<input

@@ -1,3 +1,4 @@
+import { BsQuestionCircle } from "react-icons/bs";
 const Tooltip = ({ direction, text }) => {
 	const extra = "";
 	// create a switch case for direction
@@ -11,6 +12,15 @@ const Tooltip = ({ direction, text }) => {
 			break;
 	}
 
-	return <div className={`tooltip ${extra}`}>{text}</div>;
+	return (
+		<div
+			className={`group relative hidden opacity-30 transition-opacity duration-300 hover:opacity-100 sm:block ${
+				direction === "right" ? "ml-2" : "mr-2"
+			}`}
+		>
+			<BsQuestionCircle />
+			<div className={`tooltip ${extra}`}>{text}</div>
+		</div>
+	);
 };
 export default Tooltip;

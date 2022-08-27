@@ -1,6 +1,5 @@
 import Image from "next/future/image";
 import Tooltip from "../Tooltip";
-import { BsQuestionCircle } from "react-icons/bs";
 const PackSelection = ({
 	packTemplate,
 	marketInfo,
@@ -37,14 +36,30 @@ const PackSelection = ({
 								<>
 									<div className='flex'>
 										Market floor:{" "}
+										<span className='ml-1 text-orange-400'>
+											{marketInfo.market[0][0].price}
+										</span>
+										<span className='ml-1 text-gray-300 hover:no-underline'>USD</span>
 										<a
-											href={`https://app.epics.gg/csgo/marketplace/pack/${packTemplate.id}`}
-											className='ml-1 flex items-center text-orange-400 hover:underline'
+											href={`https://kolex.gg/csgo/marketplace/pack/${packTemplate.id}`}
+											className='ml-1 flex items-center'
 											target='_blank'
 											rel='noreferrer'
 										>
-											{marketInfo.market[0][0].price}
-											<span className='ml-1 text-gray-300'>USD</span>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												className='h-4 w-4'
+												fill='none'
+												viewBox='0 0 24 24'
+												stroke='currentColor'
+												strokeWidth={1}
+											>
+												<path
+													strokeLinecap='round'
+													strokeLinejoin='round'
+													d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
+												/>
+											</svg>
 										</a>
 									</div>
 									<div></div>
@@ -68,8 +83,8 @@ const PackSelection = ({
 								{marketInfo.recentSales.slice(0, 4).map((sale) => (
 									<div className='flex border-b border-gray-600' key={sale.updated}>
 										<span className='text-orange-400'>{sale.price} </span>
-										<span className='ml-1 mr-16'>USD</span>
-										<span className='ml-auto mr-2'>
+										<span className='ml-1 sm:mr-16'>USD</span>
+										<span className='ml-auto sm:mr-2'>
 											{sale.updated.split("T")[0]}
 											{/* {" - "} */}
 											{/* {sale.updated.split("T")[1].split(".")[0]} */}
@@ -87,7 +102,7 @@ const PackSelection = ({
 						onClick={() => setSelected(packTemplate.packs.map((pack) => pack.id))}
 						className='m-1 cursor-pointer rounded-md border border-gray-200 p-1 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
 					>
-						Select All
+						Select All ({packTemplate.packs.length})
 					</button>
 					<button
 						onClick={() => setSelected([])}
@@ -119,13 +134,10 @@ const PackSelection = ({
 								onFocus={(e) => e.target.select()}
 							/>
 						</form>
-						<div className='group relative ml-1 hidden opacity-20 transition-opacity duration-300 hover:opacity-100 sm:block'>
-							<BsQuestionCircle />
-							<Tooltip
-								text='Must be bigger than 0. Consecutive packs, starting from the oldest minted pack'
-								direction='right'
-							/>
-						</div>
+						<Tooltip
+							text='Must be bigger than 0. Consecutive packs, starting from the oldest minted pack'
+							direction='right'
+						/>
 					</div>
 				</div>
 				<div className='overflow-auto overscroll-contain border-t border-b border-gray-500'>

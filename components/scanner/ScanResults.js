@@ -9,25 +9,28 @@ import CompactList from "./CompactList";
 import FullList from "./FullList";
 
 const ScanResult = React.memo(
-	({ scanResults, user, collection }) => {
+	({ scanResults, user, collection, templates }) => {
 		const strippedResults = [...scanResults.cards, ...scanResults.stickers].map(
 			(result) => {
 				return {
 					mintBatch: result.mintBatch,
 					mintNumber: result.mintNumber,
-					title: result.cardTemplate
-						? result.cardTemplate.title
-						: result.stickerTemplate.title,
+					title:
+						result.type === "card"
+							? templates.filter((template) => template.id === result.cardTemplateId)[0]
+									.title
+							: result.stickerTemplate.title,
 					id: result.id,
-					inCirculation: result.cardTemplate
-						? result.cardTemplate.inCirculation
-						: result.stickerTemplate.inCirculation,
+					inCirculation:
+						result.type === "card"
+							? templates.filter((template) => template.id === result.cardTemplateId)[0]
+									.inCirculation
+							: result.stickerTemplate.inCirculation,
 					rating: result.rating,
 					status: result.status,
 					signed: result.signatureImage ? true : false,
-					templateId: result.cardTemplate
-						? result.cardTemplate.id
-						: result.stickerTemplate.id,
+					templateId:
+						result.type === "card" ? result.cardTemplateId : result.stickerTemplate.id,
 				};
 			}
 		);
@@ -89,7 +92,7 @@ const ScanResult = React.memo(
 							<option value='second'>Second set</option>
 							<option value='compact'>Compact</option>
 						</select>
-						{filterMethod !== "compact" && (
+						{filterMethod !== "compact" && user && (
 							<div className='ml-auto'>
 								<ExportButton
 									filename={`${user.username} - ${collection.collection.properties.seasons[0]} - ${collection.collection.properties.tiers[0]} - ${collection.collection.name}`}

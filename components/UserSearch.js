@@ -4,13 +4,7 @@ import axios from "axios";
 import debounce from "lodash/debounce";
 import { CDN } from "@/config/config";
 import { useEffect } from "react";
-const UserSearch = ({
-	jwt,
-	setSelectedUser,
-	selectedUser,
-	setShowSearchSection,
-	disabled,
-}) => {
+const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 	const [loading, setLoading] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [results, setResults] = useState([]);
@@ -52,7 +46,6 @@ const UserSearch = ({
 					className='input-field m-2 disabled:cursor-not-allowed disabled:opacity-50'
 					disabled={loading}
 					placeholder='Search for a user'
-					tabIndex={disabled ? -1 : 0}
 				/>
 			</form>
 			{searchQuery.length > 1 && (
@@ -65,7 +58,8 @@ const UserSearch = ({
 							key={result.id}
 							onClick={() => {
 								setSelectedUser(result);
-								setShowSearchSection(false);
+								setSearchQuery("");
+								setResults([]);
 							}}
 						>
 							<div className='relative h-16 w-16 overflow-hidden rounded-full border'>

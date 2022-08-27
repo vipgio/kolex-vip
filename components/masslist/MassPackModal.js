@@ -74,6 +74,7 @@ const MassPackModal = ({ packTemplate, setShowModal }) => {
 							packTemplate={packTemplate}
 							action={action}
 							setAction={setAction}
+							setPage={setPage}
 							CDN={CDN}
 						/>
 					)}
