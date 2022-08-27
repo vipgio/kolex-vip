@@ -1,5 +1,4 @@
-const SpinResult = ({ result, info }) => {
-	console.log(result);
+const SpinResult = ({ result, spinnerInfo }) => {
 	return (
 		<div>
 			{result.data.cards.length > 0 ? (
@@ -13,7 +12,7 @@ const SpinResult = ({ result, info }) => {
 					at {result.time.toLocaleString()}
 				</div>
 			) : (
-				info.items
+				spinnerInfo.items
 					.filter((item) => item.id === result.data.id)
 					.map((reward) => (
 						<div className='text-gray-300' key={`${result.time}-${reward.name}`}>

@@ -10,7 +10,9 @@ const CardHistory = React.memo(
 					{item.images.size402 && (
 						<div className='mr-2 min-w-fit'>
 							<Image
-								src={item.template.images.size402}
+								src={
+									item.images.size402 ? item.images.size402 : item.template.images.size402
+								}
 								alt={item.id}
 								width={50 * 1.5}
 								height={75 * 1.5}

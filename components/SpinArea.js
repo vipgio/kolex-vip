@@ -1,15 +1,13 @@
-import { useContext, useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/router";
+import { useContext, useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { UserContext } from "context/UserContext";
 import SpinResult from "./SpinResult";
 
 const SpinArea = ({ info }) => {
-	const router = useRouter();
+	const intervalRef = useRef();
 	const { buySpin, spin, getFunds, user } = useContext(UserContext);
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
-	const [intervalId, setIntervalId] = useState(null);
 	const [funds, setFunds] = useState({
 		craftingcoins: 0,
 		epicoins: 0,
@@ -33,7 +31,6 @@ const SpinArea = ({ info }) => {
 		const buySpinRes = await buySpin();
 		if (buySpinRes.data.success) {
 			const { data: spinResult } = await spin(info.id);
-			console.log(spinResult);
 			if (spinResult.data.cards.length > 0) {
 				const { data: templates } = await axios.get(`/api/cards/templates`, {
 					params: {
@@ -55,25 +52,23 @@ const SpinArea = ({ info }) => {
 
 	const startSpin = () => {
 		setSpinActive(true);
-		// doSpin();
-		// getBalance();
-		setIntervalId(
-			setInterval(() => {
-				// doSpin();
-				// getBalance();
-				console.log("hi", intervalId);
-			}, 3 * 1000)
-		);
+		doSpin();
+		getBalance();
+		const id = setInterval(() => {
+			doSpin();
+			getBalance();
+		}, 6 * 1000);
+		intervalRef.current = id;
 	};
 
-	const stopSpin = async () => {
+	const stopSpin = () => {
 		setSpinActive(false);
-		clearInterval(intervalId);
+		clearInterval(intervalRef.current);
 	};
 
 	useEffect(() => {
 		return () => {
-			console.log("stopped");
+			console.log("Spinner stopped");
 			stopSpin();
 		};
 	}, []);
@@ -125,7 +120,9 @@ const SpinArea = ({ info }) => {
 
 				<div className='max-h-96 min-h-[20rem] overflow-auto'>
 					{info.id &&
-						spinRes.map((res) => <SpinResult result={res} info={info} key={res.time} />)}
+						spinRes.map((res) => (
+							<SpinResult result={res} spinnerInfo={info} key={res.time} />
+						))}
 				</div>
 			</div>
 		</>
