@@ -1,9 +1,9 @@
 import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import MassPackGrid from "../components/masslist/MassPackGrid";
 import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
-import Meta from "../components/Meta";
+import { UserContext } from "context/UserContext";
+import Meta from "components/Meta";
+import MassPackGrid from "components/masslist/MassPackGrid";
 
 const Masslist = () => {
 	const { userPacks, setLoading, loading, user } = useContext(UserContext);

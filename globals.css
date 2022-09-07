@@ -16,7 +16,7 @@ body {
 }
 
 .indicator {
-	@apply pointer-events-none absolute top-3 h-16 w-16 rounded-full border-4 border-gray-700 bg-orange-400 transition-all duration-500;
+	@apply pointer-events-none absolute top-3 h-12 w-12 rounded-full border-4 border-gray-700 bg-orange-400 transition-all duration-500;
 }
 
 .tooltip {

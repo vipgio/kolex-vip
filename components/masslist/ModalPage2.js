@@ -59,6 +59,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 
 	const open = async () => {
 		setLoading(true);
+		const templateIds = [];
 		selected.forEach(async (packId) => {
 			try {
 				const headers = {

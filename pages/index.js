@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "context/UserContext";
 import Login from "./login";
 import Profile from "./profile";
-import Meta from "../components/Meta";
+import Meta from "components/Meta";
 
 const Index = () => {
 	const { user } = useContext(UserContext);

@@ -1,94 +1,22 @@
 import { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import groupBy from "lodash/groupBy";
 import isEmpty from "lodash/isEmpty";
-import pickBy from "lodash/pickBy";
-import sortBy from "lodash/sortBy";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "context/UserContext";
-import Dropdown from "components/Dropdown";
 import Meta from "components/Meta";
 import UserSearch from "components/UserSearch";
 import ScanResult from "components/scanner/ScanResults";
 import Tooltip from "components/Tooltip";
 import "react-toastify/dist/ReactToastify.css";
-const coreNames = [
-	"Common",
-	"Uncommon",
-	"Rare",
-	"Epic",
-	"Legendary",
-	"Roles",
-	"Mastery Roles",
-	"Legendary Roles",
-	"Tier 1 Superior",
-	"Tier 2 Epic",
-	"Tier 3 Legendary",
-	"Pinnacle",
-	"Signature Series",
-];
-const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022"];
+import SetSelector from "HOC/SetSelector";
+
 const Scanner = () => {
-	const { getCollections, user } = useContext(UserContext);
-	const [collections, setCollections] = useState([]);
+	const { user } = useContext(UserContext);
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [scanResults, setScanResults] = useState({});
 	const [collectionTemplates, setCollectionTemplates] = useState({});
 	const [loading, setLoading] = useState(false);
-
-	useEffect(() => {
-		const groupCollections = async () => {
-			const { data } = await getCollections();
-			const grouped = groupBy(data.data, (col) => col.collection.properties.seasons[0]);
-			Object.entries(grouped).forEach(([season, seasonCollections]) => {
-				const coreGrouped = groupBy(
-					pickBy(
-						seasonCollections,
-						(col) =>
-							coreNames.includes(col.collection.properties.tiers[0]) &&
-							!col.collection.physical
-					),
-					(col) => col.collection.properties.tiers[0]
-				);
-
-				const eventsGrouped = groupBy(
-					pickBy(
-						seasonCollections,
-						(col) => col.collection.properties.types[0] === "event_primary"
-					),
-					(col) => col.collection.properties.tiers[0]
-				);
-
-				const nonEventsGrouped = groupBy(
-					pickBy(
-						seasonCollections,
-						(col) =>
-							col.collection.properties.types[0] !== "event_primary" &&
-							!coreNames.includes(col.collection.properties.tiers[0])
-					),
-					(col) => col.collection.properties.tiers[0]
-				);
-				setCollections((prev) => [
-					...prev,
-					[
-						season,
-						isEmpty(eventsGrouped)
-							? Object.entries({
-									Core: [...Object.entries(coreGrouped)],
-									...nonEventsGrouped,
-							  })
-							: Object.entries({
-									Events: [...Object.entries(eventsGrouped)],
-									Core: [...Object.entries(coreGrouped)],
-									...nonEventsGrouped,
-							  }),
-					],
-				]);
-			});
-		};
-		groupCollections();
-	}, []);
 
 	const handleScan = async () => {
 		if (!selectedUser) {
@@ -195,10 +123,7 @@ const Scanner = () => {
 						</div>
 
 						<div tabIndex={-1}>
-							<Dropdown
-								collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
-								setSelectedCollection={setSelectedCollection}
-							/>
+							<SetSelector setSelectedCollection={setSelectedCollection} />
 						</div>
 					</div>
 				</div>

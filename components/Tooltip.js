@@ -1,6 +1,6 @@
 import { BsQuestionCircle } from "react-icons/bs";
 const Tooltip = ({ direction, text }) => {
-	const extra = "";
+	let extra = "";
 	// create a switch case for direction
 	switch (direction) {
 		case "left":

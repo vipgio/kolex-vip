@@ -1,87 +1,13 @@
-import { useContext, useState, useEffect } from "react";
-import isEmpty from "lodash/isEmpty";
-import groupBy from "lodash/groupBy";
-import pickBy from "lodash/pickBy";
-import sortBy from "lodash/sortBy";
+import { useContext, useState } from "react";
 import { UserContext } from "context/UserContext";
 import Meta from "@/components/Meta";
 import CircList from "@/components/CircList";
-import Dropdown from "@/components/Dropdown";
-const coreNames = [
-	"Common",
-	"Uncommon",
-	"Rare",
-	"Epic",
-	"Legendary",
-	"Roles",
-	"Mastery Roles",
-	"Legendary Roles",
-	"Tier 1 Superior",
-	"Tier 2 Epic",
-	"Tier 3 Legendary",
-	"Pinnacle",
-	"Signature Series",
-];
-const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022"];
+import SetSelector from "HOC/SetSelector";
+
 const Circulation = () => {
-	const { getCardCirc, getStickerCirc, getCollections, loading, setLoading } =
-		useContext(UserContext);
+	const { getCardCirc, getStickerCirc, loading, setLoading } = useContext(UserContext);
 	const [collection, setCollection] = useState({ info: {}, items: [] });
-	const [collections, setCollections] = useState([]);
 	const [selectedCollection, setSelectedCollection] = useState(null);
-
-	useEffect(() => {
-		const groupCollections = async () => {
-			const { data } = await getCollections();
-			const grouped = groupBy(data.data, (col) => col.collection.properties.seasons[0]);
-			Object.entries(grouped).forEach(([season, seasonCollections]) => {
-				const coreGrouped = groupBy(
-					pickBy(
-						seasonCollections,
-						(col) =>
-							coreNames.includes(col.collection.properties.tiers[0]) &&
-							!col.collection.physical
-					),
-					(col) => col.collection.properties.tiers[0]
-				);
-
-				const eventsGrouped = groupBy(
-					pickBy(
-						seasonCollections,
-						(col) => col.collection.properties.types[0] === "event_primary"
-					),
-					(col) => col.collection.properties.tiers[0]
-				);
-
-				const nonEventsGrouped = groupBy(
-					pickBy(
-						seasonCollections,
-						(col) =>
-							col.collection.properties.types[0] !== "event_primary" &&
-							!coreNames.includes(col.collection.properties.tiers[0])
-					),
-					(col) => col.collection.properties.tiers[0]
-				);
-				setCollections((prev) => [
-					...prev,
-					[
-						season,
-						isEmpty(eventsGrouped)
-							? Object.entries({
-									Core: [...Object.entries(coreGrouped)],
-									...nonEventsGrouped,
-							  })
-							: Object.entries({
-									Events: [...Object.entries(eventsGrouped)],
-									Core: [...Object.entries(coreGrouped)],
-									...nonEventsGrouped,
-							  }),
-					],
-				]);
-			});
-		};
-		groupCollections();
-	}, []);
 
 	const displayCirc = async () => {
 		setLoading(true);
@@ -118,10 +44,7 @@ const Circulation = () => {
 							</span>
 						)}
 					</div>
-					<Dropdown
-						collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
-						setSelectedCollection={setSelectedCollection}
-					/>
+					<SetSelector setSelectedCollection={setSelectedCollection} />
 					<button
 						type='submit'
 						disabled={loading}

@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../context/UserContext";
+import Tooltip from "@/components/Tooltip";
 
 const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
@@ -99,6 +100,14 @@ const Login = () => {
 					>
 						Login
 					</button>
+					<div className='text-gray-300'>
+						<Tooltip
+							text={
+								"Your password is never stored or sent anywhere. If you have any questions you can either check the source code or contact me on discord vipgio#4884"
+							}
+							direction='right'
+						/>
+					</div>
 				</form>
 			</div>
 		</>

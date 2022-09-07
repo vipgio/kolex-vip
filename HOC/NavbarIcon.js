@@ -25,7 +25,7 @@ const NavbarIcon = ({ name, link, svg }) => {
 						</span>
 						<div
 							className={`h-4 w-4 transition-transform duration-300 hover:scale-125 hover:cursor-pointer ${
-								router.pathname == link && "translate-y-8"
+								router.pathname == link && "translate-y-6"
 							}`}
 						>
 							{svg}

@@ -1,8 +1,8 @@
 import { useContext, useState, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import Meta from "../components/Meta";
-import PackResults from "../components/PackResults";
-import Tooltip from "../components/Tooltip";
+import { UserContext } from "context/UserContext";
+import Meta from "components/Meta";
+import PackResults from "components/PackResults";
+import Tooltip from "components/Tooltip";
 
 const PackSearch = () => {
 	const { getPacks, loading, setLoading, user } = useContext(UserContext);
