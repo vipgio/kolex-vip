@@ -48,7 +48,7 @@ const Scanner = () => {
 		};
 		const getCollection = async (collectionId) => {
 			setLoading(true);
-			const { data } = await axios.get(`/api/collections/${collectionId}`, {
+			const { data } = await axios.get(`/api/collections/cards/${collectionId}`, {
 				headers: {
 					jwt: user.jwt,
 				},

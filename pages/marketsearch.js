@@ -1,9 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { UserContext } from "context/UserContext";
-import Meta from "components/Meta";
 import SetSelector from "HOC/SetSelector";
-import { useEffect } from "react";
+import Meta from "components/Meta";
 import CardGallery from "@/components/Search/CardGallery";
 const Searcher = () => {
 	const { user } = useContext(UserContext);
