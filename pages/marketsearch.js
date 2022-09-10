@@ -72,7 +72,7 @@ const Searcher = () => {
 						<label htmlFor='batch'>Mint Batch: </label>
 						<select
 							id='batch'
-							className='mr-3 w-24 rounded-md border-gray-300 p-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+							className='mb-2 mr-3 w-24 rounded-md border-gray-300 p-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:mb-0'
 							onChange={(e) => setFilter((prev) => ({ ...prev, batch: e.target.value }))}
 						>
 							<option value='A'>A</option>
@@ -89,7 +89,7 @@ const Searcher = () => {
 							name='minMint'
 							id='minMint'
 							min={1}
-							className='mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+							className='mb-2 mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:mb-0'
 							placeholder='Minimum Mint'
 							value={filter.min}
 							onChange={(e) => setFilter((prev) => ({ ...prev, min: e.target.value }))}
@@ -102,7 +102,7 @@ const Searcher = () => {
 							name='maxMint'
 							id='maxMint'
 							min={1}
-							className='mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+							className='mb-2 mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:mb-0'
 							placeholder='Maximum Mint'
 							value={filter.max}
 							onChange={(e) => setFilter((prev) => ({ ...prev, max: e.target.value }))}
@@ -116,7 +116,7 @@ const Searcher = () => {
 							id='maxPrice'
 							min={0.1}
 							step={0.01}
-							className='w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+							className='mb-2 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:mb-0'
 							placeholder='Maximum Price'
 							value={filter.price}
 							onChange={(e) => setFilter((prev) => ({ ...prev, price: e.target.value }))}
@@ -133,6 +133,7 @@ const Searcher = () => {
 						setSelectedCards={setSelectedCards}
 						user={user}
 						filter={filter}
+						selectedCollection={selectedCollection}
 					/>
 				)}
 			</div>

@@ -2,8 +2,8 @@ import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 const MarketResults = ({ setShowResults, results, loading }) => {
 	return (
-		<div className='fixed inset-0 z-20 flex flex-col items-center justify-center bg-black/70'>
-			<div className='absolute inset-0 z-20 my-8 mx-8 flex flex-col overflow-hidden rounded-md bg-gray-900 sm:mx-24'>
+		<div className='fixed inset-0 z-20 flex flex-col items-center justify-center overscroll-none bg-black/90'>
+			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[80vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-900 sm:mx-24'>
 				<div
 					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-800' /*modal header*/
 				>
@@ -110,7 +110,7 @@ const MarketResults = ({ setShowResults, results, loading }) => {
 			</div>
 			<div //fullscreen close button
 				className='fixed z-10 h-screen w-screen'
-				onClick={() => setShowResults(false)}
+				// onClick={() => setShowResults(false)}
 			></div>
 		</div>
 	);

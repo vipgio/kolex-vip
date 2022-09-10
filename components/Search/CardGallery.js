@@ -3,21 +3,95 @@ import { useState } from "react";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
 import MarketResults from "./MarketResults";
+import { FiUser, FiShoppingCart } from "react-icons/fi";
+import MintResults from "./MintResults";
 
-const CardGallery = ({ cards, selectedCards, setSelectedCards, user, filter }) => {
-	const [showResults, setShowResults] = useState(false);
+const CardGallery = ({
+	cards,
+	selectedCards,
+	setSelectedCards,
+	user,
+	filter,
+	selectedCollection,
+}) => {
+	const [showMarketResults, setShowMarketResults] = useState(false);
+	const [showMintResults, setShowMintResults] = useState(false);
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [finished, setFinished] = useState(false);
+
+	const mintSearch = async () => {
+		setResults([]);
+		getAllLeaderboard(1);
+	};
+
+	const getAllLeaderboard = async (firstPage) => {
+		let page = firstPage;
+		try {
+			const data = await getLeaderboard(selectedCollection.collection.id, page);
+			if (data.success && data.data.length > 0) {
+				const users = data.data.map((rank) => ({
+					id: rank.user.id,
+					username: rank.user.username,
+				}));
+				for (const leaderboardUser of users) {
+					try {
+						const { data } = await axios.get(`/api/users/scan`, {
+							params: {
+								collectionId: selectedCollection.collection.id,
+								userId: leaderboardUser.id,
+							},
+							headers: {
+								jwt: user.jwt,
+							},
+						});
+						if (data.success) {
+							const items = [...data.data.cards, ...data.data.stickers];
+							// const stickers = data.data.stickers;
+							const found = items.filter(
+								(card) =>
+									card.mintBatch === filter.batch &&
+									card.mintNumber >= filter.min &&
+									card.mintNumber <= filter.max &&
+									selectedCards.some((selCard) => selCard.id === card.cardTemplateId)
+							);
+							if (found.length > 0) {
+								console.log(found);
+							}
+							setResults((prev) => [...prev, ...found]);
+							// setResults((prev) => [...prev, {}])
+						}
+					} catch (err) {
+						console.log(err);
+					}
+				}
+				if (data.data.length === 20) {
+					getAllLeaderboard(++page);
+				} else {
+					setFinished(true);
+				}
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const getLeaderboard = async (collectionId, page) => {
+		const { data } = await axios.get(`/api/leaderboard/${collectionId}?page=${page}`, {
+			headers: {
+				jwt: user.jwt,
+			},
+		});
+		return data;
+	};
 
 	const marketSearch = async () => {
 		setLoading(true);
+		setResults([]);
 		for (const card of selectedCards) {
 			await getAllListings(card, 1);
 		}
 		setLoading(false);
-		// selectedCards.forEach(async (card) => {
-		// 	await getAllListings(card, 1);
-		// });
 	};
 
 	const getAllListings = async (card, firstPage) => {
@@ -77,37 +151,53 @@ const CardGallery = ({ cards, selectedCards, setSelectedCards, user, filter }) =
 
 	return (
 		<>
-			<div className='ml-1 flex'>
-				<button
-					onClick={() =>
-						setSelectedCards(
-							cards.map((card) => ({
-								id: card.id,
-								title: card.title,
-								type: card.cardType ? "card" : "sticker",
-							}))
-						)
-					}
-					className='m-1 cursor-pointer rounded-md border border-gray-200 px-3 py-2 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
-				>
-					Select All
-				</button>
-				<button
-					onClick={() => setSelectedCards([])}
-					className='m-1 cursor-pointer rounded-md border border-gray-200 px-3 py-2 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
-				>
-					Deselect All
-				</button>
-				<button
-					className='my-1 ml-auto mr-2 cursor-pointer rounded-md border border-gray-200 px-3 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
-					onClick={() => {
-						setResults([]);
-						setShowResults(true);
-						marketSearch();
-					}}
-				>
-					Search Market
-				</button>
+			<div className='ml-1 flex h-full'>
+				<div>
+					<button
+						onClick={() =>
+							setSelectedCards(
+								cards.map((card) => ({
+									id: card.id,
+									title: card.title,
+									type: card.cardType ? "card" : "sticker",
+									found: false,
+								}))
+							)
+						}
+						className='m-1 cursor-pointer rounded-md border border-gray-200 px-3 py-2 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+					>
+						Select All
+					</button>
+					<button
+						onClick={() => setSelectedCards([])}
+						className='m-1 cursor-pointer rounded-md border border-gray-200 px-3 py-2 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+					>
+						Deselect All
+					</button>
+				</div>
+				<div className='ml-auto flex justify-end py-1'>
+					<button
+						className='mr-2 inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+						onClick={() => {
+							setShowMarketResults(true);
+							marketSearch();
+						}}
+					>
+						<FiShoppingCart className='mr-2' />
+						<span>Search Market</span>
+					</button>
+					{/* <button
+						className='inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-4 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+						onClick={() => {
+							setShowMintResults(true);
+							mintSearch();
+						}}
+					>
+						<FiUser className='mr-1' />
+						<span>Search Users</span>
+					</button>
+					<button onClick={() => console.log(results)}>Results</button> */}
+				</div>
 			</div>
 			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-5'>
 				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id]).map((card) => (
@@ -123,6 +213,7 @@ const CardGallery = ({ cards, selectedCards, setSelectedCards, user, filter }) =
 											id: card.id,
 											title: card.title,
 											type: card.cardType ? "card" : "sticker",
+											found: false,
 										},
 								  ]);
 						}}
@@ -149,9 +240,16 @@ const CardGallery = ({ cards, selectedCards, setSelectedCards, user, filter }) =
 					</div>
 				))}
 			</div>
-			{showResults && (
+			{showMarketResults && (
 				<MarketResults
-					setShowResults={setShowResults}
+					setShowResults={setShowMarketResults}
+					results={results}
+					loading={loading}
+				/>
+			)}
+			{showMintResults && (
+				<MintResults
+					setShowResults={setShowMintResults}
 					results={results}
 					loading={loading}
 				/>
