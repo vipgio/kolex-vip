@@ -76,7 +76,7 @@ const MarketResults = ({ setShowResults, results, loading }) => {
 									</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>
 									<td className='hidden h-full min-w-[10rem] items-end py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
-										{item.minOffer ? item.minOffer : "-"}
+										{item.minOffer ? `$${item.minOffer}` : "-"}
 									</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>
 										<a

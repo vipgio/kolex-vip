@@ -12,7 +12,7 @@ const Searcher = () => {
 	const [filter, setFilter] = useState({
 		batch: "A",
 		min: 1,
-		max: 100,
+		max: 25,
 		price: 1,
 	});
 	const [loading, setLoading] = useState(false);

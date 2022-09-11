@@ -3,8 +3,9 @@ import { useState } from "react";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
 import MarketResults from "./MarketResults";
-import { FiUser, FiShoppingCart } from "react-icons/fi";
+import { FiUser, FiShoppingCart, FiLock } from "react-icons/fi";
 import MintResults from "./MintResults";
+import { useRef } from "react";
 
 const CardGallery = ({
 	cards,
@@ -18,9 +19,12 @@ const CardGallery = ({
 	const [showMintResults, setShowMintResults] = useState(false);
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const [finished, setFinished] = useState(false);
+	const counted = useRef(0);
+
+	const totalExpected = selectedCards.length * (filter.max - filter.min + 1);
 
 	const mintSearch = async () => {
+		setLoading(true);
 		setResults([]);
 		getAllLeaderboard(1);
 	};
@@ -29,46 +33,52 @@ const CardGallery = ({
 		let page = firstPage;
 		try {
 			const data = await getLeaderboard(selectedCollection.collection.id, page);
+			if (data.success && data.data.length === 0) setLoading(false);
 			if (data.success && data.data.length > 0) {
 				const users = data.data.map((rank) => ({
 					id: rank.user.id,
 					username: rank.user.username,
 				}));
 				for (const leaderboardUser of users) {
-					try {
-						const { data } = await axios.get(`/api/users/scan`, {
-							params: {
-								collectionId: selectedCollection.collection.id,
-								userId: leaderboardUser.id,
-							},
-							headers: {
-								jwt: user.jwt,
-							},
-						});
-						if (data.success) {
-							const items = [...data.data.cards, ...data.data.stickers];
-							// const stickers = data.data.stickers;
-							const found = items.filter(
-								(card) =>
-									card.mintBatch === filter.batch &&
-									card.mintNumber >= filter.min &&
-									card.mintNumber <= filter.max &&
-									selectedCards.some((selCard) => selCard.id === card.cardTemplateId)
-							);
-							if (found.length > 0) {
-								console.log(found);
+					if (counted.current < totalExpected) {
+						try {
+							const { data } = await axios.get(`/api/users/scan`, {
+								params: {
+									collectionId: selectedCollection.collection.id,
+									userId: leaderboardUser.id,
+								},
+								headers: {
+									jwt: user.jwt,
+								},
+							});
+							if (data.success) {
+								const items = [...data.data.cards, ...data.data.stickers];
+								const found = items
+									.filter(
+										(card) =>
+											card.mintBatch === filter.batch &&
+											card.mintNumber >= filter.min &&
+											card.mintNumber <= filter.max &&
+											selectedCards.some((selCard) => selCard.id === card.cardTemplateId)
+									)
+									.map((item) => ({
+										...item,
+										owner: leaderboardUser,
+										title: selectedCards.find((o) => o.id === item.cardTemplateId).title,
+									}));
+								counted.current += found.length;
+								setResults((prev) => [...prev, ...found]);
 							}
-							setResults((prev) => [...prev, ...found]);
-							// setResults((prev) => [...prev, {}])
+						} catch (err) {
+							console.log(err);
 						}
-					} catch (err) {
-						console.log(err);
 					}
 				}
 				if (data.data.length === 20) {
 					getAllLeaderboard(++page);
 				} else {
-					setFinished(true);
+					counted.current = 0;
+					setLoading(false);
 				}
 			}
 		} catch (err) {
@@ -160,7 +170,6 @@ const CardGallery = ({
 									id: card.id,
 									title: card.title,
 									type: card.cardType ? "card" : "sticker",
-									found: false,
 								}))
 							)
 						}
@@ -175,28 +184,33 @@ const CardGallery = ({
 						Deselect All
 					</button>
 				</div>
-				<div className='ml-auto flex justify-end py-1'>
+				<div className='ml-auto mr-2 flex justify-end py-1'>
 					<button
-						className='mr-2 inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+						className='mr-2 inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50'
 						onClick={() => {
 							setShowMarketResults(true);
 							marketSearch();
 						}}
+						disabled={!selectedCards.length || !user.premium}
 					>
-						<FiShoppingCart className='mr-2' />
+						{user.premium ? (
+							<FiShoppingCart className='mr-2 text-orange-500' />
+						) : (
+							<FiLock className='mr-2 text-orange-500' />
+						)}
 						<span>Search Market</span>
 					</button>
-					{/* <button
-						className='inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-4 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+					<button
+						className='inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50'
 						onClick={() => {
 							setShowMintResults(true);
 							mintSearch();
 						}}
+						disabled={!selectedCards.length}
 					>
-						<FiUser className='mr-1' />
+						<FiUser className='mr-2 text-orange-500' />
 						<span>Search Users</span>
 					</button>
-					<button onClick={() => console.log(results)}>Results</button> */}
 				</div>
 			</div>
 			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-5'>
@@ -213,7 +227,6 @@ const CardGallery = ({
 											id: card.id,
 											title: card.title,
 											type: card.cardType ? "card" : "sticker",
-											found: false,
 										},
 								  ]);
 						}}
@@ -252,6 +265,7 @@ const CardGallery = ({
 					setShowResults={setShowMintResults}
 					results={results}
 					loading={loading}
+					total={totalExpected}
 				/>
 			)}
 		</>

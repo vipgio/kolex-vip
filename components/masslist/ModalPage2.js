@@ -7,6 +7,7 @@ import findIndex from "lodash/findIndex";
 import { UserContext } from "context/UserContext";
 import CoolButton from "./CoolButton";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { user, setLoading, loading } = useContext(UserContext);
@@ -14,6 +15,10 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	const [minOffer, setMinOffer] = useState(0);
 	const [offerEnabled, setOfferEnabled] = useState(false);
 	const [openedCards, setOpenedCards] = useState([]);
+
+	useEffect(() => {
+		console.log(openedCards);
+	}, [openedCards]);
 
 	const updateLocal = () => {
 		const localPacks = JSON.parse(localStorage.getItem("userPacks"));
@@ -59,7 +64,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 
 	const open = async () => {
 		setLoading(true);
-		const templateIds = [];
 		selected.forEach(async (packId) => {
 			try {
 				const headers = {
@@ -70,10 +74,27 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				const { data } = await axios.post(`/api/pack/open/${packId}`, null, headers);
 				setLoading(false);
 				if (data.success) {
-					setOpenedCards((prev) => [...prev, ...data.data.cards, ...data.data.stickers]);
+					if (data.data.cards.length > 0) {
+						const { data: templates } = await axios.get(`/api/cards/templates`, {
+							params: {
+								cardIds: data.data.cards.map((card) => card.cardTemplateId).toString(),
+							},
+							headers: {
+								jwt: user.jwt,
+							},
+						});
+						const cards = data.data.cards.map((card) => ({
+							...card,
+							title: templates.data.find((o) => o.id === card.cardTemplateId).title,
+						}));
+						setOpenedCards((prev) => [...prev, ...cards, ...data.data.stickers]);
+					} else {
+						setOpenedCards((prev) => [...prev, ...data.data.stickers]);
+					}
 					updateLocal();
 				}
 			} catch (err) {
+				console.log(err);
 				toast.error(err.response.data.error, {
 					toastId: err.response.data.errorCode,
 				});
@@ -194,7 +215,9 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 											{card.mintBatch}
 											{card.mintNumber}
 										</span>
-										<span className='ml-5'>{card.cardTemplate.title}</span>
+										<span className='ml-5'>
+											{card.title ? card.title : card.stickerTemplate.title}
+										</span>
 									</div>
 								))}
 							</div>

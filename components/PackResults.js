@@ -33,6 +33,10 @@ const PackResults = ({ pack }) => {
 					</div>
 				)}
 				<div>
+					Inventory Count:{" "}
+					<span className='font-semibold text-indigo-500'>{pack.inventoryCount}</span>
+				</div>
+				<div>
 					Season:{" "}
 					<span className='font-semibold text-indigo-500'>
 						{pack.properties.seasons[0]}
@@ -58,7 +62,7 @@ const PackResults = ({ pack }) => {
 				<div className='flex'>
 					Link to marketplace:
 					<a
-						href={`https://app.epics.gg/csgo/marketplace/pack/${pack.id}`}
+						href={`https://kolex.gg/csgo/marketplace/pack/${pack.id}`}
 						className='ml-1 flex items-center text-indigo-500 hover:underline'
 						target='_blank'
 						rel='noreferrer'
