@@ -1,6 +1,15 @@
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-const MarketResults = ({ setShowResults, results, loading }) => {
+import { FaSignature } from "react-icons/fa";
+import ExportToCSV from "../ExportToCSV";
+const MarketResults = ({
+	setShowResults,
+	results,
+	loading,
+	finished,
+	filter,
+	selectedCollection,
+}) => {
 	return (
 		<div className='fixed inset-0 z-20 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[80vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-900 sm:mx-24'>
@@ -16,7 +25,10 @@ const MarketResults = ({ setShowResults, results, loading }) => {
 					</h1>
 					<button
 						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-300 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400'
-						onClick={() => setShowResults(false)}
+						onClick={() => {
+							setShowResults(false);
+							finished.current = true;
+						}}
 					>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -45,15 +57,15 @@ const MarketResults = ({ setShowResults, results, loading }) => {
 									Min Offer
 								</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Seller</th>
-								<th className='py-1 px-2 sm:py-3 sm:px-6'>Link to item</th>
+								<th className='py-1 px-2 sm:py-3 sm:px-6'>Link</th>
 							</tr>
 						</thead>
 						<tbody>
 							{uniqBy(
-								sortBy(results, (o) => {
-									const mint = o.card ? o.card.mintNumber : o.sticker.mintNumber;
-									return mint;
-								}),
+								sortBy(results, [
+									(o) => (o.card ? o.card.mintNumber : o.sticker.mintNumber),
+									(o) => (o.card ? o.card.cardTemplateId : o.stickerTemplateId),
+								]),
 								(o) => o.marketId
 							).map((item) => (
 								<tr
@@ -61,9 +73,17 @@ const MarketResults = ({ setShowResults, results, loading }) => {
 									key={item.marketId}
 								>
 									{item.card ? (
-										<td className='py-1 px-2 sm:py-3 sm:px-6'>
-											{item.card.mintBatch}
-											{item.card.mintNumber}
+										<td
+											className={`py-1 px-2 sm:py-3 sm:px-6 ${
+												item.card.signatureImage ? "text-yellow-400" : ""
+											}`}
+											title={item.card.signatureImage && "Signed"}
+										>
+											<div className='flex items-center justify-center'>
+												{item.card.signatureImage && <FaSignature className='mr-2' />}
+												{item.card.mintBatch}
+												{item.card.mintNumber}
+											</div>
 										</td>
 									) : (
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>
@@ -83,7 +103,7 @@ const MarketResults = ({ setShowResults, results, loading }) => {
 											target='_blank'
 											href={`https://kolex.gg/csgo/users/${item.user.username}`}
 											rel='noopener noreferrer'
-											className='underline'
+											className='underline hover:text-orange-500'
 										>
 											{item.user.username}
 										</a>
@@ -107,11 +127,27 @@ const MarketResults = ({ setShowResults, results, loading }) => {
 						</tbody>
 					</table>
 				</div>
+				{results.length > 0 && (
+					<div className='flex p-3'>
+						<div className='ml-2 flex items-center text-yellow-400'>
+							<FaSignature className='mr-2' /> Signed Item
+						</div>
+						<div className='ml-auto'>
+							<ExportToCSV
+								data={uniqBy(
+									sortBy(results, [
+										(o) => (o.card ? o.card.mintNumber : o.sticker.mintNumber),
+										(o) => (o.card ? o.card.cardTemplateId : o.stickerTemplateId),
+									]),
+									(o) => o.marketId
+								)}
+								filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - [${filter.batch}${filter.min}-${filter.batch}${filter.max}]`}
+								type='market'
+							/>
+						</div>
+					</div>
+				)}
 			</div>
-			<div //fullscreen close button
-				className='fixed z-10 h-screen w-screen'
-				// onClick={() => setShowResults(false)}
-			></div>
 		</div>
 	);
 };

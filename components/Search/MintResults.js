@@ -1,16 +1,23 @@
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-const MintResults = ({ setShowResults, results, loading, total }) => {
+import { FaSignature } from "react-icons/fa";
+import ExportToCSV from "../ExportToCSV";
+const MintResults = ({
+	setShowResults,
+	results,
+	loading,
+	total,
+	finished,
+	filter,
+	selectedCollection,
+}) => {
 	return (
 		<div className='fixed inset-0 z-20 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[80vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-900 sm:mx-24'>
 				<div
 					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-800' /*modal header*/
 				>
-					<h1
-						className='mx-auto py-2 text-3xl text-gray-200'
-						onClick={() => console.log(results)}
-					>
+					<h1 className='mx-auto py-2 text-3xl text-gray-200'>
 						{loading ? (
 							<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
 						) : (
@@ -18,15 +25,22 @@ const MintResults = ({ setShowResults, results, loading, total }) => {
 								Results{" "}
 								<span className='text-base'>
 									{results.length}
-									<span className='text-orange-500'>/</span>
-									{total}
+									{!filter.sigsOnly && (
+										<>
+											<span className='text-orange-500'>/</span>
+											{total}
+										</>
+									)}
 								</span>
 							</>
 						)}
 					</h1>
 					<button
 						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-300 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400'
-						onClick={() => setShowResults(false)}
+						onClick={() => {
+							setShowResults(false);
+							finished.current = true;
+						}}
 					>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -56,7 +70,10 @@ const MintResults = ({ setShowResults, results, loading, total }) => {
 						</thead>
 						<tbody>
 							{uniqBy(
-								sortBy(results, (o) => o.mintNumber),
+								sortBy(results, [
+									(o) => o.mintNumber,
+									(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
+								]),
 								(o) => o.id
 							).map((item) => (
 								<tr
@@ -69,8 +86,11 @@ const MintResults = ({ setShowResults, results, loading, total }) => {
 										}`}
 										title={item.signatureImage && "Signed"}
 									>
-										{item.mintBatch}
-										{item.mintNumber}
+										<div className='flex items-center justify-center'>
+											{item.signatureImage && <FaSignature className='mr-2' />}
+											{item.mintBatch}
+											{item.mintNumber}
+										</div>
 									</td>
 
 									<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>
@@ -83,7 +103,7 @@ const MintResults = ({ setShowResults, results, loading, total }) => {
 											target='_blank'
 											href={`https://kolex.gg/csgo/users/${item.owner.username}`}
 											rel='noopener noreferrer'
-											className='underline'
+											className='underline hover:text-orange-500'
 										>
 											{item.owner.username}
 										</a>
@@ -93,6 +113,27 @@ const MintResults = ({ setShowResults, results, loading, total }) => {
 						</tbody>
 					</table>
 				</div>
+				{results.length > 0 && (
+					<div className='flex p-3'>
+						<div className='ml-2 flex items-center text-yellow-400'>
+							<FaSignature className='mr-2' /> Signed Item
+						</div>
+
+						<div className='ml-auto'>
+							<ExportToCSV
+								data={uniqBy(
+									sortBy(results, [
+										(o) => o.mintNumber,
+										(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
+									]),
+									(o) => o.id
+								)}
+								filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - [${filter.batch}${filter.min}-${filter.batch}${filter.max}]`}
+								type='mint'
+							/>
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);

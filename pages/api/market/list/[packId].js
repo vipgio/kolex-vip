@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 		const { data } = await listItem(jwt, packId, price, minOffer);
 		res.status(200).json(data);
 	} catch (err) {
-		console.log(err.response);
+		console.log(err);
 		res.status(err.response.status).json(err.response.data);
 	}
 }

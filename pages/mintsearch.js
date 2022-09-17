@@ -14,6 +14,7 @@ const Searcher = () => {
 		min: 1,
 		max: 25,
 		price: 1,
+		sigsOnly: false,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -31,19 +32,16 @@ const Searcher = () => {
 			}
 		};
 		const getStickers = async (collectionId) => {
-			setLoading(true);
 			const { data } = await axios.get(`/api/collections/stickers/${collectionId}`, {
 				headers: {
 					jwt: user.jwt,
 				},
 			});
 			if (data.success) {
-				setLoading(false);
 				setCards((prev) => [...prev, ...data.data]);
 			}
 		};
 		if (selectedCollection) {
-			setLoading(true);
 			setSelectedCards([]);
 			setCards([]);
 			getCards(selectedCollection.collection.id);
@@ -67,13 +65,28 @@ const Searcher = () => {
 					)}
 				</div>
 				<div>{user && <SetSelector setSelectedCollection={setSelectedCollection} />}</div>
+				<div className='mb-1 flex items-center pl-2 text-gray-300'>
+					<label htmlFor='sigs' className='hover:cursor-pointer'>
+						Only search for signatures
+					</label>
+					<input
+						type='checkbox'
+						name='sigs'
+						id='sigs'
+						className='ml-1 accent-orange-500 hover:cursor-pointer'
+						onChange={(e) =>
+							setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))
+						}
+					/>
+				</div>
 				<div className='mb-2 flex w-fit flex-col pl-2 text-gray-300 sm:flex-row'>
 					<div>
 						<label htmlFor='batch'>Mint Batch: </label>
 						<select
 							id='batch'
-							className='mb-2 mr-3 w-24 rounded-md border-gray-300 p-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:mb-0'
+							className='mb-2 mr-3 w-24 rounded-md border-gray-300 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
 							onChange={(e) => setFilter((prev) => ({ ...prev, batch: e.target.value }))}
+							disabled={filter.sigsOnly}
 						>
 							<option value='A'>A</option>
 							<option value='B'>B</option>
@@ -89,7 +102,8 @@ const Searcher = () => {
 							name='minMint'
 							id='minMint'
 							min={1}
-							className='mb-2 mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:mb-0'
+							disabled={filter.sigsOnly}
+							className='mb-2 mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
 							placeholder='Minimum Mint'
 							value={filter.min}
 							onChange={(e) => setFilter((prev) => ({ ...prev, min: e.target.value }))}
@@ -102,7 +116,8 @@ const Searcher = () => {
 							name='maxMint'
 							id='maxMint'
 							min={1}
-							className='mb-2 mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:mb-0'
+							disabled={filter.sigsOnly}
+							className='mb-2 mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
 							placeholder='Maximum Mint'
 							value={filter.max}
 							onChange={(e) => setFilter((prev) => ({ ...prev, max: e.target.value }))}
@@ -116,7 +131,8 @@ const Searcher = () => {
 							id='maxPrice'
 							min={0.1}
 							step={0.01}
-							className='mb-2 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:mb-0'
+							disabled={filter.sigsOnly}
+							className='mb-2 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
 							placeholder='Maximum Price'
 							value={filter.price}
 							onChange={(e) => setFilter((prev) => ({ ...prev, price: e.target.value }))}
@@ -124,7 +140,9 @@ const Searcher = () => {
 					</div>
 				</div>
 				{loading && (
-					<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
+					<div className='flex justify-center py-2'>
+						<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
+					</div>
 				)}
 				{cards.length > 0 && (
 					<CardGallery

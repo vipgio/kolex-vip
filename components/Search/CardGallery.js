@@ -6,6 +6,7 @@ import MarketResults from "./MarketResults";
 import { FiUser, FiShoppingCart, FiLock } from "react-icons/fi";
 import MintResults from "./MintResults";
 import { useRef } from "react";
+import { useEffect } from "react";
 
 const CardGallery = ({
 	cards,
@@ -19,12 +20,19 @@ const CardGallery = ({
 	const [showMintResults, setShowMintResults] = useState(false);
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const counted = useRef(0);
+	const finished = useRef(false);
 
 	const totalExpected = selectedCards.length * (filter.max - filter.min + 1);
 
+	useEffect(() => {
+		if (results.length === totalExpected && totalExpected > 0 && !filter.sigsOnly) {
+			finished.current = true;
+		}
+	}, [results]);
+
 	const mintSearch = async () => {
 		setLoading(true);
+		finished.current = false;
 		setResults([]);
 		getAllLeaderboard(1);
 	};
@@ -40,7 +48,7 @@ const CardGallery = ({
 					username: rank.user.username,
 				}));
 				for (const leaderboardUser of users) {
-					if (counted.current < totalExpected) {
+					if (!finished.current) {
 						try {
 							const { data } = await axios.get(`/api/users/scan`, {
 								params: {
@@ -52,32 +60,71 @@ const CardGallery = ({
 								},
 							});
 							if (data.success) {
-								const items = [...data.data.cards, ...data.data.stickers];
-								const found = items
-									.filter(
-										(card) =>
-											card.mintBatch === filter.batch &&
-											card.mintNumber >= filter.min &&
-											card.mintNumber <= filter.max &&
-											selectedCards.some((selCard) => selCard.id === card.cardTemplateId)
-									)
-									.map((item) => ({
-										...item,
-										owner: leaderboardUser,
-										title: selectedCards.find((o) => o.id === item.cardTemplateId).title,
-									}));
-								counted.current += found.length;
-								setResults((prev) => [...prev, ...found]);
+								if (!filter.sigsOnly) {
+									const foundCards = data.data.cards
+										.filter(
+											(item) =>
+												item.mintBatch === filter.batch &&
+												item.mintNumber >= filter.min &&
+												item.mintNumber <= filter.max &&
+												selectedCards.some(
+													(selCard) => selCard.id === item.cardTemplateId
+												)
+										)
+										.map((item) => ({
+											...item,
+											owner: leaderboardUser,
+											title: selectedCards.find((o) => o.id === item.cardTemplateId)
+												.title,
+										}));
+									if (foundCards.length > 0)
+										setResults((prev) => [...prev, ...foundCards]);
+
+									const foundtickers = data.data.stickers
+										.filter(
+											(item) =>
+												item.mintBatch === filter.batch &&
+												item.mintNumber >= filter.min &&
+												item.mintNumber <= filter.max &&
+												selectedCards.some(
+													(selCard) => selCard.id === item.stickerTemplateId
+												)
+										)
+										.map((item) => ({
+											...item,
+											owner: leaderboardUser,
+											title: selectedCards.find((o) => o.id === item.stickerTemplateId)
+												.title,
+										}));
+									if (foundtickers.length > 0)
+										setResults((prev) => [...prev, ...foundtickers]);
+								} else {
+									const found = data.data.cards
+										.filter(
+											(card) =>
+												card.signatureImage &&
+												selectedCards.some(
+													(selCard) => selCard.id === card.cardTemplateId
+												)
+										)
+										.map((item) => ({
+											...item,
+											owner: leaderboardUser,
+											title: selectedCards.find((o) => o.id === item.cardTemplateId)
+												.title,
+										}));
+									if (found.length > 0) setResults((prev) => [...prev, ...found]);
+								}
 							}
 						} catch (err) {
 							console.log(err);
 						}
 					}
 				}
-				if (data.data.length === 20) {
+				if (data.data.length === 20 && !finished.current) {
 					getAllLeaderboard(++page);
 				} else {
-					counted.current = 0;
+					finished.current = true;
 					setLoading(false);
 				}
 			}
@@ -96,20 +143,30 @@ const CardGallery = ({
 	};
 
 	const marketSearch = async () => {
-		setLoading(true);
 		setResults([]);
+		setLoading(true);
+		finished.current = false;
+
 		for (const card of selectedCards) {
-			await getAllListings(card, 1);
+			if (!finished.current) {
+				await getAllListings(card, 1);
+			}
 		}
+
 		setLoading(false);
+		finished.current = true;
 	};
 
-	const getAllListings = async (card, firstPage) => {
+	const getAllListings = async (item, firstPage) => {
 		let page = firstPage;
 		try {
-			const data = await getMarketInfo(card.id, page, card.type);
+			const data = await getMarketInfo(item.id, page, item.type);
+			if (data.success && data.data.count === 0) {
+				finished.current = true;
+				setLoading(false);
+			}
 			if (data.success && data.data.count > 0) {
-				if (card.type === "card") {
+				if (item.type === "card") {
 					const accepted = data.data.market[0].filter(
 						(listing) =>
 							Number(listing.price) <= filter.price &&
@@ -119,10 +176,10 @@ const CardGallery = ({
 					);
 					setResults((prev) => [
 						...prev,
-						...accepted.map((list) => ({ ...list, title: card.title })),
+						...accepted.map((list) => ({ ...list, title: item.title })),
 					]);
 				}
-				if (card.type === "sticker") {
+				if (item.type === "sticker") {
 					const accepted = data.data.market[0].filter(
 						(listing) =>
 							Number(listing.price) <= filter.price &&
@@ -132,14 +189,15 @@ const CardGallery = ({
 					);
 					setResults((prev) => [
 						...prev,
-						...accepted.map((list) => ({ ...list, title: card.title })),
+						...accepted.map((list) => ({ ...list, title: item.title })),
 					]);
 				}
 				if (
 					data.data.count === 40 &&
-					Number(data.data.market[0][39].price) < filter.price
+					Number(data.data.market[0][39].price) < filter.price &&
+					!finished.current
 				) {
-					getAllListings(card, ++page);
+					getAllListings(item, ++page);
 				}
 			}
 		} catch (err) {
@@ -186,12 +244,12 @@ const CardGallery = ({
 				</div>
 				<div className='ml-auto mr-2 flex justify-end py-1'>
 					<button
-						className='mr-2 inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50'
+						className='mr-2 inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-all enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50'
 						onClick={() => {
 							setShowMarketResults(true);
 							marketSearch();
 						}}
-						disabled={!selectedCards.length || !user.premium}
+						disabled={!selectedCards.length || !user.premium || filter.sigsOnly}
 					>
 						{user.premium ? (
 							<FiShoppingCart className='mr-2 text-orange-500' />
@@ -258,6 +316,9 @@ const CardGallery = ({
 					setShowResults={setShowMarketResults}
 					results={results}
 					loading={loading}
+					finished={finished}
+					filter={filter}
+					selectedCollection={selectedCollection}
 				/>
 			)}
 			{showMintResults && (
@@ -266,6 +327,9 @@ const CardGallery = ({
 					results={results}
 					loading={loading}
 					total={totalExpected}
+					finished={finished}
+					filter={filter}
+					selectedCollection={selectedCollection}
 				/>
 			)}
 		</>

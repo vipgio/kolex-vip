@@ -1,3 +1,5 @@
+import { FaSignature } from "react-icons/fa";
+
 const FullList = ({ results }) => {
 	return (
 		<>
@@ -22,10 +24,13 @@ const FullList = ({ results }) => {
 							className={`py-1 px-2 sm:py-3 sm:px-6 ${
 								item.signed ? "text-yellow-400" : ""
 							}`}
-							title={item.signed && "Signature"}
+							title={item.signed ? "Signed" : undefined}
 						>
-							{item.mintBatch}
-							{item.mintNumber}
+							<div className='flex items-center justify-center'>
+								{item.signed && <FaSignature className='mr-2' />}
+								{item.mintBatch}
+								{item.mintNumber}
+							</div>
 						</td>
 						<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 						<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.inCirculation}</td>

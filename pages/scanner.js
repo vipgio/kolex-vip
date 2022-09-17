@@ -1,14 +1,14 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import isEmpty from "lodash/isEmpty";
 import { ToastContainer, toast } from "react-toastify";
+import SetSelector from "HOC/SetSelector";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
 import UserSearch from "components/UserSearch";
 import ScanResult from "components/scanner/ScanResults";
 import Tooltip from "components/Tooltip";
 import "react-toastify/dist/ReactToastify.css";
-import SetSelector from "HOC/SetSelector";
 
 const Scanner = () => {
 	const { user } = useContext(UserContext);
@@ -142,7 +142,7 @@ const Scanner = () => {
 					<div className='text-gray-300'>
 						<Tooltip
 							text={
-								"If there are more than 60 of the same card, it won't be in the API response. Can't be fixed on my side."
+								"If there are too many of the same card, they won't be in the API response."
 							}
 							direction='right'
 						/>

@@ -16,10 +16,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	const [offerEnabled, setOfferEnabled] = useState(false);
 	const [openedCards, setOpenedCards] = useState([]);
 
-	useEffect(() => {
-		console.log(openedCards);
-	}, [openedCards]);
-
 	const updateLocal = () => {
 		const localPacks = JSON.parse(localStorage.getItem("userPacks"));
 		remove(packTemplate.packs, (o) => selected.includes(o.id));

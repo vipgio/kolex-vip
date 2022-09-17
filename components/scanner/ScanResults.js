@@ -4,9 +4,9 @@ import isEqual from "lodash/isEqual";
 import sumBy from "lodash/sumBy";
 import uniqBy from "lodash/uniqBy";
 import countBy from "lodash/countBy";
-import ExportButton from "../ExportButton";
 import CompactList from "./CompactList";
 import FullList from "./FullList";
+import ExportToCSV from "../ExportToCSV";
 
 const ScanResult = React.memo(
 	({ scanResults, user, collection, templates }) => {
@@ -92,10 +92,15 @@ const ScanResult = React.memo(
 							<option value='second'>Second set</option>
 							<option value='compact'>Compact</option>
 						</select>
-						{filterMethod !== "compact" && user && (
+						{user && (
 							<div className='ml-auto'>
-								<ExportButton
-									filename={`${user.username} - ${collection.collection.properties.seasons[0]} - ${collection.collection.properties.tiers[0]} - ${collection.collection.name}`}
+								<ExportToCSV
+									type={filterMethod === "compact" ? "compact" : "full"}
+									filename={`${user.username} - ${
+										collection.collection.properties.seasons[0]
+									} - ${collection.collection.properties.tiers[0]} - ${
+										collection.collection.name
+									} - ${filterMethod.charAt(0).toUpperCase() + filterMethod.slice(1)}`}
 									data={filteredResults}
 								/>
 							</div>
@@ -104,7 +109,7 @@ const ScanResult = React.memo(
 
 					<>
 						<div className='mb-1 flex flex-col justify-center overflow-x-auto rounded-md border border-gray-300'>
-							<table className='w-full overflow-hidden text-left text-gray-500 dark:text-gray-400'>
+							<table className='w-full table-auto overflow-hidden text-gray-500 dark:text-gray-400'>
 								{filterMethod !== "compact" ? (
 									<FullList results={filteredResults} />
 								) : (

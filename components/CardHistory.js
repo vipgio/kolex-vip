@@ -5,7 +5,7 @@ const CardHistory = React.memo(
 	({ item }) => {
 		return (
 			<>
-				<div className='m-5 flex basis-3/4 items-start border border-gray-300 p-2 lg:basis-[calc(50%_-_40px)]'>
+				<div className='m-5 flex basis-11/12 items-start border border-gray-300 p-2 lg:basis-[calc(50%_-_40px)]'>
 					{item.images.size402 && (
 						<div className='mr-2 min-w-fit'>
 							<Image
@@ -31,7 +31,7 @@ const CardHistory = React.memo(
 							</span>
 						</div>
 
-						<div className='relative max-h-48 w-full overflow-auto overscroll-contain text-gray-300'>
+						<div className='relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain text-gray-300'>
 							{item.history
 								.slice()
 								.reverse()
