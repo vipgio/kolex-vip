@@ -167,17 +167,28 @@ const CardGallery = ({
 			}
 			if (data.success && data.data.count > 0) {
 				if (item.type === "card") {
-					const accepted = data.data.market[0].filter(
-						(listing) =>
-							Number(listing.price) <= filter.price &&
-							listing.card.mintNumber >= filter.min &&
-							listing.card.mintNumber <= filter.max &&
-							listing.card.mintBatch === filter.batch
-					);
-					setResults((prev) => [
-						...prev,
-						...accepted.map((list) => ({ ...list, title: item.title })),
-					]);
+					if (!filter.sigsOnly) {
+						const accepted = data.data.market[0].filter(
+							(listing) =>
+								Number(listing.price) <= filter.price &&
+								listing.card.mintNumber >= filter.min &&
+								listing.card.mintNumber <= filter.max &&
+								listing.card.mintBatch === filter.batch
+						);
+						setResults((prev) => [
+							...prev,
+							...accepted.map((list) => ({ ...list, title: item.title })),
+						]);
+					} else {
+						const accepted = data.data.market[0].filter(
+							(listing) =>
+								Number(listing.price) <= filter.price && listing.card.signatureImage
+						);
+						setResults((prev) => [
+							...prev,
+							...accepted.map((list) => ({ ...list, title: item.title })),
+						]);
+					}
 				}
 				if (item.type === "sticker") {
 					const accepted = data.data.market[0].filter(
@@ -220,7 +231,7 @@ const CardGallery = ({
 	return (
 		<>
 			<div className='ml-1 flex h-full'>
-				<div>
+				<div className='flex flex-col sm:block'>
 					<button
 						onClick={() =>
 							setSelectedCards(
@@ -242,20 +253,16 @@ const CardGallery = ({
 						Deselect All
 					</button>
 				</div>
-				<div className='ml-auto mr-2 flex justify-end py-1'>
+				<div className='ml-auto mr-2 flex flex-col justify-end py-1 sm:block'>
 					<button
-						className='mr-2 inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-all enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50'
+						className='mb-2 inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-all enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:mr-2 sm:mb-0'
 						onClick={() => {
 							setShowMarketResults(true);
 							marketSearch();
 						}}
-						disabled={!selectedCards.length || !user.premium || filter.sigsOnly}
+						disabled={!selectedCards.length}
 					>
-						{user.premium ? (
-							<FiShoppingCart className='mr-2 text-orange-500' />
-						) : (
-							<FiLock className='mr-2 text-orange-500' />
-						)}
+						<FiShoppingCart className='mr-2 text-orange-500' />
 						<span>Search Market</span>
 					</button>
 					<button
@@ -272,44 +279,48 @@ const CardGallery = ({
 				</div>
 			</div>
 			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-5'>
-				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id]).map((card) => (
-					<div
-						key={card.uuid}
-						className={`flex cursor-pointer flex-col items-center border border-gray-500 transition-transform hover:scale-105`}
-						onClick={() => {
-							selectedCards.some((e) => e.id === card.id)
-								? setSelectedCards((prev) => prev.filter((item) => item.id !== card.id))
-								: setSelectedCards((prev) => [
-										...prev,
-										{
-											id: card.id,
-											title: card.title,
-											type: card.cardType ? "card" : "sticker",
-										},
-								  ]);
-						}}
-					>
-						<div className='relative aspect-auto w-24 overflow-hidden rounded-md p-0.5 sm:w-36'>
-							<Image
-								src={card.images?.size402 || `https://cdn.kolex.gg${card.images[0].url}`}
-								width={200 * 1.5}
-								height={300 * 1.5}
-								quality={100}
-								alt={card.title}
-								className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
-									selectedCards.some((e) => e.id === card.id)
-										? "border-orange-500 grayscale-0"
-										: "border-transparent"
-								}`}
-								priority='true'
-							/>
-							{!selectedCards.some((e) => e.id === card.id) && (
-								<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
-							)}
+				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.title]).map(
+					(card) => (
+						<div
+							key={card.uuid}
+							className={`flex cursor-pointer flex-col items-center border border-gray-500 transition-transform hover:scale-105`}
+							onClick={() => {
+								selectedCards.some((e) => e.id === card.id)
+									? setSelectedCards((prev) => prev.filter((item) => item.id !== card.id))
+									: setSelectedCards((prev) => [
+											...prev,
+											{
+												id: card.id,
+												title: card.title,
+												type: card.cardType ? "card" : "sticker",
+											},
+									  ]);
+							}}
+						>
+							<div className='relative aspect-auto w-24 overflow-hidden rounded-md p-0.5 sm:w-36'>
+								<Image
+									src={
+										card.images?.size402 || `https://cdn.kolex.gg${card.images[0].url}`
+									}
+									width={200 * 1.5}
+									height={300 * 1.5}
+									quality={100}
+									alt={card.title}
+									className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
+										selectedCards.some((e) => e.id === card.id)
+											? "border-orange-500 grayscale-0"
+											: "border-transparent"
+									}`}
+									priority='true'
+								/>
+								{!selectedCards.some((e) => e.id === card.id) && (
+									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
+								)}
+							</div>
+							<div className='text-center text-sm text-gray-300'>{card.title}</div>
 						</div>
-						<div className='text-center text-sm text-gray-300'>{card.title}</div>
-					</div>
-				))}
+					)
+				)}
 			</div>
 			{showMarketResults && (
 				<MarketResults

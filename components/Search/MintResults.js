@@ -1,7 +1,10 @@
+import { UserContext } from "context/UserContext";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-import { FaSignature } from "react-icons/fa";
+import { useContext } from "react";
+import { FaSignature, FaLock } from "react-icons/fa";
 import ExportToCSV from "../ExportToCSV";
+import HistoryModal from "../HistoryModal";
 const MintResults = ({
 	setShowResults,
 	results,
@@ -11,6 +14,7 @@ const MintResults = ({
 	filter,
 	selectedCollection,
 }) => {
+	const { user } = useContext(UserContext);
 	return (
 		<div className='fixed inset-0 z-20 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[80vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-900 sm:mx-24'>
@@ -66,6 +70,7 @@ const MintResults = ({
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>ID</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Owner</th>
+								<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -107,6 +112,18 @@ const MintResults = ({
 										>
 											{item.owner.username}
 										</a>
+									</td>
+									<td className='py-1 px-2 sm:py-3 sm:px-6'>
+										<div className='relative flex h-8 items-center justify-center'>
+											{user.info.allowed.includes("history") ? (
+												<HistoryModal data={item} />
+											) : (
+												<FaLock
+													className='cursor-not-allowed'
+													title='You need history access for this feature'
+												/>
+											)}
+										</div>
 									</td>
 								</tr>
 							))}

@@ -2,7 +2,7 @@ import { FaSignature } from "react-icons/fa";
 
 const CompactList = ({ results }) => {
 	return (
-		<>
+		<table className='w-full table-auto overflow-hidden text-gray-500 dark:text-gray-400'>
 			<thead className='bg-gray-50 uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
 				<tr>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Best Mint</th>
@@ -35,7 +35,7 @@ const CompactList = ({ results }) => {
 					</tr>
 				))}
 			</tbody>
-		</>
+		</table>
 	);
 };
 export default CompactList;

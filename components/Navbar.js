@@ -65,26 +65,26 @@ export const Navbar = () => {
 							index={5}
 							name='Scanner'
 							link='/scanner'
-							svg={<FaSearch className='text-black' />}
+							svg={<AiOutlineScan className='scale-105 text-black' />}
 						/>
 						<NavbarIcon
 							index={6}
 							name='Mint Search'
-							link={"/mintsearch"}
+							link={user.info.allowed.includes("mintsearch") ? "/mintsearch" : ""}
 							svg={
-								<AiOutlineScan className='scale-105 text-black' />
-								// user.premium ? (
-								// ) : (
-								// 	<FaLock className='text-black' />
-								// )
+								user.info.allowed.includes("mintsearch") ? (
+									<FaSearch className='text-black' />
+								) : (
+									<FaLock className='text-black' />
+								)
 							}
 						/>
 						<NavbarIcon
 							index={7}
 							name='Card history'
-							link={user.premium ? "/history" : ""}
+							link={user.info.allowed.includes("history") ? "/history" : ""}
 							svg={
-								user.premium ? (
+								user.info.allowed.includes("history") ? (
 									<FaHistory className='text-black' />
 								) : (
 									<FaLock className='text-black' />
@@ -94,9 +94,9 @@ export const Navbar = () => {
 						<NavbarIcon
 							index={8}
 							name='Mass List'
-							link={user.premium ? "/masslist" : ""}
+							link={user.info.allowed.includes("masslist") ? "/masslist" : ""}
 							svg={
-								user.premium ? (
+								user.info.allowed.includes("masslist") ? (
 									<svg
 										height='16'
 										viewBox='0 0 512 512'

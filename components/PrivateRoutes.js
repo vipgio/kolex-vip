@@ -2,7 +2,7 @@ import { useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 
 import FullPageLoader from "./FullPageLoader";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "context/UserContext";
 
 const PrivateRoute = ({ protectedRoutes, children }) => {
 	const router = useRouter();

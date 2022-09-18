@@ -131,7 +131,6 @@ const Searcher = () => {
 							id='maxPrice'
 							min={0.1}
 							step={0.01}
-							disabled={filter.sigsOnly}
 							className='mb-2 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
 							placeholder='Maximum Price'
 							value={filter.price}

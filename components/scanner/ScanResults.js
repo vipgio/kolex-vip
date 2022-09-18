@@ -92,7 +92,7 @@ const ScanResult = React.memo(
 							<option value='second'>Second set</option>
 							<option value='compact'>Compact</option>
 						</select>
-						{user && (
+						{user && filteredResults.length > 0 && (
 							<div className='ml-auto'>
 								<ExportToCSV
 									type={filterMethod === "compact" ? "compact" : "full"}
@@ -100,7 +100,7 @@ const ScanResult = React.memo(
 										collection.collection.properties.seasons[0]
 									} - ${collection.collection.properties.tiers[0]} - ${
 										collection.collection.name
-									} - ${filterMethod.charAt(0).toUpperCase() + filterMethod.slice(1)}`}
+									} - ${filterMethod[0].toUpperCase() + filterMethod.slice(1)}`}
 									data={filteredResults}
 								/>
 							</div>
@@ -109,19 +109,18 @@ const ScanResult = React.memo(
 
 					<>
 						<div className='mb-1 flex flex-col justify-center overflow-x-auto rounded-md border border-gray-300'>
-							<table className='w-full table-auto overflow-hidden text-gray-500 dark:text-gray-400'>
-								{filterMethod !== "compact" ? (
-									<FullList results={filteredResults} />
-								) : (
-									<CompactList results={filteredResults} />
-								)}
-							</table>
+							{filterMethod !== "compact" ? (
+								<FullList results={filteredResults} />
+							) : (
+								<CompactList results={filteredResults} />
+							)}
 						</div>
-						{(filterMethod === "best" || filterMethod === "second") && (
-							<div className='font-semibold text-orange-400'>
-								Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}
-							</div>
-						)}
+						{(filterMethod === "best" || filterMethod === "second") &&
+							filteredResults.length > 0 && (
+								<div className='font-semibold text-orange-400'>
+									Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}
+								</div>
+							)}
 					</>
 				</div>
 			</>

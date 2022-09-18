@@ -8,11 +8,10 @@ export default async function handler(req, res) {
 	try {
 		let { data, error } = await supabase
 			.from("whitelist")
-			.select("username")
+			.select("*")
 			.eq("username", username);
 		error && console.log(error);
-		const isWhitelited = data[0] ? true : false;
-		res.status(200).json(isWhitelited);
+		res.status(200).json(data[0]);
 	} catch (err) {
 		res.status(500).json(err);
 	}

@@ -1,8 +1,12 @@
-import { FaSignature } from "react-icons/fa";
+import { UserContext } from "context/UserContext";
+import { useContext } from "react";
+import { FaSignature, FaLock } from "react-icons/fa";
+import HistoryModal from "../HistoryModal";
 
 const FullList = ({ results }) => {
+	const { user } = useContext(UserContext);
 	return (
-		<>
+		<table className='w-full table-auto overflow-hidden text-gray-500 dark:text-gray-400'>
 			<thead className='bg-gray-50 uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
 				<tr>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Mint</th>
@@ -12,9 +16,10 @@ const FullList = ({ results }) => {
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Immutable</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>ID</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Item Points</th>
+					<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody className='text-center'>
 				{results.map((item) => (
 					<tr
 						className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
@@ -42,10 +47,22 @@ const FullList = ({ results }) => {
 						</td>
 						<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.id}</td>
 						<td className='py-1 px-2 sm:py-3 sm:px-6'>{(item.rating * 10).toFixed(2)}</td>
+						<td className='py-1 px-2 sm:py-3 sm:px-6'>
+							<div className='relative flex h-8 items-center justify-center'>
+								{user.info.allowed.includes("history") ? (
+									<HistoryModal data={item} />
+								) : (
+									<FaLock
+										className='cursor-not-allowed'
+										title='You need history access for this feature'
+									/>
+								)}
+							</div>
+						</td>
 					</tr>
 				))}
 			</tbody>
-		</>
+		</table>
 	);
 };
 export default FullList;

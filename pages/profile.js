@@ -2,10 +2,10 @@ import { useContext } from "react";
 import Image from "next/future/image";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
+import Link from "next/link";
 
 const Profile = () => {
 	const { user, setUser } = useContext(UserContext);
-
 	return (
 		<>
 			<Meta title='Profile | Kolex VIP' description='stuff' />
@@ -43,13 +43,21 @@ const Profile = () => {
 							<div className='text-2xl font-semibold'>{user.user.username}</div>
 
 							<div>
-								Premium:{" "}
-								{user.premium ? (
-									<span className='font-semibold text-green-500'>Yes</span>
+								VIP Features:{" "}
+								{user.info.allowed.length > 0 ? (
+									user.info.allowed.map((option, i) => [
+										i > 0 && ", ",
+										<Link href={`/${option}`} key={option}>
+											<a className='hover:text-orange-500'>
+												{option[0].toUpperCase() + option.slice(1)}
+											</a>
+										</Link>,
+									])
 								) : (
-									<span className='font-semibold text-rose-600'>No</span>
+									<span>None</span>
 								)}
 							</div>
+
 							<div>
 								Created:{" "}
 								<span className='font-semibold text-indigo-500'>

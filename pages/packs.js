@@ -73,9 +73,7 @@ const PackSearch = () => {
 				<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
 					<label
 						htmlFor='pack'
-						className={`flex items-center text-gray-300 ${
-							user.premium ? "flex-row-reverse" : ""
-						}`}
+						className='flex flex-row-reverse items-center text-gray-300'
 					>
 						<Tooltip
 							text='If your input is a number only, it will search for pack id. If there is any other text in it, it will search for pack name; ignoring lowercase, uppercase and colon.'

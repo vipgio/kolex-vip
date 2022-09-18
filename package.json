@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"@headlessui/react": "^1.7.2",
 		"@supabase/supabase-js": "^1.35.4",
 		"@szhsin/react-menu": "^3.1.2",
 		"@testing-library/jest-dom": "^5.16.4",

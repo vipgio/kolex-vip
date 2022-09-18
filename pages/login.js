@@ -21,12 +21,27 @@ const Login = () => {
 				const whitelist = await axios.get(
 					`/api/whitelist?username=${data.data.user.username}`
 				);
+				if (whitelist.data.info?.banned) {
+					toast.error("You're banned, fuck off", {
+						position: "top-center",
+						toastId: "banned",
+						progress: 1,
+						closeOnClick: false,
+					});
+				} else {
+					whitelist.data.info
+						? setUser({
+								...data.data,
+								info: {
+									allowed: whitelist.data.info.allowed || [],
+								},
+						  })
+						: setUser({ ...data.data, info: { allowed: [] } });
+				}
 				setLoading(false);
-				whitelist.data // true or false depending on if the user is whitelisted
-					? setUser({ ...data.data, premium: true })
-					: setUser({ ...data.data, premium: false });
 			}
 		} catch (err) {
+			console.log(err);
 			if (!codeEnabled && err.response.data.errorCode === "2fa_invalid") {
 				setCodeEnabled(true);
 				toast.warning("Enter your 2FA code", {
@@ -46,10 +61,9 @@ const Login = () => {
 			<div className='flex h-full w-full items-center justify-center'>
 				<ToastContainer
 					position='top-right'
-					autoClose={3500}
-					hideProgressBar={false}
+					hideProgressBar
 					newestOnTop
-					closeOnClick
+					closeOnClick={false}
 					rtl={false}
 					pauseOnFocusLoss
 					draggable

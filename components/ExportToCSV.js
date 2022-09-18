@@ -1,6 +1,5 @@
 import { CSVLink } from "react-csv";
 const ExportToCSV = ({ data, filename, type }) => {
-	console.log(data);
 	const headers = {
 		mint: ["Mint", "Title", "Owner", "ID", "Signed", "Points"],
 		market: [
@@ -74,8 +73,13 @@ const ExportToCSV = ({ data, filename, type }) => {
 	const csvData = [headers[type], ...array];
 	return (
 		<div>
-			<button className='relative rounded-md border bg-white py-1 font-semibold text-green-500 shadow-md transition-all active:scale-95 active:bg-slate-200 active:text-green-600'>
-				<CSVLink data={csvData} filename={filename} className='p-2'>
+			<button className='relative rounded-md border border-transparent bg-gray-100 py-1 text-sm font-medium text-orange-500 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:bg-gray-300 active:shadow-lg'>
+				<CSVLink
+					data={csvData}
+					filename={filename}
+					className='border border-transparent p-2 focus:outline-none'
+					tabIndex={-1}
+				>
 					Export
 				</CSVLink>
 			</button>
