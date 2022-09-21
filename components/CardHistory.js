@@ -15,8 +15,8 @@ const CardHistory = React.memo(
 								alt={item.id}
 								width={50 * 1.5}
 								height={75 * 1.5}
-								quality={100}
 								className='h-full w-full object-cover'
+								unoptimized={true}
 							/>
 						</div>
 					)}

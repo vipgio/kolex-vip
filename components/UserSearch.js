@@ -70,6 +70,7 @@ const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 									quality={80}
 									className='object-cover'
 									sizes='33vw'
+									unoptimized={true}
 								/>
 							</div>
 							<span className='mt-2 font-semibold text-gray-300'>{result.username}</span>

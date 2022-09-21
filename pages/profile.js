@@ -19,6 +19,7 @@ const Profile = () => {
 							height={500}
 							width={500}
 							priority='true'
+							unoptimized={true}
 						/>
 					</div>
 					<div

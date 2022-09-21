@@ -14,6 +14,7 @@ const PackResults = ({ pack }) => {
 					width={200}
 					height={200}
 					alt={pack.name}
+					unoptimized={true}
 					// style={{ objectFit: "contain" }}
 				/>
 			</div>

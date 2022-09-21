@@ -8,6 +8,7 @@ import { UserContext } from "context/UserContext";
 import CoolButton from "./CoolButton";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
+import LoadingSpin from "../LoadingSpin";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { user, setLoading, loading } = useContext(UserContext);
@@ -182,11 +183,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 								className='big-button mt-2 disabled:cursor-not-allowed disabled:opacity-50'
 								disabled={loading || selected.length === 0}
 							>
-								{loading ? (
-									<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
-								) : (
-									"List"
-								)}
+								{loading ? <LoadingSpin /> : "List"}
 							</button>
 						</form>
 					</div>

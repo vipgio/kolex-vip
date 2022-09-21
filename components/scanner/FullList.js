@@ -1,6 +1,6 @@
 import { UserContext } from "context/UserContext";
 import { useContext } from "react";
-import { FaSignature, FaLock } from "react-icons/fa";
+import { FaSignature, FaLock, FaBan } from "react-icons/fa";
 import HistoryModal from "../HistoryModal";
 
 const FullList = ({ results }) => {
@@ -50,7 +50,11 @@ const FullList = ({ results }) => {
 						<td className='py-1 px-2 sm:py-3 sm:px-6'>
 							<div className='relative flex h-8 items-center justify-center'>
 								{user.info.allowed.includes("history") ? (
-									<HistoryModal data={item} />
+									item.type === "sticker" ? (
+										<FaBan title="Doesn't work with stickers" />
+									) : (
+										<HistoryModal data={item} />
+									)
 								) : (
 									<FaLock
 										className='cursor-not-allowed'

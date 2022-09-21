@@ -1,7 +1,7 @@
 import "../globals.css";
 import UserContextProvider from "context/UserContext";
-import PrivateRoute from "components/PrivateRoutes";
-import PremiumRoutes from "components/PremiumRoutes";
+import PrivateRoute from "HOC/PrivateRoutes";
+import PremiumRoutes from "HOC/PremiumRoutes";
 import Layout from "components/Layout";
 
 const App = ({ Component, pageProps }) => {
@@ -14,6 +14,7 @@ const App = ({ Component, pageProps }) => {
 		"/history",
 		"/scanner",
 		"/mintsearch",
+		"/cardlister",
 	];
 	const premiumRoutes = ["/masslist", "/history", "/mintsearch"];
 	return (

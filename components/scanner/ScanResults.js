@@ -31,6 +31,7 @@ const ScanResult = React.memo(
 					signed: result.signatureImage ? true : false,
 					templateId:
 						result.type === "card" ? result.cardTemplateId : result.stickerTemplate.id,
+					type: result.type === "card" ? "card" : "sticker",
 				};
 			}
 		);

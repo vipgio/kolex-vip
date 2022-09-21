@@ -8,6 +8,7 @@ import Meta from "components/Meta";
 import Tooltip from "components/Tooltip";
 import CardHistory from "components/CardHistory";
 import { useEffect } from "react";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const History = () => {
 	const { user, loading, setLoading } = useContext(UserContext);
@@ -128,11 +129,7 @@ const History = () => {
 							disabled={loading}
 							className={`big-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 						>
-							{loading ? (
-								<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
-							) : (
-								"Get history"
-							)}
+							{loading ? <LoadingSpin /> : "Get history"}
 						</button>
 					</form>
 				</div>

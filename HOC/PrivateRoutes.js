@@ -1,24 +1,22 @@
 import { useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 
-import FullPageLoader from "./FullPageLoader";
+import FullPageLoader from "components/FullPageLoader";
 import { UserContext } from "context/UserContext";
 
-const PrivateRoute = ({ premiumRoutes, children }) => {
+const PrivateRoute = ({ protectedRoutes, children }) => {
 	const router = useRouter();
 	const { user, initialLoading } = useContext(UserContext);
-	const pathIsProtected = premiumRoutes.includes(router.pathname);
+
+	const pathIsProtected = protectedRoutes.indexOf(router.pathname) !== -1;
+
 	useEffect(() => {
-		if (
-			user &&
-			!user.info.allowed.includes(router.pathname.slice(1)) &&
-			pathIsProtected
-		) {
+		if (!initialLoading && !user && pathIsProtected) {
 			router.push("/");
 		}
-	}, [user]);
+	}, [user, pathIsProtected, initialLoading]);
 
-	if (initialLoading && pathIsProtected && !user) {
+	if ((initialLoading || !user) && pathIsProtected) {
 		return <FullPageLoader />;
 	}
 

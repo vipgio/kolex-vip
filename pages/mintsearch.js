@@ -4,6 +4,7 @@ import { UserContext } from "context/UserContext";
 import SetSelector from "HOC/SetSelector";
 import Meta from "components/Meta";
 import CardGallery from "@/components/Search/CardGallery";
+import LoadingSpin from "@/components/LoadingSpin";
 const Searcher = () => {
 	const { user } = useContext(UserContext);
 	const [selectedCollection, setSelectedCollection] = useState(null);
@@ -140,7 +141,7 @@ const Searcher = () => {
 				</div>
 				{loading && (
 					<div className='flex justify-center py-2'>
-						<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
+						<LoadingSpin />
 					</div>
 				)}
 				{cards.length > 0 && (

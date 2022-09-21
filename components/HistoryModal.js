@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Dialog, Transition } from "@headlessui/react";
-import { FaHistory, FaLock } from "react-icons/fa";
+import { FaHistory } from "react-icons/fa";
 import isEqual from "lodash/isEqual";
 import { UserContext } from "context/UserContext";
+import LoadingSpin from "./LoadingSpin";
 
 const HistoryModal = React.memo(
 	({ data }) => {
@@ -75,8 +76,10 @@ const HistoryModal = React.memo(
 											as='h3'
 											className='text-lg font-medium leading-6 text-gray-200'
 										>
-											{data.mintBatch ? data.mintBatch : data.card.mintBatch}
-											{data.mintNumber ? data.mintNumber : data.card.mintNumber}{" "}
+											{data.mintBatch ? data.mintBatch : data[data.type].mintBatch}
+											{data.mintNumber
+												? data.mintNumber
+												: data[data.type].mintNumber}{" "}
 											{data.title}
 										</Dialog.Title>
 										{history.data ? (
@@ -260,7 +263,9 @@ const HistoryModal = React.memo(
 												</div>
 											</>
 										) : (
-											<div className='mt-3 h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
+											<div className='flex items-center justify-center pt-2'>
+												<LoadingSpin />
+											</div>
 										)}
 
 										<div className='mt-4'>

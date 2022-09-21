@@ -23,10 +23,10 @@ const MassPackGrid = ({ packTemplate }) => {
 						src={`https://cdn.epics.gg${packTemplate.image}` || ""}
 						width={200}
 						height={300}
-						quality={100}
 						alt={packTemplate.name || "loading"}
 						className='h-full w-full object-cover'
 						priority='true'
+						// unoptimized={true}
 					/>
 				</div>
 				<div className='text-center font-semibold'>{packTemplate.name}</div>

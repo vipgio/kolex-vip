@@ -3,6 +3,7 @@ import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
 import PackResults from "components/PackResults";
 import Tooltip from "components/Tooltip";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const PackSearch = () => {
 	const { getPacks, loading, setLoading, user } = useContext(UserContext);
@@ -92,7 +93,7 @@ const PackSearch = () => {
 						autoComplete='off'
 					/>
 					{loading ? (
-						<div className='h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
+						<LoadingSpin />
 					) : (
 						<button
 							type='submit'

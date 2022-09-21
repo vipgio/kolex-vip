@@ -2,9 +2,10 @@ import { UserContext } from "context/UserContext";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import { useContext } from "react";
-import { FaSignature, FaLock } from "react-icons/fa";
+import { FaSignature, FaLock, FaBan } from "react-icons/fa";
 import ExportToCSV from "../ExportToCSV";
 import HistoryModal from "../HistoryModal";
+import LoadingSpin from "../LoadingSpin";
 const MintResults = ({
 	setShowResults,
 	results,
@@ -23,7 +24,7 @@ const MintResults = ({
 				>
 					<h1 className='mx-auto py-2 text-3xl text-gray-200'>
 						{loading ? (
-							<div className='h-7 w-7 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
+							<LoadingSpin />
 						) : (
 							<>
 								Results{" "}
@@ -116,7 +117,11 @@ const MintResults = ({
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>
 										<div className='relative flex h-8 items-center justify-center'>
 											{user.info.allowed.includes("history") ? (
-												<HistoryModal data={item} />
+												item.type !== "card" ? (
+													<FaBan title="Doesn't work with stickers" />
+												) : (
+													<HistoryModal data={item} />
+												)
 											) : (
 												<FaLock
 													className='cursor-not-allowed'

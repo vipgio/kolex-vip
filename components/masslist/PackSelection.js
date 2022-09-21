@@ -25,6 +25,7 @@ const PackSelection = ({
 					quality={100}
 					alt={packTemplate.name}
 					style={{ objectFit: "contain" }}
+					unoptimized={true}
 				/>
 				<div className='ml-2 text-gray-300'>
 					<div>{packTemplate.description}</div>

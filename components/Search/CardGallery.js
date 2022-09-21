@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
 import MarketResults from "./MarketResults";
-import { FiUser, FiShoppingCart, FiLock } from "react-icons/fi";
+import { FiUser, FiShoppingCart } from "react-icons/fi";
 import MintResults from "./MintResults";
 import { useRef } from "react";
 import { useEffect } from "react";
@@ -279,7 +279,7 @@ const CardGallery = ({
 				</div>
 			</div>
 			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-5'>
-				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.title]).map(
+				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.id]).map(
 					(card) => (
 						<div
 							key={card.uuid}
@@ -304,14 +304,12 @@ const CardGallery = ({
 									}
 									width={200 * 1.5}
 									height={300 * 1.5}
-									quality={100}
 									alt={card.title}
-									className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
-										selectedCards.some((e) => e.id === card.id)
+									className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${selectedCards.some((e) => e.id === card.id)
 											? "border-orange-500 grayscale-0"
 											: "border-transparent"
-									}`}
-									priority='true'
+										}`}
+									unoptimized={true}
 								/>
 								{!selectedCards.some((e) => e.id === card.id) && (
 									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>

@@ -9,6 +9,7 @@ import UserSearch from "components/UserSearch";
 import ScanResult from "components/scanner/ScanResults";
 import Tooltip from "components/Tooltip";
 import "react-toastify/dist/ReactToastify.css";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const Scanner = () => {
 	const { user } = useContext(UserContext);
@@ -133,11 +134,7 @@ const Scanner = () => {
 						onClick={handleScan}
 						disabled={loading}
 					>
-						{loading ? (
-							<div className='h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-gray-700'></div>
-						) : (
-							"Scan"
-						)}
+						{loading ? <LoadingSpin /> : "Scan"}
 					</button>
 					<div className='text-gray-300'>
 						<Tooltip
