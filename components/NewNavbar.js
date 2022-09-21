@@ -36,7 +36,7 @@ const NewNavbar = () => {
 					>
 						<Menu.Items className='absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
 							{freePages.map((page) => (
-								<Menu.Items>
+								<Menu.Items key={page.link}>
 									<Menu.Item>
 										{({ active }) => (
 											<MyLink
@@ -53,7 +53,7 @@ const NewNavbar = () => {
 								</Menu.Items>
 							))}
 							{paidPages.map((page) => (
-								<Menu.Items>
+								<Menu.Items key={page.link}>
 									<Menu.Item>
 										{({ active }) => (
 											<MyLink
@@ -80,8 +80,9 @@ const NewNavbar = () => {
 };
 
 export default NewNavbar;
+
 const MyLink = forwardRef((props, ref) => {
-	let { href, children, ...rest } = props;
+	const { href, children, ...rest } = props;
 	return (
 		<Link href={href}>
 			<a ref={ref} {...rest}>
@@ -90,3 +91,4 @@ const MyLink = forwardRef((props, ref) => {
 		</Link>
 	);
 });
+MyLink.displayName = "MyLink";
