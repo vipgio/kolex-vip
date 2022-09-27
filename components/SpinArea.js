@@ -67,10 +67,7 @@ const SpinArea = ({ info }) => {
 	};
 
 	useEffect(() => {
-		return () => {
-			console.log("Spinner stopped");
-			stopSpin();
-		};
+		return () => stopSpin();
 	}, []);
 
 	return (

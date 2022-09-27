@@ -52,7 +52,7 @@ const Searcher = () => {
 
 	return (
 		<>
-			<Meta title='Market Search | Kolex VIP' />
+			<Meta title='Mint Search | Kolex VIP' />
 			<div className='my-10 border p-2'>
 				<div className='px-2 pt-2 font-semibold text-gray-300'>
 					Selected Collection:

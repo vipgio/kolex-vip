@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import Image from "next/future/image";
 import isEqual from "lodash/isEqual";
+import ImageWrapper from "HOC/ImageWrapper";
 const CardHistory = React.memo(
 	({ item }) => {
 		return (
@@ -8,15 +8,13 @@ const CardHistory = React.memo(
 				<div className='m-5 flex basis-11/12 items-start border border-gray-300 p-2 lg:basis-[calc(50%_-_40px)]'>
 					{item.images.size402 && (
 						<div className='mr-2 min-w-fit'>
-							<Image
+							<ImageWrapper
 								src={
 									item.images.size402 ? item.images.size402 : item.template.images.size402
 								}
 								alt={item.id}
 								width={50 * 1.5}
 								height={75 * 1.5}
-								className='h-full w-full object-cover'
-								unoptimized={true}
 							/>
 						</div>
 					)}

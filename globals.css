@@ -8,7 +8,7 @@
 
 .big-button {
 	/*	@apply bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md;*/
-	@apply rounded-md bg-indigo-500 py-2 px-4 text-center font-bold text-gray-200 enabled:hover:bg-indigo-700 enabled:active:bg-indigo-800;
+	@apply rounded-md bg-indigo-500 py-2 px-4 text-center font-bold text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 enabled:hover:bg-indigo-700 enabled:active:bg-indigo-800;
 }
 
 body {
@@ -47,4 +47,7 @@ body {
 }
 .Toastify__toast-container--top-right {
 	position: absolute !important;
+}
+.navbar-icon-bar {
+	@apply absolute left-0 origin-center rounded-sm bg-white transition-all duration-300 ease-in-out;
 }

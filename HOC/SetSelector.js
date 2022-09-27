@@ -78,14 +78,12 @@ const SetSelector = React.memo(
 			groupCollections();
 		}, []);
 		return (
-			<>
-				<div>
-					<Dropdown
-						collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
-						setSelectedCollection={setSelectedCollection}
-					/>
-				</div>
-			</>
+			<div>
+				<Dropdown
+					collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
+					setSelectedCollection={setSelectedCollection}
+				/>
+			</div>
 		);
 	},
 	(oldProps, newProps) => isEqual(oldProps, newProps)

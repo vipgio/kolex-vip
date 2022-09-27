@@ -1,24 +1,22 @@
 import { useState } from "react";
-import Image from "next/future/image";
+import ImageWrapper from "HOC/ImageWrapper";
 import PackOdds from "./PackOdds";
 
 const PackResults = ({ pack }) => {
 	const [showOdds, setShowOdds] = useState(false);
 	return (
-		<div className='m-2 flex border-t p-2'>
-			<div className='pt-1'>
-				<Image
+		<div className='relative m-2 flex border-t p-2'>
+			<div className='w-4/12 pt-1 sm:w-1/5'>
+				<ImageWrapper
 					src={`https://cdn.epics.gg${
 						pack.images.filter((images) => images.name === "image")[0].url
 					}`}
 					width={200}
 					height={200}
 					alt={pack.name}
-					unoptimized={true}
-					// style={{ objectFit: "contain" }}
 				/>
 			</div>
-			<div className='mx-2 space-y-1 text-gray-200'>
+			<div className='mx-2 w-8/12 space-y-1 text-gray-200 sm:w-4/5'>
 				<div className='mb-2 text-lg font-bold'>{pack.name}</div>
 				<div>{pack.description}</div>
 				<div>

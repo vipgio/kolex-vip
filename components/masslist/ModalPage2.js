@@ -7,7 +7,6 @@ import findIndex from "lodash/findIndex";
 import { UserContext } from "context/UserContext";
 import CoolButton from "./CoolButton";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
 import LoadingSpin from "../LoadingSpin";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
@@ -35,6 +34,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					data: {
 						price: price,
 						minOffer: offerEnabled ? minOffer.toString() : null,
+						type: "pack",
 					},
 				};
 				const headers = {

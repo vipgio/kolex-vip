@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import pick from "lodash/pick";
 import { UserContext } from "context/UserContext";
@@ -6,58 +6,53 @@ import SetSelector from "HOC/SetSelector";
 import Meta from "@/components/Meta";
 import CardGallery from "@/components/cardlister/CardGallery";
 import LoadingSpin from "@/components/LoadingSpin";
-import { useEffect } from "react";
 
 const Cardlister = () => {
+	const { user } = useContext(UserContext);
 	const [selectedCollection, setSelectedCollection] = useState(null);
-	const [cards, setCards] = useState([]);
 	const [templates, setTemplates] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const { user } = useContext(UserContext);
 
 	useEffect(() => {
 		selectedCollection && getCards();
 	}, [selectedCollection]);
 
 	const getCards = async () => {
-		const id = 6635;
 		setLoading(true);
 		setTemplates([]);
-		setCards([]);
-		// const { data: templates } = await getCollection(id);
-		const { data: templates } = await getCollection(selectedCollection.collection.id);
-		// const { data: cards } = await getCardIds(user.user.id, id);
-		const { data: cards } = await getCardIds(
-			user.user.id,
-			selectedCollection.collection.id
-		);
-		if (cards) {
-			setCards(cards);
-		}
-		if (templates) {
-			const countedTemplates = templates.map((card) => {
-				const cardCount = cards.find((o) => o.cardTemplateId === card.id);
-				const stickerCount = cards.find((o) => o.stickerTemplateId === card.id);
-				const count = cardCount || stickerCount;
-				return {
-					...pick(card, [
-						"id",
-						"title",
-						"images",
-						"inCirculation",
-						"cardType",
-						"team",
-						"treatmentId",
-						"uuid",
-					]),
-					count: count
-						? count.cardIds
-							? count.cardIds.length
-							: count.stickerIds.length
-						: 0,
-				};
-			});
-			setTemplates(countedTemplates);
+		try {
+			const { data: templates } = await getCollection(selectedCollection.collection.id);
+			const { data: cards } = await getCardIds(
+				user.user.id,
+				selectedCollection.collection.id
+			);
+			if (templates) {
+				const countedTemplates = templates.map((card) => {
+					const cardCount = cards.find((o) => o.cardTemplateId === card.id);
+					const stickerCount = cards.find((o) => o.stickerTemplateId === card.id);
+					const count = cardCount || stickerCount;
+					return {
+						...pick(card, [
+							"id",
+							"title",
+							"images",
+							"inCirculation",
+							"cardType",
+							"treatmentId",
+							"uuid",
+						]),
+						count: count
+							? count.cardIds
+								? count.cardIds.length
+								: count.stickerIds.length
+							: 0,
+					};
+				});
+				setTemplates(countedTemplates);
+				setLoading(false);
+			}
+		} catch (err) {
+			console.log(err);
 			setLoading(false);
 		}
 	};
@@ -97,7 +92,7 @@ const Cardlister = () => {
 	return (
 		<>
 			<Meta title='Card Lister | Kolex VIP' />
-			<div className='px-4 pt-2 font-semibold text-gray-300'>
+			<div className='mt-10 px-2 pt-2 font-semibold text-gray-300'>
 				Selected Collection:
 				{selectedCollection && (
 					<span>
@@ -114,9 +109,7 @@ const Cardlister = () => {
 					<LoadingSpin />
 				</div>
 			)}
-			{cards.length > 0 && (
-				<CardGallery cards={cards} templates={templates} user={user} />
-			)}
+			{templates.length > 0 && <CardGallery templates={templates} user={user} />}
 		</>
 	);
 };

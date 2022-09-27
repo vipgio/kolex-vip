@@ -137,11 +137,9 @@ const History = () => {
 					<div className='mt-10 flex w-full flex-col items-center space-y-2 px-5'>
 						{/* <div className='grid grid-cols-2 gap-5 lg:grid-cols-4'> */}
 						<div className='flex w-full flex-wrap justify-center'>
-							{history
-								.sort((a, b) => b.id - a.id)
-								.map((item) => (
-									<CardHistory key={item.id} item={item} />
-								))}
+							{history.map((item) => (
+								<CardHistory key={item.id} item={item} />
+							))}
 						</div>
 					</div>
 				)}
