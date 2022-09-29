@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import sortBy from "lodash/sortBy";
@@ -7,11 +7,10 @@ import Tooltip from "@/components/Tooltip";
 import ItemBox from "./ItemBox";
 import "react-toastify/dist/ReactToastify.css";
 
-const ListingModal = ({ selectedTemplates, setShowListingModal, user, templates }) => {
+const AdvancedModal = ({ selectedTemplates, setShowAdvancedModal, user, templates }) => {
 	const [loading, setLoading] = useState(false);
-	const [cardDetailes, setCardDetails] = useState([]);
+	const [cardDetails, setCardDetails] = useState([]);
 	const [loadedState, setLoadedState] = useState([]);
-	const [loadedPrice, setLoadedPrice] = useState([]);
 	const [insertFloor, setInsertFloor] = useState(0);
 	const [listingDetails, setListingDetails] = useState({});
 
@@ -146,7 +145,7 @@ const ListingModal = ({ selectedTemplates, setShowListingModal, user, templates 
 					<button
 						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-300 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400'
 						onClick={() => {
-							setShowListingModal(false);
+							setShowAdvancedModal(false);
 						}}
 					>
 						<svg
@@ -165,7 +164,7 @@ const ListingModal = ({ selectedTemplates, setShowListingModal, user, templates 
 					</button>
 				</div>
 				<div className='relative grid max-h-[30rem] overflow-auto p-2 sm:grid-cols-2'>
-					{cardDetailes.map((template) => (
+					{cardDetails.map((template) => (
 						<ItemBox
 							template={template}
 							key={template.id}
@@ -174,7 +173,6 @@ const ListingModal = ({ selectedTemplates, setShowListingModal, user, templates 
 							listingDetails={listingDetails}
 							setListingDetails={setListingDetails}
 							setLoadedState={setLoadedState}
-							setLoadedPrice={setLoadedPrice}
 						/>
 					))}
 				</div>
@@ -183,7 +181,6 @@ const ListingModal = ({ selectedTemplates, setShowListingModal, user, templates 
 						<button
 							onClick={() => setInsertFloor((prev) => prev + 1)}
 							className='rounded-md border border-gray-200 p-1 text-gray-300 transition-colors enabled:hover:bg-gray-200 enabled:hover:text-black enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50'
-							disabled={loadedPrice.length < selectedTemplates.length}
 						>
 							Floor
 						</button>
@@ -207,4 +204,4 @@ const ListingModal = ({ selectedTemplates, setShowListingModal, user, templates 
 		</div>
 	);
 };
-export default ListingModal;
+export default AdvancedModal;

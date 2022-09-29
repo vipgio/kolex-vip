@@ -14,7 +14,7 @@ const Tooltip = ({ direction, text, mode }) => {
 
 	return (
 		<div
-			className={`group relative hidden opacity-30 transition-opacity duration-300 hover:opacity-100 sm:block ${
+			className={`group relative block opacity-30 transition-opacity duration-300 hover:opacity-100 ${
 				direction === "right" ? "ml-2" : "mr-2"
 			} ${mode === "light" ? "text-white" : ""}`}
 		>

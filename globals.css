@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .input-field {
-	@apply rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500;
+	@apply rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:px-3;
 }
 
 .big-button {
@@ -20,7 +20,7 @@ body {
 }
 
 .tooltip {
-	@apply pointer-events-none absolute bottom-1/2 z-30 h-fit w-48 translate-y-1/2 bg-orange-400 p-1 text-center text-sm text-white opacity-0 transition-opacity duration-300 after:absolute after:top-1/2 after:-mt-2 after:border-8 after:border-transparent after:content-["_"] group-hover:opacity-90;
+	@apply pointer-events-none absolute bottom-1/2 z-50 h-fit w-48 translate-y-1/2 bg-orange-400 p-1 text-center text-sm text-white opacity-0 transition-opacity duration-300 after:absolute after:top-1/2 after:-mt-2 after:border-8 after:border-transparent after:content-["_"] group-hover:opacity-90;
 }
 ::-webkit-scrollbar {
 	width: 10px;

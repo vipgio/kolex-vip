@@ -46,9 +46,20 @@ const Cardlister = () => {
 								? count.cardIds.length
 								: count.stickerIds.length
 							: 0,
+						type: card.cardType ? "card" : "sticker",
 					};
 				});
 				setTemplates(countedTemplates);
+				await getAllMarket(
+					templates.filter((item) => item.cardType),
+					1,
+					"card"
+				);
+				await getAllMarket(
+					templates.filter((item) => !item.cardType),
+					1,
+					"sticker"
+				);
 				setLoading(false);
 			}
 		} catch (err) {
@@ -77,6 +88,7 @@ const Cardlister = () => {
 		};
 		return result;
 	};
+
 	const getCardIds = async (userId, collectionId) => {
 		const { data } = await axios.get(`/api/collections/users/${userId}/cardids`, {
 			params: {
@@ -87,6 +99,54 @@ const Cardlister = () => {
 			},
 		});
 		return data;
+	};
+
+	const getAllMarket = async (cards, firstPage, type) => {
+		let page = firstPage;
+		if (cards.length > 0)
+			try {
+				const data = await getMarketInfo(cards, page, type);
+				if (data.success && data.data.templates.length > 0) {
+					setTemplates((prev) =>
+						prev.map((temp) => {
+							const index = data.data.templates.findIndex(
+								(o) => o.entityTemplateId === temp.id
+							);
+							if (index !== -1) {
+								return {
+									...temp,
+									floor: data.data.templates[index]?.lowestPrice,
+								};
+							} else {
+								return temp;
+							}
+						})
+					);
+					if (data.data.templates.length > 0) getAllMarket(cards, ++page, type);
+					return data;
+				}
+			} catch (err) {
+				console.log(err);
+			}
+	};
+
+	const getMarketInfo = async (templates, page, type) => {
+		try {
+			const { data } = await axios.get(`/api/market/templates`, {
+				params: {
+					templateIds: templates.map((o) => o.id).toString(),
+					type: type,
+					page: page,
+					price: "asc",
+				},
+				headers: {
+					jwt: user.jwt,
+				},
+			});
+			return data;
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (

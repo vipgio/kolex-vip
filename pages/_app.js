@@ -16,7 +16,7 @@ const App = ({ Component, pageProps }) => {
 		"/mintsearch",
 		"/cardlister",
 	];
-	const premiumRoutes = ["/masslist", "/history", "/mintsearch"];
+	const premiumRoutes = ["/masslist", "/history", "/mintsearch", "/cardlister"];
 	return (
 		<UserContextProvider>
 			<Layout>

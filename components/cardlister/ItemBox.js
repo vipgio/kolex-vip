@@ -7,17 +7,9 @@ import LoadingSpin from "../LoadingSpin";
 const minPrice = 0.1;
 
 const ItemBox = React.memo(
-	({
-		template,
-		user,
-		insertFloor,
-		setListingDetails,
-		setLoadedState,
-		setLoadedPrice,
-	}) => {
+	({ template, insertFloor, setListingDetails, setLoadedState }) => {
 		const [showMintModal, setShowMintModal] = useState(false);
 		const [selectedCards, setSelectedCards] = useState([]);
-		const [floor, setFloor] = useState(0);
 		const [price, setPrice] = useState("");
 
 		useEffect(() => {
@@ -35,33 +27,14 @@ const ItemBox = React.memo(
 		useEffect(() => {
 			if (insertFloor)
 				setPrice(
-					(floor * 100 - 0.01 * 100) / 100 >= minPrice
-						? ((floor * 100 - 0.01 * 100) / 100).toString()
-						: floor.toString()
+					(template.floor * 100 - 0.01 * 100) / 100 >= minPrice
+						? ((template.floor * 100 - 0.01 * 100) / 100).toString()
+						: template.floor.toString()
 				);
 		}, [insertFloor]);
 
 		useEffect(() => {
 			setLoadedState((prev) => uniq([...prev, template.id]));
-			const getMarketInfo = async (cardId, page, type) => {
-				const { data } = await axios.get(
-					`/api/market/card/${cardId}?page=${page}&type=${type}`,
-					{
-						headers: {
-							jwt: user.jwt,
-						},
-					}
-				);
-				if (data.success) {
-					setFloor(data.data.market[0][0].price);
-					setLoadedPrice((prev) => uniq([...prev, template.id]));
-				}
-			};
-			try {
-				getMarketInfo(template.id, 1, template.cardType ? "card" : "sticker");
-			} catch (err) {
-				console.log(err);
-			}
 		}, []);
 
 		return (
@@ -77,8 +50,7 @@ const ItemBox = React.memo(
 					<div className='flex flex-col'>
 						<div className='flex items-center'>
 							<span className='mr-2'>Floor price:</span>
-							{floor === 0 && <LoadingSpin size={4} />}
-							{floor !== 0 && <span>{floor ? `$${floor}` : "-"}</span>}
+							<span>{template.floor ? `$${template.floor}` : "-"}</span>
 						</div>
 						<div>
 							<label htmlFor='price'>Price: </label>
