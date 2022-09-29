@@ -132,7 +132,7 @@ const MintSelectorModal = React.memo(
 															</select>
 														</div>
 														<div>
-															<label htmlFor='max'>Max mint:</label>
+															<label htmlFor='max'>Highest mint:</label>
 															<input
 																type='number'
 																name='max'
@@ -145,7 +145,7 @@ const MintSelectorModal = React.memo(
 															/>
 														</div>
 														<div>
-															<label htmlFor='min'>Min mint:</label>
+															<label htmlFor='min'>Lowest mint:</label>
 															<input
 																type='number'
 																name='min'

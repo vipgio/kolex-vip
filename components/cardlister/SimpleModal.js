@@ -236,7 +236,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 								</select>
 							</div>
 							<div>
-								<label htmlFor='max'>Max mint:</label>
+								<label htmlFor='max'>Highest mint:</label>
 								<input
 									type='number'
 									name='max'
@@ -252,7 +252,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 								/>
 							</div>
 							<div>
-								<label htmlFor='min'>Min mint:</label>
+								<label htmlFor='min'>Lowest mint:</label>
 								<input
 									type='number'
 									name='min'
