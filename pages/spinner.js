@@ -26,8 +26,8 @@ const Spinner = () => {
 				</div> */}
 				<div className='flex flex-col sm:flex-row'>
 					{spinnerInfo.items && (
-						<table className='text-gray-300'>
-							<thead className='border border-gray-300'>
+						<table className='text-gray-700 dark:text-gray-300'>
+							<thead className='border border-gray-700 dark:border-gray-300'>
 								<tr>
 									<th>Item Name</th>
 									<th>Chance (%)</th>

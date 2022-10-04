@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
+import axios from "axios";
 import isEmpty from "lodash/isEmpty";
 import groupBy from "lodash/groupBy";
 import pickBy from "lodash/pickBy";
 import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
-import Dropdown from "@/components/Dropdown";
 import { UserContext } from "context/UserContext";
+import Dropdown from "@/components/Dropdown";
 
 const coreNames = [
 	"Common",
@@ -26,12 +27,13 @@ const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022"];
 
 const SetSelector = React.memo(
 	({ setSelectedCollection }) => {
-		const { getCollections } = useContext(UserContext);
+		const { user } = useContext(UserContext);
 		const [collections, setCollections] = useState([]);
+
 		useEffect(() => {
 			const groupCollections = async () => {
 				const { data } = await getCollections();
-				const grouped = groupBy(data.data, (col) => col.collection.properties.seasons[0]);
+				const grouped = groupBy(data, (col) => col.collection.properties.seasons[0]);
 				Object.entries(grouped).forEach(([season, seasonCollections]) => {
 					const coreGrouped = groupBy(
 						pickBy(seasonCollections, (col) =>
@@ -77,6 +79,26 @@ const SetSelector = React.memo(
 			};
 			groupCollections();
 		}, []);
+
+		const getCollections = async () => {
+			try {
+				const { data } = await axios.get(
+					`/api/collections/users/${user.user.id}/user-summary`,
+					{
+						params: {
+							userId: user.user.id,
+						},
+						headers: {
+							jwt: user.jwt,
+						},
+					}
+				);
+				return data;
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
 		return (
 			<div>
 				<Dropdown

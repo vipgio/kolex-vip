@@ -6,8 +6,8 @@ import HistoryModal from "../HistoryModal";
 const FullList = ({ results }) => {
 	const { user } = useContext(UserContext);
 	return (
-		<table className='w-full table-auto overflow-hidden text-gray-500 dark:text-gray-400'>
-			<thead className='bg-gray-50 uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
+		<table className='w-full table-auto overflow-hidden text-gray-600 dark:text-gray-400'>
+			<thead className='bg-gray-300 uppercase text-gray-700 transition-colors dark:bg-gray-700 dark:text-gray-400'>
 				<tr>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Mint</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
@@ -19,10 +19,10 @@ const FullList = ({ results }) => {
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
 				</tr>
 			</thead>
-			<tbody className='text-center'>
+			<tbody className='text-center transition-colors'>
 				{results.map((item) => (
 					<tr
-						className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
+						className='border-b bg-white transition-colors hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
 						key={item.id}
 					>
 						<td
@@ -51,7 +51,10 @@ const FullList = ({ results }) => {
 							<div className='relative flex h-8 items-center justify-center'>
 								{user.info.allowed.includes("history") ? (
 									item.type === "sticker" ? (
-										<FaBan title="Doesn't work with stickers" />
+										<FaBan
+											title="Doesn't work with stickers"
+											className='fill-gray-900 dark:fill-current'
+										/>
 									) : (
 										<HistoryModal data={item} />
 									)

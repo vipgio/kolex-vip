@@ -22,7 +22,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 	};
 	const [filters, setFilters] = useState(defaultFilters);
 
-	const availableBatches =
+	const availableBatches = //get mint batches
 		cardDetails.length > 0 &&
 		uniqBy(cardDetails.map((item) => item.cards).flat(), "mintBatch")
 			.map((o) => o.mintBatch)
@@ -30,6 +30,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 			.reverse();
 
 	useEffect(() => {
+		//filter based on mint range
 		if (!isEqual(defaultFilters, filters)) {
 			setSelectedCards(
 				cardDetails
@@ -47,6 +48,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 	}, [filters]);
 
 	useEffect(() => {
+		//fetch owned cards
 		let isApiSubscribed = true;
 		setCardDetails([]);
 		setLoading(true);
@@ -151,7 +153,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 	};
 
 	return (
-		<div className='fixed inset-0 z-20 flex flex-col items-center justify-center overscroll-none bg-black/90'>
+		<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<ToastContainer
 				position='top-right'
 				autoClose={5000}
@@ -163,15 +165,15 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 				draggable
 				pauseOnHover
 			/>
-			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-900 sm:mx-16'>
+			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-100 dark:bg-gray-900 sm:mx-16'>
 				<div
-					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-800' /*modal header*/
+					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800' /*modal header*/
 				>
-					<h1 className='mx-auto py-2 text-3xl text-gray-200'>
+					<h1 className='mx-auto py-2 text-3xl text-gray-800 dark:text-gray-200'>
 						{cardDetails.length < selectedTemplates.length ? <LoadingSpin /> : "Items"}
 					</h1>
 					<button
-						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-300 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400'
+						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-900 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'
 						onClick={() => {
 							setShowSimpleModal(false);
 						}}
@@ -192,7 +194,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 					</button>
 				</div>
 				<div className='flex w-full border border-gray-400'>
-					<div className='max-h-96 w-1/2 divide-y divide-gray-500 overflow-auto p-1 text-gray-200'>
+					<div className='max-h-96 w-1/2 divide-y divide-gray-500 overflow-auto p-1 text-gray-900 dark:text-gray-200'>
 						{cardDetails &&
 							cardDetails.map((item) => (
 								<div key={item.id} className='flex'>
@@ -206,7 +208,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 					<div className='w-1/2 border-l border-gray-400'>
 						{" "}
 						{/* right half, inputs */}
-						<div className='flex flex-col p-1 text-gray-200'>
+						<div className='flex flex-col p-1 text-gray-900 dark:text-gray-200'>
 							<div>
 								<span className='text-orange-500'>A) </span>
 								Choose a mint range:
@@ -218,7 +220,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 									id='batch'
 									value={filters.batch}
 									disabled={cardDetails.length !== selectedTemplates.length}
-									className='diasbled:opacity-50 mx-2 my-1 rounded-md p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:cursor-not-allowed sm:mb-0'
+									className='diasbled:opacity-50 mx-2 my-1 rounded-md border border-gray-800 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:cursor-not-allowed sm:mb-0'
 									onChange={(e) =>
 										setFilters((prev) => ({
 											...prev,
@@ -268,15 +270,20 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 								/>
 							</div>
 						</div>
-						<div className='flex flex-col border-t border-gray-400 p-1 text-gray-200'>
+						<div className='relative z-10 overflow-hidden text-center text-xl text-gray-900 before:absolute before:top-1/2 before:ml-[-44%] before:h-px before:w-5/12 before:bg-gray-400 before:text-right before:content-[""] after:absolute after:top-1/2 after:ml-[2%] after:h-px after:w-5/12 after:bg-gray-400 after:content-["\a0"] dark:text-gray-100'>
+							OR
+						</div>
+						<div className='flex flex-col p-1 text-gray-900 dark:text-gray-200'>
 							<div>
 								<span className='text-orange-500'>B) </span>
-								Or enter the number of sets:
+								{selectedTemplates.length === 1
+									? "Enter the number of cards:"
+									: "Enter the number of sets:"}
 							</div>
 							<div className='flex flex-col'>
 								<div className='flex items-center'>
 									<label htmlFor='count' className='mr-1'>
-										Sets:{" "}
+										{selectedTemplates.length === 1 ? "Cards:" : "Sets:"}
 									</label>
 									<input
 										type='number'
@@ -303,35 +310,29 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 										/>
 									</span>
 								</div>
-								<div>Max sets: {min(cardDetails.map((item) => item.cards.length))}</div>
+								<div>Max: {min(cardDetails.map((item) => item.cards.length))}</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div>
-					<div className='ml-1 p-1 text-gray-200'>
-						<div>
-							Floor range:{" "}
-							<span>
-								$
-								{min(
-									selectedTemplates.map((item) => Number(item.floor)).filter((o) => o)
-								)}
-							</span>
-							{" - "}
-							<span>
-								$
-								{max(
-									selectedTemplates.map((item) => Number(item.floor)).filter((o) => o)
-								)}
-							</span>
-						</div>
+
+				<div className='ml-1 p-1 text-gray-900 dark:text-gray-200'>
+					<div>
+						Floor range:{" "}
+						<span>
+							${min(selectedTemplates.map((item) => Number(item.floor)).filter((o) => o))}
+						</span>
+						{" - "}
+						<span>
+							${max(selectedTemplates.map((item) => Number(item.floor)).filter((o) => o))}
+						</span>
 					</div>
 				</div>
-				<div className='flex border-t p-2'>
+
+				<div className='flex border-t border-gray-400 p-2 dark:border-gray-200'>
 					<div className='mt-2 flex flex-col sm:mt-0'>
 						<div className='mb-1 flex items-center'>
-							<label htmlFor='price' className='text-gray-200'>
+							<label htmlFor='price' className='text-gray-800 dark:text-gray-200'>
 								Price:
 							</label>
 							<input
@@ -355,7 +356,7 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 								!selectedCards.length
 							}
 							onClick={listAll}
-							className='inline-flex cursor-pointer items-center rounded-md border border-transparent border-gray-200 bg-gray-100 py-2 px-3 text-center font-medium text-orange-500 shadow-lg transition-all hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:bg-gray-300 active:shadow-lg enabled:hover:bg-gray-300 enabled:hover:text-orange-600 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+							className='button sm:mb-0'
 						>
 							{loading ? <LoadingSpin size={4} /> : "List items"}
 						</button>

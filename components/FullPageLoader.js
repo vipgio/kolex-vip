@@ -6,7 +6,7 @@ const FullPageLoader = () => {
 			<Head>
 				<title>Loading... | Kolex VIP</title>
 			</Head>
-			<div className='flex min-h-screen flex-col items-center justify-center bg-gray-700'>
+			<div className='flex min-h-screen flex-col items-center justify-center bg-gray-100 dark:bg-gray-700'>
 				<div className='flex flex-col items-center justify-center'>
 					<LoadingSpin />
 				</div>

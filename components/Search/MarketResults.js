@@ -17,16 +17,16 @@ const MarketResults = ({
 	const { user } = useContext(UserContext);
 	console.log(results);
 	return (
-		<div className='fixed inset-0 z-20 flex flex-col items-center justify-center overscroll-none bg-black/90'>
-			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[80vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-900 sm:mx-24'>
+		<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
+			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-16'>
 				<div
-					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-800' /*modal header*/
+					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800' /*modal header*/
 				>
-					<h1 className='mx-auto py-2 text-3xl text-gray-200'>
+					<h1 className='mx-auto py-2 text-3xl text-gray-800 dark:text-gray-200'>
 						{loading ? <LoadingSpin /> : "Results"}
 					</h1>
 					<button
-						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-300 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400'
+						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-900 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'
 						onClick={() => {
 							setShowResults(false);
 							finished.current = true;
@@ -50,7 +50,7 @@ const MarketResults = ({
 
 				<div className='max-h-full overflow-auto'>
 					<table className='w-full table-auto'>
-						<thead className='bg-gray-700 text-gray-300'>
+						<thead className='bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'>
 							<tr>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Mint</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
@@ -72,13 +72,13 @@ const MarketResults = ({
 								(o) => o.marketId
 							).map((item) => (
 								<tr
-									className='border-b border-gray-700 bg-gray-800 text-center text-gray-300 hover:bg-gray-600'
+									className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'
 									key={item.marketId}
 								>
 									{item.card ? (
 										<td
 											className={`py-1 px-2 sm:py-3 sm:px-6 ${
-												item.card.signatureImage ? "text-yellow-400" : ""
+												item.card.signatureImage ? "text-yellow-500" : ""
 											}`}
 											title={item.card.signatureImage && "Signed"}
 										>
@@ -113,12 +113,12 @@ const MarketResults = ({
 									</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>
 										<a
-											target='_blank'
 											href={`https://kolex.gg/csgo/marketplace/${item.type}/${
 												item.card
 													? item.card.cardTemplateId
 													: item.sticker.stickerTemplateId
 											}/${item.marketId}`}
+											target='_blank'
 											rel='noopener noreferrer'
 											className='text-orange-500 underline'
 										>
@@ -148,7 +148,7 @@ const MarketResults = ({
 				</div>
 				{results.length > 0 && (
 					<div className='flex p-3'>
-						<div className='ml-2 flex items-center text-yellow-400'>
+						<div className='ml-2 flex items-center text-yellow-500'>
 							<FaSignature className='mr-2' /> Signed Item
 						</div>
 						<div className='ml-auto'>

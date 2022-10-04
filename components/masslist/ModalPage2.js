@@ -28,7 +28,8 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	const list = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		selected.forEach(async (packId) => {
+		const counter = 0;
+		for (const packId of selected) {
 			try {
 				const payload = {
 					data: {
@@ -43,12 +44,20 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					},
 				};
 				const { data } = await axios.post(`/api/market/list/${packId}`, payload, headers);
-				setLoading(false);
+				// setLoading(false);
 				if (data.success) {
-					toast.success("Listed items on the market!", {
-						toastId: "success",
-					});
 					updateLocal();
+					counter++;
+					counter === 1
+						? toast.success(
+								`Listed ${counter}x ${packTemplate.name} pack on the market for $${price}!`,
+								{
+									toastId: "success",
+								}
+						  )
+						: toast.update("success", {
+								render: `Listed ${counter}x ${packTemplate.name} packs on the market for $${price}!`,
+						  });
 				}
 			} catch (err) {
 				toast.error(err.response.data.error, {
@@ -56,7 +65,8 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				});
 				setLoading(false);
 			}
-		});
+		}
+		setLoading(false);
 	};
 
 	const open = async () => {
@@ -114,7 +124,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				pauseOnHover
 			/>
 			{selected.length > 0 && (
-				<div className='mt-3 flex items-center justify-center text-xl font-semibold text-gray-300'>
+				<div className='mt-3 flex items-center justify-center text-xl font-semibold text-gray-700 dark:text-gray-300'>
 					x{selected.length} {selected.length > 1 ? "Packs" : "Pack"} selected from{" "}
 					{packTemplate.name}
 				</div>
@@ -123,76 +133,74 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				<CoolButton action={action} setAction={setAction} />
 			</div>
 			{action === "list" ? (
-				<>
-					<div>
-						<form
-							onSubmit={(e) => {
-								e.preventDefault();
-								list();
-							}}
-							className='flex flex-col items-center justify-center'
-						>
-							<label htmlFor='price' className='text-gray-300'>
-								Price:
+				<div>
+					<form
+						onSubmit={(e) => {
+							e.preventDefault();
+							list();
+						}}
+						className='flex flex-col items-center justify-center'
+					>
+						<label htmlFor='price' className='text-gray-700 dark:text-gray-300'>
+							Price:
+						</label>
+						<input
+							type='number'
+							name='price'
+							id='price'
+							value={price}
+							className='input-field w-28'
+							max={200000}
+							onChange={(e) => setPrice(e.target.value)} // remove leading zeros and non-numeric characters
+							onFocus={(e) => e.target.select()}
+							step={0.01}
+							min={0.1}
+						/>
+						<div className='flex justify-center'>
+							<label htmlFor='minOffer' className='text-gray-700 dark:text-gray-300'>
+								Min Offer:
 							</label>
 							<input
-								type='number'
-								name='price'
-								id='price'
-								value={price}
-								className='input-field w-28'
-								max={200000}
-								onChange={(e) => setPrice(e.target.value)} // remove leading zeros and non-numeric characters
-								onFocus={(e) => e.target.select()}
-								step={0.01}
-								min={0.1}
+								type='checkbox'
+								name='minOffer'
+								id='minOffer'
+								className='ml-2'
+								onChange={(e) => setOfferEnabled(e.target.checked)}
 							/>
-							<div className='flex justify-center'>
-								<label htmlFor='minOffer' className='text-gray-300'>
-									Min Offer:
-								</label>
-								<input
-									type='checkbox'
-									name='minOffer'
-									id='minOffer'
-									className='ml-2'
-									onChange={(e) => setOfferEnabled(e.target.checked)}
-								/>
-							</div>
-							<input
-								type='number'
-								name='minOfferPrice'
-								id='minOfferPrice'
-								value={minOffer}
-								disabled={!offerEnabled}
-								className='input-field w-28 disabled:cursor-not-allowed'
-								min={0.1}
-								max={price - 0.01}
-								onChange={(e) => setMinOffer(e.target.value)} // remove leading zeros and non-numeric characters
-								onBlur={(e) => {
-									if (Number(e.target.value) >= Number(price)) {
-										setMinOffer(price - 0.01);
-									}
-								}}
-								onFocus={(e) => e.target.select()}
-								step={0.01}
-							/>
+						</div>
+						<input
+							type='number'
+							name='minOfferPrice'
+							id='minOfferPrice'
+							value={minOffer}
+							disabled={!offerEnabled}
+							className='input-field w-28 disabled:cursor-not-allowed'
+							min={0.1}
+							max={price - 0.01}
+							onChange={(e) => setMinOffer(e.target.value)} // remove leading zeros and non-numeric characters
+							onBlur={(e) => {
+								if (Number(e.target.value) >= Number(price)) {
+									setMinOffer(price - 0.01);
+								}
+							}}
+							onFocus={(e) => e.target.select()}
+							step={0.01}
+						/>
 
-							<button
-								onClick={list}
-								className='big-button mt-2 disabled:cursor-not-allowed disabled:opacity-50'
-								disabled={loading || selected.length === 0}
-							>
-								{loading ? <LoadingSpin /> : "List"}
-							</button>
-						</form>
-					</div>
-				</>
+						<button
+							onClick={list}
+							className='big-button mt-2 disabled:cursor-not-allowed disabled:opacity-70'
+							disabled={loading || selected.length === 0}
+						>
+							{loading ? <LoadingSpin /> : "List"}
+						</button>
+					</form>
+				</div>
 			) : (
 				<>
 					<div className='flex flex-col items-center justify-center'>
 						<button
-							className='mt-6 rounded-md border bg-indigo-600 p-2 text-gray-300 enabled:hover:bg-gray-300 enabled:hover:text-indigo-600 disabled:cursor-not-allowed disabled:opacity-50'
+							className='mt-6 rounded-md border bg-indigo-500 p-2 text-gray-200 transition-colors enabled:hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50'
 							onClick={open}
 							disabled={loading || selected.length === 0}
 						>
@@ -201,10 +209,10 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					</div>
 					<div className='m-2 flex flex-1 flex-col overflow-auto'>
 						{openedCards.length > 0 && (
-							<div className='my-4 w-full overflow-auto border border-gray-500 px-2 text-gray-300'>
+							<div className='my-4 w-full overflow-auto border border-gray-500 px-2 text-gray-700 dark:text-gray-300'>
 								{sortBy(openedCards, ["mintBatch", "mintNumber"]).map((card) => (
 									<div className='flex' key={card.uuid}>
-										<span className='text-orange-400'>
+										<span className='w-8 text-orange-400'>
 											{card.mintBatch}
 											{card.mintNumber}
 										</span>

@@ -79,7 +79,7 @@ const ScanResult = React.memo(
 			<>
 				<div className='my-5 px-5'>
 					<div className='flex items-center pb-3'>
-						<label htmlFor='filter' className='m-2 text-gray-300'>
+						<label htmlFor='filter' className='m-2 text-gray-800 dark:text-gray-300'>
 							Select a filter method:{" "}
 						</label>
 						<select

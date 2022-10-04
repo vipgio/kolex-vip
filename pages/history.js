@@ -69,15 +69,17 @@ const History = () => {
 					}
 				})
 			);
-			const { data } = await axios.get(`/api/cards/templates`, {
-				params: {
-					cardIds: uniq(templateIds).toString(),
-				},
-				headers: {
-					jwt: user.jwt,
-				},
-			});
-			setTemplates((prev) => [...prev, data.data]);
+			if (templateIds.length > 0) {
+				const { data } = await axios.get(`/api/cards/templates`, {
+					params: {
+						cardIds: uniq(templateIds).toString(),
+					},
+					headers: {
+						jwt: user.jwt,
+					},
+				});
+				setTemplates((prev) => [...prev, data.data]);
+			}
 		} else {
 			toast.error("Please enter a valid input", {
 				toastId: "valid input",
@@ -103,7 +105,10 @@ const History = () => {
 			<div className='mt-10 mb-10 flex flex-col items-center'>
 				<div className='flex h-full w-full items-start justify-center pt-10'>
 					<form className='flex flex-col items-center space-y-2' onSubmit={handleSubmit}>
-						<label htmlFor='card-id' className='flex items-center text-gray-300'>
+						<label
+							htmlFor='card-id'
+							className='flex items-center text-gray-700 dark:text-gray-300'
+						>
 							Enter card IDs
 							<Tooltip
 								text='Enter a list of card IDs, separated with commas, to see their history. You can use any tool to find the card Id or use the scanner in the app.'

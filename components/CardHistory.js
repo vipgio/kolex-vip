@@ -5,7 +5,7 @@ const CardHistory = React.memo(
 	({ item }) => {
 		return (
 			<>
-				<div className='m-5 flex basis-11/12 items-start border border-gray-300 p-2 lg:basis-[calc(50%_-_40px)]'>
+				<div className='m-5 flex basis-11/12 items-start border border-gray-700 p-2 dark:border-gray-300 lg:basis-[calc(50%_-_40px)]'>
 					{item.images.size402 && (
 						<div className='mr-2 min-w-fit'>
 							<ImageWrapper
@@ -19,7 +19,7 @@ const CardHistory = React.memo(
 						</div>
 					)}
 					<div>
-						<div className='mb-2 w-full border-b text-gray-300'>
+						<div className='mb-2 w-full border-b border-current text-gray-800 dark:text-gray-200'>
 							<span className='text-orange-400'>
 								{item.mintBatch}
 								{item.mintNumber}{" "}
@@ -29,7 +29,7 @@ const CardHistory = React.memo(
 							</span>
 						</div>
 
-						<div className='relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain text-gray-300'>
+						<div className='relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain text-gray-800 dark:text-gray-200'>
 							{item.history
 								.slice()
 								.reverse()
@@ -44,7 +44,7 @@ const CardHistory = React.memo(
 										{event.type === "pack" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													opened from a pack.{" "}
@@ -57,7 +57,7 @@ const CardHistory = React.memo(
 										{event.type === "spinner" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													received the item from the spinner.{" "}
@@ -70,7 +70,7 @@ const CardHistory = React.memo(
 										{event.type === "craft" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													received the item from a craft.{" "}
@@ -83,7 +83,7 @@ const CardHistory = React.memo(
 										{event.type === "qr-claim" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													acquired from a QR code redemption.{" "}
@@ -96,7 +96,7 @@ const CardHistory = React.memo(
 										{event.type === "achievement" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													received the item from an achievement.{" "}
@@ -109,11 +109,13 @@ const CardHistory = React.memo(
 										{event.type === "trade" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													received the item from{" "}
-													<span className='text-red-400'>{event.sender.username} </span>
+													<span className='font-medium text-red-400'>
+														{event.sender.username}{" "}
+													</span>
 													in a trade.{" "}
 													<span className='text-gray-500'>
 														{event.created.replace("T", " ").split(".")[0]}
@@ -124,11 +126,13 @@ const CardHistory = React.memo(
 										{event.type === "market" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													purchased the item from{" "}
-													<span className='text-red-400'>{event.sender.username} </span>
+													<span className='font-medium text-red-400'>
+														{event.sender.username}{" "}
+													</span>
 													for <span>{event.value} </span>
 													<span>{event.costType === "usd" ? "USD. " : "coins. "}</span>
 													<span className='text-gray-500'>
@@ -140,7 +144,7 @@ const CardHistory = React.memo(
 										{event.type === "imx-locked" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													transferred the item to Immutable.{" "}
@@ -153,7 +157,7 @@ const CardHistory = React.memo(
 										{event.type === "imx-unlocked" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver?.username}{" "}
 													</span>
 													Item was transferred to Epics.{" "}
@@ -166,7 +170,7 @@ const CardHistory = React.memo(
 										{event.type === "imx-market" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													purchased the item from Immutable.{" "}
@@ -179,11 +183,11 @@ const CardHistory = React.memo(
 										{event.type === "level-upgrade" && (
 											<div>
 												<p>
-													<span className='text-green-400'>
+													<span className='font-medium text-green-600 dark:text-green-400'>
 														{event.receiver.username}{" "}
 													</span>
 													upgraded the card to level{" "}
-													<span className='text-red-400'>{event.value} </span>
+													<span className='font-medium text-red-400'>{event.value} </span>
 													<span className='text-gray-500'>
 														{event.created.replace("T", " ").split(".")[0]}
 													</span>

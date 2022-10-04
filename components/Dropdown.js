@@ -16,7 +16,7 @@ const Dropdown = ({ collections, setSelectedCollection }) => {
 		<div tabIndex={-1}>
 			<Menu
 				menuButton={
-					<MenuButton className='m-2 box-border rounded-md border border-gray-300 bg-white p-2 text-sm text-gray-800 shadow-md'>
+					<MenuButton className='m-2 box-border rounded-md border border-gray-300 bg-white p-2 text-sm text-gray-800 shadow-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 dark:bg-gray-800 dark:text-gray-100'>
 						Select a collection
 					</MenuButton>
 				}
@@ -135,17 +135,18 @@ const Dropdown = ({ collections, setSelectedCollection }) => {
 export default Dropdown;
 
 const menuClassName = ({ state }) =>
-	`box-border absolute z-50 text-sm bg-white p-1.5 border border-gray-700 rounded-md shadow-lg select-none focus:outline-none min-w-[12rem] ${
+	`box-border absolute z-50 text-sm dark:bg-gray-800 bg-white p-1.5 border border-gray-700 dark:border-gray-100 rounded-md shadow-lg select-none focus:outline-none min-w-[12rem] ${
 		state === "closed" && "hidden"
 	} ${state === "opening" && "animate-fadeIn"} ${
 		state === "closing" && "animate-fadeOut"
 	}`;
 
 const menuItemClassName = ({ hover, disabled, submenu }) =>
-	`rounded-md px-3 py-1 focus:outline-none flex items-center ${
+	`rounded-md px-3 py-1 focus:outline-none text-black dark:text-gray-100 flex items-center ${
 		hover && "text-white bg-blue-400"
 	} ${disabled && "text-gray-400"} ${
-		submenu && "relative after:content-['❯'] after:absolute after:right-1"
+		submenu &&
+		"relative after:content-['❯'] after:absolute text-black dark:text-gray-100 after:right-1"
 	}`;
 
 const Menu = (props) => (

@@ -5,6 +5,7 @@ module.exports = {
 		"./components/**/*.{js,jsx,ts,tsx}",
 		"./HOC/*.{js,jsx,ts,tsx}",
 	],
+	darkMode: "class",
 	theme: {
 		extend: {
 			keyframes: {

@@ -27,7 +27,7 @@ const PackSelection = ({
 					style={{ objectFit: "contain" }}
 					unoptimized={true}
 				/>
-				<div className='ml-2 text-gray-300'>
+				<div className='ml-2 text-gray-800 dark:text-gray-300'>
 					<div>{packTemplate.description}</div>
 					{/* <div>Drop date: {packTemplate.releaseTime}</div> */}
 					{/* <div>Pack Template ID: {packTemplate.id}</div> */}
@@ -40,7 +40,9 @@ const PackSelection = ({
 										<span className='ml-1 text-orange-400'>
 											{marketInfo.market[0][0].price}
 										</span>
-										<span className='ml-1 text-gray-300 hover:no-underline'>USD</span>
+										<span className='ml-1 text-gray-800 hover:no-underline dark:text-gray-300'>
+											USD
+										</span>
 										<a
 											href={`https://kolex.gg/csgo/marketplace/pack/${packTemplate.id}`}
 											className='ml-1 flex items-center'
@@ -98,16 +100,16 @@ const PackSelection = ({
 				</div>
 			</div>
 			<div className='m-2 flex flex-1 flex-col overflow-auto'>
-				<div className='my-2 flex items-center justify-around text-gray-300 sm:w-1/2'>
+				<div className='my-2 flex items-center justify-around text-gray-800 dark:text-gray-300 sm:w-1/2'>
 					<button
 						onClick={() => setSelected(packTemplate.packs.map((pack) => pack.id))}
-						className='m-1 cursor-pointer rounded-md border border-gray-200 p-1 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+						className='m-1 cursor-pointer rounded-md border border-gray-800 p-1 text-center text-gray-800 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400 dark:border-gray-200 dark:text-gray-300'
 					>
 						Select All ({packTemplate.packs.length})
 					</button>
 					<button
 						onClick={() => setSelected([])}
-						className='m-1 cursor-pointer rounded-md border border-gray-200 p-1 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+						className='m-1 cursor-pointer rounded-md border border-gray-800 p-1 text-center text-gray-800 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400 dark:border-gray-200 dark:text-gray-300'
 					>
 						Deselect All
 					</button>
@@ -125,7 +127,7 @@ const PackSelection = ({
 								id='pack-count'
 								min={0}
 								max={packTemplate.packs.length}
-								className='ml-2 rounded-md p-1 text-black focus:outline-orange-400'
+								className='ml-2 rounded-md border border-gray-800 p-1 text-black focus:outline-orange-400'
 								onChange={(e) =>
 									setSelected(
 										packTemplate.packs.slice(0, e.target.value).map((pack) => pack.id)
@@ -145,7 +147,10 @@ const PackSelection = ({
 					{packTemplate.packs
 						.sort((a, b) => a.id - b.id)
 						.map((pack) => (
-							<div className='flex items-center text-gray-300' key={pack.id}>
+							<div
+								className='flex items-center text-gray-800 dark:text-gray-300'
+								key={pack.id}
+							>
 								<label htmlFor={pack.id} className='cursor-pointer'>
 									<span>Mint Date: </span>
 									<span>{pack.created} - </span>

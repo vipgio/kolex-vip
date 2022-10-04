@@ -13,13 +13,13 @@ const CardGallery = ({ templates, user }) => {
 	return (
 		<>
 			<div className='m-2'>
-				<label htmlFor='sort' className='text-gray-200'>
+				<label htmlFor='sort' className='text-gray-800 dark:text-gray-200'>
 					Sort By:
 				</label>
 				<select
 					name='sort'
 					id='sort'
-					className='mx-2 my-1 rounded-md p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+					className='mx-2 my-1 rounded-md border border-gray-800 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
 					onChange={(e) => setSortMethod(e.target.value)}
 					value={sortMethod}
 				>
@@ -31,14 +31,11 @@ const CardGallery = ({ templates, user }) => {
 				<div className='flex items-end'>
 					<button
 						onClick={() => setSelectedTemplates(templates.filter((item) => item.count))}
-						className='m-1 cursor-pointer rounded-md border border-gray-200 px-3 py-2 text-center text-gray-300 shadow-lg transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+						className='simple-button m-1'
 					>
 						Select All
 					</button>
-					<button
-						onClick={() => setSelectedTemplates([])}
-						className='m-1 cursor-pointer rounded-md border border-gray-200 px-3 py-2 text-center text-gray-300 shadow-lg transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
-					>
+					<button onClick={() => setSelectedTemplates([])} className='simple-button m-1'>
 						Deselect All
 					</button>
 				</div>
@@ -47,10 +44,10 @@ const CardGallery = ({ templates, user }) => {
 						<Tooltip
 							direction='left'
 							text='Pick mints and price for each item'
-							mode='light'
+							color='black'
 						/>
 						<button
-							className='mr-2 inline-flex cursor-pointer items-center rounded-md border border-transparent border-gray-200 bg-gray-100 py-2 px-3 text-center font-medium text-orange-500 shadow-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:shadow-lg enabled:hover:bg-gray-300 enabled:hover:text-orange-600 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+							className='button mr-2 sm:mb-0'
 							onClick={() => {
 								setShowAdvancedModal(true);
 							}}
@@ -63,10 +60,10 @@ const CardGallery = ({ templates, user }) => {
 						<Tooltip
 							direction='left'
 							text='Pick mints or set count for all items at once'
-							mode='light'
+							color='black'
 						/>
 						<button
-							className='mr-2 inline-flex w-full cursor-pointer justify-center rounded-md border border-transparent border-gray-200 bg-gray-100 py-2 px-3 text-center font-medium text-orange-500 shadow-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:shadow-lg enabled:hover:bg-gray-300 enabled:hover:text-orange-600 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+							className='button mr-2 w-full sm:mb-0'
 							onClick={() => {
 								setShowSimpleModal(true);
 							}}
@@ -91,7 +88,7 @@ const CardGallery = ({ templates, user }) => {
 							key={card.uuid}
 							className={`relative flex ${
 								card.count === 0 ? "cursor-not-allowed" : "cursor-pointer hover:scale-105"
-							} flex-col items-center border border-gray-500 text-gray-300 shadow-md transition-transform`}
+							} flex-col items-center rounded border border-gray-500 text-gray-700 shadow-md transition-all dark:text-gray-300`}
 							onClick={() => {
 								selectedTemplates.some((e) => e.id === card.id)
 									? setSelectedTemplates((prev) =>
@@ -121,7 +118,7 @@ const CardGallery = ({ templates, user }) => {
 								)}
 							</div>
 							<div className='mb-1 p-1 text-center text-sm'>{card.title}</div>
-							<div className='mt-auto flex w-full border-y'>
+							<div className='mt-auto flex w-full border-y border-gray-400'>
 								<span className='ml-1'>Floor:</span>
 								<span className='ml-auto mr-1'>
 									{card.floor ? "$" + card.floor : "-"}

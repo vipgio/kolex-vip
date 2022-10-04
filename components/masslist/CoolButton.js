@@ -5,7 +5,7 @@ const CoolButton = ({ action, setAction }) => {
 	};
 	return (
 		<div
-			className='no-highlight relative mx-auto flex h-10 w-48 cursor-pointer flex-col justify-center rounded-full bg-gray-300'
+			className='no-highlight relative mx-auto flex h-10 w-48 cursor-pointer flex-col justify-center rounded-full border border-gray-700 bg-gray-100 dark:bg-gray-300'
 			onClick={() => toggle()}
 			onMouseDown={(e) => e.preventDefault()}
 		>

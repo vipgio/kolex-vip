@@ -1,13 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "context/UserContext";
 import Meta from "@/components/Meta";
 import CircList from "@/components/CircList";
 import SetSelector from "HOC/SetSelector";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const Circulation = () => {
 	const { getCardCirc, getStickerCirc, loading, setLoading } = useContext(UserContext);
 	const [collection, setCollection] = useState({ info: {}, items: [] });
 	const [selectedCollection, setSelectedCollection] = useState(null);
+
+	useEffect(() => {
+		selectedCollection && displayCirc();
+	}, [selectedCollection]);
 
 	const displayCirc = async () => {
 		setLoading(true);
@@ -33,7 +38,7 @@ const Circulation = () => {
 			<Meta title='Circulation | Kolex VIP' />
 			<div className='mt-10 flex flex-col items-center'>
 				<div className='flex h-full w-full flex-col items-start justify-center pt-10 sm:items-center'>
-					<div className='px-4 pt-2 font-semibold text-gray-300'>
+					<div className='px-4 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
 						Selected Collection:
 						{selectedCollection && (
 							<span>
@@ -45,16 +50,6 @@ const Circulation = () => {
 						)}
 					</div>
 					<SetSelector setSelectedCollection={setSelectedCollection} />
-					<button
-						type='submit'
-						disabled={loading}
-						className={`big-button mx-3 sm:mx-0 ${
-							loading ? "cursor-not-allowed opacity-50" : ""
-						}`}
-						onClick={displayCirc}
-					>
-						Get Circulations
-					</button>
 				</div>
 				{collection.info?.length > 0 && (
 					<div className='mt-3 text-xl font-bold text-gray-300'>
@@ -62,6 +57,7 @@ const Circulation = () => {
 						{collection.info[0].collection.description}
 					</div>
 				)}
+				{loading && <LoadingSpin />}
 				{collection.items.length > 0 && (
 					<div className='overflow-hidden'>
 						<CircList data={collection.items} />

@@ -69,7 +69,10 @@ const Login = () => {
 					draggable
 					pauseOnHover
 				/>
-				<form className='flex flex-col items-center space-y-2' onSubmit={onSubmit}>
+				<form
+					className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
+					onSubmit={onSubmit}
+				>
 					<input
 						type='email'
 						name='email'
@@ -114,7 +117,7 @@ const Login = () => {
 					>
 						Login
 					</button>
-					<div className='text-gray-300'>
+					<div className='text-gray-700 dark:text-gray-300'>
 						<Tooltip
 							text={
 								"Your password is never stored or sent anywhere. If you have any questions you can either check the source code or contact me on discord vipgio#4884"

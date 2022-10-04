@@ -43,7 +43,7 @@ const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 						setSearchQuery(e.target.value);
 					}}
 					value={searchQuery}
-					className='input-field m-2 disabled:cursor-not-allowed disabled:opacity-50'
+					className='input-field m-2'
 					disabled={loading}
 					placeholder='Search for a user'
 				/>
@@ -54,7 +54,7 @@ const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 						<button
 							className={`${
 								result.id === selectedUser?.id ? "bg-gray-500" : "hover:bg-gray-600"
-							} mx-4 my-2 flex w-fit min-w-[8rem] flex-col items-center rounded-md border border-gray-400 p-2 transition-transform hover:cursor-pointer active:scale-110 active:bg-gray-500`}
+							} mx-4 my-2 flex w-fit min-w-[8rem] flex-col items-center rounded-md border border-gray-400 p-2 text-gray-700 transition-all hover:cursor-pointer hover:text-gray-300 active:scale-110 active:bg-gray-500 dark:hover:text-gray-300`}
 							key={result.id}
 							onClick={() => {
 								setSelectedUser(result);
@@ -73,7 +73,7 @@ const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 									unoptimized={true}
 								/>
 							</div>
-							<span className='mt-2 font-semibold text-gray-300'>{result.username}</span>
+							<span className='mt-2 font-semibold'>{result.username}</span>
 						</button>
 					))}
 				</div>

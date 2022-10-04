@@ -9,9 +9,9 @@ const Profile = () => {
 	return (
 		<>
 			<Meta title='Profile | Kolex VIP' description='stuff' />
-			<div className='container mt-12 flex flex-col rounded-md border py-2 text-gray-300 sm:flex-row'>
+			<div className='mx-2 mt-12 flex flex-col rounded-md border border-current py-2 text-gray-700 transition-colors dark:text-gray-300 sm:mx-0 sm:flex-row'>
 				<div className='flex'>
-					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border'>
+					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border border-gray-700 dark:border-gray-300'>
 						<Image
 							src={`https://cdn.epics.gg${user?.user.avatar}` || ""}
 							alt={user?.user.username || "loading"}
@@ -31,7 +31,7 @@ const Profile = () => {
 							xmlns='http://www.w3.org/2000/svg'
 							width='24'
 							height='24'
-							className='fill-current text-red-400 hover:text-red-600'
+							className='rounded bg-red-400 fill-current text-gray-100 hover:bg-red-500 active:bg-red-600'
 						>
 							<path d='M12 21c4.411 0 8-3.589 8-8 0-3.35-2.072-6.221-5-7.411v2.223A6 6 0 0 1 18 13c0 3.309-2.691 6-6 6s-6-2.691-6-6a5.999 5.999 0 0 1 3-5.188V5.589C6.072 6.779 4 9.65 4 13c0 4.411 3.589 8 8 8z'></path>
 							<path d='M11 2h2v10h-2z'></path>
@@ -41,7 +41,7 @@ const Profile = () => {
 				<div className='ml-3 flex flex-col'>
 					{user && (
 						<>
-							<div className='text-2xl font-semibold'>{user.user.username}</div>
+							<div className='mb-2 text-2xl font-bold'>{user.user.username}</div>
 
 							<div>
 								VIP Features:{" "}
@@ -119,7 +119,7 @@ const Profile = () => {
 						xmlns='http://www.w3.org/2000/svg'
 						width='24'
 						height='24'
-						className='fill-current text-red-400 hover:text-red-600'
+						className='rounded bg-red-400 fill-current text-gray-100 hover:bg-red-500 active:bg-red-600'
 					>
 						<path d='M12 21c4.411 0 8-3.589 8-8 0-3.35-2.072-6.221-5-7.411v2.223A6 6 0 0 1 18 13c0 3.309-2.691 6-6 6s-6-2.691-6-6a5.999 5.999 0 0 1 3-5.188V5.589C6.072 6.779 4 9.65 4 13c0 4.411 3.589 8 8 8z'></path>
 						<path d='M11 2h2v10h-2z'></path>

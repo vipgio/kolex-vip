@@ -33,7 +33,6 @@ const Scanner = () => {
 			return;
 		}
 		const scanUser = async (userId, collectionId) => {
-			setLoading(true);
 			setScanResults({});
 			const { data } = await axios.get(`/api/users/scan`, {
 				params: {
@@ -44,7 +43,6 @@ const Scanner = () => {
 					jwt: user.jwt,
 				},
 			});
-			setLoading(false);
 			return data;
 		};
 		const getCollection = async (collectionId) => {
@@ -57,10 +55,12 @@ const Scanner = () => {
 			setLoading(false);
 			return data;
 		};
+		setLoading(true);
 		const { data } = await scanUser(selectedUser.id, selectedCollection.collection.id);
 		const { data: templates } = await getCollection(selectedCollection.collection.id);
 		setCollectionTemplates(templates);
 		setScanResults(data);
+		setLoading(false);
 	};
 	return (
 		<>
@@ -78,9 +78,9 @@ const Scanner = () => {
 					draggable
 					pauseOnHover
 				/>
-				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-300 pb-2 transition-all duration-300'>
+				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='overflow-hidden'>
-						<div className='p-2 px-4 font-semibold text-gray-300'>
+						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
 							<span>Selected User: {selectedUser?.username}</span>
 							{selectedUser ? (
 								<span
@@ -93,7 +93,7 @@ const Scanner = () => {
 							) : (
 								<span className='ml-2'>
 									<button
-										className='rounded-md border px-1 hover:bg-gray-100 hover:text-gray-900'
+										className='rounded-md border border-gray-800 bg-gray-100 p-1 text-center text-gray-700 shadow-lg transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400 dark:border-gray-200 dark:text-gray-800 dark:hover:text-gray-800'
 										onClick={() => setSelectedUser(user.user)}
 									>
 										Me
@@ -109,9 +109,9 @@ const Scanner = () => {
 					</div>
 				</div>
 
-				<div className='relative mb-5 flex max-h-96 overflow-visible rounded-md border border-gray-300 pb-2 transition-all duration-300'>
+				<div className='relative mb-5 flex max-h-96 overflow-visible rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div>
-						<div className='p-2 px-4 font-semibold text-gray-300'>
+						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
 							Selected Collection:
 							{selectedCollection && (
 								<span>
@@ -136,7 +136,7 @@ const Scanner = () => {
 					>
 						{loading ? <LoadingSpin /> : "Scan"}
 					</button>
-					<div className='text-gray-300'>
+					<div className='text-gray-700 dark:text-gray-300'>
 						<Tooltip
 							text={
 								"If there are too many of the same card, they won't be in the API response."

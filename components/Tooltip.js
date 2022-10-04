@@ -1,6 +1,7 @@
 import { BsQuestionCircle } from "react-icons/bs";
-const Tooltip = ({ direction, text, mode }) => {
+const Tooltip = ({ direction, text, color }) => {
 	let extra = "";
+	let customColor = "";
 	// create a switch case for direction
 	switch (direction) {
 		case "left":
@@ -12,11 +13,29 @@ const Tooltip = ({ direction, text, mode }) => {
 			break;
 	}
 
+	switch (color) {
+		case "black":
+			customColor = "text-black";
+			break;
+
+		case "white":
+			customColor = "text-white";
+			break;
+
+		case "gray":
+			customColor = "text-gray-500";
+			break;
+
+		case "red":
+			customColor = "text-red-400";
+			break;
+	}
+
 	return (
 		<div
-			className={`group relative block opacity-30 transition-opacity duration-300 hover:opacity-100 ${
+			className={`group relative block opacity-50 transition-opacity duration-300 hover:opacity-100 ${
 				direction === "right" ? "ml-2" : "mr-2"
-			} ${mode === "light" ? "text-white" : ""}`}
+			} ${customColor}`}
 		>
 			<BsQuestionCircle />
 			<div className={`tooltip ${extra}`}>{text}</div>

@@ -3,6 +3,7 @@ import UserContextProvider from "context/UserContext";
 import PrivateRoute from "HOC/PrivateRoutes";
 import PremiumRoutes from "HOC/PremiumRoutes";
 import Layout from "components/Layout";
+import ThemeContextProvider from "context/ThemeContext";
 
 const App = ({ Component, pageProps }) => {
 	const protectedRoutes = [
@@ -19,13 +20,15 @@ const App = ({ Component, pageProps }) => {
 	const premiumRoutes = ["/masslist", "/history", "/mintsearch", "/cardlister"];
 	return (
 		<UserContextProvider>
-			<Layout>
-				<PrivateRoute protectedRoutes={protectedRoutes}>
-					<PremiumRoutes premiumRoutes={premiumRoutes}>
-						<Component {...pageProps} />
-					</PremiumRoutes>
-				</PrivateRoute>
-			</Layout>
+			<ThemeContextProvider>
+				<Layout>
+					<PrivateRoute protectedRoutes={protectedRoutes}>
+						<PremiumRoutes premiumRoutes={premiumRoutes}>
+							<Component {...pageProps} />
+						</PremiumRoutes>
+					</PrivateRoute>
+				</Layout>
+			</ThemeContextProvider>
 		</UserContextProvider>
 	);
 };

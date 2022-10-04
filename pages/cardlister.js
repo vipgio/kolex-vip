@@ -152,7 +152,7 @@ const Cardlister = () => {
 	return (
 		<>
 			<Meta title='Card Lister | Kolex VIP' />
-			<div className='mt-10 px-2 pt-2 font-semibold text-gray-300'>
+			<div className='mt-10 px-2 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
 				Selected Collection:
 				{selectedCollection && (
 					<span>

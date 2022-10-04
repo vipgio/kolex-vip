@@ -1,21 +1,23 @@
 import { useContext, forwardRef } from "react";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
-import { AiOutlineScan, AiOutlineMenu, AiOutlineHome } from "react-icons/ai";
+import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
+import { FaHistory, FaSearch, FaLock, FaMoon, FaSun, FaGithub } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
-import { FaHistory, FaSearch, FaLock } from "react-icons/fa";
+import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
 
 const NewNavbar = () => {
 	const { user } = useContext(UserContext);
+	const { theme, setTheme } = useContext(ThemeContext);
+
 	return (
 		user && (
-			<div className='h-12 rounded-b-md bg-indigo-300 text-left font-semibold text-gray-700'>
-				<Menu as='div' className='relative z-50 inline-block h-full text-left'>
+			<nav className='flex h-12 items-center justify-center rounded-b-md bg-blue-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500'>
+				<Menu as='div' className='relative z-30 inline-block h-full w-12 text-left'>
 					{({ open }) => (
 						<>
-							<Menu.Button className='inline-flex h-12 w-full items-center justify-center rounded-md border bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
-								{/* <AiOutlineMenu /> */}
+							<Menu.Button className='inline-flex h-12 w-full items-center justify-center px-4 py-2 text-sm font-medium text-gray-100 focus-visible:outline-2 focus-visible:outline-orange-500'>
 								<BurgerMenuIcon open={open} />
 							</Menu.Button>
 
@@ -28,40 +30,37 @@ const NewNavbar = () => {
 								leaveFrom='transform opacity-100 scale-100'
 								leaveTo='transform opacity-0 scale-95'
 							>
-								<Menu.Items className='absolute left-1 mt-1 w-56 origin-top-left divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-									{freePages.map((page) => (
-										<Menu.Items key={page.link}>
-											<Menu.Item>
-												{({ active }) => (
-													<MyLink
-														href={`/${page.link}`}
-														className={`${
-															active ? "bg-orange-500 text-gray-100" : "text-gray-900"
-														} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-													>
-														<span className='mr-1'>{page.icon}</span>
-														{page.title}
-													</MyLink>
-												)}
-											</Menu.Item>
-										</Menu.Items>
-									))}
-									{paidPages.map((page) => (
+								<Menu.Items className='absolute left-0 mt-1 w-56 origin-top-left rounded-md bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800'>
+									{pages.map((page) => (
 										<Menu.Items key={page.link}>
 											<Menu.Item>
 												{({ active }) => (
 													<MyLink
 														href={
-															user.info.allowed.includes(page.link)
-																? `/${page.link}`
-																: "/"
+															page.paid
+																? user.info.allowed.includes(page.link)
+																	? `/${page.link}`
+																	: "/features"
+																: `/${page.link}`
 														}
 														className={`${
-															active ? "bg-orange-500 text-white" : "text-gray-900"
-														} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+															active
+																? "bg-blue-500 fill-gray-200 text-gray-200 dark:bg-gray-200 dark:fill-gray-700 dark:text-gray-700"
+																: "fill-gray-700 text-gray-700 dark:fill-gray-200 dark:text-gray-200"
+														} group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors active:bg-gray-800 active:shadow-md dark:active:bg-gray-300`}
 													>
-														<FaLock />
-														{page.title}
+														<span className='mr-1'>
+															{page.paid ? (
+																user.info.allowed.includes(page.link) ? (
+																	page.icon
+																) : (
+																	<FaLock />
+																)
+															) : (
+																page.icon
+															)}
+														</span>
+														<span className='ml-1'>{page.title}</span>
 													</MyLink>
 												)}
 											</Menu.Item>
@@ -72,7 +71,37 @@ const NewNavbar = () => {
 						</>
 					)}
 				</Menu>
-			</div>
+				<div className='ml-auto mr-4' title='Source Code'>
+					<a
+						href='https://github.com/vipgio/kolex-vip'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<FaGithub className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-400' />
+					</a>
+				</div>
+				<div className='mr-3 h-8 w-8'>
+					<div className='relative h-10 w-10 rounded-full' title='Change theme'>
+						<FaSun
+							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
+								theme === "dark" ? "" : "animate-fadeOut opacity-0"
+							}`}
+							onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+						/>
+						<FaMoon
+							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-700 transition-transform  ${
+								theme === "dark" ? "animate-fadeOut opacity-0" : ""
+							}`}
+							onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+						/>
+					</div>
+				</div>
+				<Link href='/features'>
+					<a className='mr-2 rounded bg-gray-100 p-1.5 text-blue-500 transition-colors hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:bg-gray-300 dark:bg-blue-500 dark:text-gray-100 dark:hover:bg-blue-600 dark:active:bg-blue-700'>
+						Features
+					</a>
+				</Link>
+			</nav>
 		)
 	);
 };
@@ -91,20 +120,12 @@ const MyLink = forwardRef((props, ref) => {
 });
 MyLink.displayName = "MyLink";
 
-const SpinnerIcon = ({ fill }) => {
-	return (
-		<svg viewBox='0 0 24 24' width='1em' height='1em' fill={fill}>
-			<path d='M12.2,6.5l-0.1,0c-2.4,0-4.7,1.6-5.2,4c-0.7,3.3,1.7,6.2,4.9,6.4h0c2.8,0,5.3-2.1,5.4-4.9C17.3,9,15.1,6.5,12.2,6.5z M14.4,15.4L12,13.6c0,0-0.1,0-0.1,0l-2.4,1.7l0.9-2.8c0,0,0-0.1,0-0.1l-2.4-1.7H11c0,0,0.1,0,0.1,0L12,8l0.9,2.8c0,0,0,0,0.1,0 h2.9l-2.4,1.7c0,0,0,0,0,0.1L14.4,15.4z'></path>
-			<path d='M12,0C5.4,0,0,5.4,0,12s5.4,12,12,12s12-5.4,12-12S18.6,0,12,0z M21.7,10.7h-3.6C18,9.7,17.6,8.8,17,8l2.4-2.4 C20.6,7,21.5,8.7,21.7,10.7z M13,2.2c1.9,0.2,3.6,0.9,5,2l-2.4,2.4C14.9,6.1,14,5.7,13,5.5V2.2z M11,2.2v3.3c-1,0.2-1.9,0.5-2.6,1.1 L6,4.2C7.4,3.1,9.1,2.4,11,2.2z M4.6,5.6L7,8C6.4,8.8,6,9.7,5.9,10.7H2.3C2.5,8.7,3.4,7,4.6,5.6z M2.2,12.7h3.7 c0.2,1,0.5,1.9,1.1,2.6L4.2,18C3.1,16.5,2.3,14.7,2.2,12.7z M11,21.8c-2-0.2-3.9-1.1-5.4-2.3l2.8-2.8c0.8,0.6,1.7,0.9,2.6,1.1V21.8z M7.8,11.6c0-2.3,1.9-4.2,4.2-4.2s4.2,1.9,4.2,4.2s-1.9,4.2-4.2,4.2S7.8,14,7.8,11.6z M13,21.8v-4c1-0.2,1.9-0.5,2.6-1.1l2.8,2.8 C16.9,20.7,15,21.6,13,21.8z M19.8,18L17,15.3c0.6-0.8,0.9-1.7,1.1-2.6h3.7C21.7,14.7,20.9,16.5,19.8,18z'></path>
-		</svg>
-	);
-};
-
-const freePages = [
+const pages = [
 	{
 		link: "",
 		title: "Home Page",
 		icon: <AiOutlineHome />,
+		paid: false,
 	},
 	{
 		link: "circulation",
@@ -119,6 +140,7 @@ const freePages = [
 				<path d='M53.5,9.6l-8.3-0.8c-1.6-0.2-3.1,1.1-3.3,2.7l-1.2,12.9c-0.1,1.6,1,3.1,2.7,3.3l8,0.7c1.6,0.1,3.1-1,3.3-2.7l0.2-2v-0.1 v-0.3v-0.1v-0.4l0.9-10C56.2,11.2,55.2,9.7,53.5,9.6z M45,10.8l8,0.7c0.5,0.1,1,0.5,0.9,1.1l-0.6,6c-0.1,0.6-0.5,1-1.1,0.9l-1.1-0.1 c-0.6-1.5-1.2-2.3-1.4-2.5c0.9-0.5,1.5-1.5,1.3-2.7c-0.2-0.8-0.8-1.5-1.7-1.7c-1.6-0.4-3,0.8-3,2.3c0,0.7,0.3,1.4,0.9,1.8 c-0.8,0.5-1.5,1.3-2.1,2.2l-0.8-0.1c-0.5-0.1-1-0.5-0.9-1.1l0.6-6C44,11.1,44.5,10.7,45,10.8z'></path>
 			</svg>
 		),
+		paid: false,
 	},
 	{
 		link: "packs",
@@ -131,15 +153,50 @@ const freePages = [
 				<path d='M20.7,0H8.9c-1.6,0-3,1.4-3,3v18c0,1.6,1.3,3,3,3h11.5c1.6,0,3-1.3,3-3V3.7V3.3v0V3.2v0C23.6,1.4,22.4,0,20.7,0z M21.4,21 c0,0.5-0.4,1-1,1H8.9c-0.5,0-1-0.4-1-1v-8H9c0.5,2.7,2.8,4.7,5.6,4.7s5.2-2,5.6-4.7h1.1V21z M15.6,13.8v-0.6L12,11.7 c-0.3-0.1-0.4-0.3-0.4-0.6V9.4c0-0.5,0.3-0.9,0.8-0.9h1.2V7.8h2v0.7h1.2c0.5,0,0.8,0.3,0.8,0.8v1.4h-2V10h-1.9v0.6l3.6,1.5 c0.3,0.1,0.4,0.3,0.4,0.6v1.7c0,0.5-0.3,0.9-0.8,0.9h-1.2V16h-2v-0.7h-1.2c-0.5,0-0.8-0.3-0.8-0.9v-1.5h2v0.9H15.6z M21.4,3.2 L21.4,3.2v0.1v0.1V11h-1.1c-0.5-2.7-2.8-4.7-5.6-4.7S9.5,8.3,9,11H7.9V3c0-0.5,0.5-1,1-1h11.5c0.6,0,1,0.4,1,1V3.2z'></path>
 			</svg>
 		),
+		paid: false,
 	},
 	{
 		link: "spinner",
 		title: "Spinner",
-		icon: <SpinnerIcon />,
+		icon: (
+			<svg viewBox='0 0 24 24' width='1em' height='1em'>
+				<path d='M12.2,6.5l-0.1,0c-2.4,0-4.7,1.6-5.2,4c-0.7,3.3,1.7,6.2,4.9,6.4h0c2.8,0,5.3-2.1,5.4-4.9C17.3,9,15.1,6.5,12.2,6.5z M14.4,15.4L12,13.6c0,0-0.1,0-0.1,0l-2.4,1.7l0.9-2.8c0,0,0-0.1,0-0.1l-2.4-1.7H11c0,0,0.1,0,0.1,0L12,8l0.9,2.8c0,0,0,0,0.1,0 h2.9l-2.4,1.7c0,0,0,0,0,0.1L14.4,15.4z'></path>
+				<path d='M12,0C5.4,0,0,5.4,0,12s5.4,12,12,12s12-5.4,12-12S18.6,0,12,0z M21.7,10.7h-3.6C18,9.7,17.6,8.8,17,8l2.4-2.4 C20.6,7,21.5,8.7,21.7,10.7z M13,2.2c1.9,0.2,3.6,0.9,5,2l-2.4,2.4C14.9,6.1,14,5.7,13,5.5V2.2z M11,2.2v3.3c-1,0.2-1.9,0.5-2.6,1.1 L6,4.2C7.4,3.1,9.1,2.4,11,2.2z M4.6,5.6L7,8C6.4,8.8,6,9.7,5.9,10.7H2.3C2.5,8.7,3.4,7,4.6,5.6z M2.2,12.7h3.7 c0.2,1,0.5,1.9,1.1,2.6L4.2,18C3.1,16.5,2.3,14.7,2.2,12.7z M11,21.8c-2-0.2-3.9-1.1-5.4-2.3l2.8-2.8c0.8,0.6,1.7,0.9,2.6,1.1V21.8z M7.8,11.6c0-2.3,1.9-4.2,4.2-4.2s4.2,1.9,4.2,4.2s-1.9,4.2-4.2,4.2S7.8,14,7.8,11.6z M13,21.8v-4c1-0.2,1.9-0.5,2.6-1.1l2.8,2.8 C16.9,20.7,15,21.6,13,21.8z M19.8,18L17,15.3c0.6-0.8,0.9-1.7,1.1-2.6h3.7C21.7,14.7,20.9,16.5,19.8,18z'></path>
+			</svg>
+		),
+		paid: false,
 	},
-];
-const paidPages = [
-	{ link: "masslist", title: "Masslist" },
-	{ link: "mintsearch", title: "Mint Search" },
-	{ link: "history", title: "History" },
+	{
+		link: "scanner",
+		title: "Scanner",
+		icon: <AiOutlineScan className='scale-105' />,
+		paid: false,
+	},
+	{
+		link: "masslist",
+		title: "Masslist",
+		icon: (
+			<svg
+				width='14'
+				height='14'
+				viewBox='0 0 512 512'
+				xmlns='http://www.w3.org/2000/svg'
+			>
+				<path d='M507.519,116.384C503.721,111.712,498.021,109,492,109H129.736l-1.484-13.632l-0.053-0.438C121.099,40.812,74.583,0,20,0 C8.954,0,0,8.954,0,20s8.954,20,20,20c34.506,0,63.923,25.749,68.512,59.928l23.773,218.401C91.495,327.765,77,348.722,77,373 c0,0.167,0.002,0.334,0.006,0.5C77.002,373.666,77,373.833,77,374c0,33.084,26.916,60,60,60h8.138 c-2.034,5.964-3.138,12.355-3.138,19c0,32.532,26.467,59,59,59s59-26.468,59-59c0-6.645-1.104-13.036-3.138-19h86.277 c-2.034,5.964-3.138,12.355-3.138,19c0,32.532,26.467,59,59,59c32.533,0,59-26.468,59-59c0-32.532-26.467-59-59-59H137 c-11.028,0-20-8.972-20-20c0-0.167-0.002-0.334-0.006-0.5c0.004-0.166,0.006-0.333,0.006-0.5c0-11.028,8.972-20,20-20h255.331 c35.503,0,68.084-21.966,83.006-55.962c4.439-10.114-0.161-21.912-10.275-26.352c-10.114-4.439-21.912,0.161-26.352,10.275 C430.299,300.125,411.661,313,392.331,313h-240.39L134.09,149h333.308l-9.786,46.916c-2.255,10.813,4.682,21.407,15.495,23.662 c1.377,0.288,2.75,0.426,4.104,0.426c9.272,0,17.59-6.484,19.558-15.92l14.809-71C512.808,127.19,511.317,121.056,507.519,116.384 z M399,434c10.477,0,19,8.523,19,19s-8.523,19-19,19s-19-8.523-19-19S388.523,434,399,434z M201,434c10.477,0,19,8.524,19,19 c0,10.477-8.523,19-19,19s-19-8.523-19-19S190.523,434,201,434z'></path>
+			</svg>
+		),
+		paid: true,
+	},
+	{ link: "mintsearch", title: "Mint Search", icon: <FaSearch />, paid: true },
+	{ link: "history", title: "History", icon: <FaHistory />, paid: true },
+	{
+		link: "cardlister",
+		title: "Card Lister",
+		icon: (
+			<svg width='15' height='16' viewBox='0 0 28 24'>
+				<path d='M7.67353846,0 C6.87692308,0 6.23076923,0.64 6.23076923,1.42818182 C6.23076923,2.21727273 6.87692308,2.85727273 7.67353846,2.85727273 L16.3264615,2.85727273 C17.1230769,2.85727273 17.7692308,2.21727273 17.7692308,1.42818182 C17.7692308,0.64 17.1230769,0 16.3264615,0 L7.67353846,0 Z M3.34615385,5.71454545 C3.34615385,4.92545455 3.99230769,4.28545455 4.78892308,4.28545455 L19.212,4.28545455 C20.0076923,4.28545455 20.6538462,4.92545455 20.6538462,5.71454545 C20.6538462,6.50363636 20.0076923,7.14272727 19.212,7.14272727 L4.78892308,7.14272727 C3.99230769,7.14272727 3.34615385,6.50363636 3.34615385,5.71454545 Z M0.461538462,11.4281818 C0.461538462,9.85090909 1.75292308,8.57181818 3.34615385,8.57181818 L20.6538462,8.57181818 C22.2470769,8.57181818 23.5384615,9.85090909 23.5384615,11.4281818 L23.5384615,17.1427273 C23.5384615,18.7209091 22.2470769,20 20.6538462,20 L3.34615385,20 C1.75292308,20 0.461538462,18.7209091 0.461538462,17.1427273 L0.461538462,11.4281818 Z'></path>
+			</svg>
+		),
+		paid: true,
+	},
 ];

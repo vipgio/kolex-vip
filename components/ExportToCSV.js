@@ -73,11 +73,11 @@ const ExportToCSV = ({ data, filename, type }) => {
 	const csvData = [headers[type], ...array];
 	return (
 		<div>
-			<button className='relative rounded-md border border-transparent bg-gray-100 py-1 text-sm font-medium text-orange-500 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:bg-gray-300 active:shadow-lg'>
+			<button className='button relative'>
 				<CSVLink
 					data={csvData}
 					filename={filename}
-					className='border border-transparent p-2 focus:outline-none'
+					className='border border-transparent focus:outline-none'
 					tabIndex={-1}
 				>
 					Export

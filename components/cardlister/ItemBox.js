@@ -33,15 +33,11 @@ const ItemBox = React.memo(
 				);
 		}, [insertFloor]);
 
-		useEffect(() => {
-			setLoadedState((prev) => uniq([...prev, template.id]));
-		}, []);
-
 		return (
 			template.cards.length > 0 && (
 				<div
 					key={template.uuid}
-					className='m-1 h-fit overflow-auto border border-gray-500 p-2 text-gray-200'
+					className='m-1 h-fit overflow-auto border border-gray-500 p-2 text-gray-800 dark:text-gray-200'
 				>
 					<div className='text-center font-semibold text-orange-500'>
 						{template.title} <span className='text-xs'>x</span>
@@ -63,7 +59,7 @@ const ItemBox = React.memo(
 								step={0.01}
 								value={price}
 								onChange={(e) => setPrice(e.target.value)}
-								className='mt-1 rounded-md bg-gray-200 p-1 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500'
+								className='input-field mt-1'
 							/>
 						</div>
 						<div>
@@ -84,7 +80,7 @@ const ItemBox = React.memo(
 											.map((card) => ({ id: card.id, type: card.type }))
 									)
 								}
-								className='my-2 rounded-md bg-gray-200 p-1 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500'
+								className='input-field my-2'
 							/>
 						</div>
 					</div>

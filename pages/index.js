@@ -10,12 +10,12 @@ const Index = () => {
 		<>
 			<Meta title='Login | Kolex VIP' />
 			{user && (
-				<div className='container relative mx-auto h-full bg-gray-700'>
+				<div className='container relative mx-auto h-full bg-gray-100 dark:bg-gray-700'>
 					<Profile />
 				</div>
 			)}
 			{!user && (
-				<div className='h-screen w-full overflow-auto bg-gray-700'>
+				<div className='h-screen w-full overflow-auto bg-gray-100 dark:bg-gray-700'>
 					<Login />
 				</div>
 			)}

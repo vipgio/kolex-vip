@@ -242,20 +242,17 @@ const CardGallery = ({
 								}))
 							)
 						}
-						className='m-1 cursor-pointer rounded-md border border-gray-200 px-3 py-2 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
+						className='simple-button m-1'
 					>
 						Select All
 					</button>
-					<button
-						onClick={() => setSelectedCards([])}
-						className='m-1 cursor-pointer rounded-md border border-gray-200 px-3 py-2 text-center text-gray-300 transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400'
-					>
+					<button onClick={() => setSelectedCards([])} className='simple-button m-1'>
 						Deselect All
 					</button>
 				</div>
 				<div className='ml-auto mr-2 flex flex-col justify-end py-1 sm:block'>
 					<button
-						className='mb-2 inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-all enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:mr-2 sm:mb-0'
+						className='button mb-2 sm:mr-2 sm:mb-0'
 						onClick={() => {
 							setShowMarketResults(true);
 							marketSearch();
@@ -266,7 +263,7 @@ const CardGallery = ({
 						<span>Search Market</span>
 					</button>
 					<button
-						className='inline-flex cursor-pointer items-center rounded-md border border-gray-200 py-2 px-3 text-center text-gray-300 transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50'
+						className='button'
 						onClick={() => {
 							setShowMintResults(true);
 							mintSearch();
@@ -283,7 +280,7 @@ const CardGallery = ({
 					(card) => (
 						<div
 							key={card.uuid}
-							className={`flex cursor-pointer flex-col items-center border border-gray-500 transition-transform hover:scale-105`}
+							className={`flex cursor-pointer flex-col items-center rounded border border-gray-500 transition-transform hover:scale-105`}
 							onClick={() => {
 								selectedCards.some((e) => e.id === card.id)
 									? setSelectedCards((prev) => prev.filter((item) => item.id !== card.id))
@@ -305,17 +302,20 @@ const CardGallery = ({
 									width={200 * 1.5}
 									height={300 * 1.5}
 									alt={card.title}
-									className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${selectedCards.some((e) => e.id === card.id)
+									className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
+										selectedCards.some((e) => e.id === card.id)
 											? "border-orange-500 grayscale-0"
 											: "border-transparent"
-										}`}
+									}`}
 									unoptimized={true}
 								/>
 								{!selectedCards.some((e) => e.id === card.id) && (
 									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
 								)}
 							</div>
-							<div className='text-center text-sm text-gray-300'>{card.title}</div>
+							<div className='text-center text-sm text-gray-700 dark:text-gray-300'>
+								{card.title}
+							</div>
 						</div>
 					)
 				)}

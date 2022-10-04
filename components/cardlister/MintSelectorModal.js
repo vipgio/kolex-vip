@@ -68,7 +68,7 @@ const MintSelectorModal = React.memo(
 									leaveFrom='opacity-100 scale-100'
 									leaveTo='opacity-0 scale-95'
 								>
-									<Dialog.Panel className='flex h-[30rem] w-full max-w-md transform flex-col overflow-hidden rounded-2xl bg-gray-700 p-4 text-left align-middle shadow-xl transition-all'>
+									<Dialog.Panel className='flex h-[30rem] w-full max-w-md transform flex-col overflow-hidden rounded-2xl bg-gray-100 p-4 text-left align-middle shadow-xl transition-all dark:bg-gray-700'>
 										<Dialog.Title
 											as='h3'
 											className='mb-1 text-lg font-medium leading-6 text-orange-500'
@@ -78,12 +78,15 @@ const MintSelectorModal = React.memo(
 											<span className='text-base'>{data.count}</span>
 										</Dialog.Title>
 										<div className='flex grow border border-gray-400'>
-											<div className='max-h-[23rem] w-1/3 divide-y overflow-auto border-r border-gray-400 p-1'>
+											<div className='max-h-[23rem] w-1/3 divide-y divide-gray-400 overflow-auto border-r border-gray-400 p-1'>
 												{sortBy(data.cards, ["mintBatch", "mintNumber"])
 													.slice(0)
 													.reverse()
 													.map((card) => (
-														<div key={card.id} className='flex w-24 text-gray-300'>
+														<div
+															key={card.id}
+															className='text-dark-700 flex w-full px-1 dark:text-gray-300'
+														>
 															<label
 																htmlFor={card.id}
 																className={`${
@@ -105,8 +108,8 @@ const MintSelectorModal = React.memo(
 														</div>
 													))}
 											</div>
-											<div className='flex w-2/3 flex-col text-gray-300'>
-												<div className='h-1/2 border-b border-gray-500 p-1'>
+											<div className='flex w-2/3 flex-col text-gray-700 dark:text-gray-300'>
+												<div className='h-1/2 p-1'>
 													A) Choose a mint range
 													<div className='flex flex-col'>
 														<div>
@@ -114,7 +117,7 @@ const MintSelectorModal = React.memo(
 															<select
 																name='batch'
 																id='batch'
-																className='mx-2 my-1 rounded-md p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+																className='input-field mx-2 my-1 sm:mb-0'
 																value={filters.batch}
 																onChange={(e) =>
 																	setFilters((prev) => ({
@@ -137,7 +140,7 @@ const MintSelectorModal = React.memo(
 																type='number'
 																name='max'
 																id='max'
-																className='my-1 ml-2 w-1/2 rounded-md p-1 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500'
+																className='input-field my-1 ml-2 w-1/2'
 																value={filters.max}
 																onChange={(e) =>
 																	setFilters((prev) => ({ ...prev, max: e.target.value }))
@@ -150,7 +153,7 @@ const MintSelectorModal = React.memo(
 																type='number'
 																name='min'
 																id='min'
-																className='ml-2 w-1/2 rounded-md p-1 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500'
+																className='input-field ml-2 w-1/2'
 																value={filters.min}
 																onChange={(e) =>
 																	setFilters((prev) => ({ ...prev, min: e.target.value }))
@@ -159,8 +162,11 @@ const MintSelectorModal = React.memo(
 														</div>
 													</div>
 												</div>
+												<div className='relative z-10 overflow-hidden text-center text-xl text-black before:absolute before:top-1/2 before:ml-[-44%] before:h-px before:w-5/12 before:bg-gray-400 before:text-right before:content-[""] after:absolute after:top-1/2 after:ml-[2%] after:h-px after:w-5/12 after:bg-gray-400 after:content-["\a0"]'>
+													OR
+												</div>
 												<div className='h-1/2 p-1'>
-													B) Or enter the number of cards; starting from the worst mint:
+													B) Enter the number of cards; starting from the worst mint:
 													<div>
 														<input
 															type='number'
@@ -190,11 +196,7 @@ const MintSelectorModal = React.memo(
 												Count: {selectedCards.length}
 											</div>
 											<div className='ml-auto'>
-												<button
-													type='button'
-													className='inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-orange-500 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:bg-gray-300 active:shadow-lg'
-													onClick={closeModal}
-												>
+												<button type='button' className='button' onClick={closeModal}>
 													Apply
 												</button>
 											</div>

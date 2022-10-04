@@ -53,8 +53,8 @@ const Searcher = () => {
 	return (
 		<>
 			<Meta title='Mint Search | Kolex VIP' />
-			<div className='my-10 border p-2'>
-				<div className='px-2 pt-2 font-semibold text-gray-300'>
+			<div className='my-10 border border-gray-800 p-2 dark:border-gray-200'>
+				<div className='px-2 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
 					Selected Collection:
 					{selectedCollection && (
 						<span>
@@ -66,7 +66,7 @@ const Searcher = () => {
 					)}
 				</div>
 				<div>{user && <SetSelector setSelectedCollection={setSelectedCollection} />}</div>
-				<div className='mb-1 flex items-center pl-2 text-gray-300'>
+				<div className='mb-1 flex items-center pl-2 text-gray-700 dark:text-gray-300'>
 					<label htmlFor='sigs' className='hover:cursor-pointer'>
 						Only search for signatures
 					</label>
@@ -80,12 +80,12 @@ const Searcher = () => {
 						}
 					/>
 				</div>
-				<div className='mb-2 flex w-fit flex-col pl-2 text-gray-300 sm:flex-row'>
+				<div className='mb-2 flex w-fit flex-col pl-2 text-gray-700 dark:text-gray-300 sm:flex-row'>
 					<div>
 						<label htmlFor='batch'>Mint Batch: </label>
 						<select
 							id='batch'
-							className='mb-2 mr-3 w-24 rounded-md border-gray-300 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+							className='input-field mb-2 mr-3 w-24 p-0 sm:mb-0'
 							onChange={(e) => setFilter((prev) => ({ ...prev, batch: e.target.value }))}
 							disabled={filter.sigsOnly}
 						>
@@ -104,7 +104,7 @@ const Searcher = () => {
 							id='minMint'
 							min={1}
 							disabled={filter.sigsOnly}
-							className='mb-2 mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+							className='input-field mb-2 mr-3 w-24 sm:mb-0'
 							placeholder='Minimum Mint'
 							value={filter.min}
 							onChange={(e) => setFilter((prev) => ({ ...prev, min: e.target.value }))}
@@ -118,7 +118,7 @@ const Searcher = () => {
 							id='maxMint'
 							min={1}
 							disabled={filter.sigsOnly}
-							className='mb-2 mr-3 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+							className='input-field mb-2 mr-3 w-24 sm:mb-0'
 							placeholder='Maximum Mint'
 							value={filter.max}
 							onChange={(e) => setFilter((prev) => ({ ...prev, max: e.target.value }))}
@@ -132,7 +132,7 @@ const Searcher = () => {
 							id='maxPrice'
 							min={0.1}
 							step={0.01}
-							className='mb-2 w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+							className='input-field mb-2 w-24 sm:mb-0'
 							placeholder='Maximum Price'
 							value={filter.price}
 							onChange={(e) => setFilter((prev) => ({ ...prev, price: e.target.value }))}

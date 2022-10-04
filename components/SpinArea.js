@@ -77,7 +77,7 @@ const SpinArea = ({ info }) => {
 					{spinActive ? (
 						<button
 							onClick={stopSpin}
-							className='rounded-md bg-red-500 p-2 font-semibold'
+							className='rounded-md bg-red-500 p-2 font-semibold hover:bg-red-600'
 						>
 							Stop Spinning
 						</button>
@@ -90,7 +90,7 @@ const SpinArea = ({ info }) => {
 						</button>
 					)}
 
-					<div className='flex-1 text-center text-lg font-semibold text-gray-400'>
+					<div className='flex-1 text-center text-lg font-semibold text-gray-700 dark:text-gray-400'>
 						Silver: {funds.silvercoins}
 					</div>
 					<button

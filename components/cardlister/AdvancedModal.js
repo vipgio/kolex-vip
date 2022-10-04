@@ -120,7 +120,7 @@ const AdvancedModal = ({ selectedTemplates, setShowAdvancedModal, user, template
 	};
 
 	return (
-		<div className='fixed inset-0 z-20 flex flex-col items-center justify-center overscroll-none bg-black/90'>
+		<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<ToastContainer
 				position='top-right'
 				autoClose={5000}
@@ -132,18 +132,15 @@ const AdvancedModal = ({ selectedTemplates, setShowAdvancedModal, user, template
 				draggable
 				pauseOnHover
 			/>
-			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-900 sm:mx-16'>
+			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-100 dark:bg-gray-900 sm:mx-16'>
 				<div
-					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-800' /*modal header*/
+					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800' /*modal header*/
 				>
-					<h1
-						className='mx-auto py-2 text-3xl text-gray-200'
-						onClick={() => console.log(loadedState)}
-					>
-						{loadedState.length < selectedTemplates.length ? <LoadingSpin /> : "Items"}
+					<h1 className='mx-auto py-2 text-3xl text-gray-800 dark:text-gray-200'>
+						{cardDetails.length < selectedTemplates.length ? <LoadingSpin /> : "Items"}
 					</h1>
 					<button
-						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-300 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400'
+						className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-800 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'
 						onClick={() => {
 							setShowAdvancedModal(false);
 						}}
@@ -172,15 +169,14 @@ const AdvancedModal = ({ selectedTemplates, setShowAdvancedModal, user, template
 							insertFloor={insertFloor}
 							listingDetails={listingDetails}
 							setListingDetails={setListingDetails}
-							setLoadedState={setLoadedState}
 						/>
 					))}
 				</div>
-				<div className='flex border-t p-3'>
+				<div className='flex border-t border-gray-400 p-3 dark:border-gray-200'>
 					<div className='ml-1 flex items-center'>
 						<button
 							onClick={() => setInsertFloor((prev) => prev + 1)}
-							className='rounded-md border border-gray-200 p-1 text-gray-300 transition-colors enabled:hover:bg-gray-200 enabled:hover:text-black enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50'
+							className='cursor-pointer rounded-md border border-gray-800 px-3 py-2 text-center text-gray-700 shadow-lg transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400 dark:border-gray-200 dark:text-gray-300 dark:hover:text-gray-800'
 						>
 							Floor
 						</button>
@@ -192,10 +188,7 @@ const AdvancedModal = ({ selectedTemplates, setShowAdvancedModal, user, template
 					</div>
 
 					<div className='ml-auto sm:mb-0'>
-						<button
-							onClick={listAll}
-							className='mb-2 mr-2 inline-flex cursor-pointer items-center rounded-md border border-transparent border-gray-200 bg-gray-100 py-2 px-3 text-center font-medium text-orange-500 shadow-lg transition-all hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:bg-gray-300 active:shadow-lg enabled:hover:bg-gray-300 enabled:hover:text-orange-600 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
-						>
+						<button onClick={listAll} className='button mb-2 sm:mb-0'>
 							{loading ? <LoadingSpin size={4} /> : "List items"}
 						</button>
 					</div>

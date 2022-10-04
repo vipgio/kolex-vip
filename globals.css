@@ -2,17 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+	@apply bg-gray-100 transition-colors dark:bg-gray-700;
+}
+
 .input-field {
-	@apply rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:px-3;
+	@apply rounded-md border border-gray-700 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-300 sm:px-3;
 }
 
 .big-button {
 	/*	@apply bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md;*/
-	@apply rounded-md bg-indigo-500 py-2 px-4 text-center font-bold text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 enabled:hover:bg-indigo-700 enabled:active:bg-indigo-800;
+	@apply rounded-md bg-blue-500 py-2 px-4 text-center font-bold text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 enabled:hover:bg-blue-600 enabled:active:bg-blue-700;
 }
 
-body {
-	@apply bg-gray-700;
+.simple-button {
+	@apply cursor-pointer rounded-md border border-gray-800 bg-gray-100 px-3 py-2 text-center text-gray-700 shadow-lg transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400 dark:border-gray-200 dark:text-gray-800 dark:hover:text-gray-800;
+}
+
+.button {
+	@apply inline-flex cursor-pointer items-center justify-center rounded-md border border-transparent border-gray-200 bg-gray-800 py-2 px-3 text-center font-medium text-orange-500 shadow-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:shadow-lg enabled:hover:bg-gray-700 enabled:hover:text-orange-600 enabled:active:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-100 dark:enabled:hover:bg-gray-300 dark:enabled:active:bg-gray-400;
 }
 
 .indicator {
@@ -22,32 +30,33 @@ body {
 .tooltip {
 	@apply pointer-events-none absolute bottom-1/2 z-50 h-fit w-48 translate-y-1/2 bg-orange-400 p-1 text-center text-sm text-white opacity-0 transition-opacity duration-300 after:absolute after:top-1/2 after:-mt-2 after:border-8 after:border-transparent after:content-["_"] group-hover:opacity-90;
 }
+
 ::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;
 }
-
 ::-webkit-scrollbar-track {
 	border-radius: 50vh;
 	background: #6b7280;
 }
-
 ::-webkit-scrollbar-thumb {
 	background: #fb923c; /*navbar blue*/
 	border-radius: 100vh;
 	border: 2px solid #6b7280;
 }
-
 ::-webkit-scrollbar-thumb:hover {
 	background: #f97316;
 }
+
 .no-highlight {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	-webkit-tap-highlight-color: transparent;
 }
+
 .Toastify__toast-container--top-right {
 	position: absolute !important;
 }
+
 .navbar-icon-bar {
-	@apply absolute left-0 origin-center rounded-sm bg-white transition-all duration-300 ease-in-out;
+	@apply absolute left-1 origin-center rounded-sm bg-white transition-all duration-300 ease-in-out;
 }
