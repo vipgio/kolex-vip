@@ -95,4 +95,5 @@ const PackResults = React.memo(
 	},
 	(oldProps, newProps) => isEqual(oldProps, newProps)
 );
+PackResults.displayName = "PackResults";
 export default PackResults;
