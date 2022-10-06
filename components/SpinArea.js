@@ -115,11 +115,21 @@ const SpinArea = ({ info }) => {
 					</button>
 				</div>
 
-				<div className='max-h-96 min-h-[20rem] overflow-auto'>
+				<div className='max-h-96 min-h-[24rem] overflow-auto'>
 					{info.id &&
 						spinRes.map((res) => (
 							<SpinResult result={res} spinnerInfo={info} key={res.time} />
 						))}
+				</div>
+				<div className='mt-1 border-t border-gray-500 pt-1 text-gray-800 dark:text-gray-200'>
+					<div>
+						Used the Spinner
+						<span className='text-indigo-500 dark:text-indigo-300'>
+							{" "}
+							{spinRes.length}{" "}
+						</span>
+						times
+					</div>
 				</div>
 			</div>
 		</>
