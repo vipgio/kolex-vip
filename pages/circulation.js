@@ -37,8 +37,8 @@ const Circulation = () => {
 		<>
 			<Meta title='Circulation | Kolex VIP' />
 			<div className='mt-10 flex flex-col items-center'>
-				<div className='flex h-full w-full flex-col items-start justify-center pt-10 sm:items-center'>
-					<div className='px-4 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
+				<div className='flex h-full w-full flex-col items-center justify-center pt-10'>
+					<div className='px-4 pt-2 text-center font-semibold text-gray-700 dark:text-gray-300'>
 						Selected Collection:
 						{selectedCollection && (
 							<span>

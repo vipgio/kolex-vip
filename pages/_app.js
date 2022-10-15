@@ -16,6 +16,7 @@ const App = ({ Component, pageProps }) => {
 		"/scanner",
 		"/mintsearch",
 		"/cardlister",
+		"/crafting",
 	];
 	const premiumRoutes = ["/masslist", "/history", "/mintsearch", "/cardlister"];
 	return (

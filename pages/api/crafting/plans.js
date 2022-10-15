@@ -4,19 +4,19 @@ const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds:
 const { API } = require("@/config/config");
 
 export default async function handler(req, res) {
-	// make sure it's only post
-	if (req.method !== "POST") {
-		return res.status(405).json({ error: "Method not allowed" });
-	}
+	const { jwt } = req.headers;
+	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 	try {
-		const login = async (auth) => {
-			return http(`${API}/auth/${auth.code.length > 0 ? "2fa/" : ""}login`, {
-				method: "POST",
-				data: auth,
+		const getPlans = async (jwt) => {
+			return http(`${API}/crafting/plans?categoryId=1`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"x-user-jwt": jwt,
+				},
 			});
 		};
-		const { data } = await login(req.body);
-
+		const { data } = await getPlans(jwt);
 		res.status(200).json(data);
 	} catch (err) {
 		console.log(err);

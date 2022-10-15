@@ -45,6 +45,16 @@ const options = [
 		link: "/scanner",
 	},
 	{
+		name: "Crafting",
+		price: 0,
+		id: 4,
+		description:
+			"Allows you to automate multiple crafts and picks the worst mints overall.",
+		locked: false,
+		image: "/crafting.png",
+		link: "/crafting",
+	},
+	{
 		name: "Mint Search",
 		price: 3,
 		id: 5,
@@ -59,13 +69,13 @@ const options = [
 		price: 2,
 		id: 6,
 		description:
-			"Shows the history of every card that you enter its ID. Can also be used in the scanner and mint search result sections.",
+			"Shows the history of any card using its ID. Can also be used in the scanner and mint search sections.",
 		locked: true,
 		image: "/history.png",
 		link: "/history",
 	},
 	{
-		name: "Pack Lister / Opener",
+		name: "Pack Manager",
 		price: 3,
 		id: 7,
 		description:
@@ -120,7 +130,6 @@ const Prices = () => {
 						<div className='h-2/3 overflow-hidden p-1'>
 							<Image
 								src={feature.image}
-								unoptimized
 								width={500}
 								height={500}
 								className='object-cover'

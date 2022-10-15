@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "context/UserContext";
 import SpinResult from "./SpinResult";
 
 const SpinArea = ({ info }) => {
 	const intervalRef = useRef();
-	const { buySpin, spin, getFunds, user } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
 	const [funds, setFunds] = useState({
@@ -14,27 +15,62 @@ const SpinArea = ({ info }) => {
 		silvercoins: 0,
 	});
 
-	const getBalance = useCallback(async () => {
-		if (user) {
-			const allFunds = await getFunds();
-			if (allFunds.data.success) {
-				setFunds(allFunds.data.data);
+	const getFunds = async () => {
+		const { data } = await axios.get("/api/users/funds", {
+			headers: {
+				jwt: user.jwt,
+			},
+		});
+		data.success && setFunds(data.data);
+	};
+
+	const buySpin = async () => {
+		const { data } = await axios.post(
+			"/api/spinner/buySpin",
+			{
+				data: {
+					amount: 1,
+				},
+			},
+			{
+				headers: {
+					jwt: user.jwt,
+				},
 			}
-		}
-	}, [user]);
+		);
+		if (data.success) return data.data;
+		if (!data.success) console.log(data.response);
+	};
+
+	const spin = async (id) => {
+		const { data } = await axios.post(
+			"/api/spinner/spin",
+			{
+				data: {
+					spinnerId: id,
+				},
+			},
+			{
+				headers: {
+					jwt: user.jwt,
+				},
+			}
+		);
+		if (data.success) return data.data;
+	};
 
 	useEffect(() => {
-		getBalance();
-	}, [user, getBalance]);
+		getFunds();
+	}, [user.jwt]);
 
 	const doSpin = async () => {
-		const buySpinRes = await buySpin();
-		if (buySpinRes.data.success) {
-			const { data: spinResult } = await spin(info.id);
-			if (spinResult.data.cards.length > 0) {
+		try {
+			await buySpin();
+			const spinResult = await spin(info.id);
+			if (spinResult.cards.length > 0) {
 				const { data: templates } = await axios.get(`/api/cards/templates`, {
 					params: {
-						cardIds: spinResult.data.cards[0].cardTemplateId,
+						cardIds: spinResult.cards.map((card) => card.cardTemplateId).toString(),
 					},
 					headers: {
 						jwt: user.jwt,
@@ -47,16 +83,21 @@ const SpinArea = ({ info }) => {
 			} else {
 				setSpinRes((prev) => [{ ...spinResult, time: new Date() }, ...prev]);
 			}
+			await getFunds();
+		} catch (err) {
+			console.log(err);
+			if (err.response.data.errorCode === "low_user_balance") stopSpin();
+			toast.error(err.response.data.error, {
+				toastId: err.response.data.errorCode,
+			});
 		}
 	};
 
 	const startSpin = () => {
 		setSpinActive(true);
 		doSpin();
-		getBalance();
 		const id = setInterval(() => {
 			doSpin();
-			getBalance();
 		}, 6 * 1000);
 		intervalRef.current = id;
 	};
@@ -72,29 +113,39 @@ const SpinArea = ({ info }) => {
 
 	return (
 		<>
+			<ToastContainer
+				position='top-right'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
 			<div className='mt-3 flex w-full flex-col border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
 				<div className='flex w-full items-center justify-evenly border-b border-gray-500 pb-2'>
 					{spinActive ? (
 						<button
 							onClick={stopSpin}
-							className='rounded-md bg-red-500 p-2 font-semibold hover:bg-red-600'
+							className='rounded-md bg-red-500 p-2 font-semibold hover:bg-red-600 active:bg-red-700'
 						>
 							Stop Spinning
 						</button>
 					) : (
 						<button
 							onClick={startSpin}
-							className='rounded-md bg-green-500 p-2 font-semibold hover:bg-green-600'
+							className='rounded-md bg-green-500 p-2 font-semibold hover:bg-green-600 active:bg-green-700'
 						>
 							Start Spinning
 						</button>
 					)}
-
 					<div className='flex-1 text-center text-lg font-semibold text-gray-700 dark:text-gray-400'>
-						Silver: {funds.silvercoins}
+						Silver: {funds.silvercoins.toLocaleString()}
 					</div>
 					<button
-						className='flex items-center rounded-md bg-red-500 p-2 hover:bg-red-600'
+						className='flex items-center rounded-md bg-red-500 p-2 hover:bg-red-600 active:bg-red-700'
 						onClick={() => setSpinRes([])}
 					>
 						Clear history
@@ -128,7 +179,7 @@ const SpinArea = ({ info }) => {
 							{" "}
 							{spinRes.length}{" "}
 						</span>
-						times
+						{spinRes.length === 1 ? "time" : "times"}
 					</div>
 				</div>
 			</div>

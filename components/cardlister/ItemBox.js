@@ -84,7 +84,7 @@ const ItemBox = React.memo(
 							/>
 						</div>
 					</div>
-					<button className='big-button' onClick={() => setShowMintModal(true)}>
+					<button className='submit-button' onClick={() => setShowMintModal(true)}>
 						Mint details
 					</button>
 					<div>

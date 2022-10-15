@@ -22,7 +22,7 @@ const Login = () => {
 					`/api/whitelist?username=${data.data.user.username}`
 				);
 				if (whitelist.data.info?.banned) {
-					toast.error("You're banned, fuck off", {
+					toast.error("I don't like you, fuck off", {
 						position: "top-center",
 						toastId: "banned",
 						progress: 1,
@@ -103,9 +103,7 @@ const Login = () => {
 							name='2fa'
 							placeholder='Two Factor Authentication'
 							value={code}
-							// required={true}
 							onChange={(e) => setCode(e.target.value)}
-							// autoComplete='current-password'
 							disabled={loading}
 							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 						/>
@@ -113,7 +111,7 @@ const Login = () => {
 					<button
 						type='submit'
 						disabled={loading}
-						className={`big-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+						className={`submit-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 					>
 						Login
 					</button>

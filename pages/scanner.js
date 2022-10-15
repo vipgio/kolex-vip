@@ -129,11 +129,7 @@ const Scanner = () => {
 					</div>
 				</div>
 				<div className='flex w-full items-center justify-center'>
-					<button
-						className='big-button disabled:cursor-not-allowed'
-						onClick={handleScan}
-						disabled={loading}
-					>
+					<button className='submit-button' onClick={handleScan} disabled={loading}>
 						{loading ? <LoadingSpin /> : "Scan"}
 					</button>
 					<div className='text-gray-700 dark:text-gray-300'>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
 import { FaHistory, FaSearch, FaLock, FaMoon, FaSun, FaGithub } from "react-icons/fa";
+import { TbArrowMerge } from "react-icons/tb";
 import { UserContext } from "context/UserContext";
 import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
@@ -61,6 +62,11 @@ const NewNavbar = () => {
 															)}
 														</span>
 														<span className='ml-1'>{page.title}</span>
+														{page.new && (
+															<span className='ml-auto rounded bg-red-500 p-1 text-xs text-gray-100'>
+																New
+															</span>
+														)}
 													</MyLink>
 												)}
 											</Menu.Item>
@@ -173,8 +179,15 @@ const pages = [
 		paid: false,
 	},
 	{
+		link: "crafting",
+		title: "Crafting",
+		icon: <TbArrowMerge className='scale-125' />,
+		paid: false,
+		new: true,
+	},
+	{
 		link: "masslist",
-		title: "Masslist",
+		title: "Pack Manager",
 		icon: (
 			<svg
 				width='14'

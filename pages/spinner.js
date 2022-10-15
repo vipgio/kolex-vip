@@ -1,21 +1,26 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
-import Meta from "../components/Meta";
-import SpinArea from "../components/SpinArea";
+import { UserContext } from "context/UserContext";
+import Meta from "@/components/Meta";
+import SpinArea from "@/components/SpinArea";
+import axios from "axios";
 
 const Spinner = () => {
-	const { spinnerOdds, user } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [spinnerInfo, setSpinnerInfo] = useState({});
 
 	useEffect(() => {
-		const stuff = async () => {
-			const data = await spinnerOdds();
-			if (data.data.success) {
-				setSpinnerInfo(data.data.data);
+		const getInitialInfo = async () => {
+			const { data } = await axios.get("/api/spinner/info", {
+				headers: {
+					jwt: user.jwt,
+				},
+			});
+			if (data.success) {
+				setSpinnerInfo(data.data);
 			}
 		};
-		user && stuff();
-	}, [user]);
+		user && getInitialInfo();
+	}, [user.jwt]);
 
 	return (
 		<>

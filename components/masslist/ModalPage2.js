@@ -8,6 +8,7 @@ import { UserContext } from "context/UserContext";
 import CoolButton from "./CoolButton";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingSpin from "../LoadingSpin";
+import { useEffect } from "react";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { user, setLoading, loading } = useContext(UserContext);
@@ -71,7 +72,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 
 	const open = async () => {
 		setLoading(true);
-		selected.forEach(async (packId) => {
+		for (const packId of selected) {
 			try {
 				const headers = {
 					headers: {
@@ -79,7 +80,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					},
 				};
 				const { data } = await axios.post(`/api/pack/open/${packId}`, null, headers);
-				setLoading(false);
 				if (data.success) {
 					if (data.data.cards.length > 0) {
 						const { data: templates } = await axios.get(`/api/cards/templates`, {
@@ -106,7 +106,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					toastId: err.response.data.errorCode,
 				});
 			}
-		});
+		}
 		setLoading(false);
 	};
 
@@ -189,7 +189,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 
 						<button
 							onClick={list}
-							className='big-button mt-2 disabled:cursor-not-allowed disabled:opacity-70'
+							className='submit-button mt-2'
 							disabled={loading || selected.length === 0}
 						>
 							{loading ? <LoadingSpin /> : "List"}
@@ -200,11 +200,11 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 				<>
 					<div className='flex flex-col items-center justify-center'>
 						<button
-							className='mt-6 rounded-md border bg-indigo-500 p-2 text-gray-200 transition-colors enabled:hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50'
+							className='submit-button mt-6'
 							onClick={open}
 							disabled={loading || selected.length === 0}
 						>
-							Open selected Packs
+							{loading ? <LoadingSpin /> : "Open selected Packs"}
 						</button>
 					</div>
 					<div className='m-2 flex flex-1 flex-col overflow-auto'>

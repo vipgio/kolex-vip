@@ -91,29 +91,6 @@ const UserContextProvider = (props) => {
 		});
 	};
 
-	const spinnerOdds = async () => {
-		return http(`https://api.kolex.gg/api/v1/spinner?categoryId=1`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				"x-user-jwt": user.jwt,
-			},
-		});
-	};
-
-	const buySpin = async () => {
-		return http(`https://api.kolex.gg/api/v1/spinner/buy-spin?categoryId=1`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"x-user-jwt": user.jwt,
-			},
-			data: JSON.stringify({
-				amount: 1,
-			}),
-		});
-	};
-
 	const spin = async (id) => {
 		return http(`https://api.kolex.gg/api/v1/spinner/spin?categoryId=1`, {
 			method: "POST",
@@ -124,16 +101,6 @@ const UserContextProvider = (props) => {
 			data: JSON.stringify({
 				spinnerId: id,
 			}),
-		});
-	};
-
-	const getFunds = async () => {
-		return http(`https://api.kolex.gg/api/v1/user/funds?categoryId=1`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				"x-user-jwt": user.jwt,
-			},
 		});
 	};
 
@@ -148,10 +115,7 @@ const UserContextProvider = (props) => {
 				getStickerCirc,
 				getCollections,
 				getPacks,
-				spinnerOdds,
-				buySpin,
 				spin,
-				getFunds,
 				userPacks,
 				initialLoading,
 			}}

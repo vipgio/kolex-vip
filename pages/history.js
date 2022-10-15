@@ -132,7 +132,9 @@ const History = () => {
 						<button
 							type='submit'
 							disabled={loading}
-							className={`big-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+							className={`submit-button ${
+								loading ? "cursor-not-allowed opacity-50" : ""
+							}`}
 						>
 							{loading ? <LoadingSpin /> : "Get history"}
 						</button>

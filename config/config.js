@@ -1,6 +1,9 @@
 const dev = process.env.NODE_ENV !== "production";
 export const server = dev ? "http://localhost:3000" : "https://kolex-vip.vercel.app";
 
-export const API = "https://api.kolex.gg/api/v1";
+const staging = false;
+export const API = staging
+	? "https://api-staging1.epics.gg/api/v1"
+	: "https://api.kolex.gg/api/v1";
 
 export const CDN = "https://cdn.epics.gg";

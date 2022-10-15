@@ -143,7 +143,7 @@ const menuClassName = ({ state }) =>
 
 const menuItemClassName = ({ hover, disabled, submenu }) =>
 	`rounded-md px-3 py-1 focus:outline-none text-black dark:text-gray-100 flex items-center ${
-		hover && "text-white bg-blue-400"
+		hover && "text-white bg-blue-500"
 	} ${disabled && "text-gray-400"} ${
 		submenu &&
 		"relative after:content-['❯'] after:absolute text-black dark:text-gray-100 after:right-1"

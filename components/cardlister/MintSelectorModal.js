@@ -162,7 +162,7 @@ const MintSelectorModal = React.memo(
 														</div>
 													</div>
 												</div>
-												<div className='relative z-10 overflow-hidden text-center text-xl text-black before:absolute before:top-1/2 before:ml-[-44%] before:h-px before:w-5/12 before:bg-gray-400 before:text-right before:content-[""] after:absolute after:top-1/2 after:ml-[2%] after:h-px after:w-5/12 after:bg-gray-400 after:content-["\a0"]'>
+												<div className='relative z-10 overflow-hidden text-center text-xl text-gray-900 before:absolute before:top-1/2 before:ml-[-44%] before:h-px before:w-5/12 before:bg-gray-400 before:text-right before:content-[""] after:absolute after:top-1/2 after:ml-[2%] after:h-px after:w-5/12 after:bg-gray-400 after:content-["\a0"] dark:text-gray-100'>
 													OR
 												</div>
 												<div className='h-1/2 p-1'>

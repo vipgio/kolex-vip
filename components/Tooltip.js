@@ -29,6 +29,9 @@ const Tooltip = ({ direction, text, color }) => {
 		case "red":
 			customColor = "text-red-400";
 			break;
+
+		default:
+			customColor = "dark:text-white text-black";
 	}
 
 	return (

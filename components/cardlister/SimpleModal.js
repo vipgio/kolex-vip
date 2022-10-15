@@ -206,7 +206,6 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 							))}
 					</div>
 					<div className='w-1/2 border-l border-gray-400'>
-						{" "}
 						{/* right half, inputs */}
 						<div className='flex flex-col p-1 text-gray-900 dark:text-gray-200'>
 							<div>
@@ -302,16 +301,36 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 											]);
 										}}
 									/>
-									<span>
+									<span className='hidden lg:block'>
 										<Tooltip
 											text='Picks the worst mints for each item'
 											direction='right'
-											mode='light'
+										/>
+									</span>
+									<span className='ml-1 block lg:hidden'>
+										<Tooltip
+											text='Picks the worst mints for each item'
+											direction='left'
 										/>
 									</span>
 								</div>
 								<div>Max: {min(cardDetails.map((item) => item.cards.length))}</div>
 							</div>
+						</div>
+						<div className='my-auto flex items-center border-t border-gray-600 p-1 pt-2 dark:border-gray-300'>
+							<label htmlFor='price' className='text-gray-800 dark:text-gray-200'>
+								Price:
+							</label>
+							<input
+								type='number'
+								name='price'
+								id='price'
+								min={0.1}
+								max={20000}
+								step={0.01}
+								className='input-field ml-1'
+								onChange={(e) => setPrice(e.target.value)}
+							/>
 						</div>
 					</div>
 				</div>
@@ -329,26 +348,10 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 					</div>
 				</div>
 
-				<div className='flex border-t border-gray-400 p-2 dark:border-gray-200'>
-					<div className='mt-2 flex flex-col sm:mt-0'>
-						<div className='mb-1 flex items-center'>
-							<label htmlFor='price' className='text-gray-800 dark:text-gray-200'>
-								Price:
-							</label>
-							<input
-								type='number'
-								name='price'
-								id='price'
-								min={0.1}
-								max={20000}
-								step={0.01}
-								className='input-field ml-1'
-								onChange={(e) => setPrice(e.target.value)}
-							/>
-						</div>
-						<div className='text-orange-500'>Count: {selectedCards.length}</div>
-					</div>
-					<div className='ml-auto mr-2 mt-2 self-center sm:mt-0 sm:mb-0'>
+				<div className='flex items-center border-t border-gray-400 p-2 dark:border-gray-200'>
+					<div className='text-orange-500'>Count: {selectedCards.length}</div>
+
+					<div className='ml-auto mt-2 self-center sm:mt-0 sm:mb-0'>
 						<button
 							disabled={
 								cardDetails.length !== selectedTemplates.length ||

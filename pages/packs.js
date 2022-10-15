@@ -98,7 +98,9 @@ const PackSearch = () => {
 						<button
 							type='submit'
 							disabled={loading}
-							className={`big-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+							className={`submit-button ${
+								loading ? "cursor-not-allowed opacity-50" : ""
+							}`}
 						>
 							Search for packs
 						</button>

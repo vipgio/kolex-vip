@@ -41,11 +41,7 @@ const CardGallery = ({ templates, user }) => {
 				</div>
 				<div className='ml-auto flex flex-col justify-end py-1 sm:block'>
 					<div className='mb-2 flex items-center'>
-						<Tooltip
-							direction='left'
-							text='Pick mints and price for each item'
-							color='black'
-						/>
+						<Tooltip direction='left' text='Pick mints and price for each item' />
 						<button
 							className='button mr-2 sm:mb-0'
 							onClick={() => {
@@ -60,7 +56,6 @@ const CardGallery = ({ templates, user }) => {
 						<Tooltip
 							direction='left'
 							text='Pick mints or set count for all items at once'
-							color='black'
 						/>
 						<button
 							className='button mr-2 w-full sm:mb-0'
