@@ -127,7 +127,7 @@ const Prices = () => {
 								</Link>
 							</h2>
 						</div>
-						<div className='h-2/3 overflow-hidden p-1'>
+						<div className='h-2/3 w-auto overflow-hidden p-1'>
 							<Image
 								src={feature.image}
 								width={500}

@@ -8,7 +8,7 @@ const Profile = () => {
 	const { user, setUser } = useContext(UserContext);
 	return (
 		<>
-			<Meta title='Profile | Kolex VIP' description='stuff' />
+			<Meta title='Profile | Kolex VIP' />
 			<div className='mx-2 mt-12 flex flex-col rounded-md border border-current py-2 text-gray-700 transition-colors dark:text-gray-300 sm:mx-0 sm:flex-row'>
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border border-gray-700 dark:border-gray-300'>

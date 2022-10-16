@@ -7,16 +7,16 @@ import ThemeContextProvider from "context/ThemeContext";
 
 const App = ({ Component, pageProps }) => {
 	const protectedRoutes = [
-		"/spinner",
-		"/masslist",
+		"/cardlister",
 		"/circulation",
+		"/crafting",
+		"/history",
+		"/masslist",
+		"/mintsearch",
 		"/packs",
 		"/profile",
-		"/history",
 		"/scanner",
-		"/mintsearch",
-		"/cardlister",
-		"/crafting",
+		"/spinner",
 	];
 	const premiumRoutes = ["/masslist", "/history", "/mintsearch", "/cardlister"];
 	return (
