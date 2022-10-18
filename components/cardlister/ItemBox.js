@@ -25,7 +25,7 @@ const ItemBox = React.memo(
 		}, [price, selectedCards]);
 
 		useEffect(() => {
-			if (insertFloor)
+			if (insertFloor && template.floor)
 				setPrice(
 					(template.floor * 100 - 0.01 * 100) / 100 >= minPrice
 						? ((template.floor * 100 - 0.01 * 100) / 100).toString()

@@ -10,7 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 const AdvancedModal = ({ selectedTemplates, setShowAdvancedModal, user, templates }) => {
 	const [loading, setLoading] = useState(false);
 	const [cardDetails, setCardDetails] = useState([]);
-	const [loadedState, setLoadedState] = useState([]);
 	const [insertFloor, setInsertFloor] = useState(0);
 	const [listingDetails, setListingDetails] = useState({});
 

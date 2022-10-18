@@ -5,22 +5,20 @@ const { API } = require("@/config/config");
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { price, page, type, templateIds } = req.query;
+	const { userId, page } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
+
 	try {
-		const getMarketInfo = async (jwt, price, page, type) => {
-			return http(
-				`${API}/market/templates?page=${page}&price=${price}&templateIds=${templateIds}&type=${type}&categoryId=1`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						"x-user-jwt": jwt,
-					},
-				}
-			);
+		const getListed = async (jwt, userId, page) => {
+			return http(`${API}/market/listed/users/${userId}?page=${page}&categoryId=1`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"x-user-jwt": jwt,
+				},
+			});
 		};
-		const { data } = await getMarketInfo(jwt, price, page, type, templateIds);
+		const { data } = await getListed(jwt, userId, page);
 		res.status(200).json(data);
 	} catch (err) {
 		console.log(err);

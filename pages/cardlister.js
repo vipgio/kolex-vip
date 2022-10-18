@@ -4,13 +4,15 @@ import pick from "lodash/pick";
 import { UserContext } from "context/UserContext";
 import SetSelector from "HOC/SetSelector";
 import Meta from "@/components/Meta";
-import CardGallery from "@/components/cardlister/CardGallery";
 import LoadingSpin from "@/components/LoadingSpin";
+import CardGallery from "@/components/cardlister/CardGallery";
+import ListedModal from "@/components/cardlister/ListedModal";
 
 const Cardlister = () => {
 	const { user } = useContext(UserContext);
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [templates, setTemplates] = useState([]);
+	const [showListedModal, setShowListedModal] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -23,6 +25,10 @@ const Cardlister = () => {
 		try {
 			const { data: templates } = await getCollection(selectedCollection.collection.id);
 			const { data: cards } = await getCardIds(
+				user.user.id,
+				selectedCollection.collection.id
+			);
+			const { data: owned } = await getOwned(
 				user.user.id,
 				selectedCollection.collection.id
 			);
@@ -47,6 +53,9 @@ const Cardlister = () => {
 								: count.stickerIds.length
 							: 0,
 						type: card.cardType ? "card" : "sticker",
+						listedAny: [...owned.cards, ...owned.stickers].some(
+							(own) => own.cardTemplateId === card.id && own.status === "market"
+						),
 					};
 				});
 				setTemplates(countedTemplates);
@@ -149,27 +158,50 @@ const Cardlister = () => {
 		}
 	};
 
+	const getOwned = async (userId, collectionId) => {
+		const { data } = await axios.get(`/api/users/scan`, {
+			params: {
+				collectionId: collectionId,
+				userId: userId,
+			},
+			headers: {
+				jwt: user.jwt,
+			},
+		});
+		return data;
+	};
+
 	return (
 		<>
 			<Meta title='Card Lister | Kolex VIP' />
-			<div className='mt-10 px-2 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
-				Selected Collection:
-				{selectedCollection && (
-					<span>
-						{" "}
-						{selectedCollection.collection.properties.seasons[0]} -{" "}
-						{selectedCollection.collection.properties.tiers[0]} -{" "}
-						{selectedCollection.collection.name}
-					</span>
-				)}
+			<div className='flex'>
+				<div className='flex flex-col'>
+					<div className='mt-10 px-2 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
+						Selected Collection:
+						{selectedCollection && (
+							<span>
+								{" "}
+								{selectedCollection.collection.properties.seasons[0]} -{" "}
+								{selectedCollection.collection.properties.tiers[0]} -{" "}
+								{selectedCollection.collection.name}
+							</span>
+						)}
+					</div>
+					<SetSelector setSelectedCollection={setSelectedCollection} />
+				</div>
+				<div className='ml-auto mr-2 mb-2 flex items-end'>
+					<button className='button' onClick={() => setShowListedModal(true)}>
+						Edit Listings
+					</button>
+				</div>
 			</div>
-			<SetSelector setSelectedCollection={setSelectedCollection} />
 			{loading && (
 				<div className='flex justify-center py-2'>
 					<LoadingSpin />
 				</div>
 			)}
 			{templates.length > 0 && <CardGallery templates={templates} user={user} />}
+			{showListedModal && <ListedModal setShowListedModal={setShowListedModal} />}
 		</>
 	);
 };

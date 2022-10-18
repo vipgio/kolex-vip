@@ -15,7 +15,6 @@ const MarketResults = ({
 	selectedCollection,
 }) => {
 	const { user } = useContext(UserContext);
-	console.log(results);
 	return (
 		<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-16'>

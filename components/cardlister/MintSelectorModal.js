@@ -72,7 +72,6 @@ const MintSelectorModal = React.memo(
 										<Dialog.Title
 											as='h3'
 											className='mb-1 text-lg font-medium leading-6 text-orange-500'
-											onClick={() => console.log(selectedCards)}
 										>
 											{data.title} <span className='text-xs'>x</span>
 											<span className='text-base'>{data.count}</span>

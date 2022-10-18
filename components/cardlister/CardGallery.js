@@ -4,6 +4,7 @@ import sortBy from "lodash/sortBy";
 import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
 import Tooltip from "../Tooltip";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 const CardGallery = ({ templates, user }) => {
 	const [selectedTemplates, setSelectedTemplates] = useState([]);
 	const [showAdvancedModal, setShowAdvancedModal] = useState(false);
@@ -112,6 +113,14 @@ const CardGallery = ({ templates, user }) => {
 									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
 								)}
 							</div>
+							{card.listedAny && (
+								<div
+									className='absolute right-2 top-2 flex h-6 w-7 items-center justify-center rounded bg-green-500 text-gray-900 dark:text-gray-100'
+									title='Some items are already listed'
+								>
+									<AiOutlineShoppingCart size={18} />
+								</div>
+							)}
 							<div className='mb-1 p-1 text-center text-sm'>{card.title}</div>
 							<div className='mt-auto flex w-full border-y border-gray-400'>
 								<span className='ml-1'>Floor:</span>

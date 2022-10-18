@@ -7,3 +7,6 @@ export const API = staging
 	: "https://api.kolex.gg/api/v1";
 
 export const CDN = "https://cdn.epics.gg";
+
+export const minPrice = 0.1;
+export const maxPrice = 20000;
