@@ -78,21 +78,26 @@ const ScanResult = React.memo(
 		return (
 			<>
 				<div className='my-5 px-5'>
-					<div className='flex items-center pb-3'>
-						<label htmlFor='filter' className='m-2 text-gray-800 dark:text-gray-300'>
-							Select a filter method:{" "}
-						</label>
-						<select
-							id='filter'
-							className='rounded-md border-gray-300 p-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-							onChange={(e) => setFilterMethod(e.target.value)}
-						>
-							<option value='all'>All items</option>
-							<option value='best'>Best set</option>
-							<option value='dupes'>All duplicates</option>
-							<option value='second'>Second set</option>
-							<option value='compact'>Compact</option>
-						</select>
+					<div className='flex items-end pb-3'>
+						<div className='flex flex-col justify-start sm:flex-row'>
+							<label
+								htmlFor='filter'
+								className='my-1 text-gray-800 dark:text-gray-300 sm:m-2'
+							>
+								Select a filter method:{" "}
+							</label>
+							<select
+								id='filter'
+								className='rounded-md border-gray-300 p-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+								onChange={(e) => setFilterMethod(e.target.value)}
+							>
+								<option value='all'>All items</option>
+								<option value='best'>Best set</option>
+								<option value='dupes'>All duplicates</option>
+								<option value='second'>Second set</option>
+								<option value='compact'>Compact</option>
+							</select>
+						</div>
 						{user && filteredResults.length > 0 && (
 							<div className='ml-auto'>
 								<ExportToCSV

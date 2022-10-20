@@ -1,23 +1,36 @@
 import { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import sortBy from "lodash/sortBy";
+import uniqBy from "lodash/uniqBy";
 import { UserContext } from "context/UserContext";
 import SetSelector from "HOC/SetSelector";
 import Meta from "components/Meta";
 import CardGallery from "@/components/Search/CardGallery";
 import LoadingSpin from "@/components/LoadingSpin";
+import Tooltip from "@/components/Tooltip";
+
 const Searcher = () => {
 	const { user } = useContext(UserContext);
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [cards, setCards] = useState([]);
-	const [selectedCards, setSelectedCards] = useState([]);
+	const [owned, setOwned] = useState([]);
 	const [filter, setFilter] = useState({
 		batch: "A",
 		min: 1,
 		max: 25,
 		price: 1,
 		sigsOnly: false,
+		upgradesOnly: false,
 	});
 	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		filter.sigsOnly && setFilter((prev) => ({ ...prev, upgradesOnly: false }));
+	}, [filter.sigsOnly]);
+
+	useEffect(() => {
+		filter.upgradesOnly && setFilter((prev) => ({ ...prev, sigsOnly: false }));
+	}, [filter.upgradesOnly]);
 
 	useEffect(() => {
 		const getCards = async (collectionId) => {
@@ -28,7 +41,6 @@ const Searcher = () => {
 				},
 			});
 			if (data.success) {
-				setLoading(false);
 				setCards((prev) => [...prev, ...data.data]);
 			}
 		};
@@ -42,11 +54,50 @@ const Searcher = () => {
 				setCards((prev) => [...prev, ...data.data]);
 			}
 		};
+		const getOwned = async (userId, collectionId) => {
+			const { data } = await axios.get(`/api/users/scan`, {
+				params: {
+					collectionId: collectionId,
+					userId: userId,
+				},
+				headers: {
+					jwt: user.jwt,
+				},
+			});
+			if (data.success) {
+				const ownedItems = uniqBy(
+					sortBy(
+						[...data.data.cards, ...data.data.stickers].map((item) => {
+							const obj = {
+								mintBatch: item.mintBatch,
+								mintNumber: item.mintNumber,
+								rating: item.rating,
+								templateId: item.cardTemplateId
+									? item.cardTemplateId
+									: item.stickerTemplateId,
+								id: item.id,
+								type: item.cardTemplateId ? "card" : "sticker",
+							};
+							return obj;
+						}),
+						["mintBatch", "mintNumber"]
+					),
+					"templateId"
+				);
+				setOwned((prev) => [...prev, ...ownedItems]);
+			}
+		};
+
 		if (selectedCollection) {
-			setSelectedCards([]);
-			setCards([]);
-			getCards(selectedCollection.collection.id);
-			getStickers(selectedCollection.collection.id);
+			const fetchData = async () => {
+				setCards([]);
+				setOwned([]);
+				await getCards(selectedCollection.collection.id);
+				await getStickers(selectedCollection.collection.id);
+				await getOwned(user.user.id, selectedCollection.collection.id);
+				setLoading(false);
+			};
+			fetchData();
 		}
 	}, [selectedCollection]);
 
@@ -66,19 +117,53 @@ const Searcher = () => {
 					)}
 				</div>
 				<div>{user && <SetSelector setSelectedCollection={setSelectedCollection} />}</div>
-				<div className='mb-1 flex items-center pl-2 text-gray-700 dark:text-gray-300'>
-					<label htmlFor='sigs' className='hover:cursor-pointer'>
-						Only search for signatures
-					</label>
-					<input
-						type='checkbox'
-						name='sigs'
-						id='sigs'
-						className='ml-1 accent-orange-500 hover:cursor-pointer'
-						onChange={(e) =>
-							setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))
-						}
-					/>
+				<div className='mb-1 flex flex-col pl-2 text-gray-700 dark:text-gray-300'>
+					<div className='flex items-center'>
+						<label htmlFor='sigs' className='hover:cursor-pointer'>
+							Only search for signatures
+						</label>
+						<input
+							type='checkbox'
+							name='sigs'
+							id='sigs'
+							className='ml-1 accent-orange-500 hover:cursor-pointer'
+							checked={filter.sigsOnly}
+							onChange={(e) =>
+								setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))
+							}
+						/>
+					</div>
+					<div className='flex items-center'>
+						<label htmlFor='upgrade' className='mt-1 hover:cursor-pointer'>
+							Only search for point upgrades
+						</label>
+						<input
+							type='checkbox'
+							name='upgrade'
+							id='upgrade'
+							className='ml-1 mr-1 accent-orange-500 hover:cursor-pointer sm:mr-0'
+							checked={filter.upgradesOnly}
+							onChange={(e) =>
+								setFilter((prev) => ({ ...prev, upgradesOnly: e.target.checked }))
+							}
+						/>
+						<span className='hidden sm:inline'>
+							<Tooltip
+								text={
+									"It's semi beta-ish. If you have any suggestions or problems let me know."
+								}
+								direction='right'
+							/>
+						</span>
+						<span className='inline sm:hidden'>
+							<Tooltip
+								text={
+									"It's semi beta-ish. If you have any suggestions or problems let me know."
+								}
+								direction='left'
+							/>
+						</span>
+					</div>
 				</div>
 				<div className='mb-2 flex w-fit flex-col pl-2 text-gray-700 dark:text-gray-300 sm:flex-row'>
 					<div>
@@ -87,7 +172,7 @@ const Searcher = () => {
 							id='batch'
 							className='input-field mb-2 mr-3 w-24 p-0 sm:mb-0'
 							onChange={(e) => setFilter((prev) => ({ ...prev, batch: e.target.value }))}
-							disabled={filter.sigsOnly}
+							disabled={filter.sigsOnly || filter.upgradesOnly}
 						>
 							<option value='A'>A</option>
 							<option value='B'>B</option>
@@ -103,7 +188,7 @@ const Searcher = () => {
 							name='minMint'
 							id='minMint'
 							min={1}
-							disabled={filter.sigsOnly}
+							disabled={filter.sigsOnly || filter.upgradesOnly}
 							className='input-field mb-2 mr-3 w-24 sm:mb-0'
 							placeholder='Minimum Mint'
 							value={filter.min}
@@ -117,7 +202,7 @@ const Searcher = () => {
 							name='maxMint'
 							id='maxMint'
 							min={1}
-							disabled={filter.sigsOnly}
+							disabled={filter.sigsOnly || filter.upgradesOnly}
 							className='input-field mb-2 mr-3 w-24 sm:mb-0'
 							placeholder='Maximum Mint'
 							value={filter.max}
@@ -144,14 +229,13 @@ const Searcher = () => {
 						<LoadingSpin />
 					</div>
 				)}
-				{cards.length > 0 && (
+				{cards.length > 0 && !loading && (
 					<CardGallery
 						cards={cards}
-						selectedCards={selectedCards}
-						setSelectedCards={setSelectedCards}
 						user={user}
 						filter={filter}
 						selectedCollection={selectedCollection}
+						owned={owned}
 					/>
 				)}
 			</div>

@@ -1,16 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import uniq from "lodash/uniq";
-import sortBy from "lodash/sortBy";
 import { useAxios } from "hooks/useAxios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "context/UserContext";
 import LoadingSpin from "../LoadingSpin";
-import ListedRow from "./ListedRow";
 import ListedTable from "./ListedTable";
 
 const ListedModal = ({ setShowListedModal }) => {
 	const { user } = useContext(UserContext);
 	const { fetchData } = useAxios();
+	const finished = useRef(false);
 	const [listed, setListed] = useState([]);
 	const [sortMethod, setSortMethod] = useState("mint");
 	const [loading, setLoading] = useState(false);
@@ -20,8 +19,9 @@ const ListedModal = ({ setShowListedModal }) => {
 		setLoading(true);
 		setShowListedModal(true);
 		let page = firstPage;
+
 		const data = await getListed(page);
-		if (data.count > 0) {
+		if (data.count > 0 && !finished.current) {
 			const templateList = uniq(
 				data.market.map((item) => {
 					if (item.type === "card") return item.card.cardTemplateId;
@@ -59,8 +59,10 @@ const ListedModal = ({ setShowListedModal }) => {
 					return obj;
 				}),
 			]);
-			setLoading(false);
-			getAllListed(++page);
+			if (!finished.current) {
+				setLoading(false);
+				getAllListed(++page);
+			}
 		} else {
 			setLoading(false);
 		}
@@ -82,6 +84,10 @@ const ListedModal = ({ setShowListedModal }) => {
 			setLoading(true);
 			getAllListed(1);
 		}
+		return () => {
+			setShowListedModal(false);
+			finished.current = true;
+		};
 	}, []);
 
 	return (
@@ -101,6 +107,18 @@ const ListedModal = ({ setShowListedModal }) => {
 				<div
 					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800' /*modal header*/
 				>
+					{!finished.current && (
+						<button
+							className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
+							onClick={() => {
+								finished.current = true;
+								setLoading(false);
+							}}
+							title='Stop loading the items'
+						>
+							Stop
+						</button>
+					)}
 					<h1 className='mx-auto py-2 text-3xl text-gray-800 dark:text-gray-200'>
 						{loading ? <LoadingSpin /> : "Listed Items"}
 					</h1>

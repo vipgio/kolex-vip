@@ -19,6 +19,7 @@ const PlanSelection = ({ plan, slots }) => {
 						width={200}
 						height={300}
 						unoptimized={true}
+						alt={plan.name}
 					/>
 				</div>
 				<div className='border-y border-gray-700 px-1 text-center text-lg font-semibold text-gray-800 dark:border-gray-300 dark:text-gray-200'>

@@ -7,6 +7,7 @@ import Meta from "@/components/Meta";
 import LoadingSpin from "@/components/LoadingSpin";
 import CardGallery from "@/components/cardlister/CardGallery";
 import ListedModal from "@/components/cardlister/ListedModal";
+import Tooltip from "@/components/Tooltip";
 
 const Cardlister = () => {
 	const { user } = useContext(UserContext);
@@ -190,9 +191,15 @@ const Cardlister = () => {
 					<SetSelector setSelectedCollection={setSelectedCollection} />
 				</div>
 				<div className='ml-auto mr-2 mb-2 flex items-end'>
-					<button className='button' onClick={() => setShowListedModal(true)}>
-						Edit Listings
-					</button>
+					<div className='flex items-center'>
+						<Tooltip
+							direction='left'
+							text={`It will load ALL your items. If you have too many it's gonna take a while or you can stop loading the items by clicking on "Stop".`}
+						/>
+						<button className='button' onClick={() => setShowListedModal(true)}>
+							Edit All Listings
+						</button>
+					</div>
 				</div>
 			</div>
 			{loading && (

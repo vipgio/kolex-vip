@@ -73,7 +73,9 @@ const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 									unoptimized={true}
 								/>
 							</div>
-							<span className='mt-2 font-semibold'>{result.username}</span>
+							<span className='mt-2 font-semibold text-gray-700 dark:text-gray-300'>
+								{result.username}
+							</span>
 						</button>
 					))}
 				</div>

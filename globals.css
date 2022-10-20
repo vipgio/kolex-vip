@@ -12,7 +12,7 @@ body {
 
 .submit-button {
 	/*	@apply bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md;*/
-	@apply rounded-md bg-blue-500 py-2 px-4 text-center font-bold text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 enabled:hover:bg-blue-600 enabled:active:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50;
+	@apply rounded-md bg-main-500 py-2 px-4 text-center font-bold text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 enabled:hover:bg-main-600 enabled:active:bg-main-700 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 .simple-button {

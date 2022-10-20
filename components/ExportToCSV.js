@@ -1,7 +1,7 @@
 import { CSVLink } from "react-csv";
 const ExportToCSV = ({ data, filename, type }) => {
 	const headers = {
-		mint: ["Mint", "Title", "Owner", "ID", "Signed", "Points"],
+		mint: ["Mint", "Title", "Owner", "ID", "Signed", "Points", "Point gain"],
 		market: [
 			"Mint",
 			"Title",
@@ -10,6 +10,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 			"Signed",
 			"Type",
 			"Points",
+			"Point gain",
 			"Min Offer",
 			"Price",
 			"Link",
@@ -36,6 +37,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.id,
 					item.signatureImage ? "Yes" : "No",
 					(item.rating * 10).toFixed(2),
+					item.delta,
 			  ])
 			: type === "market"
 			? data.map((item) => [
@@ -46,6 +48,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.card ? (item.card.signatureImage ? "Yes" : "No") : "No",
 					item.type,
 					(item[item.type].rating * 10).toFixed(2),
+					item.delta,
 					item.minOffer ? item.minOffer : "-",
 					item.price,
 					`https://kolex.gg/csgo/marketplace/${item.type}/${

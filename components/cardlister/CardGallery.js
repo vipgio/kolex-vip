@@ -26,6 +26,7 @@ const CardGallery = ({ templates, user }) => {
 				>
 					<option value='owned'>Owned</option>
 					<option value='floor'>Floor</option>
+					<option value='listed'>Listed</option>
 				</select>
 			</div>
 			<div className='ml-1 flex h-full'>
@@ -76,7 +77,9 @@ const CardGallery = ({ templates, user }) => {
 					templates,
 					sortMethod === "owned"
 						? [(o) => -o.count, (o) => -o.floor]
-						: [(o) => -o.floor, (o) => -o.count]
+						: sortMethod === "floor"
+						? [(o) => -o.floor, (o) => -o.count]
+						: [(o) => o.listedAny, (o) => -o.floor, (o) => -o.count]
 				)
 					.filter((item) => item.count)
 					.map((card) => (

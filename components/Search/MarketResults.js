@@ -15,6 +15,11 @@ const MarketResults = ({
 	selectedCollection,
 }) => {
 	const { user } = useContext(UserContext);
+	const suffix = filter.sigsOnly
+		? "Signatures"
+		: filter.upgradesOnly
+		? "Point Upgrades"
+		: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
 	return (
 		<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-16'>
@@ -57,6 +62,7 @@ const MarketResults = ({
 								<th className='hidden py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
 									Min Offer
 								</th>
+								<th className='py-1 px-2 sm:py-3 sm:px-6'>Point gain</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Seller</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Link</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
@@ -99,6 +105,9 @@ const MarketResults = ({
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>
 									<td className='hidden h-full min-w-[10rem] items-end py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
 										{item.minOffer ? `$${item.minOffer}` : "-"}
+									</td>
+									<td className='py-1 px-2 sm:py-3 sm:px-6'>
+										{item.delta > 0 ? `+${item.delta}` : 0}
 									</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>
 										<a
@@ -159,7 +168,7 @@ const MarketResults = ({
 									]),
 									(o) => o.marketId
 								)}
-								filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - [${filter.batch}${filter.min}-${filter.batch}${filter.max}]`}
+								filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - ${suffix} - Market`}
 								type='market'
 							/>
 						</div>

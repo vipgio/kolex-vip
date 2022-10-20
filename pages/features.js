@@ -5,6 +5,16 @@ import { FaLock } from "react-icons/fa";
 
 const options = [
 	{
+		name: "Custom Feed",
+		price: 3,
+		id: 0,
+		description:
+			"Custom Discord feed server with mint and price filter for market and packs opened.",
+		locked: true,
+		image: "/feed.png",
+		link: "",
+	},
+	{
 		name: "Circulation",
 		price: 0,
 		id: 1,
@@ -130,9 +140,12 @@ const Prices = () => {
 						<div className='h-2/3 w-auto overflow-hidden p-1'>
 							<Image
 								src={feature.image}
+								quality={100}
 								width={500}
 								height={500}
 								className='object-cover'
+								alt={feature.name}
+								unoptimized={true}
 							/>
 						</div>
 						<p className='p-1 text-gray-700 dark:text-gray-300'>{feature.description}</p>

@@ -36,162 +36,138 @@ const CardHistory = React.memo(
 								.map((event) => (
 									<Fragment key={`${item.id}-${event.created}`}>
 										{event.type === "mint" && (
-											<div>
-												<p>Minted on {event.created.replace("T", " ").split(".")[0]}</p>
-											</div>
+											<div>Minted on {event.created.replace("T", " ").split(".")[0]}</div>
 										)}
 
 										{event.type === "pack" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													opened from a pack.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												opened from a pack.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "spinner" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													received the item from the spinner.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												received the item from the spinner.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "craft" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													received the item from a craft.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												received the item from a craft.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "qr-claim" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													acquired from a QR code redemption.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												acquired from a QR code redemption.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "achievement" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													received the item from an achievement.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												received the item from an achievement.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "trade" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													received the item from{" "}
-													<span className='font-medium text-red-400'>
-														{event.sender.username}{" "}
-													</span>
-													in a trade.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												received the item from{" "}
+												<span className='font-medium text-red-400'>
+													{event.sender.username}{" "}
+												</span>
+												in a trade.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "market" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													purchased the item from{" "}
-													<span className='font-medium text-red-400'>
-														{event.sender.username}{" "}
-													</span>
-													for <span>{event.value} </span>
-													<span>{event.costType === "usd" ? "USD. " : "coins. "}</span>
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												purchased the item from{" "}
+												<span className='font-medium text-red-400'>
+													{event.sender.username}{" "}
+												</span>
+												for <span>{event.value} </span>
+												<span>{event.costType === "usd" ? "USD. " : "coins. "}</span>
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "imx-locked" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													transferred the item to Immutable.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												transferred the item to Immutable.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "imx-unlocked" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver?.username}{" "}
-													</span>
-													Item was transferred to Epics.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver?.username}{" "}
+												</span>
+												Item was transferred to Kolex.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "imx-market" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													purchased the item from Immutable.{" "}
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												purchased the item from Immutable.{" "}
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 										{event.type === "level-upgrade" && (
 											<div>
-												<p>
-													<span className='font-medium text-green-600 dark:text-green-400'>
-														{event.receiver.username}{" "}
-													</span>
-													upgraded the card to level{" "}
-													<span className='font-medium text-red-400'>{event.value} </span>
-													<span className='text-gray-500'>
-														{event.created.replace("T", " ").split(".")[0]}
-													</span>
-												</p>
+												<span className='font-medium text-green-600 dark:text-green-400'>
+													{event.receiver.username}{" "}
+												</span>
+												upgraded the card to level{" "}
+												<span className='font-medium text-red-400'>{event.value} </span>
+												<span className='text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
 											</div>
 										)}
 									</Fragment>

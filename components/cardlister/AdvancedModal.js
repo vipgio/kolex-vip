@@ -175,7 +175,7 @@ const AdvancedModal = ({ selectedTemplates, setShowAdvancedModal, user, template
 					<div className='ml-1 flex items-center'>
 						<button
 							onClick={() => setInsertFloor((prev) => prev + 1)}
-							className='cursor-pointer rounded-md border border-gray-800 px-3 py-2 text-center text-gray-700 shadow-lg transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400 dark:border-gray-200 dark:text-gray-300 dark:hover:text-gray-800'
+							className='simple-button font-semibold'
 						>
 							Floor
 						</button>

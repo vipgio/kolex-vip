@@ -84,13 +84,13 @@ const MintSelectorModal = React.memo(
 													.map((card) => (
 														<div
 															key={card.id}
-															className='text-dark-700 flex w-full px-1 dark:text-gray-300'
+															className='flex w-full px-1 text-gray-700 dark:text-gray-300'
 														>
 															<label
 																htmlFor={card.id}
 																className={`${
 																	card.signatureImage ? "text-yellow-400" : ""
-																}`}
+																} hover:cursor-pointer`}
 																title={card.signatureImage ? "Signed" : ""}
 															>
 																{card.mintBatch}
@@ -99,7 +99,7 @@ const MintSelectorModal = React.memo(
 															<input
 																type='checkbox'
 																name='mint'
-																className='ml-auto'
+																className='ml-auto hover:cursor-pointer'
 																id={card.id}
 																checked={selectedCards.some((o) => o.id === card.id)}
 																onChange={() => handleSelect(card)}

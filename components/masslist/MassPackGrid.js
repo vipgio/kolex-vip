@@ -26,7 +26,7 @@ const MassPackGrid = ({ packTemplate }) => {
 						alt={packTemplate.name || "loading"}
 						className='h-full w-full object-cover'
 						priority='true'
-						// unoptimized={true}
+						unoptimized={true}
 					/>
 				</div>
 				<div className='text-center font-semibold'>{packTemplate.name}</div>

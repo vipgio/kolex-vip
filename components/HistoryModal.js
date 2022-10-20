@@ -221,7 +221,7 @@ const HistoryModal = React.memo(
 																				<span className='font-medium text-green-600 dark:text-green-400'>
 																					{event.receiver?.username}{" "}
 																				</span>
-																				Item was transferred to Epics.{" "}
+																				Item was transferred to Kolex.{" "}
 																				<span className='text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>

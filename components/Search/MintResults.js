@@ -16,12 +16,26 @@ const MintResults = ({
 	selectedCollection,
 }) => {
 	const { user } = useContext(UserContext);
+	const suffix = filter.sigsOnly
+		? "Signatures"
+		: filter.upgradesOnly
+		? "Point Upgrades"
+		: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
 	return (
 		<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-16'>
 				<div
 					className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800' /*modal header*/
 				>
+					{!finished.current && (
+						<button
+							className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
+							onClick={() => (finished.current = true)}
+							title='Stop the search'
+						>
+							Stop
+						</button>
+					)}
 					<h1 className='mx-auto py-2 text-3xl text-gray-800 dark:text-gray-200'>
 						{loading ? (
 							<LoadingSpin />
@@ -30,7 +44,7 @@ const MintResults = ({
 								Results{" "}
 								<span className='text-base'>
 									{results.length}
-									{!filter.sigsOnly && (
+									{!filter.sigsOnly && !filter.upgradesOnly && (
 										<>
 											<span className='text-orange-500'>/</span>
 											{total}
@@ -70,6 +84,7 @@ const MintResults = ({
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Mint</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>ID</th>
+								<th className='py-1 px-2 sm:py-3 sm:px-6'>Point gain</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>Owner</th>
 								<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
 							</tr>
@@ -103,6 +118,9 @@ const MintResults = ({
 										{item.title}
 									</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.id}</td>
+									<td className='py-1 px-2 sm:py-3 sm:px-6'>
+										{item.delta > 0 ? `+${item.delta}` : 0}
+									</td>
 
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>
 										<a
@@ -150,7 +168,7 @@ const MintResults = ({
 									]),
 									(o) => o.id
 								)}
-								filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - [${filter.batch}${filter.min}-${filter.batch}${filter.max}]`}
+								filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - ${suffix} - Users`}
 								type='mint'
 							/>
 						</div>

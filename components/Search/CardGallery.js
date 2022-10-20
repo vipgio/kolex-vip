@@ -1,28 +1,26 @@
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/future/image";
-import { useState } from "react";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
-import MarketResults from "./MarketResults";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
+import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
-import { useRef } from "react";
-import { useEffect } from "react";
 
-const CardGallery = ({
-	cards,
-	selectedCards,
-	setSelectedCards,
-	user,
-	filter,
-	selectedCollection,
-}) => {
+const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned }) => {
+	const [selectedCards, setSelectedCards] = useState([]);
 	const [showMarketResults, setShowMarketResults] = useState(false);
 	const [showMintResults, setShowMintResults] = useState(false);
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [needOnly, setNeedOnly] = useState(false);
 	const finished = useRef(false);
 
 	const totalExpected = selectedCards.length * (filter.max - filter.min + 1);
+
+	useEffect(() => {
+		//prevent hidden selected items
+		setSelectedCards([]);
+	}, [needOnly]);
 
 	useEffect(() => {
 		if (results.length === totalExpected && totalExpected > 0 && !filter.sigsOnly) {
@@ -60,7 +58,7 @@ const CardGallery = ({
 								},
 							});
 							if (data.success) {
-								if (!filter.sigsOnly) {
+								if (!filter.sigsOnly && !filter.upgradesOnly) {
 									const foundCards = data.data.cards
 										.filter(
 											(item) =>
@@ -71,12 +69,22 @@ const CardGallery = ({
 													(selCard) => selCard.id === item.cardTemplateId
 												)
 										)
-										.map((item) => ({
-											...item,
-											owner: leaderboardUser,
-											title: selectedCards.find((o) => o.id === item.cardTemplateId)
-												.title,
-										}));
+										.map((item) => {
+											const ownedItem = owned.filter(
+												(own) => own.templateId === item.cardTemplateId
+											)[0];
+											const ownedRating = ownedItem ? ownedItem?.rating : 0;
+											return {
+												...item,
+												owner: leaderboardUser,
+												title: selectedCards.find((o) => o.id === item.cardTemplateId)
+													.title,
+												delta: ((item.rating - ownedRating) * 10)
+													.toFixed(6)
+													.replace(/0+$/, "")
+													.replace(/\.$/, ""), //thanks JS for making decimals a pain in the ass
+											};
+										});
 									if (foundCards.length > 0)
 										setResults((prev) => [...prev, ...foundCards]);
 
@@ -90,15 +98,32 @@ const CardGallery = ({
 													(selCard) => selCard.id === item.stickerTemplateId
 												)
 										)
-										.map((item) => ({
-											...item,
-											owner: leaderboardUser,
-											title: selectedCards.find((o) => o.id === item.stickerTemplateId)
-												.title,
-										}));
+										.map((item) => {
+											const ownedItem = owned.filter(
+												(own) => own.templateId === item.stickerTemplateId
+											)[0];
+											const ownedRating = ownedItem ? ownedItem?.rating : 0;
+											return {
+												mintBatch: item.mintBatch,
+												mintNumber: item.mintNumber,
+												rating: item.rating,
+												cardTemplateId: item.cardTemplateId,
+												id: item.id,
+												signatureImage: item.signatureImage,
+												status: item.status,
+												type: item.type,
+												owner: leaderboardUser,
+												title: selectedCards.find((o) => o.id === item.stickerTemplateId)
+													.title,
+												delta: ((item.rating - ownedRating) * 10)
+													.toFixed(6)
+													.replace(/0+$/, "")
+													.replace(/\.$/, ""), //thanks JS for making decimals a pain in the ass
+											};
+										});
 									if (foundtickers.length > 0)
 										setResults((prev) => [...prev, ...foundtickers]);
-								} else {
+								} else if (filter.sigsOnly) {
 									const found = data.data.cards
 										.filter(
 											(card) =>
@@ -107,13 +132,102 @@ const CardGallery = ({
 													(selCard) => selCard.id === card.cardTemplateId
 												)
 										)
-										.map((item) => ({
-											...item,
-											owner: leaderboardUser,
-											title: selectedCards.find((o) => o.id === item.cardTemplateId)
-												.title,
-										}));
+										.map((item) => {
+											const ownedItem = owned.filter(
+												(own) => own.templateId === item.cardTemplateId
+											)[0];
+											const ownedRating = ownedItem ? ownedItem?.rating : 0;
+											return {
+												mintBatch: item.mintBatch,
+												mintNumber: item.mintNumber,
+												rating: item.rating,
+												cardTemplateId: item.cardTemplateId,
+												id: item.id,
+												signatureImage: item.signatureImage,
+												status: item.status,
+												type: item.type,
+												owner: leaderboardUser,
+												title: selectedCards.find((o) => o.id === item.cardTemplateId)
+													.title,
+												delta: ((item.rating - ownedRating) * 10)
+													.toFixed(6)
+													.replace(/0+$/, "")
+													.replace(/\.$/, ""), //thanks JS for making decimals a pain in the ass
+											};
+										});
+
 									if (found.length > 0) setResults((prev) => [...prev, ...found]);
+								} else if (filter.upgradesOnly) {
+									const foundCards = data.data.cards
+										.map((item) => {
+											const ownedItem = owned.filter(
+												(own) => own.templateId === item.cardTemplateId
+											)[0];
+											const ownedRating = ownedItem ? ownedItem?.rating : 0;
+											const delta = ((item.rating - ownedRating) * 10)
+												.toFixed(6)
+												.replace(/0+$/, "")
+												.replace(/\.$/, ""); //thanks JS for making decimals a pain in the ass
+											if (
+												selectedCards.some(
+													(selCard) => selCard.id === item.cardTemplateId
+												)
+											) {
+												return {
+													mintBatch: item.mintBatch,
+													mintNumber: item.mintNumber,
+													rating: item.rating,
+													cardTemplateId: item.cardTemplateId,
+													id: item.id,
+													signatureImage: item.signatureImage,
+													status: item.status,
+													type: item.type,
+													owner: leaderboardUser,
+													title: selectedCards.find((o) => o.id === item.cardTemplateId)
+														.title,
+													delta: delta,
+												};
+											}
+										})
+										.filter((item) => item && item.delta > 0);
+									if (foundCards.length > 0)
+										setResults((prev) => [...prev, ...foundCards]);
+
+									const foundStickers = data.data.stickers
+										.map((item) => {
+											const ownedItem = owned.filter(
+												(own) => own.templateId === item.stickerTemplateId
+											)[0];
+											const ownedRating = ownedItem ? ownedItem?.rating : 0;
+											const delta = ((item.rating - ownedRating) * 10)
+												.toFixed(6)
+												.replace(/0+$/, "")
+												.replace(/\.$/, ""); //thanks JS for making decimals a pain in the ass
+											if (
+												selectedCards.some(
+													(selCard) => selCard.id === item.stickerTemplateId
+												)
+											) {
+												return {
+													mintBatch: item.mintBatch,
+													mintNumber: item.mintNumber,
+													rating: item.rating,
+													stickerTemplateId: item.stickerTemplateId,
+													id: item.id,
+													signatureImage: item.signatureImage,
+													status: item.status,
+													type: item.type,
+													owner: leaderboardUser,
+													title: selectedCards.find(
+														(o) => o.id === item.stickerTemplateId
+													).title,
+													delta: delta,
+												};
+											}
+										})
+										.filter((item) => item && item.delta > 0);
+									if (foundStickers.length > 0)
+										setResults((prev) => [...prev, ...foundStickers]);
 								}
 							}
 						} catch (err) {
@@ -161,48 +275,58 @@ const CardGallery = ({
 		let page = firstPage;
 		try {
 			const data = await getMarketInfo(item.id, page, item.type);
-			if (data.success && data.data.count === 0) {
-				finished.current = true;
-				setLoading(false);
-			}
 			if (data.success && data.data.count > 0) {
+				const ownedItem = owned.filter((own) => own.templateId === item.id)[0];
+				const ownedRating = ownedItem ? ownedItem?.rating : 0;
+				let accepted = [];
 				if (item.type === "card") {
-					if (!filter.sigsOnly) {
-						const accepted = data.data.market[0].filter(
+					if (!filter.sigsOnly && !filter.upgradesOnly) {
+						//normal search, follow filters
+						accepted = data.data.market[0].filter(
 							(listing) =>
 								Number(listing.price) <= filter.price &&
 								listing.card.mintNumber >= filter.min &&
 								listing.card.mintNumber <= filter.max &&
 								listing.card.mintBatch === filter.batch
 						);
-						setResults((prev) => [
-							...prev,
-							...accepted.map((list) => ({ ...list, title: item.title })),
-						]);
-					} else {
-						const accepted = data.data.market[0].filter(
+					} else if (filter.sigsOnly) {
+						accepted = data.data.market[0].filter(
 							(listing) =>
 								Number(listing.price) <= filter.price && listing.card.signatureImage
 						);
-						setResults((prev) => [
-							...prev,
-							...accepted.map((list) => ({ ...list, title: item.title })),
-						]);
+					} else if (filter.upgradesOnly) {
+						accepted = data.data.market[0].filter(
+							(listing) =>
+								listing.card.rating > ownedRating && Number(listing.price) <= filter.price
+						);
 					}
 				}
 				if (item.type === "sticker") {
-					const accepted = data.data.market[0].filter(
-						(listing) =>
-							Number(listing.price) <= filter.price &&
-							listing.sticker.mintNumber >= filter.min &&
-							listing.sticker.mintNumber <= filter.max &&
-							listing.sticker.mintBatch === filter.batch
-					);
-					setResults((prev) => [
-						...prev,
-						...accepted.map((list) => ({ ...list, title: item.title })),
-					]);
+					if (!filter.sigsOnly && !filter.upgradesOnly) {
+						accepted = data.data.market[0].filter(
+							(listing) =>
+								Number(listing.price) <= filter.price &&
+								listing.sticker.mintNumber >= filter.min &&
+								listing.sticker.mintNumber <= filter.max &&
+								listing.sticker.mintBatch === filter.batch
+						);
+					} else if (filter.upgradesOnly) {
+						accepted = data.data.market[0].filter(
+							(listing) => listing.sticker.rating > ownedRating
+						);
+					}
 				}
+				setResults((prev) => [
+					...prev,
+					...accepted.map((list) => ({
+						...list,
+						title: item.title,
+						delta: ((list[item.type].rating - ownedRating) * 10)
+							.toFixed(6)
+							.replace(/0+$/, "")
+							.replace(/\.$/, ""), //thanks JS for making decimals a pain in the ass, //thanks JS for making decimals a pain in the ass
+					})),
+				]);
 				if (
 					data.data.count === 40 &&
 					Number(data.data.market[0][39].price) < filter.price &&
@@ -235,20 +359,39 @@ const CardGallery = ({
 					<button
 						onClick={() =>
 							setSelectedCards(
-								cards.map((card) => ({
-									id: card.id,
-									title: card.title,
-									type: card.cardType ? "card" : "sticker",
-								}))
+								cards
+									.filter((item) =>
+										needOnly ? !owned.some((owned) => owned.templateId === item.id) : true
+									)
+									.map((card) => ({
+										id: card.id,
+										title: card.title,
+										type: card.cardType ? "card" : "sticker",
+									}))
 							)
 						}
-						className='simple-button m-1'
+						className='simple-button m-1 inline-flex justify-center'
 					>
 						Select All
 					</button>
 					<button onClick={() => setSelectedCards([])} className='simple-button m-1'>
 						Deselect All
 					</button>
+					<span className='inline-flex w-fit items-center'>
+						<label
+							htmlFor='need'
+							className='mr-1 ml-2 text-gray-800 hover:cursor-pointer dark:text-gray-200'
+						>
+							Need Only
+						</label>
+						<input
+							type='checkbox'
+							name='need'
+							id='need'
+							onChange={(e) => setNeedOnly(e.target.checked)}
+							className='accent-orange-500 hover:cursor-pointer'
+						/>
+					</span>
 				</div>
 				<div className='ml-auto mr-2 flex flex-col justify-end py-1 sm:block'>
 					<button
@@ -276,8 +419,11 @@ const CardGallery = ({
 				</div>
 			</div>
 			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-5'>
-				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.id]).map(
-					(card) => (
+				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.id])
+					.filter((item) =>
+						needOnly ? !owned.some((owned) => owned.templateId === item.id) : true
+					)
+					.map((card) => (
 						<div
 							key={card.uuid}
 							className={`flex cursor-pointer flex-col items-center rounded border border-gray-500 transition-transform hover:scale-105`}
@@ -294,7 +440,7 @@ const CardGallery = ({
 									  ]);
 							}}
 						>
-							<div className='relative aspect-auto w-24 overflow-hidden rounded-md p-0.5 sm:w-36'>
+							<div className='relative aspect-auto w-28 overflow-hidden rounded-md p-0.5 sm:w-36'>
 								<Image
 									src={
 										card.images?.size402 || `https://cdn.kolex.gg${card.images[0].url}`
@@ -317,8 +463,7 @@ const CardGallery = ({
 								{card.title}
 							</div>
 						</div>
-					)
-				)}
+					))}
 			</div>
 			{showMarketResults && (
 				<MarketResults
@@ -343,5 +488,6 @@ const CardGallery = ({
 			)}
 		</>
 	);
-};
+});
+CardGallery.displayName = "CardGallery";
 export default CardGallery;
