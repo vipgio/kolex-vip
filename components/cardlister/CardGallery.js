@@ -5,11 +5,12 @@ import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
 import Tooltip from "../Tooltip";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { CDN } from "@/config/config";
 const CardGallery = ({ templates, user }) => {
 	const [selectedTemplates, setSelectedTemplates] = useState([]);
 	const [showAdvancedModal, setShowAdvancedModal] = useState(false);
 	const [showSimpleModal, setShowSimpleModal] = useState(false);
-	const [sortMethod, setSortMethod] = useState("owned");
+	const [sortMethod, setSortMethod] = useState("listed");
 
 	return (
 		<>
@@ -24,9 +25,9 @@ const CardGallery = ({ templates, user }) => {
 					onChange={(e) => setSortMethod(e.target.value)}
 					value={sortMethod}
 				>
+					<option value='listed'>Listed</option>
 					<option value='owned'>Owned</option>
 					<option value='floor'>Floor</option>
-					<option value='listed'>Listed</option>
 				</select>
 			</div>
 			<div className='ml-1 flex h-full'>
@@ -98,9 +99,7 @@ const CardGallery = ({ templates, user }) => {
 						>
 							<div className='relative aspect-auto w-24 overflow-hidden rounded-md p-0.5 sm:w-36'>
 								<Image
-									src={
-										card.images?.size402 || `https://cdn.kolex.gg${card.images[0].url}`
-									}
+									src={card.images?.size402 || `${CDN}${card.images[0].url}`}
 									width={200 * 1.5}
 									height={300 * 1.5}
 									alt={card.title}

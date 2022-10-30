@@ -2,10 +2,10 @@ import { UserContext } from "context/UserContext";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import { useContext } from "react";
-import { FaSignature, FaLock, FaBan } from "react-icons/fa";
+import { FaSignature } from "react-icons/fa";
 import ExportToCSV from "../ExportToCSV";
-import HistoryModal from "../HistoryModal";
 import LoadingSpin from "../LoadingSpin";
+import MarketResultRow from "./MarketResultRow";
 const MarketResults = ({
 	setShowResults,
 	results,
@@ -20,6 +20,7 @@ const MarketResults = ({
 		: filter.upgradesOnly
 		? "Point Upgrades"
 		: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
+
 	return (
 		<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-16'>
@@ -76,80 +77,11 @@ const MarketResults = ({
 								]),
 								(o) => o.marketId
 							).map((item) => (
-								<tr
-									className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'
+								<MarketResultRow
+									item={item}
+									allowed={user.info.allowed.includes("history")}
 									key={item.marketId}
-								>
-									{item.card ? (
-										<td
-											className={`py-1 px-2 sm:py-3 sm:px-6 ${
-												item.card.signatureImage ? "text-yellow-500" : ""
-											}`}
-											title={item.card.signatureImage && "Signed"}
-										>
-											<div className='flex items-center justify-center'>
-												{item.card.signatureImage && <FaSignature className='mr-2' />}
-												{item.card.mintBatch}
-												{item.card.mintNumber}
-											</div>
-										</td>
-									) : (
-										<td className='py-1 px-2 sm:py-3 sm:px-6'>
-											{item.sticker.mintBatch}
-											{item.sticker.mintNumber}
-										</td>
-									)}
-									<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>
-										{item.title}
-									</td>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>
-									<td className='hidden h-full min-w-[10rem] items-end py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
-										{item.minOffer ? `$${item.minOffer}` : "-"}
-									</td>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>
-										{item.delta > 0 ? `+${item.delta}` : 0}
-									</td>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>
-										<a
-											target='_blank'
-											href={`https://kolex.gg/csgo/users/${item.user.username}`}
-											rel='noopener noreferrer'
-											className='underline hover:text-orange-500'
-										>
-											{item.user.username}
-										</a>
-									</td>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>
-										<a
-											href={`https://kolex.gg/csgo/marketplace/${item.type}/${
-												item.card
-													? item.card.cardTemplateId
-													: item.sticker.stickerTemplateId
-											}/${item.marketId}`}
-											target='_blank'
-											rel='noopener noreferrer'
-											className='text-orange-500 underline'
-										>
-											Click
-										</a>
-									</td>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>
-										<div className='relative flex h-8 items-center justify-center'>
-											{user.info.allowed.includes("history") ? (
-												item.type === "sticker" ? (
-													<FaBan title="Doesn't work with stickers" />
-												) : (
-													<HistoryModal data={item} />
-												)
-											) : (
-												<FaLock
-													className='cursor-not-allowed'
-													title='You need history access for this feature'
-												/>
-											)}
-										</div>
-									</td>
-								</tr>
+								/>
 							))}
 						</tbody>
 					</table>

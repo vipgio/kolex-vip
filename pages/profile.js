@@ -45,7 +45,7 @@ const Profile = () => {
 								{user.info.allowed.length > 0 ? (
 									user.info.allowed.map((option, i) => [
 										i > 0 && ", ",
-										<Link href={`/${option}`} key={option}>
+										<Link href={`/${option === "trades" ? "" : option}`} key={option}>
 											<a className='hover:text-orange-500'>
 												{option[0].toUpperCase() + option.slice(1)}
 											</a>

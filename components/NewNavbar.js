@@ -1,17 +1,28 @@
-import { useContext, forwardRef } from "react";
+import { useContext, forwardRef, useState } from "react";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
-import { FaHistory, FaSearch, FaLock, FaMoon, FaSun, FaGithub } from "react-icons/fa";
+import { FaHistory, FaSearch, FaLock, FaMoon, FaSun } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
+import { BsArrowLeftRight } from "react-icons/bs";
 import { UserContext } from "context/UserContext";
 import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
+import TradeModal from "./trade/TradeModal";
 
 const NewNavbar = () => {
-	const { user } = useContext(UserContext);
+	const { user, tradeList } = useContext(UserContext);
 	const { theme, setTheme } = useContext(ThemeContext);
-
+	const [showTradeModal, setShowTradeModal] = useState(false);
+	const sendItems =
+		tradeList.send && tradeList.send[0] ? tradeList.send[0].items.length : 0;
+	const receiveItems = tradeList.receive
+		? tradeList.receive.reduce(
+				(previousValue, currentValue) => previousValue + currentValue.items.length,
+				0
+		  )
+		: 0;
+	const cardsInTrade = sendItems + receiveItems;
 	return (
 		user && (
 			<nav className='flex h-12 items-center justify-center rounded-b-md bg-blue-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500'>
@@ -77,16 +88,31 @@ const NewNavbar = () => {
 						</>
 					)}
 				</Menu>
-				<div className='ml-auto mr-4' title='Source Code'>
-					<a
-						href='https://github.com/vipgio/kolex-vip'
-						target='_blank'
-						rel='noopener noreferrer'
+				{/* <div className='ml-auto mr-3 mt-1'>
+					<button
+						className='relative text-gray-700 dark:text-gray-300'
+						// onClick={() => console.log(tradeList)}
+						onClick={() => setShowTradeModal(true)}
 					>
-						<FaGithub className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-400' />
-					</a>
-				</div>
-				<div className='mr-3 h-8 w-8'>
+						<BsArrowLeftRight
+							className='h-5 w-5'
+							title={
+								cardsInTrade === 0
+									? "No items in your trade list. Use the Scanner to add items"
+									: "Trade"
+							}
+						/>
+						{cardsInTrade !== 0 && (
+							<div
+								className='absolute top-1 right-full mr-1 font-semibold'
+								title='Items in the trade list'
+							>
+								{cardsInTrade}
+							</div>
+						)}
+					</button>
+				</div> */}
+				<div className='mr-2 ml-auto h-8 w-8'>
 					<div className='relative h-10 w-10 rounded-full' title='Change theme'>
 						<FaSun
 							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
@@ -107,6 +133,7 @@ const NewNavbar = () => {
 						Features
 					</a>
 				</Link>
+				{showTradeModal && <TradeModal setShowModal={setShowTradeModal} />}
 			</nav>
 		)
 	);
@@ -183,7 +210,6 @@ const pages = [
 		title: "Crafting",
 		icon: <TbArrowMerge className='scale-125' />,
 		paid: false,
-		new: true,
 	},
 	{
 		link: "masslist",

@@ -15,6 +15,10 @@ const ListedModal = ({ setShowListedModal }) => {
 	const [loading, setLoading] = useState(false);
 	const [insertFloor, setInsertFloor] = useState(0);
 
+	const updateSelectedItems = async () => {};
+
+	const deleteSelectedItems = async () => {};
+
 	const getAllListed = async (firstPage) => {
 		setLoading(true);
 		setShowListedModal(true);
@@ -41,13 +45,14 @@ const ListedModal = ({ setShowListedModal }) => {
 				...data.market.map((item) => {
 					const obj = {
 						marketId: item.marketId,
+						templateId: item.card.cardTemplateId,
 						price: item.price,
 						minOffer: item.minOffer,
 						mintNumber: item.card.mintNumber,
 						mintBatch: item.card.mintBatch,
 						type: item.type,
 						created: item.created,
-						signatureImage: item.signatureImage,
+						signatureImage: item.card.signatureImage,
 						circulation: templates.filter((res) => res.id === item.card.cardTemplateId)[0]
 							.inCirculation,
 						title: templates.filter((res) => res.id === item.card.cardTemplateId)[0]
@@ -64,6 +69,7 @@ const ListedModal = ({ setShowListedModal }) => {
 				getAllListed(++page);
 			}
 		} else {
+			finished.current = true;
 			setLoading(false);
 		}
 	};

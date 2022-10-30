@@ -1,11 +1,12 @@
-import { UserContext } from "context/UserContext";
+import { useContext } from "react";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-import { useContext } from "react";
-import { FaSignature, FaLock, FaBan } from "react-icons/fa";
+import { FaSignature } from "react-icons/fa";
+import { UserContext } from "context/UserContext";
 import ExportToCSV from "../ExportToCSV";
-import HistoryModal from "../HistoryModal";
 import LoadingSpin from "../LoadingSpin";
+import MintResultRow from "./MintResultRow";
+
 const MintResults = ({
 	setShowResults,
 	results,
@@ -16,11 +17,13 @@ const MintResults = ({
 	selectedCollection,
 }) => {
 	const { user } = useContext(UserContext);
+
 	const suffix = filter.sigsOnly
 		? "Signatures"
 		: filter.upgradesOnly
 		? "Point Upgrades"
 		: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
+
 	return (
 		<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
 			<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-16'>
@@ -97,58 +100,11 @@ const MintResults = ({
 								]),
 								(o) => o.id
 							).map((item) => (
-								<tr
-									className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'
+								<MintResultRow
+									item={item}
+									allowed={user.info.allowed.includes("history")}
 									key={item.id}
-								>
-									<td
-										className={`py-1 px-2 sm:py-3 sm:px-6 ${
-											item.signatureImage ? "text-yellow-500" : ""
-										}`}
-										title={item.signatureImage && "Signed"}
-									>
-										<div className='flex items-center justify-center'>
-											{item.signatureImage && <FaSignature className='mr-2' />}
-											{item.mintBatch}
-											{item.mintNumber}
-										</div>
-									</td>
-
-									<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>
-										{item.title}
-									</td>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.id}</td>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>
-										{item.delta > 0 ? `+${item.delta}` : 0}
-									</td>
-
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>
-										<a
-											target='_blank'
-											href={`https://kolex.gg/csgo/users/${item.owner.username}`}
-											rel='noopener noreferrer'
-											className='underline hover:text-orange-500'
-										>
-											{item.owner.username}
-										</a>
-									</td>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>
-										<div className='relative flex h-8 items-center justify-center'>
-											{user.info.allowed.includes("history") ? (
-												item.type !== "card" ? (
-													<FaBan title="Doesn't work with stickers" />
-												) : (
-													<HistoryModal data={item} />
-												)
-											) : (
-												<FaLock
-													className='cursor-not-allowed'
-													title='You need history access for this feature'
-												/>
-											)}
-										</div>
-									</td>
-								</tr>
+								/>
 							))}
 						</tbody>
 					</table>

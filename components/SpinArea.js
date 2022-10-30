@@ -124,7 +124,7 @@ const SpinArea = ({ info }) => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='mt-3 flex w-full flex-col border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
+			<div className='mt-3 flex w-full flex-col rounded-md border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
 				<div className='flex w-full items-center justify-evenly border-b border-gray-500 pb-2'>
 					{spinActive ? (
 						<button

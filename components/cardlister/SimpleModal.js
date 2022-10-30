@@ -17,8 +17,8 @@ const SimpleModal = ({ selectedTemplates, setShowSimpleModal, user, templates })
 	const [price, setPrice] = useState(0);
 	const defaultFilters = {
 		batch: "",
-		max: 1,
-		min: 1,
+		max: 5000,
+		min: 100,
 	};
 	const [filters, setFilters] = useState(defaultFilters);
 

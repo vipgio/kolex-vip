@@ -53,6 +53,7 @@ const ListedTable = ({ listed, sortMethod, setListed, insertFloor }) => {
 						<tr
 							className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'
 							key={item.marketId}
+							onClick={() => console.log(item)}
 						>
 							<ListedRow setListed={setListed} item={item} insertFloor={insertFloor} />
 						</tr>

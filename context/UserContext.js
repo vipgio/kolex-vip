@@ -10,6 +10,14 @@ const UserContextProvider = (props) => {
 	const [loading, setLoading] = useState(false); // loading state for fetchig data
 	const [user, setUser] = useState(null); // user object
 	const [initialLoading, setInitialLoading] = useState(true); // used to show loading screen on first load and redirect
+	const [tradeList, setTradeList] = useState({
+		// send: {
+		// 	items: [],
+		// 	bestOwned: [],
+		// },
+		// receive: [{ user: "", id: "", items: [], bestOwned: [] }],
+	});
+	const [owned, setOwned] = useState([]);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -33,6 +41,21 @@ const UserContextProvider = (props) => {
 		setInitialLoading(false);
 	}, [user]);
 
+	useEffect(() => {
+		const localTrade = localStorage.getItem("tradeList");
+		if (localTrade) {
+			setTradeList(JSON.parse(localTrade));
+		}
+	}, [router.asPath]);
+
+	useEffect(() => {
+		if (tradeList) {
+			localStorage.setItem("tradeList", JSON.stringify(tradeList));
+		} else {
+			localStorage.removeItem("tradeList");
+		}
+	}, [tradeList]);
+
 	const getCardCirc = async (collectionId) => {
 		return http(
 			`https://api.kolex.gg/api/v1/collections/${collectionId}/card-templates?categoryId=1`,
@@ -48,19 +71,6 @@ const UserContextProvider = (props) => {
 	const getStickerCirc = async (collectionId) => {
 		return http(
 			`https://api.kolex.gg/api/v1/collections/${collectionId}/sticker-templates?categoryId=1`,
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					"x-user-jwt": user.jwt,
-				},
-			}
-		);
-	};
-
-	const getCollections = async () => {
-		return http(
-			`https://api.kolex.gg/api/v1/collections/users/${user.user.id}/user-summary?categoryId=1`,
 			{
 				method: "GET",
 				headers: {
@@ -91,19 +101,6 @@ const UserContextProvider = (props) => {
 		});
 	};
 
-	const spin = async (id) => {
-		return http(`https://api.kolex.gg/api/v1/spinner/spin?categoryId=1`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"x-user-jwt": user.jwt,
-			},
-			data: JSON.stringify({
-				spinnerId: id,
-			}),
-		});
-	};
-
 	return (
 		<UserContext.Provider
 			value={{
@@ -113,11 +110,13 @@ const UserContextProvider = (props) => {
 				setLoading,
 				getCardCirc,
 				getStickerCirc,
-				getCollections,
 				getPacks,
-				spin,
 				userPacks,
 				initialLoading,
+				tradeList,
+				setTradeList,
+				setOwned,
+				owned,
 			}}
 		>
 			{props.children}

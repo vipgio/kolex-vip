@@ -5,6 +5,8 @@ import sortBy from "lodash/sortBy";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
+import { CDN } from "@/config/config";
+import fixDecimal from "utils/NumberUtils";
 
 const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned }) => {
 	const [selectedCards, setSelectedCards] = useState([]);
@@ -70,19 +72,16 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 												)
 										)
 										.map((item) => {
-											const ownedItem = owned.filter(
+											const ownedItem = owned.find(
 												(own) => own.templateId === item.cardTemplateId
-											)[0];
+											);
 											const ownedRating = ownedItem ? ownedItem?.rating : 0;
 											return {
 												...item,
 												owner: leaderboardUser,
 												title: selectedCards.find((o) => o.id === item.cardTemplateId)
 													.title,
-												delta: ((item.rating - ownedRating) * 10)
-													.toFixed(6)
-													.replace(/0+$/, "")
-													.replace(/\.$/, ""), //thanks JS for making decimals a pain in the ass
+												delta: fixDecimal((item.rating - ownedRating) * 10),
 											};
 										});
 									if (foundCards.length > 0)
@@ -99,26 +98,16 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 												)
 										)
 										.map((item) => {
-											const ownedItem = owned.filter(
+											const ownedItem = owned.find(
 												(own) => own.templateId === item.stickerTemplateId
-											)[0];
+											);
 											const ownedRating = ownedItem ? ownedItem?.rating : 0;
 											return {
-												mintBatch: item.mintBatch,
-												mintNumber: item.mintNumber,
-												rating: item.rating,
-												cardTemplateId: item.cardTemplateId,
-												id: item.id,
-												signatureImage: item.signatureImage,
-												status: item.status,
-												type: item.type,
+												...pickObj(item),
 												owner: leaderboardUser,
 												title: selectedCards.find((o) => o.id === item.stickerTemplateId)
 													.title,
-												delta: ((item.rating - ownedRating) * 10)
-													.toFixed(6)
-													.replace(/0+$/, "")
-													.replace(/\.$/, ""), //thanks JS for making decimals a pain in the ass
+												delta: fixDecimal((item.rating - ownedRating) * 10),
 											};
 										});
 									if (foundtickers.length > 0)
@@ -133,26 +122,16 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 												)
 										)
 										.map((item) => {
-											const ownedItem = owned.filter(
+											const ownedItem = owned.find(
 												(own) => own.templateId === item.cardTemplateId
-											)[0];
+											);
 											const ownedRating = ownedItem ? ownedItem?.rating : 0;
 											return {
-												mintBatch: item.mintBatch,
-												mintNumber: item.mintNumber,
-												rating: item.rating,
-												cardTemplateId: item.cardTemplateId,
-												id: item.id,
-												signatureImage: item.signatureImage,
-												status: item.status,
-												type: item.type,
+												...pickObj(item),
 												owner: leaderboardUser,
 												title: selectedCards.find((o) => o.id === item.cardTemplateId)
 													.title,
-												delta: ((item.rating - ownedRating) * 10)
-													.toFixed(6)
-													.replace(/0+$/, "")
-													.replace(/\.$/, ""), //thanks JS for making decimals a pain in the ass
+												delta: fixDecimal((item.rating - ownedRating) * 10),
 											};
 										});
 
@@ -160,28 +139,18 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 								} else if (filter.upgradesOnly) {
 									const foundCards = data.data.cards
 										.map((item) => {
-											const ownedItem = owned.filter(
+											const ownedItem = owned.find(
 												(own) => own.templateId === item.cardTemplateId
-											)[0];
+											);
 											const ownedRating = ownedItem ? ownedItem?.rating : 0;
-											const delta = ((item.rating - ownedRating) * 10)
-												.toFixed(6)
-												.replace(/0+$/, "")
-												.replace(/\.$/, ""); //thanks JS for making decimals a pain in the ass
+											const delta = fixDecimal((item.rating - ownedRating) * 10);
 											if (
 												selectedCards.some(
 													(selCard) => selCard.id === item.cardTemplateId
 												)
 											) {
 												return {
-													mintBatch: item.mintBatch,
-													mintNumber: item.mintNumber,
-													rating: item.rating,
-													cardTemplateId: item.cardTemplateId,
-													id: item.id,
-													signatureImage: item.signatureImage,
-													status: item.status,
-													type: item.type,
+													...pickObj(item),
 													owner: leaderboardUser,
 													title: selectedCards.find((o) => o.id === item.cardTemplateId)
 														.title,
@@ -195,28 +164,18 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 
 									const foundStickers = data.data.stickers
 										.map((item) => {
-											const ownedItem = owned.filter(
+											const ownedItem = owned.find(
 												(own) => own.templateId === item.stickerTemplateId
-											)[0];
+											);
 											const ownedRating = ownedItem ? ownedItem?.rating : 0;
-											const delta = ((item.rating - ownedRating) * 10)
-												.toFixed(6)
-												.replace(/0+$/, "")
-												.replace(/\.$/, ""); //thanks JS for making decimals a pain in the ass
+											const delta = fixDecimal((item.rating - ownedRating) * 10);
 											if (
 												selectedCards.some(
 													(selCard) => selCard.id === item.stickerTemplateId
 												)
 											) {
 												return {
-													mintBatch: item.mintBatch,
-													mintNumber: item.mintNumber,
-													rating: item.rating,
-													stickerTemplateId: item.stickerTemplateId,
-													id: item.id,
-													signatureImage: item.signatureImage,
-													status: item.status,
-													type: item.type,
+													...pickObj(item),
 													owner: leaderboardUser,
 													title: selectedCards.find(
 														(o) => o.id === item.stickerTemplateId
@@ -321,10 +280,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 					...accepted.map((list) => ({
 						...list,
 						title: item.title,
-						delta: ((list[item.type].rating - ownedRating) * 10)
-							.toFixed(6)
-							.replace(/0+$/, "")
-							.replace(/\.$/, ""), //thanks JS for making decimals a pain in the ass, //thanks JS for making decimals a pain in the ass
+						delta: fixDecimal((list[item.type].rating - ownedRating) * 10),
 					})),
 				]);
 				if (
@@ -442,9 +398,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 						>
 							<div className='relative aspect-auto w-28 overflow-hidden rounded-md p-0.5 sm:w-36'>
 								<Image
-									src={
-										card.images?.size402 || `https://cdn.kolex.gg${card.images[0].url}`
-									}
+									src={card.images?.size402 || `${CDN}${card.images[0].url}`}
 									width={200 * 1.5}
 									height={300 * 1.5}
 									alt={card.title}
@@ -491,3 +445,16 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 });
 CardGallery.displayName = "CardGallery";
 export default CardGallery;
+
+const pickObj = (item) => {
+	return {
+		mintBatch: item.mintBatch,
+		mintNumber: item.mintNumber,
+		rating: item.rating,
+		cardTemplateId: item.cardTemplateId,
+		id: item.id,
+		signatureImage: item.signatureImage,
+		status: item.status,
+		type: item.type,
+	};
+};

@@ -1,27 +1,21 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { FaHistory } from "react-icons/fa";
 import isEqual from "lodash/isEqual";
-import { UserContext } from "context/UserContext";
 import LoadingSpin from "./LoadingSpin";
+import { useAxios } from "hooks/useAxios";
 
 const HistoryModal = React.memo(
-	({ data }) => {
-		const { user } = useContext(UserContext);
-		const [isOpen, setIsOpen] = useState(false);
-		const [history, setHistory] = useState([]);
+	({ data, isOpen, setIsOpen }) => {
+		const { fetchData } = useAxios();
+		const [history, setHistory] = useState({});
 
 		useEffect(() => {
 			if (isOpen) {
 				const getHistory = async (cardId) => {
 					try {
-						const { data } = await axios.get(`/api/cards/${cardId}`, {
-							headers: {
-								jwt: user.jwt,
-							},
-						});
-						setHistory(data);
+						const { result } = await fetchData(`/api/cards/${cardId}`);
+						result && setHistory(result);
 					} catch (err) {
 						console.log(err);
 					}
@@ -82,11 +76,11 @@ const HistoryModal = React.memo(
 												: data[data.type].mintNumber}{" "}
 											{data.title}
 										</Dialog.Title>
-										{history.data ? (
+										{history.history ? (
 											<>
 												<div className='mt-2 border border-gray-400 p-1'>
 													<div className='relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain text-gray-700 dark:text-gray-300'>
-														{history.data.history
+														{history.history
 															.slice()
 															.reverse()
 															.map((event) => (
@@ -107,7 +101,7 @@ const HistoryModal = React.memo(
 																					{event.receiver.username}{" "}
 																				</span>
 																				opened from a pack.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -120,7 +114,7 @@ const HistoryModal = React.memo(
 																					{event.receiver.username}{" "}
 																				</span>
 																				received the item from the spinner.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -133,7 +127,7 @@ const HistoryModal = React.memo(
 																					{event.receiver.username}{" "}
 																				</span>
 																				received the item from a craft.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -146,7 +140,7 @@ const HistoryModal = React.memo(
 																					{event.receiver.username}{" "}
 																				</span>
 																				acquired from a QR code redemption.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -159,7 +153,7 @@ const HistoryModal = React.memo(
 																					{event.receiver.username}{" "}
 																				</span>
 																				received the item from an achievement.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -176,7 +170,7 @@ const HistoryModal = React.memo(
 																					{event.sender.username}{" "}
 																				</span>
 																				in a trade.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -196,7 +190,7 @@ const HistoryModal = React.memo(
 																				<span>
 																					{event.costType === "usd" ? "USD. " : "coins. "}
 																				</span>
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -209,7 +203,7 @@ const HistoryModal = React.memo(
 																					{event.receiver.username}{" "}
 																				</span>
 																				transferred the item to Immutable.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -222,7 +216,7 @@ const HistoryModal = React.memo(
 																					{event.receiver?.username}{" "}
 																				</span>
 																				Item was transferred to Kolex.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -235,7 +229,7 @@ const HistoryModal = React.memo(
 																					{event.receiver.username}{" "}
 																				</span>
 																				purchased the item from Immutable.{" "}
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>
@@ -251,7 +245,7 @@ const HistoryModal = React.memo(
 																				<span className='font-medium text-red-400'>
 																					{event.value}{" "}
 																				</span>
-																				<span className='text-gray-500'>
+																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
 																			</p>

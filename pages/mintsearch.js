@@ -126,7 +126,7 @@ const Searcher = () => {
 							type='checkbox'
 							name='sigs'
 							id='sigs'
-							className='ml-1 accent-orange-500 hover:cursor-pointer'
+							className='ml-1 mt-1 accent-orange-500 hover:cursor-pointer'
 							checked={filter.sigsOnly}
 							onChange={(e) =>
 								setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))
@@ -141,28 +141,12 @@ const Searcher = () => {
 							type='checkbox'
 							name='upgrade'
 							id='upgrade'
-							className='ml-1 mr-1 accent-orange-500 hover:cursor-pointer sm:mr-0'
+							className='ml-1 mr-1 mt-1 accent-orange-500 hover:cursor-pointer sm:mr-0'
 							checked={filter.upgradesOnly}
 							onChange={(e) =>
 								setFilter((prev) => ({ ...prev, upgradesOnly: e.target.checked }))
 							}
 						/>
-						<span className='hidden sm:inline'>
-							<Tooltip
-								text={
-									"It's semi beta-ish. If you have any suggestions or problems let me know."
-								}
-								direction='right'
-							/>
-						</span>
-						<span className='inline sm:hidden'>
-							<Tooltip
-								text={
-									"It's semi beta-ish. If you have any suggestions or problems let me know."
-								}
-								direction='left'
-							/>
-						</span>
 					</div>
 				</div>
 				<div className='mb-2 flex w-fit flex-col pl-2 text-gray-700 dark:text-gray-300 sm:flex-row'>

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import isEmpty from "lodash/isEmpty";
+import sortBy from "lodash/sortBy";
 import { ToastContainer, toast } from "react-toastify";
 import SetSelector from "HOC/SetSelector";
 import { UserContext } from "context/UserContext";
@@ -17,7 +18,9 @@ const Scanner = () => {
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [scanResults, setScanResults] = useState({});
 	const [collectionTemplates, setCollectionTemplates] = useState({});
+	const [ownedItems, setOwnedItems] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const isSelfScan = user.user.id === selectedUser?.id;
 
 	const handleScan = async () => {
 		if (!selectedUser) {
@@ -33,7 +36,6 @@ const Scanner = () => {
 			return;
 		}
 		const scanUser = async (userId, collectionId) => {
-			setScanResults({});
 			const { data } = await axios.get(`/api/users/scan`, {
 				params: {
 					collectionId: collectionId,
@@ -56,10 +58,42 @@ const Scanner = () => {
 			return data;
 		};
 		setLoading(true);
+		setScanResults({});
 		const { data } = await scanUser(selectedUser.id, selectedCollection.collection.id);
+		const { data: own } =
+			user.user.id !== selectedUser.id &&
+			(await scanUser(user.user.id, selectedCollection.collection.id));
 		const { data: templates } = await getCollection(selectedCollection.collection.id);
 		setCollectionTemplates(templates);
-		setScanResults(data);
+		own //if scanning someone else
+			? setOwnedItems(
+					//pick the best set
+					sortBy(
+						[...own.cards, ...own.stickers].map((item) =>
+							pickObj(item, selectedCollection)
+						),
+						["mintBatch", "mintNumber"]
+					)
+			  )
+			: setOwnedItems(
+					//pick the best 5 sets
+					sortBy(
+						[...data.cards, ...data.stickers].map((item) =>
+							pickObj(item, selectedCollection)
+						),
+						["mintBatch", "mintNumber"]
+					).reduce(
+						(previousValue, currentValue) =>
+							previousValue.filter((item) => item.templateId === currentValue.templateId)
+								.length < 4 //if less than 4 are in the acc
+								? [...previousValue, currentValue] //add the item to acc
+								: [...previousValue], //skip it
+						[]
+					)
+			  );
+		setScanResults(
+			[...data.cards, ...data.stickers].map((item) => pickObj(item, selectedCollection))
+		);
 		setLoading(false);
 	};
 	return (
@@ -86,7 +120,10 @@ const Scanner = () => {
 								<span
 									className='ml-1 cursor-pointer text-red-500'
 									title='Clear selection'
-									onClick={() => setSelectedUser(null)}
+									onClick={() => {
+										setSelectedUser(null);
+										setScanResults({});
+									}}
 								>
 									x
 								</span>
@@ -110,8 +147,8 @@ const Scanner = () => {
 				</div>
 
 				<div className='relative mb-5 flex max-h-96 overflow-visible rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
-					<div>
-						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
+					<div className='px-1.5'>
+						<div className='p-2 font-semibold text-gray-700 dark:text-gray-300'>
 							Selected Collection:
 							{selectedCollection && (
 								<span>
@@ -148,6 +185,8 @@ const Scanner = () => {
 							templates={collectionTemplates}
 							user={selectedUser}
 							collection={selectedCollection}
+							ownedItems={ownedItems}
+							isSelfScan={isSelfScan}
 						/>
 					</div>
 				)}
@@ -156,3 +195,19 @@ const Scanner = () => {
 	);
 };
 export default Scanner;
+
+const pickObj = (item, selectedCollection) => {
+	return {
+		templateId: item.cardTemplateId ? item.cardTemplateId : item.stickerTemplateId,
+		id: item.id,
+		mintBatch: item.mintBatch,
+		mintNumber: item.mintNumber,
+		type: item.type,
+		status: item.status,
+		rating: item.rating,
+		signatureImage: item.signatureImage,
+		collectionId: selectedCollection.collection.id,
+		title: item.type === "card" ? undefined : item.stickerTemplate.title,
+		inCirculation: item.type === "card" ? undefined : item.stickerTemplate.inCirculation,
+	};
+};

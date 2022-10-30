@@ -1,9 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/future/image";
 import axios from "axios";
 import debounce from "lodash/debounce";
 import { CDN } from "@/config/config";
-import { useEffect } from "react";
 const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 	const [loading, setLoading] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -66,7 +65,8 @@ const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 								<Image
 									src={`${CDN}${result.avatar}`}
 									alt={result.username}
-									fill={true}
+									width={64}
+									height={64}
 									quality={80}
 									className='object-cover'
 									sizes='33vw'

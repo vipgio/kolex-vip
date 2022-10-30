@@ -31,24 +31,38 @@ const Spinner = () => {
 				</div> */}
 				<div className='flex flex-col sm:flex-row'>
 					{spinnerInfo.items && (
-						<table className='text-gray-700 dark:text-gray-300'>
-							<thead className='border border-gray-700 dark:border-gray-300'>
-								<tr>
-									<th>Item Name</th>
-									<th>Chance (%)</th>
-								</tr>
-							</thead>
-							<tbody>
-								{spinnerInfo.items
-									.sort((a, b) => b.chance - a.chance)
-									.map((item) => (
-										<tr key={item.id} className='border-b border-b-gray-500'>
-											<td>{item.name}</td>
-											<th>{item.chance}</th>
-										</tr>
-									))}
-							</tbody>
-						</table>
+						<div className='rounded-md border border-gray-800 dark:border-gray-400'>
+							<table className='h-full table-auto overflow-hidden rounded-md text-gray-700 transition-colors dark:text-gray-300'>
+								<thead className='bg-gray-300 uppercase text-gray-800 dark:bg-gray-700 dark:text-gray-400'>
+									<tr>
+										<th>Item Name</th>
+										<th>Chance (%)</th>
+									</tr>
+								</thead>
+								<tbody className='text-center'>
+									{spinnerInfo.items
+										.sort((a, b) => b.chance - a.chance)
+										.map((item) => (
+											<tr
+												className='border-b bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
+												key={item.id}
+											>
+												<td>{item.name}</td>
+												<th
+													title={`1 in ${Number(
+														(100 / item.chance)
+															.toFixed(2)
+															.replace(/0+$/, "")
+															.replace(/\.$/, "")
+													).toLocaleString()}`}
+												>
+													{item.chance}
+												</th>
+											</tr>
+										))}
+								</tbody>
+							</table>
+						</div>
 					)}
 
 					<SpinArea info={spinnerInfo} />

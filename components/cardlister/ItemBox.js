@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import isEqual from "lodash/isEqual";
-import uniq from "lodash/uniq";
 import MintSelectorModal from "./MintSelectorModal";
-import LoadingSpin from "../LoadingSpin";
 const minPrice = 0.1;
 
 const ItemBox = React.memo(

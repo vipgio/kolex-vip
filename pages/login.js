@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { UserContext } from "../context/UserContext";
+import { FaGithub } from "react-icons/fa";
+import { UserContext } from "context/UserContext";
 import Tooltip from "@/components/Tooltip";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
@@ -58,17 +59,28 @@ const Login = () => {
 
 	return (
 		<>
+			<ToastContainer
+				position='top-right'
+				hideProgressBar
+				newestOnTop
+				closeOnClick={false}
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+			{/* <div className='flex w-full'> */}
+			<div className='absolute right-0 top-4' title='Source Code'>
+				<a
+					href='https://github.com/vipgio/kolex-vip'
+					target='_blank'
+					rel='noopener noreferrer'
+				>
+					<FaGithub className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-400' />
+				</a>
+			</div>
+			{/* </div> */}
 			<div className='flex h-full w-full items-center justify-center'>
-				<ToastContainer
-					position='top-right'
-					hideProgressBar
-					newestOnTop
-					closeOnClick={false}
-					rtl={false}
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-				/>
 				<form
 					className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
 					onSubmit={onSubmit}
