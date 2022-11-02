@@ -11,14 +11,14 @@ const App = ({ Component, pageProps }) => {
 		"/circulation",
 		"/crafting",
 		"/history",
-		"/masslist",
+		"/packmanager",
 		"/mintsearch",
 		"/packs",
 		"/profile",
 		"/scanner",
 		"/spinner",
 	];
-	const premiumRoutes = ["/masslist", "/history", "/mintsearch", "/cardlister"];
+	const premiumRoutes = ["/packmanager", "/history", "/mintsearch", "/cardlister"];
 	return (
 		<UserContextProvider>
 			<ThemeContextProvider>

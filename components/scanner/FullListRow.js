@@ -119,7 +119,7 @@ const FullListRow = React.memo(({ item, owner, isSelfScan, ownedItems }) => {
 	return (
 		<tr
 			className={`border-b border-gray-200 transition-colors hover:bg-gray-200 dark:border-gray-700 dark:hover:bg-gray-700 ${
-				user.info.allowed.includes("tradesssss")
+				user.info.allowed.includes("trades")
 					? isSelfScan
 						? tradeList.send &&
 						  tradeList.send[0] &&
@@ -153,9 +153,6 @@ const FullListRow = React.memo(({ item, owner, isSelfScan, ownedItems }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				{item.status === "market" ? "Yes" : "No"}
 			</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
-				{item.status === "imx_locked" ? "Yes" : "No"}
-			</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>{(item.rating * 10).toFixed(2)}</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.id}</td>
 			{!isSelfScan && (
@@ -181,7 +178,44 @@ const FullListRow = React.memo(({ item, owner, isSelfScan, ownedItems }) => {
 					) : (
 						<FaLock
 							className='cursor-not-allowed'
-							title='You need history access for this feature'
+							title='You need the "history" access for this feature'
+						/>
+					)}
+				</span>
+			</td>
+			<td>
+				<span className='inline-flex justify-center'>
+					{user.info.allowed.includes("trades") ? (
+						<input
+							type='checkbox'
+							name='trade'
+							id='trade'
+							checked={
+								user.info.allowed.includes("trades")
+									? isSelfScan
+										? tradeList.send &&
+										  tradeList.send[0] &&
+										  tradeList.send[0].items.some((sentItem) => sentItem.id === item.id)
+										: tradeList.receive?.some((user) =>
+												user.items?.some((listItem) => listItem.id === item.id)
+										  )
+									: false
+							}
+							disabled={item.status !== "available"}
+							onChange={handleItem}
+							title={
+								item.status === "market"
+									? "Item is listed on the market"
+									: item.status !== "available"
+									? "Item is not available"
+									: "Add to trade list"
+							}
+							className='cursor-pointer disabled:cursor-not-allowed'
+						/>
+					) : (
+						<FaLock
+							className='cursor-not-allowed'
+							title='You need the "trades" access for this feature'
 						/>
 					)}
 				</span>

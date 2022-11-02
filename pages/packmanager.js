@@ -3,9 +3,9 @@ import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
-import MassPackGrid from "components/masslist/MassPackGrid";
+import MassPackGrid from "@/components/packmanager/MassPackGrid";
 
-const Masslist = () => {
+const Packmanager = () => {
 	const { userPacks, setLoading, loading, user } = useContext(UserContext);
 	const [packs, setPacks] = useState([]);
 
@@ -99,4 +99,4 @@ const Masslist = () => {
 		</>
 	);
 };
-export default Masslist;
+export default Packmanager;

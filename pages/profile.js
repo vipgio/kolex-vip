@@ -45,10 +45,8 @@ const Profile = () => {
 								{user.info.allowed.length > 0 ? (
 									user.info.allowed.map((option, i) => [
 										i > 0 && ", ",
-										<Link href={`/${option === "trades" ? "" : option}`} key={option}>
-											<a className='hover:text-orange-500'>
-												{option[0].toUpperCase() + option.slice(1)}
-											</a>
+										<Link href={features[option].link} key={option}>
+											<a className='hover:text-orange-500'>{features[option].name}</a>
 										</Link>,
 									])
 								) : (
@@ -124,3 +122,10 @@ const Profile = () => {
 	);
 };
 export default Profile;
+const features = {
+	packmanager: { name: "Pack Manager", link: "/packmanager" },
+	mintsearch: { name: "Mint Search", link: "/mintsearch" },
+	cardlister: { name: "Card Lister", link: "/cardlister" },
+	history: { name: "History", link: "/history" },
+	trades: { name: "Trades", link: "" },
+};

@@ -21,6 +21,27 @@ const useAxios = () => {
 		return { result, error };
 	};
 
+	const postData = async (endpoint, payload) => {
+		let result, error;
+		try {
+			const { data } = await axios.post(
+				endpoint,
+				{
+					data: payload,
+				},
+				{
+					headers: { jwt: user.jwt },
+				}
+			);
+			if (data.success) {
+				result = data;
+			}
+		} catch (err) {
+			error = err;
+		}
+		return { result, error };
+	};
+
 	const patchData = async (endpoint, payload) => {
 		let result, error;
 		try {
@@ -60,6 +81,6 @@ const useAxios = () => {
 	useEffect(() => {
 		fetchData();
 	});
-	return { fetchData, patchData, deleteData };
+	return { fetchData, postData, patchData, deleteData };
 };
 export { useAxios };

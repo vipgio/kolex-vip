@@ -2,7 +2,7 @@ import { useContext, forwardRef, useState } from "react";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
-import { FaHistory, FaSearch, FaLock, FaMoon, FaSun } from "react-icons/fa";
+import { FaHistory, FaSearch, FaLock, FaMoon, FaSun, FaBan } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
 import { BsArrowLeftRight } from "react-icons/bs";
 import { UserContext } from "context/UserContext";
@@ -88,31 +88,38 @@ const NewNavbar = () => {
 						</>
 					)}
 				</Menu>
-				{/* <div className='ml-auto mr-3 mt-1'>
-					<button
-						className='relative text-gray-700 dark:text-gray-300'
-						// onClick={() => console.log(tradeList)}
-						onClick={() => setShowTradeModal(true)}
-					>
-						<BsArrowLeftRight
-							className='h-5 w-5'
-							title={
-								cardsInTrade === 0
-									? "No items in your trade list. Use the Scanner to add items"
-									: "Trade"
-							}
+				<div className='ml-auto mr-3 mt-1'>
+					{user.info.allowed.includes("trades") ? (
+						<button
+							className='relative text-gray-700 dark:text-gray-300'
+							// onClick={() => console.log(tradeList)}
+							onClick={() => setShowTradeModal(true)}
+						>
+							<BsArrowLeftRight
+								className='h-5 w-5'
+								title={
+									cardsInTrade === 0
+										? "No items in your trade list. Use the Scanner to add items"
+										: "Trade"
+								}
+							/>
+							{cardsInTrade !== 0 && (
+								<div
+									className='absolute top-1 right-full mr-1 font-semibold'
+									title='Items in the trade list'
+								>
+									{cardsInTrade}
+								</div>
+							)}
+						</button>
+					) : (
+						<FaLock
+							className='cursor-not-allowed text-gray-700 dark:text-gray-300'
+							title='You need the "trades" access for this feature'
 						/>
-						{cardsInTrade !== 0 && (
-							<div
-								className='absolute top-1 right-full mr-1 font-semibold'
-								title='Items in the trade list'
-							>
-								{cardsInTrade}
-							</div>
-						)}
-					</button>
-				</div> */}
-				<div className='mr-2 ml-auto h-8 w-8'>
+					)}
+				</div>
+				<div className='mr-2 h-8 w-8'>
 					<div className='relative h-10 w-10 rounded-full' title='Change theme'>
 						<FaSun
 							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
@@ -212,7 +219,7 @@ const pages = [
 		paid: false,
 	},
 	{
-		link: "masslist",
+		link: "packmanager",
 		title: "Pack Manager",
 		icon: (
 			<svg

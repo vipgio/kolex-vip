@@ -18,7 +18,7 @@ const CardHistory = React.memo(
 							/>
 						</div>
 					)}
-					<div>
+					<div className='w-full'>
 						<div className='mb-2 w-full border-b border-current text-gray-800 dark:text-gray-200'>
 							<span className='text-orange-400'>
 								{item.mintBatch}
@@ -45,7 +45,7 @@ const CardHistory = React.memo(
 													{event.receiver.username}{" "}
 												</span>
 												opened from a pack.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -56,7 +56,7 @@ const CardHistory = React.memo(
 													{event.receiver.username}{" "}
 												</span>
 												received the item from the spinner.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -67,7 +67,7 @@ const CardHistory = React.memo(
 													{event.receiver.username}{" "}
 												</span>
 												received the item from a craft.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -78,7 +78,7 @@ const CardHistory = React.memo(
 													{event.receiver.username}{" "}
 												</span>
 												acquired from a QR code redemption.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -89,7 +89,7 @@ const CardHistory = React.memo(
 													{event.receiver.username}{" "}
 												</span>
 												received the item from an achievement.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -104,7 +104,7 @@ const CardHistory = React.memo(
 													{event.sender.username}{" "}
 												</span>
 												in a trade.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -120,7 +120,7 @@ const CardHistory = React.memo(
 												</span>
 												for <span>{event.value} </span>
 												<span>{event.costType === "usd" ? "USD. " : "coins. "}</span>
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -131,7 +131,7 @@ const CardHistory = React.memo(
 													{event.receiver.username}{" "}
 												</span>
 												transferred the item to Immutable.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -142,7 +142,7 @@ const CardHistory = React.memo(
 													{event.receiver?.username}{" "}
 												</span>
 												Item was transferred to Kolex.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -153,7 +153,7 @@ const CardHistory = React.memo(
 													{event.receiver.username}{" "}
 												</span>
 												purchased the item from Immutable.{" "}
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
@@ -165,7 +165,7 @@ const CardHistory = React.memo(
 												</span>
 												upgraded the card to level{" "}
 												<span className='font-medium text-red-400'>{event.value} </span>
-												<span className='text-gray-500'>
+												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>

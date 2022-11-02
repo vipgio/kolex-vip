@@ -61,7 +61,7 @@ const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 								setResults([]);
 							}}
 						>
-							<div className='relative h-16 w-16 overflow-hidden rounded-full border'>
+							<div className='relative flex h-16 w-16 overflow-hidden rounded-full border'>
 								<Image
 									src={`${CDN}${result.avatar}`}
 									alt={result.username}

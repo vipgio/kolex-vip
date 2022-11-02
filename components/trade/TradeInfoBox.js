@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { ToastContainer, toast } from "react-toastify";
 import sortBy from "lodash/sortBy";
 import TradeInfoModal from "./TradeInfoModal";
 
@@ -52,44 +53,61 @@ const TradeInfoBox = ({ user, myItems, setTradeList }) => {
 			  });
 	};
 	return (
-		<div
-			key={user.id || "..."}
-			className='relative flex flex-col border border-gray-800 dark:border-gray-200 sm:flex-row'
-		>
-			<div>
-				<div className='text-lg text-orange-500'>{user.owner || "You"}</div>
-				<div className='divide-y divide-gray-500'>
-					{sortBy(user.items, ["mintBatch", "mintNumber"]).map((item) => (
-						<div key={item.id} className='flex items-center'>
-							<span className='mr-1'>
-								{item.mintBatch}
-								{item.mintNumber} {item.title}
-							</span>
-							<span
-								className='ml-auto cursor-pointer text-red-500'
-								title='Remove item'
-								onClick={() => removeItem(item, user.owner)}
-							>
-								<IoMdClose />
-							</span>
-						</div>
-					))}
+		<>
+			<ToastContainer
+				position='top-right'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+			<div
+				key={user.id || "..."}
+				className={`my-2 flex flex-col p-1 ${
+					user.owner ? "sm:flex-row" : ""
+				} border border-gray-600 dark:border-gray-400`}
+			>
+				<div>
+					<div className='text-lg text-orange-500'>{user.owner || "You"}</div>
+					<div className='max-h-80 divide-y divide-gray-500 overflow-auto'>
+						{sortBy(user.items, ["mintBatch", "mintNumber"]).map((item) => (
+							<div key={item.id} className='flex items-center'>
+								<span className='mr-1'>
+									{item.mintBatch}
+									{item.mintNumber} {item.title}
+								</span>
+								<span
+									className='ml-auto cursor-pointer text-red-500'
+									title='Remove item'
+									onClick={() => removeItem(item, user.owner)}
+								>
+									<IoMdClose />
+								</span>
+							</div>
+						))}
+					</div>
 				</div>
+				{user.owner && (
+					<div className='flex flex-1 flex-col items-end p-1'>
+						<button className='button mt-auto mb-1' onClick={openModal}>
+							Preview Trades
+						</button>
+					</div>
+				)}
+				{showInfoModal && (
+					<TradeInfoModal
+						isOpen={showInfoModal}
+						setIsOpen={setShowInfoModal}
+						receive={user}
+						send={myItems}
+					/>
+				)}
 			</div>
-			<div className='flex flex-1 flex-col items-end p-1'>
-				<button className='button mt-auto mb-1' onClick={openModal}>
-					Preview Trades
-				</button>
-			</div>
-			{showInfoModal && (
-				<TradeInfoModal
-					isOpen={showInfoModal}
-					setIsOpen={setShowInfoModal}
-					receive={user}
-					send={myItems}
-				/>
-			)}
-		</div>
+		</>
 	);
 };
 export default TradeInfoBox;

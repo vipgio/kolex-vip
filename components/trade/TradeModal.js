@@ -6,7 +6,6 @@ import TradeInfoBox from "./TradeInfoBox";
 
 const TradeModal = ({ setShowModal }) => {
 	const { tradeList, setTradeList, user: me } = useContext(UserContext);
-	console.log(tradeList);
 	const [tradeType, setTradeType] = useState("receive");
 	const dataToShow =
 		tradeType === "send" ? tradeList.send || [] : sortBy(tradeList.receive, "owner");
@@ -53,8 +52,12 @@ const TradeModal = ({ setShowModal }) => {
 				<div className='my-3'>
 					<Toggle action={tradeType} setAction={setTradeType} />
 				</div>
-				<div className='h-[30rem] max-h-full overflow-auto border'>
-					<div className='p-2 text-gray-700 dark:text-gray-300'>
+				<div className='h-[30rem] max-h-full overflow-auto'>
+					<div
+						className={`p-2 text-gray-700 dark:text-gray-300 ${
+							tradeType === "send" ? "flex justify-center" : ""
+						}`}
+					>
 						{dataToShow.map((user) => (
 							<TradeInfoBox
 								user={user}

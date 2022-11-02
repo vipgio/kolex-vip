@@ -76,8 +76,13 @@ const SpinArea = ({ info }) => {
 						jwt: user.jwt,
 					},
 				});
+				const title = templates.data[0].title;
 				setSpinRes((prev) => [
-					{ ...spinResult, time: new Date(), title: templates.data[0].title },
+					{
+						...spinResult,
+						time: new Date(),
+						title: title ? title : "Something, but kolex is buggy so can't find the card",
+					},
 					...prev,
 				]);
 			} else {

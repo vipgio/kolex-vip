@@ -92,7 +92,7 @@ const options = [
 			"Gives you the ability to mass list or mass open packs. Pack data is stored locally so you don't need to wait for your packs to be loaded every time.",
 		locked: true,
 		image: "/masslist.png",
-		link: "/masslist",
+		link: "/packmanager",
 	},
 	{
 		name: "Card Lister",

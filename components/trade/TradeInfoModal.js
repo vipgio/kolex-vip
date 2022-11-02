@@ -1,19 +1,33 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { toast } from "react-toastify";
 import isEqual from "lodash/isEqual";
-import { sortBy, uniqBy } from "lodash";
-import { useEffect } from "react";
-import { useState } from "react";
+import uniqBy from "lodash/uniqBy";
+import sortBy from "lodash/sortBy";
+import chunk from "lodash/chunk";
+import { BsArrowLeftRight } from "react-icons/bs";
+import { useAxios } from "hooks/useAxios";
 import fixDecimal from "utils/NumberUtils";
+import LoadingSpin from "../LoadingSpin";
+import Tooltip from "../Tooltip";
 
 const TradeInfoModal = React.memo(
 	({ receive, send, isOpen, setIsOpen }) => {
-		const [pointGain, setPointGain] = useState(0);
-		const [pointLoss, setPointLoss] = useState(0);
-		let unCheckedReceive = receive;
+		const { postData } = useAxios();
+		const counter = useRef(0);
+		const [loading, setLoading] = useState(false);
+		const [pointDelta, setPointDelta] = useState({
+			gain: 0,
+			loss: 0,
+		});
+		const receiveSorted = sortBy(receive.items, ["mintBatch", "mintNumber"]);
+		const receiveBest = uniqBy(receiveSorted, "templateId");
+		const receiveBestSet = new Set(receiveBest.map((o) => o.id)); //list of best mints by id
+		let unCheckedReceive = {
+			...receive,
+			items: receiveBest,
+		};
 		let unCheckedSend = send;
-		// console.log("receive: ", receive);
-		// console.log("send: ", send);
 
 		const closeModal = () => setIsOpen(false);
 
@@ -32,10 +46,8 @@ const TradeInfoModal = React.memo(
 						(item) => !targetItems.some((o) => o.id === item.id)
 					),
 				};
-				// console.log(targetCollection.items, targetItems);
 				const loss = getLoss(targetCollection.items, targetItems);
-				console.log("loss: ", loss);
-				// setPointLoss((prev) => (prev += loss));
+				setPointDelta((prev) => ({ ...prev, loss: (prev.loss += loss) }));
 			}
 		};
 
@@ -54,7 +66,8 @@ const TradeInfoModal = React.memo(
 						(item) => !targetItems.some((o) => o.id === item.id)
 					),
 				};
-				setPointGain((prev) => (prev += getDelta(targetCollection.items, targetItems)));
+				const gain = getDelta(targetCollection.items, targetItems);
+				setPointDelta((prev) => ({ ...prev, gain: (prev.gain += gain) }));
 			}
 		};
 
@@ -62,6 +75,39 @@ const TradeInfoModal = React.memo(
 			unCheckedReceive.items.map((item) => handleGainPoints(item));
 			unCheckedSend.items.map((item) => handleLossPoints(item));
 		}, []);
+
+		const sendTrades = async () => {
+			setLoading(true);
+			const itemList = chunk([...send.items, ...receive.items], 50);
+			for (const entities of itemList) {
+				const payload = {
+					userId: receive.id,
+					entities: entities.map((item) => ({
+						id: item.id,
+						type: item.type,
+					})),
+				};
+				const { result, error } = await postData("/api/trade/create-offer", payload);
+				if (result && result.success) {
+					closeModal();
+					setLoading(false);
+					counter.current++;
+					counter.current === 1
+						? toast.success(`Sent ${counter.current} trade to ${receive.owner}!`, {
+								toastId: "success",
+						  })
+						: toast.update("success", {
+								render: `Sent ${counter.current} trades to ${receive.owner}!`,
+						  });
+				} else {
+					console.log(error);
+					toast.error(error.response.data.error, {
+						toastId: error.response.data.errorCode,
+					});
+				}
+			}
+			setLoading(false);
+		};
 
 		return (
 			<>
@@ -93,23 +139,43 @@ const TradeInfoModal = React.memo(
 									<Dialog.Panel className='flex h-[30rem] w-full max-w-2xl transform flex-col overflow-hidden rounded-2xl bg-gray-100 p-4 text-left align-middle shadow-xl transition-all dark:bg-gray-700'>
 										<Dialog.Title
 											as='h3'
-											className='mb-1 text-lg font-medium leading-6 text-orange-500'
+											className='mb-1 text-lg font-medium leading-6 text-gray-800 dark:text-gray-300'
 										>
-											HEADER
+											<div className='flex'>
+												<div className='inline-flex items-center'>
+													You
+													<span className='mx-1 mt-1 text-orange-500'>
+														<BsArrowLeftRight />
+													</span>
+													{receive.owner}
+												</div>
+												<div className='ml-auto inline-flex'>
+													Trade delta:{" "}
+													<div
+														className={`ml-1 ${
+															fixDecimal(pointDelta.gain + pointDelta.loss) > 0
+																? "text-green-500"
+																: "text-red-500"
+														}`}
+													>
+														{fixDecimal(pointDelta.gain + pointDelta.loss)}
+													</div>
+												</div>
+											</div>
 										</Dialog.Title>
 										<div className='flex'>
-											<div className='w-1/2'>
-												<div className='divide-y border'>
+											<div className='w-1/2 px-1'>
+												<div className='h-80 max-h-80 divide-y divide-gray-500 overflow-auto border border-gray-700 p-1 dark:border-gray-300 '>
 													{sortBy(send.items, ["mintBatch", "mintNumber"]).map((item) => (
 														<div
 															key={item.id}
 															className='flex text-gray-700 dark:text-gray-300'
 														>
-															<div>
+															<div className='w-4/5'>
 																{item.mintBatch}
 																{item.mintNumber} {item.title}
 															</div>
-															<div className='mr-1 ml-auto text-orange-500'>
+															<div className='mr-1 ml-auto text-red-500'>
 																{item.pointsToLose
 																	? `-${fixDecimal(item.pointsToLose * 10)}`
 																	: 0}
@@ -117,33 +183,64 @@ const TradeInfoModal = React.memo(
 														</div>
 													))}
 												</div>
-												<div>Total point loss: {fixDecimal(pointLoss)}</div>
-											</div>
-											<div className='w-1/2'>
-												<div className='divide-y border'>
-													{sortBy(receive.items, ["mintBatch", "mintNumber"]).map(
-														(item) => (
-															<div
-																key={item.id}
-																className='flex text-gray-700 dark:text-gray-300'
-															>
-																<div>
-																	{item.mintBatch}
-																	{item.mintNumber} {item.title}
-																</div>
-																<div className='mr-1 ml-auto text-orange-500'>
-																	{item.delta > 0 ? `+${item.delta}` : 0}
-																</div>
-															</div>
-														)
-													)}
+												<div className='inline-flex items-center text-gray-700 dark:text-gray-300'>
+													Total point loss:{" "}
+													<span className='ml-1 text-red-500'>
+														{fixDecimal(pointDelta.loss)}
+													</span>
+													<div>
+														<Tooltip
+															text='Numbers in front of each item could be inaccurate only if you trade 4+ of the same card. Total number is accurate.'
+															direction='right'
+														/>
+													</div>
 												</div>
-												<div>Total point gain: {fixDecimal(pointGain)}</div>
+											</div>
+											<div className='w-1/2 px-1'>
+												<div className='h-80 max-h-80 divide-y divide-gray-500 overflow-auto border border-gray-700 p-1 dark:border-gray-300 '>
+													{receiveSorted.map((item) => (
+														<div
+															key={item.id}
+															className='flex text-gray-700 dark:text-gray-300'
+														>
+															<div className='w-4/5'>
+																{item.mintBatch}
+																{item.mintNumber} {item.title}
+															</div>
+															<div className='mr-1 ml-auto text-green-500'>
+																{isBestMint(item, receiveBestSet)
+																	? `+${item.delta}`
+																	: "+0"}
+															</div>
+														</div>
+													))}
+												</div>
+												<div className='text-gray-700 dark:text-gray-300'>
+													Total point gain:{" "}
+													<span className='ml-1 text-green-500'>
+														+{fixDecimal(pointDelta.gain)}
+													</span>
+												</div>
 											</div>
 										</div>
-										<button type='button' className='button' onClick={closeModal}>
-											Close
-										</button>
+										<div className='mt-auto flex'>
+											<button
+												type='button'
+												className='button'
+												onClick={closeModal}
+												disabled={loading}
+											>
+												Close
+											</button>
+											<button
+												type='button'
+												className='button ml-auto'
+												onClick={sendTrades}
+												disabled={loading}
+											>
+												{loading ? <LoadingSpin /> : "Send Trade"}
+											</button>
+										</div>
 									</Dialog.Panel>
 								</Transition.Child>
 							</div>
@@ -169,18 +266,20 @@ const getDelta = (items, owned) => {
 };
 
 const getLoss = (owned, items) => {
-	console.log("owned: ", owned);
 	const initialPoints = uniqBy(owned, "templateId").reduce(
 		(acc, cur) => acc + cur.rating,
 		0
 	);
-	// console.log("initialPoints: ", initialPoints);
-	const newOwned = owned.filter(
-		(ownedItem) => !items.find((item) => item.id === ownedItem.id)
+	const newOwned = uniqBy(
+		owned.filter((ownedItem) => !items.some((item) => item.id === ownedItem.id)),
+		"templateId"
 	);
-	console.log("newOwned: ", newOwned);
 	const newPoints = newOwned.reduce((acc, cur) => acc + cur.rating, 0);
-	// console.log("newPoints: ", newPoints);
+
 	const delta = newPoints - initialPoints;
 	return fixDecimal(delta * 10);
+};
+
+const isBestMint = (item, list) => {
+	return list.has(item.id);
 };

@@ -101,7 +101,7 @@ const Scanner = () => {
 			<Meta title='Scanner | Kolex VIP' />
 
 			<div className='mt-2 flex flex-col justify-center px-2'>
-				<ToastContainer
+				{/* <ToastContainer
 					position='top-right'
 					autoClose={3500}
 					hideProgressBar={false}
@@ -111,7 +111,7 @@ const Scanner = () => {
 					pauseOnFocusLoss
 					draggable
 					pauseOnHover
-				/>
+				/> */}
 				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='overflow-hidden'>
 						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
@@ -166,7 +166,11 @@ const Scanner = () => {
 					</div>
 				</div>
 				<div className='flex w-full items-center justify-center'>
-					<button className='submit-button' onClick={handleScan} disabled={loading}>
+					<button
+						className='submit-button'
+						onClick={handleScan}
+						disabled={loading || !selectedCollection || !selectedUser}
+					>
 						{loading ? <LoadingSpin /> : "Scan"}
 					</button>
 					<div className='text-gray-700 dark:text-gray-300'>

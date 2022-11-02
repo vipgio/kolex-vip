@@ -57,10 +57,15 @@ const CraftingModal = React.memo(
 						jwt: user.jwt,
 					},
 				});
-				const cards = data.data.cards.map((card) => ({
-					...card,
-					title: templates.data.find((o) => o.id === card.cardTemplateId).title,
-				}));
+				const cards = data.data.cards.map((card) => {
+					const item = templates.data?.find((o) => o.id === card.cardTemplateId);
+					return {
+						...card,
+						title: item
+							? item.title
+							: "Something, but kolex is buggy so can't find the card",
+					};
+				});
 				setCraftResult((prev) => [...prev, ...cards]);
 			}
 		};
@@ -297,7 +302,7 @@ const CraftingModal = React.memo(
 								</div>
 								<div className='ml-5 flex flex-col'>
 									<div className='flex'>
-										<label htmlFor='any' className='mr-1'>
+										<label htmlFor='any' className='mr-1 hover:cursor-pointer'>
 											Use any worst mint
 										</label>
 										<input
@@ -306,10 +311,11 @@ const CraftingModal = React.memo(
 											id='any'
 											checked={dupeOnly === "any"}
 											onChange={(e) => setDupeOnly(e.target.id)}
+											className='hover:cursor-pointer'
 										/>
 									</div>
 									<div className='flex'>
-										<label htmlFor='dupe' className='mr-1'>
+										<label htmlFor='dupe' className='mr-1 hover:cursor-pointer'>
 											Only use dupe items
 										</label>
 										<input
@@ -318,6 +324,7 @@ const CraftingModal = React.memo(
 											id='dupe'
 											checked={dupeOnly === "dupe"}
 											onChange={(e) => setDupeOnly(e.target.id)}
+											className='hover:cursor-pointer'
 										/>
 									</div>
 								</div>
@@ -361,7 +368,7 @@ const CraftingModal = React.memo(
 								<button
 									className='button ml-auto mt-auto'
 									onClick={doCraft}
-									disabled={craftCount == 0}
+									disabled={craftCount === 0}
 								>
 									Craft
 								</button>

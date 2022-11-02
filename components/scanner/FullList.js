@@ -45,11 +45,11 @@ const FullList = ({ results, owner, isSelfScan, ownedItems }) => {
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Circulation</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Listed</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Immutable</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Item Points</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>ID</th>
 							{!isSelfScan && <th className='py-1 px-2 sm:py-3 sm:px-6'>Point gain</th>}
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
+							<th className='py-1 px-2 sm:py-3 sm:px-6'>Trade List</th>
 						</tr>
 					</thead>
 					<tbody className='text-center transition-colors'>
