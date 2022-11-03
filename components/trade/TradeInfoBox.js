@@ -9,6 +9,7 @@ const TradeInfoBox = ({ user, myItems, setTradeList }) => {
 	const openModal = () => {
 		setShowInfoModal(true);
 	};
+
 	const removeItem = (item, owner) => {
 		owner
 			? setTradeList((prev) => {
@@ -52,6 +53,15 @@ const TradeInfoBox = ({ user, myItems, setTradeList }) => {
 						  };
 			  });
 	};
+
+	const removeUser = () => {
+		setTradeList((prev) => {
+			return {
+				...prev,
+				receive: prev.receive.filter((o) => o.owner !== user.owner),
+			};
+		});
+	};
 	return (
 		<>
 			<ToastContainer
@@ -72,7 +82,20 @@ const TradeInfoBox = ({ user, myItems, setTradeList }) => {
 				} border border-gray-600 dark:border-gray-400`}
 			>
 				<div>
-					<div className='text-lg text-orange-500'>{user.owner || "You"}</div>
+					<div className='inline-flex w-full items-center'>
+						<div className='text-lg text-orange-500'>{user.owner || "You"}</div>
+						{user.owner && (
+							<div className='ml-auto'>
+								<span
+									className='ml-auto cursor-pointer text-red-500'
+									title='Remove user'
+									onClick={removeUser}
+								>
+									<IoMdClose />
+								</span>
+							</div>
+						)}
+					</div>
 					<div className='max-h-80 divide-y divide-gray-500 overflow-auto'>
 						{sortBy(user.items, ["mintBatch", "mintNumber"]).map((item) => (
 							<div key={item.id} className='flex items-center'>

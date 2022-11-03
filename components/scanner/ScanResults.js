@@ -144,6 +144,7 @@ const ScanResult = React.memo(
 									owner={user}
 									isSelfScan={isSelfScan}
 									ownedItems={isSelfScan ? ownedItems : uniqBy(ownedItems, "templateId")}
+									filterMethod={filterMethod}
 								/>
 							) : (
 								<CompactList results={filteredResults} owner={user} />

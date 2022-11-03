@@ -71,12 +71,15 @@ const Crafting = () => {
 			<div className='my-10 flex justify-center'>
 				{loading ? (
 					<LoadingSpin />
-				) : (
+				) : plans.length > 0 ? (
 					<div className='grid grid-cols-1 gap-5 self-start px-5 sm:grid-cols-3'>
-						{plans.length > 0 &&
-							plans.map((plan) => (
-								<PlanSelection plan={plan} slots={slots} key={plan.id} />
-							))}
+						{plans.map((plan) => (
+							<PlanSelection plan={plan} slots={slots} key={plan.id} />
+						))}
+					</div>
+				) : (
+					<div className='flex justify-center text-gray-700 dark:text-gray-300 '>
+						No craft plans available
 					</div>
 				)}
 			</div>

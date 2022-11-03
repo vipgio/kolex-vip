@@ -100,6 +100,7 @@ const TradeInfoModal = React.memo(
 								render: `Sent ${counter.current} trades to ${receive.owner}!`,
 						  });
 				} else {
+					closeModal();
 					console.log(error);
 					toast.error(error.response.data.error, {
 						toastId: error.response.data.errorCode,

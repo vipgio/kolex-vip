@@ -64,7 +64,7 @@ const Packmanager = () => {
 
 	return (
 		<>
-			<Meta title='Mass List | Kolex VIP' />
+			<Meta title='Pack Manager | Kolex VIP' />
 			<div className='max-h-screen border-gray-200'>
 				<button
 					title='Refresh packs'
