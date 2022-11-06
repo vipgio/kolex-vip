@@ -103,7 +103,7 @@ const SpinArea = ({ info }) => {
 		doSpin();
 		const id = setInterval(() => {
 			doSpin();
-		}, 6 * 1000);
+		}, 10 * 1000);
 		intervalRef.current = id;
 	};
 

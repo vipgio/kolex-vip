@@ -230,7 +230,9 @@ const Cardlister = () => {
 				</div>
 			)}
 			{templates.length > 0 && <CardGallery templates={templates} user={user} />}
-			{showListedModal && <ListedModal setShowListedModal={setShowListedModal} />}
+			{showListedModal && (
+				<ListedModal showModal={showListedModal} setShowModal={setShowListedModal} />
+			)}
 		</>
 	);
 };

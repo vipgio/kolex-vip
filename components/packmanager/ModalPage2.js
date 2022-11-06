@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
 import remove from "lodash/remove";
@@ -8,7 +8,6 @@ import { UserContext } from "context/UserContext";
 import CoolButton from "./CoolButton";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingSpin from "../LoadingSpin";
-import { useEffect } from "react";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { user, setLoading, loading } = useContext(UserContext);
@@ -112,17 +111,6 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 
 	return (
 		<>
-			<ToastContainer
-				position='top-right'
-				autoClose={3500}
-				hideProgressBar={false}
-				newestOnTop
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-			/>
 			{selected.length > 0 && (
 				<div className='mt-3 flex items-center justify-center text-xl font-semibold text-gray-700 dark:text-gray-300'>
 					x{selected.length} {selected.length > 1 ? "Packs" : "Pack"} selected from{" "}

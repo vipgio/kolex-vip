@@ -140,7 +140,9 @@ const NewNavbar = () => {
 						Features
 					</a>
 				</Link>
-				{showTradeModal && <TradeModal setShowModal={setShowTradeModal} />}
+				{showTradeModal && (
+					<TradeModal showModal={showTradeModal} setShowModal={setShowTradeModal} />
+				)}
 			</nav>
 		)
 	);

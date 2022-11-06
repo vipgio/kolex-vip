@@ -6,8 +6,9 @@ import { UserContext } from "context/UserContext";
 import { CDN } from "@/config/config";
 import PackSelection from "./PackSelection";
 import ModalPage2 from "./ModalPage2";
+import BigModal from "../BigModal";
 
-const MassPackModal = ({ packTemplate, setShowModal }) => {
+const MassPackModal = ({ packTemplate, showModal, setShowModal }) => {
 	const { user } = useContext(UserContext);
 	const [page, setPage] = useState(1);
 	const [selected, setSelected] = useState([]);
@@ -32,66 +33,38 @@ const MassPackModal = ({ packTemplate, setShowModal }) => {
 	};
 
 	return (
-		<>
-			<div className='fixed inset-0 z-30 flex flex-col items-center justify-center bg-black/70'>
-				<div className='absolute inset-0 z-20 my-8 mx-8 box-content flex flex-col overflow-hidden rounded-md bg-gray-100 dark:bg-gray-900 sm:mx-24'>
-					<div
-						className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800' /*modal header*/
-					>
-						<h1 className='mx-auto py-2 text-3xl text-gray-800 dark:text-gray-200'>
-							{packTemplate.name}
-						</h1>
-						<button
-							className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-800 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'
-							onClick={() => setShowModal(false)}
-						>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								fill='none'
-								viewBox='0 0 24 24'
-								stroke='currentColor'
-								strokeWidth={2}
-							>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									d='M6 18L18 6M6 6l12 12'
-								/>
-							</svg>
-						</button>
-					</div>
-					{page === 1 ? (
-						<PackSelection
-							packTemplate={packTemplate}
-							selected={selected}
-							setSelected={setSelected}
-							marketInfo={marketInfo}
-							CDN={CDN}
-							setPage={setPage}
-						/>
-					) : (
-						<ModalPage2
-							selected={selected}
-							setSelected={setSelected}
-							packTemplate={packTemplate}
-							action={action}
-							setAction={setAction}
-							setPage={setPage}
-							CDN={CDN}
-						/>
-					)}
-					<Footer
-						page={page}
-						setPage={setPage}
-						disabled={selected.length > 0 ? false : true}
-					/>
-				</div>
-				<div //fullscreen close button
-					className='fixed z-10 h-screen w-screen'
-					onClick={() => setShowModal(false)}
-				></div>
-			</div>
-		</>
+		<BigModal
+			header={packTemplate.name}
+			showModal={showModal}
+			setShowModal={setShowModal}
+			closeOnClick={true}
+		>
+			{page === 1 ? (
+				<PackSelection
+					packTemplate={packTemplate}
+					selected={selected}
+					setSelected={setSelected}
+					marketInfo={marketInfo}
+					CDN={CDN}
+					setPage={setPage}
+				/>
+			) : (
+				<ModalPage2
+					selected={selected}
+					setSelected={setSelected}
+					packTemplate={packTemplate}
+					action={action}
+					setAction={setAction}
+					setPage={setPage}
+					CDN={CDN}
+				/>
+			)}
+			<Footer
+				page={page}
+				setPage={setPage}
+				disabled={selected.length > 0 ? false : true}
+			/>
+		</BigModal>
 	);
 };
 export default MassPackModal;

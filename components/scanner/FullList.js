@@ -38,7 +38,6 @@ const FullList = ({ results, owner, isSelfScan, ownedItems, filterMethod }) => {
 		onChange: (inView) => {
 			if (inView && show < results.length) {
 				setShow((prev) => prev + 50);
-				console.log(show + 50);
 				inView = false;
 			}
 		},

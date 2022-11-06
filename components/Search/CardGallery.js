@@ -421,7 +421,8 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 			</div>
 			{showMarketResults && (
 				<MarketResults
-					setShowResults={setShowMarketResults}
+					showModal={showMarketResults}
+					setShowModal={setShowMarketResults}
 					results={results}
 					loading={loading}
 					finished={finished}
@@ -431,7 +432,8 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 			)}
 			{showMintResults && (
 				<MintResults
-					setShowResults={setShowMintResults}
+					showModal={showMintResults}
+					setShowModal={setShowMintResults}
 					results={results}
 					loading={loading}
 					total={totalExpected}

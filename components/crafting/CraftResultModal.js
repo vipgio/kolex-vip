@@ -5,8 +5,6 @@ import LoadingSpin from "../LoadingSpin";
 
 const CraftResultModal = React.memo(
 	({ data, showResult, setShowResult, loading }) => {
-		console.log(data);
-
 		const closeModal = () => setShowResult(false);
 
 		return (

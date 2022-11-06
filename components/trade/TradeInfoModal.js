@@ -113,7 +113,7 @@ const TradeInfoModal = React.memo(
 		return (
 			<>
 				<Transition appear show={isOpen} as={Fragment}>
-					<Dialog as='div' className='relative z-30' onClose={closeModal}>
+					<Dialog as='div' className='relative z-40' onClose={closeModal}>
 						<Transition.Child
 							as={Fragment}
 							enter='ease-out duration-300'

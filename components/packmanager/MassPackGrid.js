@@ -1,17 +1,9 @@
 import { useState } from "react";
 import Image from "next/future/image";
 import MassPackModal from "./MassPackModal";
-import { useEffect } from "react";
 
 const MassPackGrid = ({ packTemplate }) => {
 	const [showModal, setShowModal] = useState(false);
-	useEffect(() => {
-		if (showModal) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "auto";
-		}
-	}, [showModal]);
 	return (
 		<>
 			<div
@@ -35,7 +27,13 @@ const MassPackGrid = ({ packTemplate }) => {
 				</div>
 			</div>
 			{showModal && (
-				<MassPackModal packTemplate={packTemplate} setShowModal={setShowModal} />
+				<div className='fixed z-50'>
+					<MassPackModal
+						packTemplate={packTemplate}
+						showModal={showModal}
+						setShowModal={setShowModal}
+					/>
+				</div>
 			)}
 		</>
 	);

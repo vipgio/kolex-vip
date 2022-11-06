@@ -67,7 +67,7 @@ const PackSelection = ({
 									</div>
 								</>
 							)}
-							{!marketInfo.market[0][0].price && ( //if price is 0, it means it's not on the market
+							{!marketInfo.market[0][0]?.price && ( //if price is 0, it means it's not on the market
 								<div className='flex'>
 									Market floor:{" "}
 									<a
@@ -162,7 +162,7 @@ const PackSelection = ({
 								</label>
 								<input
 									type='checkbox'
-									className='m-2'
+									className='m-2 cursor-pointer'
 									onChange={() => handleSelect(pack.id)}
 									checked={selected.includes(pack.id)}
 									id={pack.id}

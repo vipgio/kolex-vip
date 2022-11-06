@@ -4,11 +4,11 @@ import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
 import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "context/UserContext";
-import LoadingSpin from "../LoadingSpin";
 import CraftResultModal from "./CraftResultModal";
+import BigModal from "../BigModal";
 
 const CraftingModal = React.memo(
-	({ setShowModal, plan }) => {
+	({ showModal, setShowModal, plan }) => {
 		const { user } = useContext(UserContext);
 		const totalCards = useRef(0);
 		const [loading, setLoading] = useState(true);
@@ -221,7 +221,7 @@ const CraftingModal = React.memo(
 		}, [ownedCards]);
 
 		return (
-			<div className='fixed inset-0 z-30 flex flex-col items-center justify-center overscroll-none bg-black/90'>
+			<>
 				<ToastContainer
 					position='top-right'
 					autoClose={3500}
@@ -233,34 +233,12 @@ const CraftingModal = React.memo(
 					draggable
 					pauseOnHover
 				/>
-				<div className='absolute inset-0 z-20 my-auto mx-8 flex h-fit max-h-[90vh] flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-48'>
-					<div
-						className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800' /*modal header*/
-					>
-						<h1 className='mx-auto py-2 text-2xl text-gray-800 dark:text-gray-200'>
-							{loading ? <LoadingSpin /> : <>{plan.name}</>}
-						</h1>
-						<button
-							className='absolute right-0 top-0 h-12 w-12 p-1 text-gray-900 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 active:bg-indigo-300 active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'
-							onClick={() => {
-								setShowModal(false);
-							}}
-						>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								fill='none'
-								viewBox='0 0 24 24'
-								stroke='currentColor'
-								strokeWidth={2}
-							>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									d='M6 18L18 6M6 6l12 12'
-								/>
-							</svg>
-						</button>
-					</div>
+				<BigModal
+					header={plan.name}
+					loading={loading}
+					showModal={showModal}
+					setShowModal={setShowModal}
+				>
 					<div className='h-fit max-h-96 overflow-auto rounded p-2 text-gray-800 dark:text-gray-300'>
 						{dataToShow.map((requirement) => (
 							<div key={requirement.id} className='text-gray-800 dark:text-gray-300'>
@@ -383,8 +361,8 @@ const CraftingModal = React.memo(
 							loading={loading}
 						/>
 					)}
-				</div>
-			</div>
+				</BigModal>
+			</>
 		);
 	},
 	(oldProps, newProps) => isEqual(oldProps, newProps)

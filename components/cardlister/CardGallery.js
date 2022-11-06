@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Image from "next/future/image";
 import sortBy from "lodash/sortBy";
+import { ToastContainer } from "react-toastify";
 import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
 import Tooltip from "../Tooltip";
@@ -14,6 +15,17 @@ const CardGallery = ({ templates, user }) => {
 
 	return (
 		<>
+			<ToastContainer
+				position='top-right'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
 			<div className='m-2'>
 				<label htmlFor='sort' className='text-gray-800 dark:text-gray-200'>
 					Sort By:
@@ -141,7 +153,8 @@ const CardGallery = ({ templates, user }) => {
 			</div>
 			{showAdvancedModal && (
 				<AdvancedModal
-					setShowAdvancedModal={setShowAdvancedModal}
+					showModal={showAdvancedModal}
+					setShowModal={setShowAdvancedModal}
 					selectedTemplates={selectedTemplates}
 					user={user}
 					templates={templates}
@@ -149,8 +162,9 @@ const CardGallery = ({ templates, user }) => {
 			)}
 			{showSimpleModal && (
 				<SimpleModal
+					showModal={showSimpleModal}
 					user={user}
-					setShowSimpleModal={setShowSimpleModal}
+					setShowModal={setShowSimpleModal}
 					selectedTemplates={selectedTemplates}
 					templates={templates}
 				/>

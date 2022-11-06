@@ -3,7 +3,7 @@ import Image from "next/image";
 import { CDN } from "@/config/config";
 import CraftingModal from "./CraftingModal";
 
-const PlanSelection = ({ plan, slots }) => {
+const PlanSelection = ({ plan }) => {
 	const [showModal, setShowModal] = useState(false);
 	return (
 		<>
@@ -38,7 +38,9 @@ const PlanSelection = ({ plan, slots }) => {
 					</div>
 				</div>
 			</div>
-			{showModal && <CraftingModal plan={plan} setShowModal={setShowModal} />}
+			{showModal && (
+				<CraftingModal plan={plan} showModal={showModal} setShowModal={setShowModal} />
+			)}
 		</>
 	);
 };
