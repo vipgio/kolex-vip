@@ -17,8 +17,15 @@ const App = ({ Component, pageProps }) => {
 		"/profile",
 		"/scanner",
 		"/spinner",
+		"/trades",
 	];
-	const premiumRoutes = ["/packmanager", "/history", "/mintsearch", "/cardlister"];
+	const premiumRoutes = [
+		"/packmanager",
+		"/history",
+		"/mintsearch",
+		"/cardlister",
+		"/trades",
+	];
 	return (
 		<UserContextProvider>
 			<ThemeContextProvider>

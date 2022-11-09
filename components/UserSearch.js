@@ -3,7 +3,9 @@ import Image from "next/future/image";
 import axios from "axios";
 import debounce from "lodash/debounce";
 import { CDN } from "@/config/config";
-const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
+import { useAxios } from "hooks/useAxios";
+const UserSearch = ({ setSelectedUser, selectedUser }) => {
+	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [results, setResults] = useState([]);
@@ -13,19 +15,19 @@ const UserSearch = ({ jwt, setSelectedUser, selectedUser }) => {
 	}, [searchQuery]);
 
 	const searchUser = async (username) => {
-		const { data } = await axios.get(`/api/users/search?username=${username}`, {
-			headers: {
-				jwt: jwt,
-			},
-		});
-		return data;
+		const { result, error } = await fetchData(`/api/users/search?username=${username}`);
+		if (result) {
+			return result;
+		} else {
+			console.log(error);
+		}
 	};
 
 	const handleDebounce = async (input) => {
 		if (input.length > 2) {
 			setLoading(true);
-			const { data } = await searchUser(input);
-			setResults(data);
+			const result = await searchUser(input);
+			setResults(result);
 			setLoading(false);
 		}
 	};

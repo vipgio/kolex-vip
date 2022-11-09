@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import SetSelector from "HOC/SetSelector";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
@@ -101,17 +101,6 @@ const Scanner = () => {
 			<Meta title='Scanner | Kolex VIP' />
 
 			<div className='mt-2 flex flex-col justify-center px-2'>
-				{/* <ToastContainer
-					position='top-right'
-					autoClose={3500}
-					hideProgressBar={false}
-					newestOnTop
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-				/> */}
 				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='overflow-hidden'>
 						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
