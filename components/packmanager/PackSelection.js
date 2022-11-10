@@ -33,7 +33,9 @@ const PackSelection = ({
 					{/* <div>Pack Template ID: {packTemplate.id}</div> */}
 					{marketInfo.market && ( //wait for market info to load
 						<>
-							{marketInfo.market[0][0]?.price > 0 && ( //if price is bigger than 0, show price
+							{marketInfo.market[0] &&
+							marketInfo.market[0][0] &&
+							marketInfo.market[0][0].price > 0 ? ( //if price is bigger than 0, show price
 								<>
 									<div className='flex'>
 										Market floor:{" "}
@@ -66,8 +68,7 @@ const PackSelection = ({
 										</a>
 									</div>
 								</>
-							)}
-							{!marketInfo.market[0][0]?.price && ( //if price is 0, it means it's not on the market
+							) : (
 								<div className='flex'>
 									Market floor:{" "}
 									<a

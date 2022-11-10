@@ -9,7 +9,10 @@ const SpinResult = ({ result, spinnerInfo }) => {
 						{result.cards[0].mintNumber}{" "}
 					</span>
 					<span className='text-indigo-500 dark:text-indigo-300'>{result.title} </span>
-					at {result.time.toLocaleString()}
+					at
+					<span className='ml-1 text-gray-700 dark:text-gray-300'>
+						{result.time.toLocaleString()}
+					</span>
 				</div>
 			) : (
 				spinnerInfo.items
@@ -21,7 +24,10 @@ const SpinResult = ({ result, spinnerInfo }) => {
 						>
 							You won{" "}
 							<span className='text-indigo-500 dark:text-indigo-300'>{reward.name} </span>
-							at {result.time.toLocaleString()}
+							at
+							<span className='ml-1 text-gray-700 dark:text-gray-300'>
+								{result.time.toLocaleString()}
+							</span>
 						</div>
 					))
 			)}
