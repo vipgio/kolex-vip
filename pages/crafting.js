@@ -46,7 +46,11 @@ const Crafting = () => {
 				setLoading(false);
 			}
 		} catch (err) {
+			setLoading(false);
 			console.log(err);
+			toast.error(err.message, {
+				toastId: err.code,
+			});
 		}
 	};
 

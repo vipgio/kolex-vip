@@ -27,12 +27,15 @@ const CraftingModal = React.memo(
 		);
 
 		const handleCount = (target) => {
-			if (target.value > target.max) {
-				setCraftCount(target.max);
-			} else if (target.value < target.min) {
-				setCraftCount(target.min);
+			const min = Number(target.min);
+			const max = Number(target.max);
+			const value = Number(target.value);
+			if (value > max) {
+				setCraftCount(max);
+			} else if (value < min) {
+				setCraftCount(min);
 			} else {
-				setCraftCount(target.value);
+				setCraftCount(value);
 			}
 		};
 
@@ -67,17 +70,22 @@ const CraftingModal = React.memo(
 					};
 				});
 				setCraftResult((prev) => [...prev, ...cards]);
+			} else {
+				toast.error(`There was an error with your request. Opening the slot: ${id}`, {
+					toastId: "error",
+				});
 			}
 		};
 
 		const doCraft = async () => {
+			setCraftResult([]);
 			setLoading(true);
 			setShowResult(true);
 			for (let i = 0; i < craftCount; i++) {
 				try {
 					const payload = {
 						silvercoins: plan.silvercoinCost,
-						requirements: ownedCards.map((req) => ({
+						requirements: dataToShow.map((req) => ({
 							requirementId: req.id,
 							entityIds: req.items
 								.slice(i * req.count, (i + 1) * req.count)
@@ -96,8 +104,12 @@ const CraftingModal = React.memo(
 						}
 					);
 					if (data.success) {
-						//open the full slot
+						// open the full slot
 						await openSlot(data.data.slots.filter((slot) => slot.used)[0].id);
+					} else {
+						toast.error(`There was an error with your request. Crafting: ${plan.id}`, {
+							toastId: "error",
+						});
 					}
 				} catch (err) {
 					console.log(err);
@@ -233,135 +245,139 @@ const CraftingModal = React.memo(
 					draggable
 					pauseOnHover
 				/>
-				<BigModal
-					header={plan.name}
-					loading={loading}
-					showModal={showModal}
-					setShowModal={setShowModal}
-				>
-					<div className='h-fit max-h-96 overflow-auto rounded p-2 text-gray-800 dark:text-gray-300'>
-						{dataToShow.map((requirement) => (
-							<div key={requirement.id} className='text-gray-800 dark:text-gray-300'>
-								You own {requirement.items.length} available items from{" "}
-								{requirement.count} {requirement.name} items needed for this craft.
-							</div>
-						))}
-						<>
-							Total crafts possible:{" "}
-							<span className='text-orange-500'>
-								{Math.min(
-									...dataToShow.map((requirement) =>
-										Math.floor(requirement.items.length / requirement.count)
-									)
-								)}
-							</span>
-						</>
-						<div className='mt-1 flex flex-col border-t border-gray-800 pt-2 dark:border-gray-300'>
-							<div className='flex items-center'>
-								<div>
-									<label htmlFor='craftCount' className='mr-1'>
-										Number of crafts to do:{" "}
-									</label>
-									<input
-										type='number'
-										name='craftCount'
-										id='craftCount'
-										min={0}
-										max={Math.min(
-											...dataToShow.map((requirement) =>
-												Math.floor(requirement.items.length / requirement.count)
-											)
-										)}
-										disabled={loading}
-										value={craftCount}
-										onChange={(e) => handleCount(e.target)}
-										className='input-field'
-									/>
+				<>
+					<BigModal
+						header={plan.name}
+						loading={loading}
+						showModal={showModal}
+						setShowModal={setShowModal}
+						extraStyle='h-fit my-auto'
+					>
+						<div className='h-fit max-h-96 overflow-auto rounded p-2 text-gray-800 dark:text-gray-300'>
+							{dataToShow.map((requirement) => (
+								<div key={requirement.id} className='text-gray-800 dark:text-gray-300'>
+									You own {requirement.items.length} available items from{" "}
+									{requirement.count} {requirement.name} items needed for this craft.
 								</div>
-								<div className='ml-5 flex flex-col'>
-									<div className='flex'>
-										<label htmlFor='any' className='mr-1 hover:cursor-pointer'>
-											Use any worst mint
+							))}
+							<>
+								Total crafts possible:{" "}
+								<span className='text-orange-500'>
+									{Math.min(
+										...dataToShow.map((requirement) =>
+											Math.floor(requirement.items.length / requirement.count)
+										)
+									)}
+								</span>
+							</>
+							<div className='mt-1 flex flex-col border-t border-gray-800 pt-2 dark:border-gray-300'>
+								<div className='flex items-center'>
+									<div>
+										<label htmlFor='craftCount' className='mr-1'>
+											Number of crafts to do:{" "}
 										</label>
 										<input
-											type='radio'
-											name='dupe'
-											id='any'
-											checked={dupeOnly === "any"}
-											onChange={(e) => setDupeOnly(e.target.id)}
-											className='hover:cursor-pointer'
+											type='number'
+											name='craftCount'
+											id='craftCount'
+											min={0}
+											max={Math.min(
+												...dataToShow.map((requirement) =>
+													Math.floor(requirement.items.length / requirement.count)
+												)
+											)}
+											disabled={loading}
+											value={craftCount}
+											onChange={(e) => handleCount(e.target)}
+											className='input-field'
 										/>
 									</div>
-									<div className='flex'>
-										<label htmlFor='dupe' className='mr-1 hover:cursor-pointer'>
-											Only use dupe items
-										</label>
-										<input
-											type='radio'
-											name='dupe'
-											id='dupe'
-											checked={dupeOnly === "dupe"}
-											onChange={(e) => setDupeOnly(e.target.id)}
-											className='hover:cursor-pointer'
-										/>
+									<div className='ml-5 flex flex-col'>
+										<div className='flex'>
+											<label htmlFor='any' className='mr-1 hover:cursor-pointer'>
+												Use any worst mint
+											</label>
+											<input
+												type='radio'
+												name='dupe'
+												id='any'
+												checked={dupeOnly === "any"}
+												onChange={(e) => setDupeOnly(e.target.id)}
+												className='hover:cursor-pointer'
+											/>
+										</div>
+										<div className='flex'>
+											<label htmlFor='dupe' className='mr-1 hover:cursor-pointer'>
+												Only use dupe items
+											</label>
+											<input
+												type='radio'
+												name='dupe'
+												id='dupe'
+												checked={dupeOnly === "dupe"}
+												onChange={(e) => setDupeOnly(e.target.id)}
+												className='hover:cursor-pointer'
+											/>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div className='mt-2 flex items-center border-t border-gray-800 pt-2 dark:border-gray-300'>
-								<div>Crafting recipe mint range:</div>
-								{dataToShow.length > 0 && dataToShow[0].items.length > 0 && (
-									<div className='my-1 ml-1 mr-5 flex flex-col divide-y divide-gray-700 dark:divide-gray-500'>
-										{craftCount > 0 &&
-											dataToShow.map((req) => {
-												const best = req.items
-													.slice(0, craftCount * req.count)
-													.slice(-1)
-													.pop();
-												return (
-													<div key={req.id} className=''>
-														{req.name}: {req.items[0].mintBatch}
-														{req.items[0].mintNumber}
-														{" - "}
-														<span
-															className={`${
-																best.mintBatch === "A" && best.mintNumber < 200
-																	? "text-red-500"
-																	: ""
-															}`}
-															title={
-																best.mintBatch === "A" && best.mintNumber < 200
-																	? "SUB 200, BE CAREFUL"
-																	: ""
-															}
-														>
-															{best.mintBatch}
-															{best.mintNumber}
-														</span>
-													</div>
-												);
-											})}
-									</div>
-								)}
+								<div className='mt-2 flex items-center border-t border-gray-800 pt-2 dark:border-gray-300'>
+									<div>Crafting recipe mint range:</div>
+									{dataToShow.length > 0 && dataToShow[0].items.length > 0 && (
+										<div className='my-1 ml-1 mr-5 flex flex-col divide-y divide-gray-700 dark:divide-gray-500'>
+											{craftCount > 0 &&
+												dataToShow.map((req) => {
+													const best = req.items
+														.slice(0, craftCount * req.count)
+														.slice(-1)
+														.pop();
+													return (
+														<div key={req.id} className=''>
+															{req.name}: {req.items[0].mintBatch}
+															{req.items[0].mintNumber}
+															{" - "}
+															<span
+																className={`${
+																	best.mintBatch === "A" && best.mintNumber < 200
+																		? "text-red-500"
+																		: ""
+																}`}
+																title={
+																	best.mintBatch === "A" && best.mintNumber < 200
+																		? "SUB 200, BE CAREFUL"
+																		: ""
+																}
+															>
+																{best.mintBatch}
+																{best.mintNumber}
+															</span>
+														</div>
+													);
+												})}
+										</div>
+									)}
 
-								<button
-									className='button ml-auto mt-auto'
-									onClick={doCraft}
-									disabled={craftCount === 0}
-								>
-									Craft
-								</button>
+									<button
+										className='button ml-auto mt-auto'
+										onClick={doCraft}
+										disabled={craftCount === 0}
+									>
+										Craft
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
+					</BigModal>
 					{showResult && (
 						<CraftResultModal
 							data={craftResult}
 							showResult={showResult}
 							setShowResult={setShowResult}
+							craftCount={craftCount}
 							loading={loading}
 						/>
 					)}
-				</BigModal>
+				</>
 			</>
 		);
 	},

@@ -6,7 +6,7 @@ import CraftingModal from "./CraftingModal";
 const PlanSelection = ({ plan }) => {
 	const [showModal, setShowModal] = useState(false);
 	return (
-		<>
+		<div>
 			<div
 				className='max-w-xs rounded border border-gray-800 transition-transform hover:scale-105 hover:cursor-pointer dark:border-gray-200'
 				onClick={() => setShowModal(true)}
@@ -41,7 +41,7 @@ const PlanSelection = ({ plan }) => {
 			{showModal && (
 				<CraftingModal plan={plan} showModal={showModal} setShowModal={setShowModal} />
 			)}
-		</>
+		</div>
 	);
 };
 export default PlanSelection;
