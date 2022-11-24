@@ -164,7 +164,7 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 								/>
 							))}
 				</div>
-				<div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
+				{/* <div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
 					<div className='ml-auto mr-2 inline-flex items-center'>
 						<Tooltip
 							direction='left'
@@ -183,7 +183,7 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 							<span>Complete all</span>
 						</button>
 					</div>
-				</div>
+				</div> */}
 			</BigModal>
 		</>
 	);
