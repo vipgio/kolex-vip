@@ -1,7 +1,7 @@
-import Image from "next/future/image";
 import Link from "next/link";
-import Meta from "@/components/Meta";
 import { FaLock } from "react-icons/fa";
+import ImageWrapper from "HOC/ImageWrapper";
+import Meta from "@/components/Meta";
 
 const options = [
 	{
@@ -11,7 +11,7 @@ const options = [
 		description:
 			"Custom Discord feed server with mint and price filter for market and packs opened.",
 		locked: true,
-		image: "/feed.png",
+		image: "/features/feed.png",
 		link: "",
 	},
 	{
@@ -21,7 +21,7 @@ const options = [
 		description:
 			"You can use this feature to get the circulations of all items in a specific set. This can be helpful to find rarer cards in a set and also count unopened packs using the total circulation.",
 		locked: false,
-		image: "/circ.png",
+		image: "/features/circ.png",
 		link: "/circulation",
 	},
 	{
@@ -31,7 +31,7 @@ const options = [
 		description:
 			"This feature can be used to search for store packs(old or new) and get some information about them including release date, inventory count and pack odds.",
 		locked: false,
-		image: "/packs.png",
+		image: "/features/packs.png",
 		link: "/packs",
 	},
 	{
@@ -41,17 +41,17 @@ const options = [
 		description:
 			"You can see the spinner odds and have the option to use an auto-spinner that spins every 8 seconds for you until you stop it.",
 		locked: false,
-		image: "/spinner.png",
+		image: "/features/spinner.png",
 		link: "/spinner",
 	},
 	{
 		name: "Collection Scanner",
 		price: 0,
-		id: 4,
+		id: 41,
 		description:
 			"Scans an account for a specific collection, with the ability to show results with different filter methods such as 'All items', 'Only dupes' and 'Best set'.",
 		locked: false,
-		image: "/scan.png",
+		image: "/features/scan.png",
 		link: "/scanner",
 	},
 	{
@@ -61,8 +61,17 @@ const options = [
 		description:
 			"Allows you to automate multiple crafts and picks the worst mints overall.",
 		locked: false,
-		image: "/crafting.png",
+		image: "/features/crafting.png",
 		link: "/crafting",
+	},
+	{
+		name: "RUSH",
+		price: 0,
+		id: 81,
+		description: "Play rush on web, with optimized map bans and automation features.",
+		locked: false,
+		image: "/features/rush.png",
+		link: "/rush",
 	},
 	{
 		name: "Mint Search",
@@ -71,7 +80,7 @@ const options = [
 		description:
 			"Scans accounts and marketplace to find the cards selected by you with specified mints and price.",
 		locked: true,
-		image: "/mint.png",
+		image: "/features/mint.png",
 		link: "/mintsearch",
 	},
 	{
@@ -81,7 +90,7 @@ const options = [
 		description:
 			"Shows the history of any card using its ID. Can also be used in the scanner and mint search sections.",
 		locked: true,
-		image: "/history.png",
+		image: "/features/history.png",
 		link: "/history",
 	},
 	{
@@ -91,7 +100,7 @@ const options = [
 		description:
 			"Gives you the ability to mass list or mass open packs. Pack data is stored locally so you don't need to wait for your packs to be loaded every time.",
 		locked: true,
-		image: "/masslist.png",
+		image: "/features/masslist.png",
 		link: "/packmanager",
 	},
 	{
@@ -101,7 +110,7 @@ const options = [
 		description:
 			"Allows you to mass list cards, with automatic floor price input and advanced options of selecting the mints.",
 		locked: true,
-		image: "/cardlister.png",
+		image: "/features/cardlister.png",
 		link: "/cardlister",
 	},
 ];
@@ -138,14 +147,13 @@ const Prices = () => {
 							</h2>
 						</div>
 						<div className='h-2/3 w-auto overflow-hidden p-1'>
-							<Image
+							<ImageWrapper
 								src={feature.image}
 								quality={100}
 								width={500}
 								height={500}
 								className='object-cover'
 								alt={feature.name}
-								unoptimized={true}
 							/>
 						</div>
 						<p className='p-1 text-gray-700 dark:text-gray-300'>{feature.description}</p>

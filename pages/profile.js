@@ -35,7 +35,7 @@ const Profile = () => {
 						</div>
 					</div>
 				</div>
-				<div className='ml-3 flex flex-col'>
+				<div className='ml-3 flex flex-col gap-y-1'>
 					{user && (
 						<>
 							<div className='mb-2 text-2xl font-bold'>{user.user.username}</div>
@@ -53,9 +53,25 @@ const Profile = () => {
 									<span>None</span>
 								)}
 							</div>
-
+							{user.info.allowed.length > 0 && user.info.ends >= 0 ? (
+								<div>
+									Features end in{" "}
+									<span
+										className={`${
+											user.info.ends < 2
+												? "text-red-500"
+												: user.info.ends < 8
+												? "text-amber-500"
+												: "text-green-500"
+										}`}
+									>
+										{user.info.ends}
+									</span>{" "}
+									{user.info.ends === 1 ? "day" : "days"}
+								</div>
+							) : null}
 							<div>
-								Created:{" "}
+								Account created:{" "}
 								<span className='font-semibold text-indigo-500'>
 									{user.user.created.split("T")[0]}
 								</span>

@@ -32,6 +32,7 @@ const MarketResults = ({
 			closingFunction={() => {
 				finished.current = true;
 			}}
+			extraStyle='h-fit my-auto'
 		>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>

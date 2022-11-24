@@ -25,4 +25,5 @@ yarn-error.log*
 .next
 
 /pages/test.js
+/pages/calc.js
 /pages/api/mock

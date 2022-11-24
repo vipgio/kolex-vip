@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
 	content: [
 		"./pages/*.{js,jsx,ts,tsx}",
@@ -39,6 +40,10 @@ module.exports = {
 				fadeIn: "fadeIn 0.1s ease-out",
 				fadeOut: "fadeOut 0.15s ease-out forwards",
 			},
+		},
+		screens: {
+			xs: "420px",
+			...defaultTheme.screens,
 		},
 	},
 };

@@ -1,9 +1,10 @@
 import "../globals.css";
 import UserContextProvider from "context/UserContext";
+import ThemeContextProvider from "context/ThemeContext";
+import RushContextProvider from "context/RushContext";
 import PrivateRoute from "HOC/PrivateRoutes";
 import PremiumRoutes from "HOC/PremiumRoutes";
 import Layout from "components/Layout";
-import ThemeContextProvider from "context/ThemeContext";
 
 const App = ({ Component, pageProps }) => {
 	const protectedRoutes = [
@@ -18,6 +19,7 @@ const App = ({ Component, pageProps }) => {
 		"/scanner",
 		"/spinner",
 		"/trades",
+		"/rush",
 	];
 	const premiumRoutes = [
 		"/packmanager",
@@ -29,13 +31,15 @@ const App = ({ Component, pageProps }) => {
 	return (
 		<UserContextProvider>
 			<ThemeContextProvider>
-				<Layout>
-					<PrivateRoute protectedRoutes={protectedRoutes}>
-						<PremiumRoutes premiumRoutes={premiumRoutes}>
-							<Component {...pageProps} />
-						</PremiumRoutes>
-					</PrivateRoute>
-				</Layout>
+				<RushContextProvider>
+					<Layout>
+						<PrivateRoute protectedRoutes={protectedRoutes}>
+							<PremiumRoutes premiumRoutes={premiumRoutes}>
+								<Component {...pageProps} />
+							</PremiumRoutes>
+						</PrivateRoute>
+					</Layout>
+				</RushContextProvider>
 			</ThemeContextProvider>
 		</UserContextProvider>
 	);

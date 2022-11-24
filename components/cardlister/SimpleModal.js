@@ -164,6 +164,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 			showModal={showModal}
 			setShowModal={setShowModal}
 			extraStyle='h-fit my-auto'
+			hasToast={true}
 		>
 			<div className='flex w-full border border-gray-400'>
 				<div className='max-h-96 w-1/2 divide-y divide-gray-500 overflow-auto p-1 text-gray-900 dark:text-gray-200'>

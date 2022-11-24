@@ -5,6 +5,7 @@ import { FaGithub } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
 import Tooltip from "@/components/Tooltip";
 import "react-toastify/dist/ReactToastify.css";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
@@ -22,6 +23,7 @@ const Login = () => {
 				const whitelist = await axios.get(
 					`/api/whitelist?username=${data.data.user.username}`
 				);
+
 				if (whitelist.data.info?.banned) {
 					toast.error("I don't like you, fuck off", {
 						position: "top-center",
@@ -30,12 +32,20 @@ const Login = () => {
 						closeOnClick: false,
 					});
 				} else {
+					const now = new Date().getTime();
+					const ends = Date.parse(whitelist.data.ends);
 					whitelist.data.info
-						? setUser({
-								...data.data,
-								info: {
-									allowed: whitelist.data.info.allowed || [],
-								},
+						? setUser((_) => {
+								const expired = now > ends;
+								return {
+									...data.data,
+									info: {
+										allowed: expired ? [] : whitelist.data.info.allowed || [],
+										...(!expired && {
+											ends: Math.floor((ends - now) / (1000 * 3600 * 24)),
+										}), //if not expired, add "ends"
+									},
+								};
 						  })
 						: setUser({ ...data.data, info: { allowed: [] } });
 				}
@@ -120,14 +130,10 @@ const Login = () => {
 							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 						/>
 					)}
-					<button
-						type='submit'
-						disabled={loading}
-						className={`submit-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-					>
-						Login
+					<button type='submit' disabled={loading} className='submit-button'>
+						{loading ? <LoadingSpin /> : "Login"}
 					</button>
-					<div className='text-gray-700 dark:text-gray-300'>
+					<div className='pr-2 text-gray-700 dark:text-gray-300'>
 						<Tooltip
 							text={
 								"Your password is never stored or sent anywhere. If you have any questions you can either check the source code or contact me on discord vipgio#4884"

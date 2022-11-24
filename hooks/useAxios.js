@@ -21,20 +21,21 @@ const useAxios = () => {
 		return { result, error };
 	};
 
-	const postData = async (endpoint, payload) => {
+	const postData = async (endpoint, payload, controller) => {
 		let result, error;
 		try {
 			const { data } = await axios.post(
 				endpoint,
 				{
 					data: payload,
+					signal: controller?.signal,
 				},
 				{
 					headers: { jwt: user.jwt },
 				}
 			);
 			if (data.success) {
-				result = data;
+				result = data.data;
 			}
 		} catch (err) {
 			error = err;

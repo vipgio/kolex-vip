@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
-import Image from "next/image";
 import { CDN } from "@/config/config";
+import ImageWrapper from "HOC/ImageWrapper";
 import CraftingModal from "./CraftingModal";
 
 const PlanSelection = ({ plan }) => {
@@ -11,14 +11,13 @@ const PlanSelection = ({ plan }) => {
 				className='max-w-xs rounded border border-gray-800 transition-transform hover:scale-105 hover:cursor-pointer dark:border-gray-200'
 				onClick={() => setShowModal(true)}
 			>
-				<div className='w-full max-w-xs p-1 text-center'>
-					<Image
+				<div className='inline-flex w-full max-w-xs justify-center p-1'>
+					<ImageWrapper
 						src={`${CDN}${
 							plan.theme.images[0].url || plan.theme.treatment.images[0].url
 						}`}
 						width={200}
 						height={300}
-						unoptimized={true}
 						alt={plan.name}
 					/>
 				</div>

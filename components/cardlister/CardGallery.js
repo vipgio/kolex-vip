@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Image from "next/future/image";
 import sortBy from "lodash/sortBy";
-import { ToastContainer } from "react-toastify";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { CDN } from "@/config/config";
+import ImageWrapper from "HOC/ImageWrapper";
 import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
 import Tooltip from "../Tooltip";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { CDN } from "@/config/config";
+
 const CardGallery = ({ templates, user }) => {
 	const [selectedTemplates, setSelectedTemplates] = useState([]);
 	const [showAdvancedModal, setShowAdvancedModal] = useState(false);
@@ -15,17 +15,6 @@ const CardGallery = ({ templates, user }) => {
 
 	return (
 		<>
-			<ToastContainer
-				position='top-right'
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-			/>
 			<div className='m-2'>
 				<label htmlFor='sort' className='text-gray-800 dark:text-gray-200'>
 					Sort By:
@@ -110,7 +99,7 @@ const CardGallery = ({ templates, user }) => {
 							}}
 						>
 							<div className='relative aspect-auto w-24 overflow-hidden rounded-md p-0.5 sm:w-36'>
-								<Image
+								<ImageWrapper
 									src={card.images?.size402 || `${CDN}${card.images[0].url}`}
 									width={200 * 1.5}
 									height={300 * 1.5}
@@ -120,8 +109,6 @@ const CardGallery = ({ templates, user }) => {
 											? "border-orange-500 grayscale-0"
 											: "border-transparent"
 									}`}
-									priority='true'
-									unoptimized={true}
 								/>
 								{!selectedTemplates.some((e) => e.id === card.id) && (
 									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>

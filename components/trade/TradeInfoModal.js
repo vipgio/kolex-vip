@@ -88,7 +88,7 @@ const TradeInfoModal = React.memo(
 					})),
 				};
 				const { result, error } = await postData("/api/trade/create-offer", payload);
-				if (result && result.success) {
+				if (result) {
 					closeModal();
 					setLoading(false);
 					counter.current++;

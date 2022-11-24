@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "context/UserContext";
 import CraftResultModal from "./CraftResultModal";
 import BigModal from "../BigModal";
+import "react-toastify/dist/ReactToastify.css";
 
 const CraftingModal = React.memo(
 	({ showModal, setShowModal, plan }) => {

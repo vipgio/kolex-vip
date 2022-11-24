@@ -10,7 +10,7 @@ import {
 } from "@szhsin/react-menu";
 import LoadingSpin from "./LoadingSpin";
 // import "@szhsin/react-menu/dist/index.css";
-const Dropdown = ({ collections, setSelectedCollection }) => {
+const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 	const [filter, setFilter] = useState("");
 	return (
 		<div tabIndex={-1}>
@@ -132,7 +132,7 @@ const Dropdown = ({ collections, setSelectedCollection }) => {
 		</div>
 	);
 };
-export default Dropdown;
+export default SetSelectorDropdown;
 
 const menuClassName = ({ state }) =>
 	`box-border absolute z-50 text-sm dark:bg-gray-800 bg-white p-1.5 border border-gray-700 dark:border-gray-100 rounded-md shadow-lg select-none focus:outline-none min-w-[12rem] ${

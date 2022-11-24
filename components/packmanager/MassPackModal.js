@@ -38,6 +38,7 @@ const MassPackModal = ({ packTemplate, showModal, setShowModal }) => {
 			showModal={showModal}
 			setShowModal={setShowModal}
 			closeOnClick={true}
+			hasToast={true}
 		>
 			{page === 1 ? (
 				<PackSelection

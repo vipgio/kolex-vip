@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Image from "next/future/image";
+import ImageWrapper from "HOC/ImageWrapper";
 import MassPackModal from "./MassPackModal";
 
 const MassPackGrid = ({ packTemplate }) => {
@@ -11,19 +11,19 @@ const MassPackGrid = ({ packTemplate }) => {
 				onClick={() => setShowModal(true)}
 			>
 				<div className='relative aspect-auto w-28 overflow-hidden'>
-					<Image
+					<ImageWrapper
+						className='h-full w-full object-cover'
 						src={`https://cdn.epics.gg${packTemplate.image}` || ""}
 						width={200}
 						height={300}
 						alt={packTemplate.name || "loading"}
-						className='h-full w-full object-cover'
-						priority='true'
-						unoptimized={true}
 					/>
 				</div>
-				<div className='text-center font-semibold'>{packTemplate.name}</div>
-				<div>
-					<p>Packs: {packTemplate.packs.length}</p>
+				<div className='mt-auto text-center'>
+					<div className='mt-1 font-semibold'>{packTemplate.name}</div>
+					<div>
+						<p>Packs: {packTemplate.packs.length}</p>
+					</div>
 				</div>
 			</div>
 			{showModal && (

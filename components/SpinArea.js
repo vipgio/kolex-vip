@@ -6,6 +6,7 @@ import { UserContext } from "context/UserContext";
 import SpinResult from "./SpinResult";
 import { useAxios } from "hooks/useAxios";
 import Tooltip from "./Tooltip";
+import "react-toastify/dist/ReactToastify.css";
 
 const SpinArea = ({ info }) => {
 	const intervalRef = useRef();

@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import uniq from "lodash/uniq";
 import { useAxios } from "hooks/useAxios";
-import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "context/UserContext";
 import ListedTable from "./ListedTable";
 import BigModal from "../BigModal";
@@ -97,76 +96,64 @@ const ListedModal = ({ showModal, setShowModal }) => {
 	}, []);
 
 	return (
-		<>
-			<ToastContainer
-				position='top-right'
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-			/>
-			<BigModal
-				stopButton={
-					!finished.current && (
-						<button
-							className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
-							onClick={() => {
-								finished.current = true;
-								setLoading(false);
-							}}
-							title='Stop loading the items'
-						>
-							Stop
-						</button>
-					)
-				}
-				loading={loading}
-				header='Listed Items'
-				showModal={showModal}
-				setShowModal={setShowModal}
-				closingFunction={() => (finished.current = true)}
-			>
-				<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
-					<div className='flex items-center'>
-						<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
-							Sort by:{" "}
-						</label>
-						<select
-							name='sort'
-							id='sort'
-							className='mx-2 my-1 rounded-md border border-gray-800 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
-							onChange={(e) => setSortMethod(e.target.value)}
-						>
-							{/* <option disabled selected value>
+		<BigModal
+			stopButton={
+				!finished.current && (
+					<button
+						className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
+						onClick={() => {
+							finished.current = true;
+							setLoading(false);
+						}}
+						title='Stop loading the items'
+					>
+						Stop
+					</button>
+				)
+			}
+			loading={loading}
+			header='Listed Items'
+			showModal={showModal}
+			setShowModal={setShowModal}
+			closingFunction={() => (finished.current = true)}
+			hasToast={true}
+		>
+			<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
+				<div className='flex items-center'>
+					<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
+						Sort by:{" "}
+					</label>
+					<select
+						name='sort'
+						id='sort'
+						className='mx-2 my-1 rounded-md border border-gray-800 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+						onChange={(e) => setSortMethod(e.target.value)}
+					>
+						{/* <option disabled selected value>
 							Select an option
 						</option> */}
-							<option value='mint'>Mint</option>
-							<option value='price'>Price</option>
-							<option value='floor'>Floor</option>
-							<option value='circulation'>Circulation</option>
-						</select>
-					</div>
-					<button
-						className='simple-button my-1.5 ml-auto mr-2'
-						onClick={() => setInsertFloor((prev) => prev + 1)}
-					>
-						Insert Floor
-					</button>
+						<option value='mint'>Mint</option>
+						<option value='price'>Price</option>
+						<option value='floor'>Floor</option>
+						<option value='circulation'>Circulation</option>
+					</select>
 				</div>
-				<div className='overflow-auto'>
-					<ListedTable
-						setListed={setListed}
-						listed={listed}
-						sortMethod={sortMethod}
-						insertFloor={insertFloor}
-					/>
-				</div>
-			</BigModal>
-		</>
+				<button
+					className='simple-button my-1.5 ml-auto mr-1.5'
+					onClick={() => setInsertFloor((prev) => prev + 1)}
+				>
+					Insert Floor
+				</button>
+			</div>
+			<div className='overflow-auto'>
+				<ListedTable
+					setListed={setListed}
+					listed={listed}
+					sortMethod={sortMethod}
+					insertFloor={insertFloor}
+				/>
+			</div>
+		</BigModal>
 	);
 };
 export default ListedModal;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import sortBy from "lodash/sortBy";
 import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
@@ -136,6 +136,7 @@ const AdvancedModal = ({
 			setShowModal={setShowModal}
 			loading={cardDetails.length < selectedTemplates.length}
 			extraStyle='h-fit my-auto'
+			hasToast={true}
 		>
 			<div className='relative grid max-h-[30rem] overflow-auto p-2 sm:grid-cols-2'>
 				{cardDetails.map((template) => (

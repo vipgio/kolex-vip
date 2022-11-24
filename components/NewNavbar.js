@@ -42,7 +42,7 @@ const NewNavbar = () => {
 								leaveFrom='transform opacity-100 scale-100'
 								leaveTo='transform opacity-0 scale-95'
 							>
-								<Menu.Items className='absolute left-0 mt-1 w-56 origin-top-left rounded-md bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800'>
+								<Menu.Items className='absolute left-0 mt-1 w-56 origin-top-left rounded-lg border border-gray-800 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200 dark:bg-gray-800'>
 									{pages.map((page) => (
 										<Menu.Items key={page.link}>
 											<Menu.Item>
@@ -219,6 +219,18 @@ const pages = [
 		title: "Crafting",
 		icon: <TbArrowMerge className='scale-125' />,
 		paid: false,
+	},
+	{
+		link: "rush",
+		title: "RUSH",
+		icon: (
+			<svg width='1em' height='1em' viewBox='0 0 24 24'>
+				<path d='M0 1a1 1 0 011-1h22a1 1 0 011 1v11c0 1.939-.81 3.66-1.926 5.113-1.116 1.45-2.579 2.686-4 3.681a31.433 31.433 0 01-3.908 2.31 30.796 30.796 0 01-1.655.767l-.1.042-.028.01-.008.004h-.002c0 .001-.002.002-.373-.927l-.372.928-.003-.001-.008-.003-.028-.011a17.811 17.811 0 01-.467-.2 30.775 30.775 0 01-1.288-.61c-1.06-.53-2.48-1.31-3.907-2.309-1.422-.995-2.885-2.23-4-3.681C.808 15.66 0 13.939 0 12V1zm12 22l-.372.928c.238.096.505.096.743 0L12 23zm0-1.086l.068-.03c.288-.128.704-.32 1.204-.57a29.433 29.433 0 003.655-2.158c1.328-.93 2.615-2.032 3.562-3.263C21.434 14.664 22 13.361 22 12V2H2v10c0 1.361.566 2.664 1.511 3.893.947 1.231 2.234 2.333 3.562 3.263a29.435 29.435 0 003.655 2.159c.5.25.916.44 1.204.569l.068.03z'></path>
+				<path d='M9.161 13.945H7.02L4.533 6.244v-.017H6.74l1.351 4.728 1.35-4.728h2.207v.017l-2.487 7.701zm9.043-.241c-.149.161-.363.257-.643.257h-4.562c-.28 0-.494-.08-.643-.257-.148-.161-.214-.402-.214-.708v-1.72h2.125v.997h2.009v-.724l-3.738-1.688a.742.742 0 01-.313-.273 1.094 1.094 0 01-.083-.45V7.192c0-.305.066-.547.214-.707.149-.161.363-.258.643-.258h4.579c.28 0 .494.081.642.242.148.16.214.402.214.691v1.592h-2.141V7.9h-2.009v.707l3.755 1.688c.148.081.263.161.313.274.066.112.082.257.082.45v1.961c0 .322-.082.547-.23.724z'></path>
+			</svg>
+		),
+		paid: false,
+		new: true,
 	},
 	{
 		link: "packmanager",

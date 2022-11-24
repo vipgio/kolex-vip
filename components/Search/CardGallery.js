@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import Image from "next/future/image";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
+import { CDN } from "@/config/config";
+import ImageWrapper from "HOC/ImageWrapper";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
-import { CDN } from "@/config/config";
 import fixDecimal from "utils/NumberUtils";
 
 const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned }) => {
@@ -397,7 +397,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 							}}
 						>
 							<div className='relative aspect-auto w-28 overflow-hidden rounded-md p-0.5 sm:w-36'>
-								<Image
+								<ImageWrapper
 									src={card.images?.size402 || `${CDN}${card.images[0].url}`}
 									width={200 * 1.5}
 									height={300 * 1.5}
@@ -407,7 +407,6 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 											? "border-orange-500 grayscale-0"
 											: "border-transparent"
 									}`}
-									unoptimized={true}
 								/>
 								{!selectedCards.some((e) => e.id === card.id) && (
 									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>

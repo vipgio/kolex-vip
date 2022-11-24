@@ -6,7 +6,7 @@ import pickBy from "lodash/pickBy";
 import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
 import { UserContext } from "context/UserContext";
-import Dropdown from "@/components/Dropdown";
+import SetSelectorDropdown from "@/components/SetSelectorDropdown";
 
 const coreNames = [
 	"Common",
@@ -23,7 +23,7 @@ const coreNames = [
 	"Pinnacle",
 	"Signature Series",
 ];
-const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022"];
+const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022", "2023"];
 
 const SetSelector = React.memo(
 	({ setSelectedCollection }) => {
@@ -101,7 +101,7 @@ const SetSelector = React.memo(
 
 		return (
 			<div>
-				<Dropdown
+				<SetSelectorDropdown
 					collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
 					setSelectedCollection={setSelectedCollection}
 				/>

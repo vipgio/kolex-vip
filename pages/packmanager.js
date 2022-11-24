@@ -66,17 +66,6 @@ const Packmanager = () => {
 	return (
 		<>
 			<Meta title='Pack Manager | Kolex VIP' />
-			<ToastContainer
-				position='top-right'
-				autoClose={3500}
-				hideProgressBar={false}
-				newestOnTop
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-			/>
 			<div className='max-h-screen border-gray-200'>
 				<button
 					title='Refresh packs'
