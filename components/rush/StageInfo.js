@@ -95,23 +95,22 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 	const winAll = async () => {
 		setLoading(true);
 		const thisStage = thisCircuit.stages.find((infoStage) => infoStage.id === stage.id);
-		const remainingRosters = thisStage.rosters
-			.map((roster) => {
-				const winsNeeded =
-					thisStage.rosterProgress.find(
-						(rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id
-					)?.wins || 0;
-				return {
-					won: winsNeeded,
-					id: roster.ut_pve_roster_id,
-					winsNeeded: roster.wins,
-					mapBans: getBestMaps(
-						rosters.find((rstr) => rstr.id === roster.ut_pve_roster_id).stats.maps,
-						selectedRoster.stats.maps
-					),
-				};
-			})
-			.filter((roster) => roster.won < roster.winsNeeded);
+		const remainingRosters = thisStage.rosters.map((roster) => {
+			const winsNeeded =
+				thisStage.rosterProgress.find(
+					(rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id
+				)?.wins || 0;
+			return {
+				won: winsNeeded,
+				id: roster.ut_pve_roster_id,
+				winsNeeded: roster.wins,
+				mapBans: getBestMaps(
+					rosters.find((rstr) => rstr.id === roster.ut_pve_roster_id).stats.maps,
+					selectedRoster.stats.maps
+				),
+			};
+		});
+		// .filter((roster) => roster.won < roster.winsNeeded);
 
 		const totalWinsNeeded = remainingRosters.reduce(
 			(acc, cur) => acc + cur.winsNeeded - cur.won,
@@ -120,7 +119,7 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 		for await (const opponent of remainingRosters) {
 			let winsLeft = opponent.winsNeeded - opponent.won;
 			const repeatGame = async (remaining) => {
-				if (remaining === 0) return;
+				if (remaining < -2) return;
 				const payload = {
 					rosterId: selectedRoster.id,
 					enemyRosterId: opponent.id,
@@ -169,26 +168,32 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 								/>
 							))}
 				</div>
-				{/* <div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
-					<div className='ml-auto mr-2 inline-flex items-center'>
-						<Tooltip
-							direction='left'
-							text={
-								!isUserVIP
-									? "You need to have any VIP feature to unlock this"
-									: "You are a lovely VIP user, so this feature is added automatically"
-							}
-						/>
-						<button className='button' onClick={winAll} disabled={loading || !isUserVIP}>
-							{!isUserVIP && (
-								<span className='mr-1.5'>
-									<FaLock />
-								</span>
-							)}
-							<span>Complete all</span>
-						</button>
+				{user.user.username === "vipgio" && (
+					<div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
+						<div className='ml-auto mr-2 inline-flex items-center'>
+							<Tooltip
+								direction='left'
+								text={
+									!isUserVIP
+										? "You need to have any VIP feature to unlock this"
+										: "You are a lovely VIP user, so this feature is added automatically"
+								}
+							/>
+							<button
+								className='button'
+								onClick={winAll}
+								disabled={loading || !isUserVIP}
+							>
+								{!isUserVIP && (
+									<span className='mr-1.5'>
+										<FaLock />
+									</span>
+								)}
+								<span>Complete all</span>
+							</button>
+						</div>
 					</div>
-				</div> */}
+				)}
 			</BigModal>
 		</>
 	);
