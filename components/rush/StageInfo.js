@@ -9,7 +9,7 @@ import StageInfoRoster from "./StageInfoRoster";
 import Tooltip from "../Tooltip";
 import "react-toastify/dist/ReactToastify.css";
 
-const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModal }) => {
+const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModal }) => {
 	const { fetchData, postData } = useAxios();
 	const { user } = useContext(UserContext);
 	const { selectedRoster } = useContext(RushContext);
@@ -33,7 +33,7 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 					id: roster.id,
 					level: roster.level,
 					wins:
-						circuitInfo.stages
+						thisCircuit.stages
 							.find((s) => s.id === stage.id)
 							.rosterProgress.find((pr) => pr.ut_pve_roster_id === roster.id)?.wins || 0,
 				}))
@@ -63,6 +63,7 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 						},
 					];
 				});
+
 				toast.success(
 					`Won the game against ${
 						rosters.find((roster) => roster.id === payload.enemyRosterId).name
@@ -93,7 +94,7 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 
 	const winAll = async () => {
 		setLoading(true);
-		const thisStage = circuitInfo.stages.find((infoStage) => infoStage.id === stage.id);
+		const thisStage = thisCircuit.stages.find((infoStage) => infoStage.id === stage.id);
 		const remainingRosters = thisStage.rosters
 			.map((roster) => {
 				const winsNeeded =
@@ -116,24 +117,28 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 			(acc, cur) => acc + cur.winsNeeded - cur.won,
 			0
 		);
-		remainingRosters.forEach((opponent) => {
+		for await (const opponent of remainingRosters) {
 			let winsLeft = opponent.winsNeeded - opponent.won;
 			const repeatGame = async (remaining) => {
-				counter.current === totalWinsNeeded && setLoading(false); //if total won games = wins needed to clear the stage, loading => false
 				if (remaining === 0) return;
 				const payload = {
 					rosterId: selectedRoster.id,
 					enemyRosterId: opponent.id,
 					bannedMapIds: opponent.mapBans,
-					id: circuitInfo.id,
+					id: thisCircuit.id,
 					stageId: thisStage.id,
 				};
 				const result = await playGame(payload);
-				result && counter.current++;
-				result ? repeatGame(--winsLeft) : repeatGame(winsLeft); //if lost, play the same game
+				if (result) {
+					++counter.current;
+					counter.current === totalWinsNeeded && setLoading(false); //if total won games = wins needed to clear the stage, loading => false
+					repeatGame(--winsLeft);
+				} else {
+					repeatGame(winsLeft); //if lost, play the same game
+				}
 			};
 			repeatGame(winsLeft);
-		});
+		}
 	};
 
 	return (
@@ -155,7 +160,7 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 								<StageInfoRoster
 									key={roster.id}
 									roster={roster}
-									circuitInfo={circuitInfo}
+									thisCircuit={thisCircuit}
 									stage={stage}
 									locked={locked}
 									setLocked={setLocked}
@@ -164,7 +169,7 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 								/>
 							))}
 				</div>
-				{/* <div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
+				<div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
 					<div className='ml-auto mr-2 inline-flex items-center'>
 						<Tooltip
 							direction='left'
@@ -183,7 +188,7 @@ const StageInfo = ({ selectedCircuit, stage, circuitInfo, showModal, setShowModa
 							<span>Complete all</span>
 						</button>
 					</div>
-				</div> */}
+				</div>
 			</BigModal>
 		</>
 	);

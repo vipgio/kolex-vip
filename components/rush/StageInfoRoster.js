@@ -7,13 +7,13 @@ import { RushContext } from "context/RushContext";
 import LoadingSpin from "@/components/LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 
-const StageInfoRoster = ({ roster, circuitInfo, stage, locked, setLocked, loading }) => {
+const StageInfoRoster = ({ roster, thisCircuit, stage, locked, setLocked, loading }) => {
 	const { postData } = useAxios();
 	const { selectedRoster } = useContext(RushContext);
 	const [progress, setProgress] = useState(roster.wins);
 	const [localLoading, setLocalLoading] = useState(false);
 
-	const currStage = circuitInfo.stages.find((s) => s.id === stage.id);
+	const currStage = thisCircuit.stages.find((s) => s.id === stage.id);
 
 	const winsNeeded = currStage.rosters.find(
 		(team) => team.ut_pve_roster_id === roster.id
@@ -25,7 +25,6 @@ const StageInfoRoster = ({ roster, circuitInfo, stage, locked, setLocked, loadin
 
 	const playGame = async (payload) => {
 		const { result, error } = await postData("/api/rush/play-game", payload);
-		// const { result, error } = await postData("/api/mock/rush/play-game", payload);
 		if (result) {
 			if (result.game.user1.winner) {
 				setProgress((prev) => prev + 1);
@@ -69,7 +68,7 @@ const StageInfoRoster = ({ roster, circuitInfo, stage, locked, setLocked, loadin
 			rosterId: selectedRoster.id,
 			enemyRosterId: roster.id,
 			bannedMapIds: [combinedMaps[0].mapId, combinedMaps[1].mapId],
-			id: circuitInfo.id,
+			id: thisCircuit.id,
 			stageId: currStage.id,
 		};
 		await playGame(payload);

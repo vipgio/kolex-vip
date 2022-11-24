@@ -53,7 +53,7 @@ const Circuits = ({ circuits, isRosterSelected }) => {
 							<StageInfo
 								selectedCircuit={selectedCircuit}
 								stage={selectedStage}
-								circuitInfo={circuitInfo.find(
+								thisCircuit={circuitInfo.find(
 									(circuit) => circuit.id === selectedCircuit.id
 								)}
 								setCircuitInfo={setCircuitInfo}
