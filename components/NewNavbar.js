@@ -2,7 +2,7 @@ import { useContext, forwardRef, useState } from "react";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
-import { FaHistory, FaSearch, FaLock, FaMoon, FaSun, FaBan } from "react-icons/fa";
+import { FaHistory, FaSearch, FaLock, FaMoon, FaSun, FaDiscord } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
 import { BsArrowLeftRight } from "react-icons/bs";
 import { UserContext } from "context/UserContext";
@@ -25,7 +25,7 @@ const NewNavbar = () => {
 	const cardsInTrade = sendItems + receiveItems;
 	return (
 		user && (
-			<nav className='flex h-12 items-center justify-center rounded-b-md bg-blue-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500'>
+			<nav className='flex h-12 items-center justify-center rounded-b-md bg-blue-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500 dark:text-gray-300'>
 				<Menu as='div' className='relative z-30 inline-block h-full w-12 text-left'>
 					{({ open }) => (
 						<>
@@ -88,7 +88,7 @@ const NewNavbar = () => {
 						</>
 					)}
 				</Menu>
-				<div className='ml-auto mr-3 mt-1'>
+				<div className='ml-auto mt-1 mr-2'>
 					{user.info.allowed.includes("trades") ? (
 						<button
 							className='relative text-gray-700 dark:text-gray-300'
@@ -118,6 +118,15 @@ const NewNavbar = () => {
 							title='You need the "trades" access for this feature'
 						/>
 					)}
+				</div>
+				<div className='mx-2 h-5 w-5'>
+					<a
+						href='https://discordapp.com/users/473436055958192128'
+						target='_blank'
+						rel='noreferrer'
+					>
+						<FaDiscord className='h-full w-full hover:text-gray-200' />
+					</a>
 				</div>
 				<div className='mr-2 h-8 w-8'>
 					<div className='relative h-10 w-10 rounded-full' title='Change theme'>

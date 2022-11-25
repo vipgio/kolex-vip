@@ -86,11 +86,13 @@ const Login = () => {
 					target='_blank'
 					rel='noopener noreferrer'
 				>
-					<FaGithub className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-400' />
+					<FaGithub className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 			</div>
-			{/* </div> */}
-			<div className='flex h-full w-full items-center justify-center'>
+			<div className='flex h-full w-full flex-col items-center justify-center'>
+				<span className='pb-2 text-xl font-semibold text-gray-700 dark:text-gray-300'>
+					Login using your Kolex account
+				</span>
 				<form
 					className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
 					onSubmit={onSubmit}
@@ -136,12 +138,25 @@ const Login = () => {
 					<div className='pr-2 text-gray-700 dark:text-gray-300'>
 						<Tooltip
 							text={
-								"Your password is never stored or sent anywhere. If you have any questions you can either check the source code or contact me on discord vipgio#4884"
+								"Your password is never stored or sent to anywhere other than kolex. If you have any questions you can check the source code or contact me on discord vipgio#4884"
 							}
 							direction='right'
 						/>
 					</div>
 				</form>
+				<div className='absolute bottom-0 h-8 w-full border-t border-gray-600 p-1 dark:border-gray-400'>
+					<span className='text-sm text-gray-700 dark:text-gray-300'>
+						Cool site logo by{" "}
+						<a
+							href='https://discordapp.com/users/341825527104929792'
+							target='_blank'
+							rel='noreferrer'
+							className='text-indigo-500 hover:underline'
+						>
+							Nexus
+						</a>
+					</span>
+				</div>
 			</div>
 		</>
 	);

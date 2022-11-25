@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const limiter = new Bottleneck({
 	maxConcurrent: 1,
-	minTime: 7000,
+	minTime: 9000,
 });
 
 const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModal }) => {
@@ -178,32 +178,27 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 								/>
 							))}
 				</div>
-				{user.user.username === "vipgio" && (
-					<div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
-						<div className='ml-auto mr-2 inline-flex items-center'>
-							<Tooltip
-								direction='left'
-								text={
-									!isUserVIP
-										? "You need to have any VIP feature to unlock this"
-										: "You are a lovely VIP user, so this feature is added automatically"
-								}
-							/>
-							<button
-								className='button'
-								onClick={winAll}
-								disabled={loading || !isUserVIP}
-							>
-								{!isUserVIP && (
-									<span className='mr-1.5'>
-										<FaLock />
-									</span>
-								)}
-								<span>Complete all</span>
-							</button>
-						</div>
+
+				<div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
+					<div className='ml-auto mr-2 inline-flex items-center'>
+						<Tooltip
+							direction='left'
+							text={
+								!isUserVIP
+									? "You need to have any VIP feature to unlock this"
+									: "You are a lovely VIP user, so this feature is added automatically"
+							}
+						/>
+						<button className='button' onClick={winAll} disabled={loading || !isUserVIP}>
+							{!isUserVIP && (
+								<span className='mr-1.5'>
+									<FaLock />
+								</span>
+							)}
+							<span>Complete all</span>
+						</button>
 					</div>
-				)}
+				</div>
 			</BigModal>
 		</>
 	);
