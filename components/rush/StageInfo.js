@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext, useRef } from "react";
+import Bottleneck from "bottleneck";
 import { toast } from "react-toastify";
 import { FaLock } from "react-icons/fa";
 import { useAxios } from "hooks/useAxios";
@@ -8,6 +9,11 @@ import BigModal from "@/components/BigModal";
 import StageInfoRoster from "./StageInfoRoster";
 import Tooltip from "../Tooltip";
 import "react-toastify/dist/ReactToastify.css";
+
+const limiter = new Bottleneck({
+	maxConcurrent: 1,
+	minTime: 7000,
+});
 
 const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModal }) => {
 	const { fetchData, postData } = useAxios();
@@ -95,22 +101,23 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 	const winAll = async () => {
 		setLoading(true);
 		const thisStage = thisCircuit.stages.find((infoStage) => infoStage.id === stage.id);
-		const remainingRosters = thisStage.rosters.map((roster) => {
-			const winsNeeded =
-				thisStage.rosterProgress.find(
-					(rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id
-				)?.wins || 0;
-			return {
-				won: winsNeeded,
-				id: roster.ut_pve_roster_id,
-				winsNeeded: roster.wins,
-				mapBans: getBestMaps(
-					rosters.find((rstr) => rstr.id === roster.ut_pve_roster_id).stats.maps,
-					selectedRoster.stats.maps
-				),
-			};
-		});
-		// .filter((roster) => roster.won < roster.winsNeeded);
+		const remainingRosters = thisStage.rosters
+			.map((roster) => {
+				const winsNeeded =
+					thisStage.rosterProgress.find(
+						(rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id
+					)?.wins || 0;
+				return {
+					won: winsNeeded,
+					id: roster.ut_pve_roster_id,
+					winsNeeded: roster.wins,
+					mapBans: getBestMaps(
+						rosters.find((rstr) => rstr.id === roster.ut_pve_roster_id).stats.maps,
+						selectedRoster.stats.maps
+					),
+				};
+			})
+			.filter((roster) => roster.won < roster.winsNeeded);
 
 		const totalWinsNeeded = remainingRosters.reduce(
 			(acc, cur) => acc + cur.winsNeeded - cur.won,
@@ -119,7 +126,7 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 		for await (const opponent of remainingRosters) {
 			let winsLeft = opponent.winsNeeded - opponent.won;
 			const repeatGame = async (remaining) => {
-				if (remaining < -2) return;
+				if (remaining === 0) return;
 				const payload = {
 					rosterId: selectedRoster.id,
 					enemyRosterId: opponent.id,
@@ -127,7 +134,10 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 					id: thisCircuit.id,
 					stageId: thisStage.id,
 				};
-				const result = await playGame(payload);
+				const result = await limiter.schedule(
+					{ id: `${opponent.id} - ${counter.current}` },
+					() => playGame(payload)
+				);
 				if (result) {
 					++counter.current;
 					counter.current === totalWinsNeeded && setLoading(false); //if total won games = wins needed to clear the stage, loading => false

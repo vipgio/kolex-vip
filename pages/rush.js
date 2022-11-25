@@ -65,7 +65,10 @@ const Rush = () => {
 
 	return (
 		<>
-			<Meta title='RUSH | Kolex VIP' />
+			<Meta
+				title='RUSH | Kolex VIP'
+				description='Play RUSH on web, with optimized map bans and automated features'
+			/>
 			<div className='mt-5 flex'>
 				<div className='relative mb-10 px-2'>
 					<RushRostersDropdown
