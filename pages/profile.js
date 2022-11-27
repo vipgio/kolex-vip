@@ -153,4 +153,5 @@ const features = {
 	cardlister: { name: "Card Lister", link: "/cardlister" },
 	history: { name: "History", link: "/history" },
 	trades: { name: "Trades", link: "" },
+	feed: { name: "Custom Feed", link: "" },
 };
