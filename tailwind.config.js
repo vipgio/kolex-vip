@@ -45,5 +45,8 @@ module.exports = {
 			xs: "420px",
 			...defaultTheme.screens,
 		},
+		fontFamily: {
+			comic: ['"Comic Sans MS"', '"Comic Sans"', "cursive"],
+		},
 	},
 };

@@ -5,7 +5,7 @@ const CardHistory = React.memo(
 	({ item }) => {
 		return (
 			<>
-				<div className='m-5 flex basis-11/12 items-start border border-gray-700 p-2 dark:border-gray-300 lg:basis-[calc(50%_-_40px)]'>
+				<div className='m-5 flex basis-11/12 items-start rounded border border-gray-700 p-2 dark:border-gray-300 lg:basis-[calc(50%_-_40px)]'>
 					{item.images.size402 && (
 						<div className='mr-2 min-w-fit'>
 							<ImageWrapper

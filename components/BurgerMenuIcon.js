@@ -1,6 +1,6 @@
 const BurgerMenuIcon = ({ open }) => {
 	return (
-		<div className='absolute left-0 z-30 flex h-10 w-12 cursor-pointer items-center justify-center border-r-2'>
+		<div className='absolute left-0 z-30 flex h-10 w-12 cursor-pointer items-center justify-center border-r-2 group-focus-visible:border-transparent'>
 			<div className='relative h-7 w-7 border border-transparent lg:h-10 lg:w-10'>
 				<span
 					className={`navbar-icon-bar top-1 h-0.5 transform lg:top-1 lg:h-1 ${

@@ -34,7 +34,7 @@ const MintResultRow = ({ item, allowed }) => {
 					target='_blank'
 					href={`https://kolex.gg/csgo/users/${item.owner.username}`}
 					rel='noopener noreferrer'
-					className='underline hover:text-orange-500'
+					className='hover:text-orange-500 hover:underline hover:underline-offset-2'
 				>
 					{item.owner.username}
 				</a>

@@ -29,7 +29,7 @@ const NewNavbar = () => {
 				<Menu as='div' className='relative z-30 inline-block h-full w-12 text-left'>
 					{({ open }) => (
 						<>
-							<Menu.Button className='inline-flex h-12 w-full items-center justify-center px-4 py-2 text-sm font-medium text-gray-100 focus-visible:outline-2 focus-visible:outline-orange-500'>
+							<Menu.Button className='my-outline group inline-flex h-12 w-full items-center justify-center px-4 py-2 text-sm font-medium text-gray-100 focus-visible:ring-inset'>
 								<BurgerMenuIcon open={open} />
 							</Menu.Button>
 
@@ -91,7 +91,7 @@ const NewNavbar = () => {
 				<div className='ml-auto mt-1 mr-2'>
 					{user.info.allowed.includes("trades") ? (
 						<button
-							className='relative text-gray-700 dark:text-gray-300'
+							className='my-outline relative rounded text-gray-700 dark:text-gray-300'
 							// onClick={() => console.log(tradeList)}
 							onClick={() => setShowTradeModal(true)}
 						>
@@ -119,33 +119,37 @@ const NewNavbar = () => {
 						/>
 					)}
 				</div>
-				<div className='mx-2 h-5 w-5'>
+				<button className='mx-2 h-5 w-5' tabIndex={-1}>
 					<a
 						href='https://discordapp.com/users/473436055958192128'
 						target='_blank'
 						rel='noreferrer'
+						title='Contact me on Discord'
+						className='rounded-full focus:outline-purple-500 focus-visible:outline-offset-4 focus-visible:outline-orange-500'
+						// className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
 					>
 						<FaDiscord className='h-full w-full hover:text-gray-200' />
 					</a>
-				</div>
-				<div className='mr-2 h-8 w-8'>
+				</button>
+				<button
+					className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
+					onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+				>
 					<div className='relative h-10 w-10 rounded-full' title='Change theme'>
 						<FaSun
 							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
 								theme === "dark" ? "" : "animate-fadeOut opacity-0"
 							}`}
-							onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
 						/>
 						<FaMoon
 							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-700 transition-transform  ${
 								theme === "dark" ? "animate-fadeOut opacity-0" : ""
 							}`}
-							onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
 						/>
 					</div>
-				</div>
+				</button>
 				<Link href='/features'>
-					<a className='mr-2 rounded bg-gray-100 p-1.5 text-blue-500 transition-colors hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 active:bg-gray-300 dark:bg-blue-500 dark:text-gray-100 dark:hover:bg-blue-600 dark:active:bg-blue-700'>
+					<a className='my-outline mr-2 rounded bg-gray-100 p-1.5 text-blue-500 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1  active:bg-gray-300 dark:bg-blue-500 dark:text-gray-100 dark:hover:bg-blue-600 dark:active:bg-blue-700'>
 						Features
 					</a>
 				</Link>

@@ -31,6 +31,10 @@ body {
 	@apply pointer-events-none absolute bottom-1/2 z-50 h-fit w-48 translate-y-1/2 bg-orange-400 p-1 text-center text-sm text-white opacity-0 transition-opacity duration-300 after:absolute after:top-1/2 after:-mt-2.5 after:border-8 after:border-transparent after:content-["_"] group-hover:opacity-90;
 }
 
+.my-outline {
+	@apply focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500;
+}
+
 ::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;

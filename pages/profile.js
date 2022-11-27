@@ -1,15 +1,20 @@
 import { useContext } from "react";
 import Image from "next/future/image";
+import Link from "next/link";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
-import Link from "next/link";
+import ActivePacks from "@/components/ActivePacks";
 
 const Profile = () => {
 	const { user, setUser } = useContext(UserContext);
 	return (
 		<>
 			<Meta title='Profile | Kolex VIP' />
-			<div className='mx-2 mt-12 flex flex-col rounded-md border border-current py-2 text-gray-700 transition-colors dark:text-gray-300 sm:mx-0 sm:flex-row'>
+			<div
+				className={`mx-2 my-8 flex flex-col rounded-md border border-current py-2 text-gray-700 transition-colors dark:text-gray-300 sm:mx-0 sm:flex-row ${
+					user.user.username === "Fynngin" ? "font-comic" : ""
+				}`}
+			>
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border border-gray-700 dark:border-gray-300'>
 						<Image
@@ -46,7 +51,9 @@ const Profile = () => {
 									user.info.allowed.map((option, i) => [
 										i > 0 && ", ",
 										<Link href={features[option].link} key={option}>
-											<a className='hover:text-orange-500'>{features[option].name}</a>
+											<a className='my-outline rounded hover:text-orange-500'>
+												{features[option].name}
+											</a>
 										</Link>,
 									])
 								) : (
@@ -121,8 +128,8 @@ const Profile = () => {
 						</>
 					)}
 				</div>
-				<div
-					className='m-1 ml-auto mr-2 hidden h-fit cursor-pointer sm:block'
+				<button
+					className='my-outline m-1 ml-auto mr-2 hidden h-fit cursor-pointer rounded focus-visible:ring-offset-2 sm:block'
 					onClick={() => setUser(null)}
 					title='Logout'
 				>
@@ -132,12 +139,14 @@ const Profile = () => {
 							<path d='M11 2h2v10h-2z'></path>
 						</svg>
 					</div>
-				</div>
+				</button>
 			</div>
+			<ActivePacks user={user} />
 		</>
 	);
 };
 export default Profile;
+
 const features = {
 	packmanager: { name: "Pack Manager", link: "/packmanager" },
 	mintsearch: { name: "Mint Search", link: "/mintsearch" },

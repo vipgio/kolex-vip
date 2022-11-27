@@ -55,6 +55,29 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 		getRosters();
 	}, []);
 
+	const repeatGame = async (remaining, totalWinsNeeded, opponent, thisStage) => {
+		//play against opponent until [remaining] wins
+		if (remaining === 0) return;
+		const payload = {
+			rosterId: selectedRoster.id,
+			enemyRosterId: opponent.id,
+			bannedMapIds: opponent.mapBans,
+			id: thisCircuit.id,
+			stageId: thisStage.id,
+		};
+		const result = await limiter.schedule(
+			{ id: `${opponent.id} - ${counter.current}` },
+			() => playGame(payload)
+		);
+		if (result) {
+			++counter.current;
+			counter.current === totalWinsNeeded && setLoading(false); //if total won games = wins needed to clear the stage, loading => false
+			repeatGame(--remaining, totalWinsNeeded, opponent, thisStage);
+		} else {
+			repeatGame(remaining, totalWinsNeeded, opponent, thisStage); //if lost, play the same game
+		}
+	};
+
 	const playGame = async (payload) => {
 		const { result, error } = await postData("/api/rush/play-game", payload);
 		if (result) {
@@ -123,31 +146,40 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 			(acc, cur) => acc + cur.winsNeeded - cur.won,
 			0
 		);
+		if (totalWinsNeeded === 0) {
+			setLoading(false);
+			toast.info(`This stage is completed.`, { toastId: "done" });
+			return;
+		}
+
 		for await (const opponent of remainingRosters) {
 			let winsLeft = opponent.winsNeeded - opponent.won;
-			const repeatGame = async (remaining) => {
-				if (remaining === 0) return;
-				const payload = {
-					rosterId: selectedRoster.id,
-					enemyRosterId: opponent.id,
-					bannedMapIds: opponent.mapBans,
-					id: thisCircuit.id,
-					stageId: thisStage.id,
-				};
-				const result = await limiter.schedule(
-					{ id: `${opponent.id} - ${counter.current}` },
-					() => playGame(payload)
-				);
-				if (result) {
-					++counter.current;
-					counter.current === totalWinsNeeded && setLoading(false); //if total won games = wins needed to clear the stage, loading => false
-					repeatGame(--winsLeft);
-				} else {
-					repeatGame(winsLeft); //if lost, play the same game
-				}
-			};
-			repeatGame(winsLeft);
+			repeatGame(winsLeft, totalWinsNeeded, opponent, thisStage);
 		}
+	};
+
+	const win20 = async () => {
+		setLoading(true);
+		const thisStage = thisCircuit.stages.find((infoStage) => infoStage.id === stage.id);
+		const remainingRosters = thisStage.rosters
+			.map((roster) => {
+				const winsNeeded =
+					thisStage.rosterProgress.find(
+						(rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id
+					)?.wins || 0;
+				const rosterInfo = rosters.find((rstr) => rstr.id === roster.ut_pve_roster_id);
+				return {
+					won: winsNeeded,
+					id: roster.ut_pve_roster_id,
+					winsNeeded: roster.wins,
+					mapBans: getBestMaps(rosterInfo.stats.maps, selectedRoster.stats.maps),
+					rating: rosterInfo.rating,
+				};
+			})
+			.sort((a, b) => a.rating - b.rating);
+
+		let winsLeft = 20;
+		repeatGame(winsLeft, 20, remainingRosters[0], thisStage);
 	};
 
 	return (
@@ -180,6 +212,19 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 				</div>
 
 				<div className='flex border-t border-gray-600 py-2 dark:border-gray-400'>
+					<div className='ml-2 inline-flex items-center'>
+						<button className='button' onClick={win20} disabled={loading || !isUserVIP}>
+							Win 20 games
+						</button>
+						<Tooltip
+							direction='right'
+							text={
+								!isUserVIP
+									? "You need to have any VIP feature to unlock this"
+									: "You are a lovely VIP user, so this feature is added automatically"
+							}
+						/>
+					</div>
 					<div className='ml-auto mr-2 inline-flex items-center'>
 						<Tooltip
 							direction='left'

@@ -142,7 +142,7 @@ const Prices = () => {
 							)}
 							<h2 className='text-center text-lg font-semibold text-orange-400 hover:underline'>
 								<Link href={feature.link}>
-									<a>{feature.name}</a>
+									<a title={feature.name}>{feature.name}</a>
 								</Link>
 							</h2>
 						</div>

@@ -59,7 +59,7 @@ const BigModal = ({
 					/>
 				)}
 				<div
-					className={`absolute inset-0 z-20 mx-8 flex flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-16 ${
+					className={`absolute inset-0 z-20 mx-8 flex max-h-[85%] flex-col overflow-hidden overscroll-none rounded-md bg-gray-200 dark:bg-gray-900 sm:mx-16 ${
 						extraStyle ? extraStyle : "my-8"
 					}`}
 				>

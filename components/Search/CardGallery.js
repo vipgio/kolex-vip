@@ -1,12 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Fragment } from "react";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
-import { CDN } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
 import fixDecimal from "utils/NumberUtils";
+import CardGalleryItem from "./CardGalleryItem";
 
 const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned }) => {
 	const [selectedCards, setSelectedCards] = useState([]);
@@ -379,43 +378,14 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 					.filter((item) =>
 						needOnly ? !owned.some((owned) => owned.templateId === item.id) : true
 					)
-					.map((card) => (
-						<div
-							key={card.uuid}
-							className={`flex cursor-pointer flex-col items-center rounded border border-gray-500 transition-transform hover:scale-105`}
-							onClick={() => {
-								selectedCards.some((e) => e.id === card.id)
-									? setSelectedCards((prev) => prev.filter((item) => item.id !== card.id))
-									: setSelectedCards((prev) => [
-											...prev,
-											{
-												id: card.id,
-												title: card.title,
-												type: card.cardType ? "card" : "sticker",
-											},
-									  ]);
-							}}
-						>
-							<div className='relative aspect-auto w-28 overflow-hidden rounded-md p-0.5 sm:w-36'>
-								<ImageWrapper
-									src={card.images?.size402 || `${CDN}${card.images[0].url}`}
-									width={200 * 1.5}
-									height={300 * 1.5}
-									alt={card.title}
-									className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
-										selectedCards.some((e) => e.id === card.id)
-											? "border-orange-500 grayscale-0"
-											: "border-transparent"
-									}`}
-								/>
-								{!selectedCards.some((e) => e.id === card.id) && (
-									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
-								)}
-							</div>
-							<div className='text-center text-sm text-gray-700 dark:text-gray-300'>
-								{card.title}
-							</div>
-						</div>
+					.map((item) => (
+						<Fragment key={item.uuid}>
+							<CardGalleryItem
+								item={item}
+								selectedCards={selectedCards}
+								setSelectedCards={setSelectedCards}
+							/>
+						</Fragment>
 					))}
 			</div>
 			{showMarketResults && (

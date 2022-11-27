@@ -78,7 +78,7 @@ const HistoryModal = React.memo(
 										</Dialog.Title>
 										{history.history ? (
 											<>
-												<div className='mt-2 border border-gray-400 p-1'>
+												<div className='mt-2 rounded border border-gray-400 p-1'>
 													<div className='relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain text-gray-700 dark:text-gray-300'>
 														{history.history
 															.slice()
