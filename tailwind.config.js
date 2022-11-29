@@ -49,4 +49,5 @@ module.exports = {
 			comic: ['"Comic Sans MS"', '"Comic Sans"', "cursive"],
 		},
 	},
+	plugins: [require("@headlessui/tailwindcss")],
 };

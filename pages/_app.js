@@ -20,6 +20,7 @@ const App = ({ Component, pageProps }) => {
 		"/spinner",
 		"/trades",
 		"/rush",
+		"/transfer",
 	];
 	const premiumRoutes = [
 		"/packmanager",
@@ -27,6 +28,7 @@ const App = ({ Component, pageProps }) => {
 		"/mintsearch",
 		"/cardlister",
 		"/trades",
+		// "/accounttransfer",
 	];
 	return (
 		<UserContextProvider>

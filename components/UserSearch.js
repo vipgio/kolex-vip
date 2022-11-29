@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/future/image";
-import axios from "axios";
 import debounce from "lodash/debounce";
 import { CDN } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
+
 const UserSearch = ({ setSelectedUser, selectedUser }) => {
 	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);

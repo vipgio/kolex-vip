@@ -75,7 +75,7 @@ const options = [
 	},
 	{
 		name: "Mint Search",
-		price: 3,
+		price: 4,
 		id: 5,
 		description:
 			"Scans accounts and marketplace to find the cards selected by you with specified mints and price.",

@@ -9,11 +9,12 @@ const ActivePacks = ({ user }) => {
 	const { fetchData } = useAxios();
 	const [activePacks, setActivePacks] = useState([]);
 	const [loading, setLoading] = useState(false);
+	let isApiSubscribed = true;
 
 	const getStorePacks = async (page) => {
 		const now = new Date();
 		const { result } = await fetchData(`/api/packs?page=${page}`);
-		if (result.length > 0) {
+		if (result.length > 0 && isApiSubscribed) {
 			const active = result.filter((pack) => new Date(pack.purchaseEnd) - now > 0);
 			setActivePacks((prev) => [...prev, ...active]);
 			getStorePacks(++page);
@@ -30,6 +31,7 @@ const ActivePacks = ({ user }) => {
 
 	useEffect(() => {
 		getAllStorePacks();
+		return () => (isApiSubscribed = false);
 	}, []);
 
 	return (
