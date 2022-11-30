@@ -123,13 +123,20 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 				);
 				if (data.success) {
 					counter++;
-					counter === 1
-						? toast.success(`Listed ${counter}x item on the market for $${price}!`, {
-								toastId: "success",
+					toast.isActive("success")
+						? toast.update("success", {
+								render: `Listed ${counter}x ${
+									counter === 1 ? "item" : "items"
+								} on the market for $${price}!`,
 						  })
-						: toast.update("success", {
-								render: `Listed ${counter}x items on the market for $${price}!`,
-						  });
+						: toast.success(
+								`Listed ${counter}x ${
+									counter === 1 ? "item" : "items"
+								} on the market for $${price}!`,
+								{
+									toastId: "success",
+								}
+						  );
 				}
 			} catch (err) {
 				console.log(err);

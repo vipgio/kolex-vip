@@ -28,7 +28,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	const list = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		const counter = 0;
+		let counter = 0;
 		for (const packId of selected) {
 			try {
 				const payload = {
@@ -44,20 +44,23 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					},
 				};
 				const { data } = await axios.post(`/api/market/list/${packId}`, payload, headers);
-				// setLoading(false);
 				if (data.success) {
 					updateLocal();
 					counter++;
-					counter === 1
-						? toast.success(
-								`Listed ${counter}x ${packTemplate.name} pack on the market for $${price}!`,
+					toast.isActive("success")
+						? toast.update("success", {
+								render: `Listed ${counter}x ${packTemplate.name} ${
+									counter === 1 ? "pack" : "packs"
+								} on the market for $${price}!`,
+						  })
+						: toast.success(
+								`Listed ${counter}x ${packTemplate.name} ${
+									counter === 1 ? "pack" : "packs"
+								} on the market for $${price}!`,
 								{
 									toastId: "success",
 								}
-						  )
-						: toast.update("success", {
-								render: `Listed ${counter}x ${packTemplate.name} packs on the market for $${price}!`,
-						  });
+						  );
 				}
 			} catch (err) {
 				toast.error(err.response.data.error, {

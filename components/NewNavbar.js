@@ -2,9 +2,18 @@ import { useContext, forwardRef, useState } from "react";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
-import { FaHistory, FaSearch, FaLock, FaMoon, FaSun, FaDiscord } from "react-icons/fa";
+import {
+	FaHistory,
+	FaSearch,
+	FaLock,
+	FaMoon,
+	FaSun,
+	FaDiscord,
+	FaPeopleArrows,
+} from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
 import { BsArrowLeftRight } from "react-icons/bs";
+import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
 import { UserContext } from "context/UserContext";
 import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
@@ -272,4 +281,10 @@ const pages = [
 		),
 		paid: true,
 	},
+	// {
+	// 	link: "transfer",
+	// 	title: "Account Transfer",
+	// 	icon: <FaPeopleArrows size={16} />,
+	// 	paid: true,
+	// },
 ];

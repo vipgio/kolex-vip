@@ -13,13 +13,17 @@ const ActivePacks = ({ user }) => {
 
 	const getStorePacks = async (page) => {
 		const now = new Date();
-		const { result } = await fetchData(`/api/packs?page=${page}`);
-		if (result.length > 0 && isApiSubscribed) {
-			const active = result.filter((pack) => new Date(pack.purchaseEnd) - now > 0);
-			setActivePacks((prev) => [...prev, ...active]);
-			getStorePacks(++page);
-		} else {
-			setLoading(false);
+		try {
+			const { result } = await fetchData(`/api/packs?page=${page}`);
+			if (result.length > 0 && isApiSubscribed) {
+				const active = result.filter((pack) => new Date(pack.purchaseEnd) - now > 0);
+				setActivePacks((prev) => [...prev, ...active]);
+				getStorePacks(++page);
+			} else {
+				setLoading(false);
+			}
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
@@ -67,7 +71,7 @@ const ActivePacks = ({ user }) => {
 					</button>
 				</div>
 			</div>
-			<div className='h-fit rounded border p-1'>
+			<div className='h-fit rounded border border-gray-700 p-1 dark:border-gray-300'>
 				{loading ? (
 					<div className='flex justify-center'>
 						<LoadingSpin />

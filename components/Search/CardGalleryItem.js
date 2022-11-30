@@ -1,3 +1,4 @@
+import { CDN } from "@/config/config";
 import ImageWrapper from "HOC/ImageWrapper";
 
 const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {

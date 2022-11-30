@@ -1,26 +1,50 @@
-import { useState, useContext } from "react";
-import { useAxios } from "hooks/useAxios";
+import { useState, useContext, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 import { UserContext } from "context/UserContext";
 import Meta from "@/components/Meta";
 import UserSearch from "@/components/UserSearch";
 import Toggle from "@/components/transfer/Toggle";
-import ReceiveModal from "@/components/transfer/ReceiveModal";
-// import Toggle from "@/components/trade/Toggle";
+import ReceiveSection from "@/components/transfer/ReceiveSection";
+import SendSection from "@/components/transfer/SendSection";
+import "react-toastify/dist/ReactToastify.css";
 
 const AccountTransfer = () => {
 	const { user } = useContext(UserContext);
-	const { fetchData } = useAxios();
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [send, setSend] = useState(true);
-	const [inProgress, setInProgress] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [showReceiveSection, setShowReceiveSection] = useState(false);
+	const [showSendSection, setShowSendSection] = useState(false);
 
-	const getAllTrades = async () => {
-		// const { result, error } = fetchData('/api/trades')
+	const handleStart = () => {
+		if (send) {
+			setShowSendSection(true);
+			setShowReceiveSection(false);
+		} else {
+			setShowSendSection(false);
+			setShowReceiveSection(true);
+		}
 	};
+
+	useEffect(() => {
+		setShowReceiveSection(false);
+		setShowSendSection(false);
+	}, [selectedUser?.id]);
 
 	return (
 		<>
 			<Meta title='Account Transfer | Kolex VIP' />
+			<ToastContainer
+				position='top-right'
+				autoClose={3500}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
 			<div className='mx-2'>
 				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='overflow-hidden'>
@@ -39,32 +63,39 @@ const AccountTransfer = () => {
 						<UserSearch setSelectedUser={setSelectedUser} selectedUser={selectedUser} />
 					</div>
 				</div>
-				{/* <Toggle action={type} setAction={setType} /> */}
 				{selectedUser && (
 					<Toggle
 						user={user}
 						selectedUser={selectedUser}
-						inProgress={inProgress}
+						inProgress={loading}
 						send={send}
 						setSend={setSend}
 					/>
 				)}
 				<div className='mt-3 flex'>
+					{" "}
+					{/* accept received trades*/}
 					<button
 						className='button ml-auto'
-						disabled={!selectedUser || inProgress}
-						onClick={() => {
-							!send && setInProgress(true);
-						}}
+						disabled={!selectedUser || loading || selectedUser.id === user.user.id}
+						onClick={handleStart}
 					>
 						Start
 					</button>
 				</div>
-				{inProgress && (
-					<ReceiveModal
-						isOpen={inProgress && !send}
-						setIsOpen={setInProgress}
+				{showReceiveSection && (
+					<ReceiveSection
 						selectedUser={selectedUser}
+						loading={loading}
+						setLoading={setLoading}
+					/>
+				)}
+				{showSendSection && (
+					<SendSection
+						selectedUser={selectedUser}
+						user={user}
+						loading={loading}
+						setLoading={setLoading}
 					/>
 				)}
 			</div>

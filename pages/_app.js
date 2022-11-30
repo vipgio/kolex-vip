@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import "../globals.css";
 import UserContextProvider from "context/UserContext";
 import ThemeContextProvider from "context/ThemeContext";
@@ -31,19 +32,22 @@ const App = ({ Component, pageProps }) => {
 		// "/accounttransfer",
 	];
 	return (
-		<UserContextProvider>
-			<ThemeContextProvider>
-				<RushContextProvider>
-					<Layout>
-						<PrivateRoute protectedRoutes={protectedRoutes}>
-							<PremiumRoutes premiumRoutes={premiumRoutes}>
-								<Component {...pageProps} />
-							</PremiumRoutes>
-						</PrivateRoute>
-					</Layout>
-				</RushContextProvider>
-			</ThemeContextProvider>
-		</UserContextProvider>
+		<>
+			<UserContextProvider>
+				<ThemeContextProvider>
+					<RushContextProvider>
+						<Layout>
+							<PrivateRoute protectedRoutes={protectedRoutes}>
+								<PremiumRoutes premiumRoutes={premiumRoutes}>
+									<Component {...pageProps} />
+								</PremiumRoutes>
+							</PrivateRoute>
+						</Layout>
+					</RushContextProvider>
+				</ThemeContextProvider>
+			</UserContextProvider>
+			<Analytics />
+		</>
 	);
 };
 

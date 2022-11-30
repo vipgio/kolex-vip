@@ -92,16 +92,16 @@ const AdvancedModal = ({
 					if (data.success) {
 						const title = templates.find((o) => o.id === Number(template[0])).title;
 						counter++;
-						counter === 1
-							? toast.success(
+						toast.isActive(template[0])
+							? toast.update(template[0], {
+									render: `Listed ${counter}x ${title} on the market for $${template[1][0].price}!`,
+							  })
+							: toast.success(
 									`Listed ${counter}x ${title} on the market for $${template[1][0].price}!`,
 									{
 										toastId: template[0],
 									}
-							  )
-							: toast.update(template[0], {
-									render: `Listed ${counter}x ${title} on the market for $${template[1][0].price}!`,
-							  });
+							  );
 					}
 				} catch (err) {
 					console.log(err);
