@@ -7,10 +7,12 @@ import Toggle from "@/components/transfer/Toggle";
 import ReceiveSection from "@/components/transfer/ReceiveSection";
 import SendSection from "@/components/transfer/SendSection";
 import "react-toastify/dist/ReactToastify.css";
+import ModeSelection from "@/components/transfer/ModeSelection";
 
 const AccountTransfer = () => {
 	const { user } = useContext(UserContext);
 	const [selectedUser, setSelectedUser] = useState(null);
+	const [transferMode, setTransferMode] = useState(null);
 	const [send, setSend] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const [showReceiveSection, setShowReceiveSection] = useState(false);
@@ -50,15 +52,6 @@ const AccountTransfer = () => {
 					<div className='overflow-hidden'>
 						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
 							<span>Selected User: {selectedUser?.username}</span>
-							{selectedUser && (
-								<span
-									className='ml-1 cursor-pointer text-red-500'
-									title='Clear selection'
-									onClick={() => setSelectedUser(null)}
-								>
-									x
-								</span>
-							)}
 						</div>
 						<UserSearch setSelectedUser={setSelectedUser} selectedUser={selectedUser} />
 					</div>
@@ -80,7 +73,7 @@ const AccountTransfer = () => {
 						disabled={!selectedUser || loading || selectedUser.id === user.user.id}
 						onClick={handleStart}
 					>
-						Start
+						Next
 					</button>
 				</div>
 				{showReceiveSection && (
@@ -91,28 +84,22 @@ const AccountTransfer = () => {
 					/>
 				)}
 				{showSendSection && (
-					<SendSection
-						selectedUser={selectedUser}
-						user={user}
-						loading={loading}
-						setLoading={setLoading}
-					/>
+					<div className='relative my-3 flex flex-col rounded-md border border-gray-700 dark:border-gray-300 xs:flex-row'>
+						<ModeSelection
+							transferMode={transferMode}
+							setTransferMode={setTransferMode}
+						/>
+						<SendSection
+							transferMode={transferMode}
+							selectedUser={selectedUser}
+							user={user}
+							loading={loading}
+							setLoading={setLoading}
+						/>
+					</div>
 				)}
 			</div>
 		</>
 	);
 };
 export default AccountTransfer;
-
-/*
-Step 1: select target user, select transfer type (send, accept)
-
-Send: load all collections, scan and add to a list. send trades for 50 chunks
-
-
-Accept: load all trades where user2=target, accept all
-
-
-
-
-*/

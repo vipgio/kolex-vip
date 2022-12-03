@@ -51,7 +51,7 @@ const UserSearch = ({ setSelectedUser, selectedUser }) => {
 			</form>
 			{searchQuery.length > 1 && (
 				<div className='flex overflow-auto'>
-					{results.slice(0, 15).map((result) => (
+					{results?.slice(0, 15).map((result) => (
 						<button
 							className={`${
 								result.id === selectedUser?.id ? "bg-gray-500" : "hover:bg-gray-600"

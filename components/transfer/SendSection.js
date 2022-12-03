@@ -3,11 +3,12 @@ import { toast } from "react-toastify";
 import chunk from "lodash/chunk";
 import { useAxios } from "hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
+import "react-toastify/dist/ReactToastify.css";
 
-const SendSection = ({ selectedUser, user, loading, setLoading }) => {
-	const { fetchData } = useAxios();
+const SendSection = ({ transferMode, selectedUser, user, loading, setLoading }) => {
+	const { fetchData, postData } = useAxios();
 	const [collections, setCollections] = useState([]);
-	const [progress, setProgress] = useState(0);
+	const [progress, setProgress] = useState({ collections: 0, sent: 0 });
 	const [items, setItems] = useState([]);
 	const counter = useRef(0);
 	let isApiSubscribed = true;
@@ -16,11 +17,17 @@ const SendSection = ({ selectedUser, user, loading, setLoading }) => {
 		setLoading(true);
 		const itemsChunked = chunk(items, 50);
 		for (const entities of itemsChunked) {
+			console.log({
+				userId: selectedUser.id,
+				entities: entities,
+			});
 			const { result, error } = await postData("/api/trade/create-offer", {
 				userId: selectedUser.id,
 				entities: entities,
 			});
 			if (result) {
+				setProgress((prev) => ({ ...prev, trades: prev.trades + 1 }));
+				console.log(result);
 				counter.current++;
 				toast.isActive("success")
 					? toast.update("success", {
@@ -38,25 +45,45 @@ const SendSection = ({ selectedUser, user, loading, setLoading }) => {
 					  );
 			} else {
 				console.log(error);
-				toast.error(error.response.data.error, {
-					toastId: error.response.data.errorCode,
-				});
+				toast.error(error.response.data.error);
 			}
 		}
 		setLoading(false);
 	};
 
 	const scanSet = async (id) => {
-		const { result, error } = await fetchData("/api/users/scan", {
-			userId: user.user.id,
-			collectionId: id,
-		});
+		const { result, error } =
+			transferMode.id === "cardid"
+				? await fetchData(`/api/collections/users/${user.user.id}/cardids`, {
+						userId: user.user.id,
+						collectionId: id,
+				  })
+				: await fetchData("/api/users/scan", {
+						//transferMode.id === 'scan'
+						userId: user.user.id,
+						collectionId: id,
+				  });
 		if (result) {
-			setProgress((prev) => prev + 1);
-			const items = [...result.cards, ...result.stickers].map((item) => ({
-				id: item.id,
-				type: item.type,
-			}));
+			setProgress((prev) => ({ ...prev, collections: prev.collections + 1 }));
+			const items =
+				transferMode.id === "cardid"
+					? result
+							.map((res) => {
+								const type = res.cardTemplateId ? "card" : "sticker";
+								const ids = type === "card" ? res.cardIds : res.stickerIds;
+								const objects = ids.map((item) => ({
+									id: item,
+									type: type,
+								}));
+								return objects;
+							})
+							.flat()
+					: [...result.cards, ...result.stickers]
+							.filter((item) => item.status === "available")
+							.map((item) => ({
+								id: item.id,
+								type: item.stickerTemplateId ? "sticker" : "card",
+							}));
 			setItems((prev) => [...prev, ...items]);
 		}
 		if (error) {
@@ -69,7 +96,7 @@ const SendSection = ({ selectedUser, user, loading, setLoading }) => {
 
 	const scanAllSets = async (collections) => {
 		for await (const collection of collections) {
-			if (collection.id > 10000 && isApiSubscribed) {
+			if (isApiSubscribed) {
 				await scanSet(collection.id);
 			}
 		}
@@ -80,7 +107,8 @@ const SendSection = ({ selectedUser, user, loading, setLoading }) => {
 		setLoading(true);
 		setCollections([]);
 		setItems([]);
-		setProgress(0);
+		counter.current = 0;
+		setProgress({ collections: 0, trades: 0 });
 		try {
 			const { result, error } = await fetchData(
 				`/api/collections/users/${user.user.id}/user-summary`
@@ -106,47 +134,50 @@ const SendSection = ({ selectedUser, user, loading, setLoading }) => {
 	}, []);
 
 	return (
-		<>
-			<div className='mt-10 rounded-md border border-gray-700 dark:border-gray-300'>
-				<h1 className='p-1 text-lg font-semibold text-gray-700 dark:text-gray-300'>
-					{loading
-						? `Preparing trades to send to ${selectedUser.username}.\nThis might take several minutes depending on your network status. You can stop this process and send the currently prepared trades (e.g., if you want to do this in batches or any other reason)`
-						: `Trades to ${selectedUser.username}`}
-				</h1>
-				<div className='p-1.5'>
-					{loading && <LoadingSpin />}
-					<div className='mt-2 text-gray-700 dark:text-gray-300'>
-						{progress} / {collections.length} Collections scanned
+		<div className='flex w-full flex-col p-3 pt-2'>
+			<h1 className='text-xl font-semibold text-gray-700 dark:text-gray-300'>
+				{loading
+					? `Preparing trades to send to ${selectedUser.username}.\nThis might take several minutes depending on your network status.`
+					: `Trades to ${selectedUser.username}`}
+			</h1>
+			<div className='flex h-full flex-col'>
+				{loading && (
+					<div className='mt-2'>
+						<LoadingSpin />
 					</div>
+				)}
+				<div className='mt-2 text-gray-700 dark:text-gray-300'>
+					{progress.collections} / {collections.length} Collections scanned
+				</div>
+				<div className='text-gray-700 dark:text-gray-300'>{items.length} Items found</div>
+				<div className='text-gray-700 dark:text-gray-300'>
+					{Math.ceil(items.length / 50)} {items.length > 50 ? "Trades" : "Trade"} prepared
+				</div>
+				{progress.trades > 0 && (
 					<div className='text-gray-700 dark:text-gray-300'>
-						{items.length} Items found
+						{progress.trades} / {Math.ceil(items.length / 50)}{" "}
+						{items.length > 50 ? "Trades" : "Trade"} sent
 					</div>
-					<div className='text-gray-700 dark:text-gray-300'>
-						{Math.ceil(items.length / 50)} {items.length > 50 ? "Trades" : "Trade"}{" "}
-						prepared
-					</div>
-					<div className='mt-4 flex'>
-						<button
-							type='button'
-							className='button ml-auto'
-							onClick={getCollections}
-							disabled={loading}
-						>
-							Send All
-						</button>
-						<button className='button' onClick={() => console.log(collections)}>
-							Collections
-						</button>
-						<button className='button' onClick={() => console.log(items)}>
-							Items
-						</button>
-						<button className='button' onClick={sendTrades}>
-							TRADES
-						</button>
-					</div>
+				)}
+				<div className='mt-2 flex xs:mt-auto'>
+					<button
+						type='button'
+						className='button'
+						onClick={getCollections}
+						disabled={loading || !transferMode}
+					>
+						Prepare trades
+					</button>
+					<button
+						className='button ml-auto'
+						onClick={sendTrades}
+						disabled={loading || !transferMode || items.length === 0}
+					>
+						Send trades
+					</button>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 export default SendSection;

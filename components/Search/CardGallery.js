@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect, Fragment } from "react";
 import axios from "axios";
 import sortBy from "lodash/sortBy";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
+import fixDecimal from "utils/NumberUtils";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
-import fixDecimal from "utils/NumberUtils";
 import CardGalleryItem from "./CardGalleryItem";
 
 const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned }) => {

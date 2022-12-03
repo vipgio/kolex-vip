@@ -58,7 +58,7 @@ body {
 }
 
 .Toastify__toast-container--top-right {
-	position: absolute !important;
+	position: fixed !important;
 	z-index: 9999;
 }
 

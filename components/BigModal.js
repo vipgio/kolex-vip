@@ -14,6 +14,7 @@ const BigModal = ({
 	closeOnClick,
 	extraStyle,
 	hasToast,
+	toastLimit,
 }) => {
 	const [leave, setLeave] = useState(showModal);
 
@@ -56,6 +57,7 @@ const BigModal = ({
 						pauseOnFocusLoss
 						draggable
 						pauseOnHover
+						limit={toastLimit}
 					/>
 				)}
 				<div

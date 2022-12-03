@@ -192,6 +192,7 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 				extraStyle='h-fit my-auto'
 				hasToast={true}
 				closeOnClick={true}
+				toastLimit={3}
 			>
 				<div className='my-2 mx-1 grid max-h-full grid-cols-1 overflow-auto lg:grid-cols-2'>
 					{rosters.length > 0 &&
