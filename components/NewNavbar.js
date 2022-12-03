@@ -281,10 +281,10 @@ const pages = [
 		),
 		paid: true,
 	},
-	{
-		link: "transfer",
-		title: "Account Transfer",
-		icon: <FaPeopleArrows size={16} />,
-		paid: true,
-	},
+	// {
+	// 	link: "transfer",
+	// 	title: "Account Transfer",
+	// 	icon: <FaPeopleArrows size={16} />,
+	// 	paid: true,
+	// },
 ];
