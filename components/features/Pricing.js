@@ -1,6 +1,7 @@
 const bundles = [
 	{
 		features: ["Custom Feed", "Mint Search"],
+		id: 1,
 		oldPrice: 7,
 		price: 6,
 		oldPrice2: 13,
@@ -8,6 +9,7 @@ const bundles = [
 	},
 	{
 		features: ["Mint Search", "History Check"],
+		id: 2,
 		oldPrice: 6,
 		price: 5,
 		oldPrice2: 10,
@@ -15,6 +17,7 @@ const bundles = [
 	},
 	{
 		features: ["Full Access"],
+		id: 3,
 		oldPrice: 16,
 		price: 14,
 		oldPrice2: 28,
@@ -40,7 +43,10 @@ const Pricing = ({ features }) => {
 						{features
 							.filter((feature) => feature.price && !feature.perUse)
 							.map((feature) => (
-								<tr className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
+								<tr
+									className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
+									key={feature.id}
+								>
 									<td className='w-1/3 py-1 px-2 sm:py-3 sm:px-6'>{feature.name}</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>${feature.price}</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>${feature.price2}</td>
@@ -62,7 +68,10 @@ const Pricing = ({ features }) => {
 					</thead>
 					<tbody className='text-center'>
 						{bundles.map((bundle) => (
-							<tr className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
+							<tr
+								className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
+								key={bundle.id}
+							>
 								<td className='w-1/3 py-1 px-2 sm:py-3 sm:px-6'>
 									{bundle.features.toString().replaceAll(",", " + ")}
 								</td>
@@ -97,7 +106,10 @@ const Pricing = ({ features }) => {
 						{features
 							.filter((feature) => feature.perUse)
 							.map((feature) => (
-								<tr className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
+								<tr
+									className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
+									key={feature.id}
+								>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>{feature.name}</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>${feature.price}</td>
 								</tr>
