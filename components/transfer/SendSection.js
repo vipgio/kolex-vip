@@ -1,20 +1,27 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { createClient } from "@supabase/supabase-js";
 import { toast } from "react-toastify";
 import chunk from "lodash/chunk";
 import { useAxios } from "hooks/useAxios";
+import { UserContext } from "context/UserContext";
 import LoadingSpin from "../LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 
-const SendSection = ({ transferMode, selectedUser, user, loading, setLoading }) => {
+const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 	const { fetchData, postData } = useAxios();
+	const { user, setUser } = useContext(UserContext);
 	const [collections, setCollections] = useState([]);
 	const [progress, setProgress] = useState({ collections: 0, sent: 0 });
 	const [items, setItems] = useState([]);
 	const counter = useRef(0);
+	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+	const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+	const supabase = createClient(supabaseUrl, supabaseKey);
 	let isApiSubscribed = true;
 
 	const sendTrades = async () => {
 		setLoading(true);
+		await handleUse();
 		const itemsChunked = chunk(items, 50);
 		for (const entities of itemsChunked) {
 			console.log({
@@ -132,6 +139,23 @@ const SendSection = ({ transferMode, selectedUser, user, loading, setLoading }) 
 	useEffect(() => {
 		return () => (isApiSubscribed = false);
 	}, []);
+
+	const handleUse = async () => {
+		//update the transfers counter in user context and supabase table
+		setUser((prev) => ({
+			...prev,
+			info: { ...prev.info, transfers: prev.info.transfers - 1 },
+		}));
+		await supabase
+			.from("whitelist")
+			.update({
+				info: {
+					allowed: user.info.allowed,
+					transfers: user.info.transfers - 1,
+				},
+			})
+			.eq("username", user.user.username);
+	};
 
 	return (
 		<div className='flex w-full flex-col p-3 pt-2'>

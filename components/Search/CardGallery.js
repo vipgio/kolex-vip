@@ -284,7 +284,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 				]);
 				if (
 					data.data.count === 40 &&
-					Number(data.data.market[0][39].price) < filter.price &&
+					Number(data.data.market[0][39].price) <= filter.price &&
 					!finished.current
 				) {
 					getAllListings(item, ++page);
@@ -393,7 +393,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 					showModal={showMarketResults}
 					setShowModal={setShowMarketResults}
 					results={results}
-					loading={loading}
+					loading={loading || !finished}
 					finished={finished}
 					filter={filter}
 					selectedCollection={selectedCollection}

@@ -47,13 +47,29 @@ const AccountTransfer = () => {
 				draggable
 				pauseOnHover
 			/>
+			<div className='mt-10 p-2 text-2xl font-semibold text-gray-700 dark:text-gray-300'>
+				<span>
+					Transfers left:
+					<span
+						className={`${
+							user.info.transfers > 0 ? "text-green-500" : "text-red-500"
+						} ml-1`}
+					>
+						{user.info.transfers}
+					</span>
+				</span>
+			</div>
 			<div className='mx-2'>
-				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
+				<div className='relative mt-2 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='overflow-hidden'>
 						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
 							<span>Selected User: {selectedUser?.username}</span>
 						</div>
-						<UserSearch setSelectedUser={setSelectedUser} selectedUser={selectedUser} />
+						<UserSearch
+							setSelectedUser={setSelectedUser}
+							selectedUser={selectedUser}
+							allowed={user.info.transfers > 0}
+						/>
 					</div>
 				</div>
 				{selectedUser && (

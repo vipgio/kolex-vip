@@ -36,7 +36,7 @@ const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 								onMenuChange={() => setFilter("")}
 								setDownOverflow
 								overflow='auto'
-								position='anchor'
+								position='auto'
 							>
 								<MenuGroup takeOverflow>
 									{seasonCollections.map(([tier, tierCollections], idx) => (

@@ -98,7 +98,7 @@ const NewNavbar = () => {
 					)}
 				</Menu>
 				<div className='ml-auto mt-1 mr-2'>
-					{user.info.allowed.includes("trades") ? (
+					{user.info.allowed.includes("trades") && (
 						<button
 							className='my-outline relative rounded text-gray-700 dark:text-gray-300'
 							// onClick={() => console.log(tradeList)}
@@ -121,11 +121,6 @@ const NewNavbar = () => {
 								</div>
 							)}
 						</button>
-					) : (
-						<FaLock
-							className='cursor-not-allowed text-gray-700 dark:text-gray-300'
-							title='You need the "trades" access for this feature'
-						/>
 					)}
 				</div>
 				<button className='mx-2 h-5 w-5' tabIndex={-1}>
@@ -252,7 +247,6 @@ const pages = [
 			</svg>
 		),
 		paid: false,
-		new: true,
 	},
 	{
 		link: "packmanager",
@@ -281,10 +275,10 @@ const pages = [
 		),
 		paid: true,
 	},
-	// {
-	// 	link: "transfer",
-	// 	title: "Account Transfer",
-	// 	icon: <FaPeopleArrows size={16} />,
-	// 	paid: true,
-	// },
+	{
+		link: "transfer",
+		title: "Account Transfer",
+		icon: <FaPeopleArrows size={16} />,
+		paid: true,
+	},
 ];

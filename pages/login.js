@@ -40,6 +40,7 @@ const Login = () => {
 								return {
 									...data.data,
 									info: {
+										transfers: whitelist.data.info.transfers || 0,
 										allowed: expired ? [] : whitelist.data.info.allowed || [],
 										...(!expired && {
 											ends: Math.floor((ends - now) / (1000 * 3600 * 24)),

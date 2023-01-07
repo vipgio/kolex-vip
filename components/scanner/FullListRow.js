@@ -86,7 +86,7 @@ const FullListRow = React.memo(({ item, owner, isSelfScan, ownedItems }) => {
 			</td>
 			<td>
 				<span className='inline-flex justify-center'>
-					{user.info.allowed.includes("trades") ? (
+					{user.info.allowed.includes("trades") && (
 						<input
 							type='checkbox'
 							name='trade'
@@ -112,11 +112,6 @@ const FullListRow = React.memo(({ item, owner, isSelfScan, ownedItems }) => {
 									: "Add to trade list"
 							}
 							className='cursor-pointer disabled:cursor-not-allowed'
-						/>
-					) : (
-						<FaLock
-							className='cursor-not-allowed'
-							title='You need the "trades" access for this feature'
 						/>
 					)}
 				</span>

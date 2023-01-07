@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createClient } from "@supabase/supabase-js";
 import { toast } from "react-toastify";
 import { useAxios } from "hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
@@ -9,6 +10,9 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 	const [trades, setTrades] = useState([]);
 	const [progress, setProgress] = useState(0);
 	const counter = useRef(0);
+	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+	const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+	const supabase = createClient(supabaseUrl, supabaseKey);
 	let isApiSubscribed = true;
 
 	const getTrades = async (page) => {
@@ -51,6 +55,7 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 
 	const acceptTrades = async () => {
 		setLoading(true);
+		await handleUse();
 		for (const tradeId of trades) {
 			const { result, error } = await patchData("/api/trade/accept-offer?categoryId=1", {
 				tradeId: tradeId,
@@ -87,6 +92,23 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 			}
 		}
 		setLoading(false);
+	};
+
+	const handleUse = async () => {
+		//update the transfers counter in user context and supabase table
+		setUser((prev) => ({
+			...prev,
+			info: { ...prev.info, transfers: prev.info.transfers - 1 },
+		}));
+		await supabase
+			.from("whitelist")
+			.update({
+				info: {
+					allowed: user.info.allowed,
+					transfers: user.info.transfers - 1,
+				},
+			})
+			.eq("username", user.user.username);
 	};
 
 	return (

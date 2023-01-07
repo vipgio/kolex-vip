@@ -1,12 +1,14 @@
-import Link from "next/link";
-import { FaLock } from "react-icons/fa";
-import ImageWrapper from "HOC/ImageWrapper";
+import { useState } from "react";
 import Meta from "@/components/Meta";
+import Toggle from "@/components/features/Toggle";
+import Details from "@/components/features/Details";
+import Pricing from "@/components/features/Pricing";
 
-const options = [
+const features = [
 	{
 		name: "Custom Feed",
 		price: 3,
+		price2: 6,
 		id: 0,
 		description:
 			"Custom Discord feed server with mint and price filter for market and packs opened.",
@@ -47,7 +49,7 @@ const options = [
 	{
 		name: "Collection Scanner",
 		price: 0,
-		id: 41,
+		id: 4,
 		description:
 			"Scans an account for a specific collection, with the ability to show results with different filter methods such as 'All items', 'Only dupes' and 'Best set'.",
 		locked: false,
@@ -57,7 +59,7 @@ const options = [
 	{
 		name: "Crafting",
 		price: 0,
-		id: 4,
+		id: 5,
 		description:
 			"Allows you to automate multiple crafts and picks the worst mints overall.",
 		locked: false,
@@ -67,16 +69,28 @@ const options = [
 	{
 		name: "RUSH",
 		price: 0,
-		id: 81,
+		id: 6,
 		description: "Play rush on web, with optimized map bans and automation features.",
 		locked: false,
 		image: "/features/rush.png",
 		link: "/rush",
 	},
 	{
+		name: "Pack Manager",
+		price: 3,
+		price2: 5,
+		id: 9,
+		description:
+			"Gives you the ability to mass list or mass open packs. Pack data is stored locally so you don't need to wait for your packs to be loaded every time.",
+		locked: true,
+		image: "/features/masslist.png",
+		link: "/packmanager",
+	},
+	{
 		name: "Mint Search",
 		price: 4,
-		id: 5,
+		price2: 7,
+		id: 7,
 		description:
 			"Scans accounts and marketplace to find the cards selected by you with specified mints and price.",
 		locked: true,
@@ -86,7 +100,8 @@ const options = [
 	{
 		name: "History Check",
 		price: 2,
-		id: 6,
+		price2: 3,
+		id: 8,
 		description:
 			"Shows the history of any card using its ID. Can also be used in the scanner and mint search sections.",
 		locked: true,
@@ -94,72 +109,51 @@ const options = [
 		link: "/history",
 	},
 	{
-		name: "Pack Manager",
-		price: 3,
-		id: 7,
-		description:
-			"Gives you the ability to mass list or mass open packs. Pack data is stored locally so you don't need to wait for your packs to be loaded every time.",
-		locked: true,
-		image: "/features/masslist.png",
-		link: "/packmanager",
-	},
-	{
 		name: "Card Lister",
 		price: 4,
-		id: 8,
+		price2: 7,
+		id: 10,
 		description:
 			"Allows you to mass list cards, with automatic floor price input and advanced options of selecting the mints.",
 		locked: true,
 		image: "/features/cardlister.png",
 		link: "/cardlister",
 	},
+	{
+		name: "Account Transfer",
+		perUse: true,
+		price: 30,
+		id: 11,
+		description: "Send or accept mass trades for transfering accounts.",
+		locked: true,
+		image: "/features/transfer.png",
+		link: "/transfer",
+	},
+	{
+		name: "Full Account Scan",
+		perUse: true,
+		price: 10,
+		id: 12,
+		description: "Get a complete list of all of your cards and stickers.",
+		locked: true,
+		image: "/features/full_scan.png",
+		link: "",
+	},
 ];
+
 const Prices = () => {
+	const [show, setShow] = useState("features");
 	return (
 		<>
 			<Meta title='Features | Kolex VIP' />
-			<div className='mt-8 flex justify-center'>
-				<h1 className='text-5xl font-semibold text-gray-800 dark:text-gray-200'>
-					FEATURES
-				</h1>
+			<div className='mt-5 flex justify-center'>
+				<Toggle action={show} setAction={setShow} />
 			</div>
-			<div className='my-10 grid grid-cols-1 place-items-center gap-10 px-2 lg:grid-cols-2'>
-				{options.map((feature) => (
-					<div
-						className={`relative h-fit min-w-min rounded-lg border border-gray-700 outline outline-4 outline-transparent transition-all dark:border-gray-300 sm:h-80 sm:w-[30rem] sm:hover:scale-110`}
-						key={feature.name}
-					>
-						<div className='relative flex justify-center border-b border-gray-700 text-center text-gray-700 dark:border-gray-300 dark:text-gray-300'>
-							{feature.locked && (
-								<>
-									<div className='absolute left-1 top-[6px] flex items-center justify-center'>
-										<FaLock title='Paid only' />
-									</div>
-									<div className='absolute right-1 top-0'>
-										<span className='ml-1'>${feature.price}/month</span>
-									</div>
-								</>
-							)}
-							<h2 className='text-center text-lg font-semibold text-orange-400 hover:underline'>
-								<Link href={feature.link}>
-									<a title={feature.name}>{feature.name}</a>
-								</Link>
-							</h2>
-						</div>
-						<div className='h-2/3 w-auto overflow-hidden p-1'>
-							<ImageWrapper
-								src={feature.image}
-								quality={100}
-								width={500}
-								height={500}
-								className='object-cover'
-								alt={feature.name}
-							/>
-						</div>
-						<p className='p-1 text-gray-700 dark:text-gray-300'>{feature.description}</p>
-					</div>
-				))}
-			</div>
+			{show === "features" ? (
+				<Details features={features} />
+			) : (
+				<Pricing features={features} />
+			)}
 		</>
 	);
 };

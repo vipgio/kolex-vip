@@ -4,7 +4,7 @@ import debounce from "lodash/debounce";
 import { CDN } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 
-const UserSearch = ({ setSelectedUser, selectedUser }) => {
+const UserSearch = ({ setSelectedUser, selectedUser, allowed = true }) => {
 	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -45,7 +45,7 @@ const UserSearch = ({ setSelectedUser, selectedUser }) => {
 					}}
 					value={searchQuery}
 					className='input-field m-2'
-					disabled={loading}
+					disabled={loading || !allowed}
 					placeholder='Search for a user'
 				/>
 			</form>

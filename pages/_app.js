@@ -29,7 +29,7 @@ const App = ({ Component, pageProps }) => {
 		"/mintsearch",
 		"/cardlister",
 		"/trades",
-		// "/accounttransfer",
+		"/transfer",
 	];
 	return (
 		<>
