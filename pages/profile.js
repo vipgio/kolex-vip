@@ -49,7 +49,12 @@ const Profile = () => {
 								VIP Features:{" "}
 								{user.info.allowed.length > 0 ? (
 									user.info.allowed.map((option, i) => [
-										i > 0 && <span className='text-main-500'> | </span>,
+										i > 0 && (
+											<span className='text-main-500' key={i}>
+												{" "}
+												|{" "}
+											</span>
+										),
 										<Link href={features[option].link} key={option}>
 											<a className='my-outline rounded hover:text-orange-500'>
 												{features[option].name}
@@ -155,4 +160,5 @@ const features = {
 	trades: { name: "Trades", link: "" },
 	feed: { name: "Custom Feed", link: "" },
 	transfer: { name: "Account Transfer", link: "/transfer" },
+	vip: { name: "Stuff", link: "/vip" },
 };

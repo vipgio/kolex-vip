@@ -27,7 +27,7 @@ const bundles = [
 const Pricing = ({ features }) => {
 	return (
 		<>
-			<div className='mt-8 flex flex-col justify-center'>
+			<div className='mt-8 flex flex-col justify-center px-2'>
 				<h1 className='mb-2 text-center text-4xl font-semibold text-gray-800 dark:text-gray-200'>
 					Pricing
 				</h1>

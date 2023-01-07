@@ -22,6 +22,7 @@ const App = ({ Component, pageProps }) => {
 		"/trades",
 		"/rush",
 		"/transfer",
+		"/vip",
 	];
 	const premiumRoutes = [
 		"/packmanager",
@@ -30,6 +31,7 @@ const App = ({ Component, pageProps }) => {
 		"/cardlister",
 		"/trades",
 		"/transfer",
+		"/vip",
 	];
 	return (
 		<>
