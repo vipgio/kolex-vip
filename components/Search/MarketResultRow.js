@@ -1,9 +1,39 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
+import { useAxios } from "hooks/useAxios";
 import HistoryModal from "../HistoryModal";
+import LoadingSpin from "../LoadingSpin";
+import "react-toastify/dist/ReactToastify.css";
 
 const MarketResultRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const { postData } = useAxios();
+
+	const buyItem = async () => {
+		setLoading(true);
+		const { error, info } = await postData("/api/market/buy", {
+			id: item.marketId,
+			price: item.price,
+		});
+
+		if (info?.success) {
+			toast.success(
+				`Purchased ${item[item.type].mintBatch}${item[item.type].mintNumber} ${
+					item.title
+				} for ${item.price}!\n`,
+				{ toastId: item.marketId, autoClose: 3000, position: "top-left" }
+			);
+		} else {
+			toast.error(error.response.data.error, {
+				toastId: item.marketId,
+				autoClose: 3000,
+				position: "top-left",
+			});
+		}
+		setLoading(false);
+	};
 
 	const openModal = () => {
 		setShowHistory(true);
@@ -79,6 +109,11 @@ const MarketResultRow = ({ item, allowed }) => {
 						/>
 					)}
 				</div>
+			</td>
+			<td>
+				<button onClick={buyItem} title='Quick buy'>
+					{loading ? <LoadingSpin size={4} /> : "Buy"}
+				</button>
 			</td>
 		</tr>
 	);

@@ -24,6 +24,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 			"ID",
 			"Signed",
 			"Points",
+			"Point Gain",
 		],
 		compact: ["Best Mint", "Title", "Owned", "Circulation"],
 	};
@@ -71,6 +72,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.id,
 					item.signed ? "Yes" : "No",
 					(item.rating * 10).toFixed(2),
+					Math.max(item.delta, 0),
 			  ]);
 
 	const csvData = [headers[type], ...array];

@@ -99,7 +99,7 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 					} with a ${result.game.user1.winChance.toFixed(3)}% chance. You gained ${
 						result.game.user1.points
 					} points.`,
-					{ toastId: result.game.id }
+					{ toastId: result.game.id, autoClose: 4000, position: "top-left" }
 				);
 			} else {
 				toast.warning(
@@ -108,7 +108,7 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 					} with a ${result.game.user1.winChance.toFixed(3)}% chance. You lost ${
 						result.game.user1.points
 					} points.`,
-					{ toastId: result.game.id }
+					{ toastId: result.game.id, autoClose: 4000, position: "top-left" }
 				);
 			}
 			return result.game.user1.winner;
@@ -192,7 +192,6 @@ const StageInfo = ({ selectedCircuit, stage, thisCircuit, showModal, setShowModa
 				extraStyle='h-fit my-auto'
 				hasToast={true}
 				closeOnClick={true}
-				toastLimit={3}
 			>
 				<div className='my-2 mx-1 grid max-h-full grid-cols-1 overflow-auto lg:grid-cols-2'>
 					{rosters.length > 0 &&

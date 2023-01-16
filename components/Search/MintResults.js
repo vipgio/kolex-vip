@@ -4,7 +4,6 @@ import uniqBy from "lodash/uniqBy";
 import { FaSignature } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
 import ExportToCSV from "../ExportToCSV";
-import LoadingSpin from "../LoadingSpin";
 import MintResultRow from "./MintResultRow";
 import BigModal from "../BigModal";
 

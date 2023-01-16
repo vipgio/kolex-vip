@@ -22,7 +22,7 @@ const useAxios = () => {
 	};
 
 	const postData = async (endpoint, payload, controller) => {
-		let result, error;
+		let result, error, info;
 		try {
 			const { data } = await axios.post(
 				endpoint,
@@ -34,13 +34,14 @@ const useAxios = () => {
 					headers: { jwt: user.jwt },
 				}
 			);
+			info = data;
 			if (data.success) {
 				result = data.data;
 			}
 		} catch (err) {
 			error = err;
 		}
-		return { result, error };
+		return { result, error, info };
 	};
 
 	const patchData = async (endpoint, payload) => {

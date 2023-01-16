@@ -5,9 +5,9 @@ import { useContext, useState } from "react";
 import { FaSignature } from "react-icons/fa";
 import BigModal from "../BigModal";
 import ExportToCSV from "../ExportToCSV";
-import LoadingSpin from "../LoadingSpin";
 import Tooltip from "../Tooltip";
 import MarketResultRow from "./MarketResultRow";
+
 const MarketResults = ({
 	showModal,
 	setShowModal,
@@ -58,6 +58,7 @@ const MarketResults = ({
 				finished.current = true;
 			}}
 			extraStyle='h-fit my-auto'
+			hasToast={true}
 		>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>
@@ -73,6 +74,7 @@ const MarketResults = ({
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Seller</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Link</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
+							<th className='py-1 px-2 sm:py-3 sm:px-6'>Buy</th>
 						</tr>
 					</thead>
 					<tbody>
