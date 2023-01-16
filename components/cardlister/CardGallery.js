@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import sortBy from "lodash/sortBy";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CDN } from "@/config/config";
@@ -6,12 +6,30 @@ import ImageWrapper from "HOC/ImageWrapper";
 import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
 import Tooltip from "../Tooltip";
+import FiltersModal from "./FiltersModal";
 
 const CardGallery = ({ templates, user }) => {
 	const [selectedTemplates, setSelectedTemplates] = useState([]);
 	const [showAdvancedModal, setShowAdvancedModal] = useState(false);
 	const [showSimpleModal, setShowSimpleModal] = useState(false);
+	const [showFiltersModal, setShowFiltersModal] = useState(false);
 	const [sortMethod, setSortMethod] = useState("listed");
+	const defaultFilters = { minOwned: 1, minFloor: 0.1, maxFloor: 20000 };
+	const [filters, setFilters] = useState(defaultFilters);
+
+	useEffect(() => {
+		// setSelectedTemplates([]);
+		setSelectedTemplates((prev) =>
+			prev
+				.filter((item) => item.count)
+				.filter(
+					(item) =>
+						item.count >= filters.minOwned &&
+						!(item.floor >= filters.maxFloor) &&
+						!(item.floor <= filters.minFloor)
+				)
+		);
+	}, [filters.minFloor, filters.maxFloor, filters.minOwned]);
 
 	return (
 		<>
@@ -31,16 +49,31 @@ const CardGallery = ({ templates, user }) => {
 					<option value='floor'>Floor</option>
 				</select>
 			</div>
+
 			<div className='ml-1 flex h-full'>
 				<div className='flex items-end'>
 					<button
-						onClick={() => setSelectedTemplates(templates.filter((item) => item.count))}
+						onClick={() =>
+							setSelectedTemplates(
+								templates
+									.filter((item) => item.count)
+									.filter(
+										(item) =>
+											item.count >= filters.minOwned &&
+											!(item.floor >= filters.maxFloor) &&
+											!(item.floor <= filters.minFloor)
+									)
+							)
+						}
 						className='simple-button m-1'
 					>
 						Select All
 					</button>
 					<button onClick={() => setSelectedTemplates([])} className='simple-button m-1'>
 						Deselect All
+					</button>
+					<button onClick={() => setShowFiltersModal(true)} className='simple-button m-1'>
+						Filters
 					</button>
 				</div>
 				<div className='ml-auto flex flex-col justify-end py-1 sm:block'>
@@ -84,6 +117,12 @@ const CardGallery = ({ templates, user }) => {
 						: [(o) => o.listedAny, (o) => -o.floor, (o) => -o.count]
 				)
 					.filter((item) => item.count)
+					.filter(
+						(item) =>
+							item.count >= filters.minOwned &&
+							!(item.floor >= filters.maxFloor) &&
+							!(item.floor <= filters.minFloor)
+					)
 					.map((card) => (
 						<div
 							key={card.uuid}
@@ -138,6 +177,16 @@ const CardGallery = ({ templates, user }) => {
 						</div>
 					))}
 			</div>
+
+			{showFiltersModal && (
+				<FiltersModal
+					isOpen={showFiltersModal}
+					setIsOpen={setShowFiltersModal}
+					filters={filters}
+					setFilters={setFilters}
+					defaultFilters={defaultFilters}
+				/>
+			)}
 			{showAdvancedModal && (
 				<AdvancedModal
 					showModal={showAdvancedModal}

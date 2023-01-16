@@ -138,7 +138,7 @@ const AdvancedModal = ({
 			extraStyle='h-fit my-auto'
 			hasToast={true}
 		>
-			<div className='relative grid max-h-[30rem] overflow-auto p-2 sm:grid-cols-2'>
+			<div className='relative grid overflow-auto p-2 sm:grid-cols-2'>
 				{cardDetails.map((template) => (
 					<ItemBox
 						template={template}

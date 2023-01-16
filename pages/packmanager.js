@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react";
-import { ToastContainer } from "react-toastify";
 import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
 import { UserContext } from "context/UserContext";
@@ -69,7 +68,7 @@ const Packmanager = () => {
 			<div className='max-h-screen border-gray-200'>
 				<button
 					title='Refresh packs'
-					className='absolute top-14 right-2 mt-2 flex flex-col items-center rounded-md bg-red-500 p-1 font-semibold disabled:cursor-not-allowed disabled:opacity-50'
+					className='my-outline absolute top-14 right-2 mt-2 flex flex-col items-center rounded-md bg-red-400 p-1 font-semibold text-gray-200 hover:bg-red-500 focus-visible:ring-offset-2 active:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
 					disabled={loading}
 				>
 					{/* Refresh packs */}

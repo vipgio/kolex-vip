@@ -34,7 +34,7 @@ const ItemBox = React.memo(
 			template.cards.length > 0 && (
 				<div
 					key={template.uuid}
-					className='m-1 h-fit overflow-auto border border-gray-500 p-2 text-gray-800 dark:text-gray-200'
+					className='m-1 h-[12.5rem] max-h-64 overflow-auto border border-gray-500 p-2 text-gray-800 dark:text-gray-200'
 				>
 					<div className='text-center font-semibold text-orange-500'>
 						{template.title} <span className='text-xs'>x</span>

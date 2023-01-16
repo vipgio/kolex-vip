@@ -117,13 +117,7 @@ const MarketResults = ({
 					</div>
 					<div className='ml-auto'>
 						<ExportToCSV
-							data={uniqBy(
-								sortBy(results, [
-									(o) => (o.card ? o.card.mintNumber : o.sticker.mintNumber),
-									(o) => (o.card ? o.card.cardTemplateId : o.stickerTemplateId),
-								]),
-								(o) => o.marketId
-							)}
+							data={shownResults}
 							filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - ${suffix} - Market`}
 							type='market'
 						/>

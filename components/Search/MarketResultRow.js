@@ -111,7 +111,7 @@ const MarketResultRow = ({ item, allowed }) => {
 				</div>
 			</td>
 			<td>
-				<button onClick={buyItem} title='Quick buy'>
+				<button onClick={buyItem} title='Quick buy' className='simple-button p-0.5'>
 					{loading ? <LoadingSpin size={4} /> : "Buy"}
 				</button>
 			</td>

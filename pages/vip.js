@@ -4,12 +4,14 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaPlay, FaStop } from "react-icons/fa";
 import SpinResult from "@/components/SpinResult";
 import Meta from "@/components/Meta";
+import "react-toastify/dist/ReactToastify.css";
 
 const Vip = () => {
 	const intervalRef = useRef();
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
 	const [spinnerInfo, setSpinnerInfo] = useState(null);
+	const [listing, setListing] = useState({ marketId: 0, price: 0 });
 	const { fetchData, postData } = useAxios();
 
 	const spin = async (id) => {
@@ -69,6 +71,23 @@ const Vip = () => {
 		clearInterval(intervalRef.current);
 	};
 
+	const buyItem = async () => {
+		const { error, info } = await postData("/api/market/buy", {
+			id: listing.marketId,
+			price: listing.price,
+		});
+
+		if (info?.success) {
+			toast.success(`Purchased ${listing.marketId} for ${listing.price}!\n`, {
+				toastId: listing.marketId,
+			});
+		} else {
+			toast.error(error.response.data.error, {
+				toastId: listing.marketId,
+			});
+		}
+	};
+
 	useEffect(() => {
 		const getInitialInfo = async () => {
 			const { result: data } = await fetchData("/api/spinner/info");
@@ -97,30 +116,70 @@ const Vip = () => {
 				draggable
 				pauseOnHover
 			/>
-			{spinActive ? (
-				<button
-					disabled={!spinnerInfo}
-					onClick={stopSpin}
-					className='my-5 inline-flex items-center rounded-md bg-red-500 p-2 font-semibold text-gray-700 hover:bg-red-600 active:bg-red-700 dark:text-gray-200'
-				>
-					<FaStop className='mr-1 hidden sm:block' />
-					Stop Spinning
-				</button>
-			) : (
-				<button
-					disabled={!spinnerInfo}
-					onClick={startSpin}
-					className='my-5 inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 hover:bg-green-600 active:bg-green-700 dark:text-gray-200'
-				>
-					<FaPlay className='mr-1 hidden sm:block' />
-					Start Spinning
-				</button>
-			)}
-			<div className='max-h-96 min-h-[24rem] divide-y divide-gray-500 overflow-auto sm:divide-y-0'>
-				{spinnerInfo?.id &&
-					spinRes.map((res) => (
-						<SpinResult result={res} spinnerInfo={spinnerInfo} key={res.time} />
-					))}
+			<div className='flex'>
+				<div>
+					{spinActive ? (
+						<button
+							disabled={!spinnerInfo}
+							onClick={stopSpin}
+							className='my-5 inline-flex items-center rounded-md bg-red-500 p-2 font-semibold text-gray-700 hover:bg-red-600 active:bg-red-700 dark:text-gray-200'
+						>
+							<FaStop className='mr-1 hidden sm:block' />
+							Stop Spinning
+						</button>
+					) : (
+						<button
+							disabled={!spinnerInfo}
+							onClick={startSpin}
+							className='my-5 inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 hover:bg-green-600 active:bg-green-700 dark:text-gray-200'
+						>
+							<FaPlay className='mr-1 hidden sm:block' />
+							Start Spinning
+						</button>
+					)}
+					<div className='max-h-96 min-h-[24rem] divide-y divide-gray-500 overflow-auto sm:divide-y-0'>
+						{spinnerInfo?.id &&
+							spinRes.map((res) => (
+								<SpinResult result={res} spinnerInfo={spinnerInfo} key={res.time} />
+							))}
+					</div>
+				</div>
+				{/* <div className='w-1/2 border'>
+					<div className='flex flex-col text-gray-700 dark:text-gray-300'>
+						<div>
+							<label htmlFor='itemId'>Item ID: </label>
+							<input
+								type='number'
+								name='itemId'
+								id='itemId'
+								className='input-field my-2'
+								value={listing.marketId}
+								onChange={(e) =>
+									setListing((prev) => ({ ...prev, marketId: e.target.value }))
+								}
+							/>
+						</div>
+						<div>
+							<label htmlFor='price'>Price: </label>
+							<input
+								type='number'
+								name='price'
+								id='price'
+								className='input-field'
+								min={0.1}
+								step={0.01}
+								max={20000}
+								value={listing.price}
+								onChange={(e) =>
+									setListing((prev) => ({ ...prev, price: e.target.value }))
+								}
+							/>
+						</div>
+					</div>
+					<button className='button mt-3' onClick={buyItem}>
+						BUY
+					</button>
+				</div> */}
 			</div>
 		</>
 	);
