@@ -18,15 +18,14 @@ const CardGallery = ({ templates, user }) => {
 	const [filters, setFilters] = useState(defaultFilters);
 
 	useEffect(() => {
-		// setSelectedTemplates([]);
 		setSelectedTemplates((prev) =>
 			prev
 				.filter((item) => item.count)
 				.filter(
 					(item) =>
 						item.count >= filters.minOwned &&
-						!(item.floor >= filters.maxFloor) &&
-						!(item.floor <= filters.minFloor)
+						!(item.floor > filters.maxFloor) &&
+						!(item.floor < filters.minFloor)
 				)
 		);
 	}, [filters.minFloor, filters.maxFloor, filters.minOwned]);
@@ -60,8 +59,8 @@ const CardGallery = ({ templates, user }) => {
 									.filter(
 										(item) =>
 											item.count >= filters.minOwned &&
-											!(item.floor >= filters.maxFloor) &&
-											!(item.floor <= filters.minFloor)
+											!(item.floor > filters.maxFloor) &&
+											!(item.floor < filters.minFloor)
 									)
 							)
 						}
@@ -120,8 +119,8 @@ const CardGallery = ({ templates, user }) => {
 					.filter(
 						(item) =>
 							item.count >= filters.minOwned &&
-							!(item.floor >= filters.maxFloor) &&
-							!(item.floor <= filters.minFloor)
+							!(item.floor > filters.maxFloor) &&
+							!(item.floor < filters.minFloor)
 					)
 					.map((card) => (
 						<div
