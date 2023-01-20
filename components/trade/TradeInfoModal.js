@@ -72,8 +72,8 @@ const TradeInfoModal = React.memo(
 		};
 
 		useEffect(() => {
-			unCheckedReceive.items.map((item) => handleGainPoints(item));
-			unCheckedSend.items.map((item) => handleLossPoints(item));
+			unCheckedReceive?.items.map((item) => handleGainPoints(item));
+			unCheckedSend?.items.map((item) => handleLossPoints(item));
 		}, []);
 
 		const sendTrades = async () => {
@@ -167,22 +167,24 @@ const TradeInfoModal = React.memo(
 										<div className='flex'>
 											<div className='w-1/2 px-1'>
 												<div className='h-80 max-h-80 divide-y divide-gray-500 overflow-auto border border-gray-700 p-1 dark:border-gray-300 '>
-													{sortBy(send.items, ["mintBatch", "mintNumber"]).map((item) => (
-														<div
-															key={item.id}
-															className='flex text-gray-700 dark:text-gray-300'
-														>
-															<div className='w-4/5'>
-																{item.mintBatch}
-																{item.mintNumber} {item.title}
+													{sortBy(send?.items, ["mintBatch", "mintNumber"]).map(
+														(item) => (
+															<div
+																key={item.id}
+																className='flex text-gray-700 dark:text-gray-300'
+															>
+																<div className='w-4/5'>
+																	{item.mintBatch}
+																	{item.mintNumber} {item.title}
+																</div>
+																<div className='mr-1 ml-auto text-red-500'>
+																	{item.pointsToLose
+																		? `-${fixDecimal(item.pointsToLose * 10)}`
+																		: 0}
+																</div>
 															</div>
-															<div className='mr-1 ml-auto text-red-500'>
-																{item.pointsToLose
-																	? `-${fixDecimal(item.pointsToLose * 10)}`
-																	: 0}
-															</div>
-														</div>
-													))}
+														)
+													)}
 												</div>
 												<div className='inline-flex items-center text-gray-700 dark:text-gray-300'>
 													Total point loss:{" "}
