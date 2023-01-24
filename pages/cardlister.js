@@ -8,6 +8,7 @@ import LoadingSpin from "@/components/LoadingSpin";
 import CardGallery from "@/components/cardlister/CardGallery";
 import ListedModal from "@/components/cardlister/ListedModal";
 import Tooltip from "@/components/Tooltip";
+import RefreshButton from "@/components/RefreshButton";
 
 const Cardlister = () => {
 	const { user } = useContext(UserContext);
@@ -191,35 +192,20 @@ const Cardlister = () => {
 					<SetSelector setSelectedCollection={setSelectedCollection} />
 				</div>
 				<div className='ml-auto mr-2 mb-2 flex items-end'>
-					<button
-						title='Refresh packs'
-						className='my-outline absolute top-14 right-2 mt-2 flex flex-col items-center rounded-md bg-red-400 p-1 font-semibold text-gray-200 hover:bg-red-500 focus-visible:ring-offset-2 active:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
-						disabled={loading}
-						onClick={getCards}
-					>
-						{/* Refresh packs */}
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							className={`h-6 w-6 cursor-pointer ${loading && "animate-spin-ac"}`}
-							fill='none'
-							viewBox='0 0 24 24'
-							stroke='currentColor'
-							strokeWidth={2}
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
-							/>
-						</svg>
-					</button>
+					<RefreshButton
+						style='absolute top-14 right-2 mt-2'
+						func={getCards}
+						loading={loading}
+						title='Refresh Items'
+					/>
+
 					<div className='flex items-center'>
 						<Tooltip
 							direction='left'
 							text={`It will load ALL your items. If you have too many it's gonna take a while or you can stop loading the items by clicking on "Stop".`}
 						/>
 						<button className='button' onClick={() => setShowListedModal(true)}>
-							Edit All Listings
+							Manage Listings
 						</button>
 					</div>
 				</div>

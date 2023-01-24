@@ -4,6 +4,7 @@ import { CDN } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 import ImageWrapper from "HOC/ImageWrapper";
 import LoadingSpin from "./LoadingSpin";
+import RefreshButton from "./RefreshButton";
 
 const ActivePacks = ({ user }) => {
 	const { fetchData } = useAxios();
@@ -47,28 +48,12 @@ const ActivePacks = ({ user }) => {
 			<div className='inline-flex'>
 				<span className='p-1 text-lg font-semibold'>Available Packs: </span>
 				<div className='relative ml-auto mr-2'>
-					<button
-						title='Refresh packs'
-						className='my-outline absolute bottom-2 right-0 mt-2 flex flex-col items-center rounded-md bg-red-400 p-1 font-semibold text-gray-200 hover:bg-red-500 focus-visible:ring-offset-2 active:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
-						disabled={loading}
-					>
-						{/* Refresh packs */}
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							className={`h-6 w-6 cursor-pointer ${loading && "animate-spin-ac"}`}
-							fill='none'
-							viewBox='0 0 24 24'
-							stroke='currentColor'
-							strokeWidth={2}
-							onClick={getAllStorePacks}
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
-							/>
-						</svg>
-					</button>
+					<RefreshButton
+						title='Refresh Packs'
+						style='absolute bottom-2 right-0 mt-2'
+						func={getAllStorePacks}
+						loading={loading}
+					/>
 				</div>
 			</div>
 			<div className='h-fit rounded border border-gray-700 p-1 dark:border-gray-300'>

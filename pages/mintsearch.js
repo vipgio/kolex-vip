@@ -7,6 +7,7 @@ import SetSelector from "HOC/SetSelector";
 import Meta from "components/Meta";
 import CardGallery from "@/components/Search/CardGallery";
 import LoadingSpin from "@/components/LoadingSpin";
+import RefreshButton from "@/components/RefreshButton";
 
 const Searcher = () => {
 	const { user } = useContext(UserContext);
@@ -107,28 +108,14 @@ const Searcher = () => {
 		<>
 			<Meta title='Mint Search | Kolex VIP' />
 			<div className='my-10 rounded border border-gray-800 p-2 dark:border-gray-200'>
-				<button
-					title='Refresh items'
-					className='my-outline absolute top-24 right-4 mt-2 flex flex-col items-center rounded-md bg-red-400 p-1 font-semibold text-gray-200 hover:bg-red-500 focus-visible:ring-offset-2 active:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
-					disabled={loading}
-				>
-					{/* Refresh items */}
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className={`h-6 w-6 cursor-pointer ${loading && "animate-spin-ac"}`}
-						fill='none'
-						viewBox='0 0 24 24'
-						stroke='currentColor'
-						strokeWidth={2}
-						onClick={fetchData}
-					>
-						<path
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
-						/>
-					</svg>
-				</button>
+				{selectedCollection && (
+					<RefreshButton
+						title='Refresh Items'
+						loading={loading}
+						style='absolute top-24 right-4 mt-2'
+						func={fetchData}
+					/>
+				)}
 				<div className='px-2 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
 					Selected Collection:
 					{selectedCollection && (

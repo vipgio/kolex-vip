@@ -5,12 +5,15 @@ const { API } = require("@/config/config");
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { userId, page } = req.query;
+	const { userId, page, type } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
 	try {
-		const getListed = async (jwt, userId, page) => {
-			return http(`${API}/market/listed/users/${userId}?page=${page}&categoryId=1`, {
+		const getListed = async (jwt, userId, page, type) => {
+			const endpoint = type
+				? `${API}/market/listed/users/${userId}?page=${page}&type=${type}&categoryId=1`
+				: `${API}/market/listed/users/${userId}?page=${page}&categoryId=1`;
+			return http(endpoint, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
@@ -18,7 +21,7 @@ export default async function handler(req, res) {
 				},
 			});
 		};
-		const { data } = await getListed(jwt, userId, page);
+		const { data } = await getListed(jwt, userId, page, type);
 		res.status(200).json(data);
 	} catch (err) {
 		console.log(err);

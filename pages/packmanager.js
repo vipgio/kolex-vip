@@ -4,9 +4,13 @@ import uniq from "lodash/uniq";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
 import MassPackGrid from "@/components/packmanager/MassPackGrid";
+import RefreshButton from "@/components/RefreshButton";
+import Tooltip from "@/components/Tooltip";
+import ListedModal from "@/components/packmanager/ListedModal";
 
 const Packmanager = () => {
 	const { userPacks, setLoading, loading, user } = useContext(UserContext);
+	const [showListedModal, setShowListedModal] = useState(false);
 	const [packs, setPacks] = useState([]);
 
 	let templates = [];
@@ -66,35 +70,31 @@ const Packmanager = () => {
 		<>
 			<Meta title='Pack Manager | Kolex VIP' />
 			<div className='max-h-screen border-gray-200'>
-				<button
-					title='Refresh packs'
-					className='my-outline absolute top-14 right-2 mt-2 flex flex-col items-center rounded-md bg-red-400 p-1 font-semibold text-gray-200 hover:bg-red-500 focus-visible:ring-offset-2 active:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
-					disabled={loading}
-				>
-					{/* Refresh packs */}
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className={`h-6 w-6 cursor-pointer ${loading && "animate-spin-ac"}`}
-						fill='none'
-						viewBox='0 0 24 24'
-						stroke='currentColor'
-						strokeWidth={2}
-						onClick={refreshPacks}
-					>
-						<path
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
-						/>
-					</svg>
-				</button>
-				<div className='mx-2 mt-16 grid grid-cols-2 gap-16 pb-8 sm:grid-cols-3'>
+				<RefreshButton
+					title={"Refresh Packs"}
+					func={refreshPacks}
+					loading={loading}
+					style='absolute top-14 right-2 mt-2'
+				/>
+				<div className='mt-16 mb-3 mr-2 flex items-center justify-end'>
+					<Tooltip
+						direction='left'
+						text={`It will load ALL your packs. If you have too many it's gonna take a while or you can stop loading the items by clicking on "Stop".`}
+					/>
+					<button className='button' onClick={() => setShowListedModal(true)}>
+						Manage Listings
+					</button>
+				</div>
+				<div className='mx-2 mt-2 grid grid-cols-2 gap-16 pb-8 sm:grid-cols-3'>
 					{packs
 						.sort((a, b) => b.id - a.id)
 						.map((packTemplate) => (
 							<MassPackGrid key={packTemplate.id} packTemplate={packTemplate} />
 						))}
 				</div>
+				{showListedModal && (
+					<ListedModal showModal={showListedModal} setShowModal={setShowListedModal} />
+				)}
 			</div>
 		</>
 	);
