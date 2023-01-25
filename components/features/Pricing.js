@@ -41,13 +41,16 @@ const Pricing = ({ features }) => {
 					</thead>
 					<tbody className='text-center'>
 						{features
-							.filter((feature) => feature.price && !feature.perUse)
+							.filter(
+								(feature) =>
+									feature.price > 0 && !feature.info.perUse && feature.info.locked
+							)
 							.map((feature) => (
 								<tr
 									className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
-									key={feature.id}
+									key={feature.name}
 								>
-									<td className='w-1/3 py-1 px-2 sm:py-3 sm:px-6'>{feature.name}</td>
+									<td className='w-1/3 py-1 px-2 sm:py-3 sm:px-6'>{feature.info.name}</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>${feature.price}</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>${feature.price2}</td>
 								</tr>
@@ -104,13 +107,13 @@ const Pricing = ({ features }) => {
 					</thead>
 					<tbody className='text-center'>
 						{features
-							.filter((feature) => feature.perUse)
+							.filter((feature) => feature.info.perUse)
 							.map((feature) => (
 								<tr
 									className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
-									key={feature.id}
+									key={feature.name}
 								>
-									<td className='py-1 px-2 sm:py-3 sm:px-6'>{feature.name}</td>
+									<td className='py-1 px-2 sm:py-3 sm:px-6'>{feature.info.name}</td>
 									<td className='py-1 px-2 sm:py-3 sm:px-6'>${feature.price}</td>
 								</tr>
 							))}

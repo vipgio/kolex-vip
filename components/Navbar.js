@@ -13,7 +13,6 @@ import {
 } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
 import { BsArrowLeftRight } from "react-icons/bs";
-import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
 import { UserContext } from "context/UserContext";
 import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
