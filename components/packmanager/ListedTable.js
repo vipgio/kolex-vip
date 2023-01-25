@@ -53,7 +53,7 @@ const ListedTable = ({ listed, sortMethod, setListed, insertFloor, compactMode }
 						{compactMode ? "Count" : "Mint Date"}
 					</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>
-						{compactMode ? "Price Range" : "Price"}
+						{compactMode ? "Your Price Range" : "Your Price"}
 					</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Floor</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>New Price</th>

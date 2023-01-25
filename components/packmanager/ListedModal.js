@@ -15,6 +15,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 	const [sortMethod, setSortMethod] = useState("template");
 	const [insertFloor, setInsertFloor] = useState(0);
 	const [compactMode, setCompactMode] = useState(false);
+	const [undercuts, setUndercuts] = useState(false);
 
 	const getAllListed = async (firstPage) => {
 		setLoading(true);
@@ -146,10 +147,29 @@ const ListedModal = ({ showModal, setShowModal }) => {
 					<ListedTable
 						compactMode={compactMode}
 						setListed={setListed}
-						listed={listed}
+						listed={undercuts ? listed.filter((pack) => pack.floor < pack.price) : listed}
 						sortMethod={sortMethod}
 						insertFloor={insertFloor}
 					/>
+				</div>
+
+				<div className='mt-auto mb-1 flex items-center border-t border-gray-700 px-4 py-2 dark:border-gray-300'>
+					<div className='inline-flex items-center'>
+						<input
+							type='checkbox'
+							name='undercut'
+							id='undercut'
+							checked={undercuts}
+							onChange={(e) => setUndercuts(e.target.checked)}
+							className='cursor-pointer'
+						/>
+						<label
+							htmlFor='undercut'
+							className='ml-1 cursor-pointer text-gray-700 dark:text-gray-300'
+						>
+							Only show undercuts
+						</label>
+					</div>
 				</div>
 			</BigModal>
 		</>
