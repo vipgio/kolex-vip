@@ -35,7 +35,6 @@ const Details = ({ features }) => {
 								height={500}
 								className='object-cover'
 								alt={feature.info.name}
-								optimize={true}
 							/>
 						</div>
 						<p className='p-1'>{feature.info.description}</p>
