@@ -10,7 +10,15 @@ import FullList from "./FullList";
 import fixDecimal from "utils/NumberUtils";
 
 const ScanResult = React.memo(
-	({ scanResults, user, collection, templates, ownedItems, isSelfScan }) => {
+	({
+		scanResults,
+		user,
+		collection,
+		templates,
+		ownedItems,
+		isSelfScan,
+		singleUserSearch,
+	}) => {
 		const [filterMethod, setFilterMethod] = useState("all");
 		const strippedResults = scanResults.map((result) => {
 			const ownedItem = isSelfScan
@@ -137,6 +145,14 @@ const ScanResult = React.memo(
 					</div>
 
 					<>
+						{(filterMethod === "best" ||
+							filterMethod === "second" ||
+							filterMethod === "worst") &&
+							filteredResults.length > 0 && (
+								<div className='mb-1 ml-1 font-semibold text-orange-400'>
+									Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}
+								</div>
+							)}
 						<div className='mb-1 flex flex-col justify-center rounded-md border border-gray-300'>
 							{filterMethod !== "compact" ? (
 								<FullList
@@ -145,19 +161,12 @@ const ScanResult = React.memo(
 									isSelfScan={isSelfScan}
 									ownedItems={isSelfScan ? ownedItems : uniqBy(ownedItems, "templateId")}
 									filterMethod={filterMethod}
+									singleUserSearch={singleUserSearch}
 								/>
 							) : (
 								<CompactList results={filteredResults} owner={user} />
 							)}
 						</div>
-						{(filterMethod === "best" ||
-							filterMethod === "second" ||
-							filterMethod === "worst") &&
-							filteredResults.length > 0 && (
-								<div className='font-semibold text-orange-400'>
-									Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}
-								</div>
-							)}
 					</>
 				</div>
 			</>

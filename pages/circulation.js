@@ -36,7 +36,7 @@ const Circulation = () => {
 	return (
 		<>
 			<Meta title='Circulation | Kolex VIP' />
-			<div className='mt-10 flex flex-col items-center'>
+			<div className='flex flex-col items-center'>
 				<div className='flex h-full w-full flex-col items-center justify-center pt-10'>
 					<div className='px-4 pt-2 text-center font-semibold text-gray-700 dark:text-gray-300'>
 						Selected Collection:

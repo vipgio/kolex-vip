@@ -37,7 +37,13 @@ const CircList = ({ data }) => {
 							key={item.id}
 						>
 							<div className='mr-8'>{item.title}</div>
-							<div className='ml-auto text-indigo-400'>{item.inCirculation}</div>
+							{item.minted ? (
+								<div className='ml-auto text-indigo-400'>
+									{item.inCirculation}/{item.minted}
+								</div>
+							) : (
+								<div className='ml-auto text-indigo-400'>{item.inCirculation}</div>
+							)}
 						</div>
 					))}
 			</div>

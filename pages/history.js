@@ -1,14 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import uniq from "lodash/uniq";
-import "react-toastify/dist/ReactToastify.css";
+import chunk from "lodash/chunk";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
 import Tooltip from "components/Tooltip";
 import CardHistory from "components/CardHistory";
-import { useEffect } from "react";
 import LoadingSpin from "@/components/LoadingSpin";
+import Toggle from "@/components/history/Toggle";
+import ExportButton from "@/components/history/ExportButton";
+import "react-toastify/dist/ReactToastify.css";
 
 const History = () => {
 	const { user, loading, setLoading } = useContext(UserContext);
@@ -16,10 +18,12 @@ const History = () => {
 	const [history, setHistory] = useState([]);
 	const [templates, setTemplates] = useState([]);
 	const [isDone, setIsDone] = useState(false);
+	const [compactMode, setCompactMode] = useState(true);
+	const dataToShow = history.sort((a, b) => a.id - b.id);
 
 	useEffect(() => {
-		if (templates[0]?.length > 0) {
-			templates[0].forEach((template) => {
+		if (templates?.length > 0) {
+			templates.flat().forEach((template) => {
 				setHistory((items) =>
 					items.map((history) => {
 						return history.cardTemplateId === template.id
@@ -59,7 +63,7 @@ const History = () => {
 						});
 						templateIds.push(data.data.cardTemplateId);
 						setHistory((prev) => [...prev, data.data]);
-						setLoading(false);
+						// setLoading(false);
 					} catch (err) {
 						console.log(err);
 						setLoading(false);
@@ -69,16 +73,21 @@ const History = () => {
 					}
 				})
 			);
+
 			if (templateIds.length > 0) {
-				const { data } = await axios.get(`/api/cards/templates`, {
-					params: {
-						cardIds: uniq(templateIds).toString(),
-					},
-					headers: {
-						jwt: user.jwt,
-					},
-				});
-				setTemplates((prev) => [...prev, data.data]);
+				const templatesChunk = chunk(templateIds, 40);
+				for (const [index, templateId] of templatesChunk.entries()) {
+					const { data } = await axios.get(`/api/cards/templates`, {
+						params: {
+							cardIds: templateId.toString(),
+						},
+						headers: {
+							jwt: user.jwt,
+						},
+					});
+					setTemplates((prev) => [...prev, data.data]);
+					index === Math.floor(templateIds.length / 40) && setLoading(false);
+				}
 			}
 		} else {
 			toast.error("Please enter a valid input", {
@@ -102,8 +111,9 @@ const History = () => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='mt-10 mb-10 flex flex-col items-center'>
-				<div className='flex h-full w-full items-start justify-center pt-10'>
+			<div className='mt-7 mb-10 flex flex-col items-center'>
+				<Toggle compactMode={compactMode} setCompactMode={setCompactMode} />
+				<div className='flex h-full w-full items-start justify-center pt-3'>
 					<form className='flex flex-col items-center space-y-2' onSubmit={handleSubmit}>
 						<label
 							htmlFor='card-id'
@@ -141,11 +151,13 @@ const History = () => {
 					</form>
 				</div>
 				{history.length > 0 && isDone && (
-					<div className='mt-10 flex w-full flex-col items-center space-y-2 px-5'>
-						{/* <div className='grid grid-cols-2 gap-5 lg:grid-cols-4'> */}
+					<div className='mt-5 flex w-full flex-col items-center space-y-2 px-5'>
+						<div className='flex w-full justify-end pr-6'>
+							<ExportButton data={dataToShow} templates={templates} />
+						</div>
 						<div className='flex w-full flex-wrap justify-center'>
-							{history.map((item) => (
-								<CardHistory key={item.id} item={item} />
+							{dataToShow.map((item) => (
+								<CardHistory key={item.id} item={item} compactMode={compactMode} />
 							))}
 						</div>
 					</div>

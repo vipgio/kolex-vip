@@ -33,9 +33,29 @@ const PackResults = React.memo(
 							</span>
 						</div>
 					)}
+					{pack.marketStart && (
+						<div>
+							Market start:{" "}
+							<span className='font-semibold text-indigo-500'>{pack.marketStart}</span>
+						</div>
+					)}
+					<div>
+						Total Minted:{" "}
+						<span className='font-semibold text-indigo-500'>{pack.mintCount}</span>
+					</div>
 					<div>
 						Inventory Count:{" "}
 						<span className='font-semibold text-indigo-500'>{pack.inventoryCount}</span>
+					</div>
+					<div>
+						Total Opened:{" "}
+						<span className='font-semibold text-indigo-500'>{pack.openedCount}</span>
+					</div>
+					<div>
+						Packs Unopened:{" "}
+						<span className='font-semibold text-orange-500'>
+							{pack.mintCount - pack.openedCount}
+						</span>
 					</div>
 					<div>
 						Season:{" "}
@@ -43,12 +63,6 @@ const PackResults = React.memo(
 							{pack.properties.seasons[0]}
 						</span>
 					</div>
-					{pack.marketStart && (
-						<div>
-							Market start:{" "}
-							<span className='font-semibold text-indigo-500'>{pack.marketStart}</span>
-						</div>
-					)}
 					{pack.cost < 9999 && (
 						<div>
 							Price:{" "}

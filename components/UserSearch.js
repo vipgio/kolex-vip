@@ -1,10 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/future/image";
 import debounce from "lodash/debounce";
+import uniqBy from "lodash/uniqBy";
 import { CDN } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 
-const UserSearch = ({ setSelectedUser, selectedUser, allowed = true }) => {
+const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true }) => {
 	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -54,11 +55,13 @@ const UserSearch = ({ setSelectedUser, selectedUser, allowed = true }) => {
 					{results?.slice(0, 15).map((result) => (
 						<button
 							className={`${
-								result.id === selectedUser?.id ? "bg-gray-500" : "hover:bg-gray-600"
+								selectedUsers.find((user) => user.id === result.id)
+									? "bg-gray-500"
+									: "hover:bg-gray-600"
 							} mx-4 my-2 flex w-fit min-w-[8rem] flex-col items-center rounded-md border border-gray-400 p-2 text-gray-700 transition-all hover:cursor-pointer hover:text-gray-300 active:scale-110 active:bg-gray-500 dark:hover:text-gray-300`}
 							key={result.id}
 							onClick={() => {
-								setSelectedUser(result);
+								setSelectedUsers((prev) => uniqBy([...prev, result], "id"));
 								setSearchQuery("");
 								setResults([]);
 							}}

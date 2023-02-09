@@ -51,6 +51,8 @@ const PackSearch = () => {
 								"purchaseStart",
 								"marketStart",
 								"treatmentsChance",
+								"mintCount",
+								"openedCount",
 							])
 						),
 					]);
