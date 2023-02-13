@@ -165,7 +165,7 @@ const MintSelectorModal = React.memo(
 													OR
 												</div>
 												<div className='h-1/2 p-1'>
-													B) Enter the number of cards; starting from the worst mint:
+													B) Enter the Number of items; starting from the worst mint:
 													<div>
 														<input
 															type='number'

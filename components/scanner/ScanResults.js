@@ -19,6 +19,10 @@ const ScanResult = React.memo(
 		isSelfScan,
 		singleUserSearch,
 	}) => {
+		const userList = user
+			.map((usr) => usr["username"])
+			.join(", ")
+			.toString();
 		const [filterMethod, setFilterMethod] = useState("all");
 		const strippedResults = scanResults.map((result) => {
 			const ownedItem = isSelfScan
@@ -133,7 +137,7 @@ const ScanResult = React.memo(
 							<div className='ml-auto'>
 								<ExportToCSV
 									type={filterMethod === "compact" ? "compact" : "full"}
-									filename={`${user.username} - ${
+									filename={`${userList} - ${
 										collection.collection.properties.seasons[0]
 									} - ${collection.collection.properties.tiers[0]} - ${
 										collection.collection.name

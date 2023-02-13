@@ -252,7 +252,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 						<div>
 							<span className='text-orange-500'>B) </span>
 							{selectedTemplates.length === 1
-								? "Enter the number of cards:"
+								? "Enter the Number of items:"
 								: "Enter the number of sets:"}
 						</div>
 						<div className='flex flex-col'>
