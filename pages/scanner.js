@@ -56,7 +56,7 @@ const Scanner = () => {
 		if (selectedUsers.some((usr) => usr.id === user.user.id))
 			setScanResults(
 				[...own.cards, ...own.stickers].map((item) =>
-					pickObj(item, selectedCollection, user.user.username)
+					pickObj(item, selectedCollection, user.user)
 				)
 			);
 
@@ -70,7 +70,7 @@ const Scanner = () => {
 				setScanResults((prev) => [
 					...prev,
 					...[...data.cards, ...data.stickers].map((item) =>
-						pickObj(item, selectedCollection, selectedUser.username)
+						pickObj(item, selectedCollection, selectedUser)
 					),
 				]);
 			}
@@ -203,6 +203,7 @@ const pickObj = (item, selectedCollection, owner) => {
 		title: item.type === "card" ? undefined : item.stickerTemplate.title,
 		inCirculation: item.type === "card" ? undefined : item.stickerTemplate.inCirculation,
 		collectionId: selectedCollection.collection.id,
-		owner: owner,
+		owner: owner.username,
+		owenrId: owner.id,
 	};
 };

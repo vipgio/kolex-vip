@@ -23,6 +23,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 			"Immutable",
 			"ID",
 			"Signed",
+			"Owner",
 			"Points",
 			"Point Gain",
 		],
@@ -71,6 +72,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.status === "imx_locked" ? "Yes" : "No",
 					item.id,
 					item.signed ? "Yes" : "No",
+					item.owner,
 					(item.rating * 10).toFixed(2),
 					Math.max(item.delta, 0),
 			  ]);

@@ -60,6 +60,7 @@ const PackSearch = () => {
 								"mintCount",
 								"openedCount",
 								"images",
+								"acquireType",
 							])
 						),
 					]);
