@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { toast } from "react-toastify";
 import { useAxios } from "hooks/useAxios";
+import { UserContext } from "context/UserContext";
 import LoadingSpin from "../LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 
 const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 	const { fetchData, patchData } = useAxios();
 	const [trades, setTrades] = useState([]);
+	const { user, setUser } = useContext(UserContext);
 	const [progress, setProgress] = useState(0);
 	const counter = useRef(0);
 	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
