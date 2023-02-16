@@ -23,6 +23,7 @@ const App = ({ Component, pageProps }) => {
 		"/rush",
 		"/transfer",
 		"/vip",
+		"delist",
 	];
 	const premiumRoutes = [
 		"/packmanager",

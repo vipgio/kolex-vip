@@ -1,9 +1,19 @@
 import { CSVLink } from "react-csv";
 const ExportToCSV = ({ data, filename, type }) => {
 	const headers = {
-		mint: ["Mint", "Title", "Owner", "ID", "Signed", "Points", "Point gain"],
+		mint: [
+			"Mint Batch",
+			"Mint Number",
+			"Title",
+			"Owner",
+			"ID",
+			"Signed",
+			"Points",
+			"Point gain",
+		],
 		market: [
-			"Mint",
+			"Mint Batch",
+			"Mint Number",
 			"Title",
 			"Seller",
 			"ID",
@@ -15,25 +25,30 @@ const ExportToCSV = ({ data, filename, type }) => {
 			"Price",
 			"Link",
 		],
+		compact: ["Best Mint", "Title", "Owned", "Circulation"],
 		full: [
-			"Mint",
+			"Mint Batch",
+			"Mint Number",
 			"Title",
 			"Circulation",
 			"Listed",
+			"Market ID",
 			"Immutable",
 			"ID",
 			"Signed",
 			"Owner",
 			"Points",
+			"Need",
 			"Point Gain",
 		],
-		compact: ["Best Mint", "Title", "Owned", "Circulation"],
 	};
 
 	const array =
 		type === "mint"
 			? data.map((item) => [
-					`${item.mintBatch}${item.mintNumber}`,
+					//mint search
+					item.mintBatch,
+					item.mintNumber,
 					item.title,
 					item.owner.username,
 					item.id,
@@ -43,7 +58,9 @@ const ExportToCSV = ({ data, filename, type }) => {
 			  ])
 			: type === "market"
 			? data.map((item) => [
-					`${item[item.type].mintBatch}${item[item.type].mintNumber}`,
+					//market search
+					item[item.type].mintBatch,
+					item[item.type].mintNumber,
 					item.title,
 					item.user.username,
 					item.card ? item.card.id : item.sticker.id,
@@ -59,21 +76,27 @@ const ExportToCSV = ({ data, filename, type }) => {
 			  ])
 			: type === "compact"
 			? data.map((item) => [
-					`${item.mintBatch}${item.mintNumber}`,
+					//scanner compact
+					item.mintBatch,
+					item.mintNumber,
 					item.title,
 					item.owned,
 					item.inCirculation,
 			  ])
 			: data.map((item) => [
-					`${item.mintBatch}${item.mintNumber}`,
+					//scanner
+					item.mintBatch,
+					item.mintNumber,
 					item.title,
 					item.inCirculation,
 					item.status === "market" ? "Yes" : "No",
+					item.marketId,
 					item.status === "imx_locked" ? "Yes" : "No",
 					item.id,
 					item.signed ? "Yes" : "No",
 					item.owner,
 					(item.rating * 10).toFixed(2),
+					item.need ? "Yes" : "No",
 					Math.max(item.delta, 0),
 			  ]);
 

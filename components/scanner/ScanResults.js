@@ -25,11 +25,9 @@ const ScanResult = React.memo(
 			.toString();
 		const [filterMethod, setFilterMethod] = useState("all");
 		const strippedResults = scanResults.map((result) => {
-			const ownedItem = isSelfScan
-				? null
-				: sortBy(ownedItems, ["mintBatch", "mintNumber"]).find(
-						(own) => own.templateId === result.templateId
-				  );
+			const ownedItem = sortBy(ownedItems, ["mintBatch", "mintNumber"]).find(
+				(own) => own.templateId === result.templateId
+			);
 			const ownedRating = ownedItem ? ownedItem?.rating : 0;
 			return {
 				...result,
@@ -46,6 +44,7 @@ const ScanResult = React.memo(
 						: result.inCirculation,
 				type: result.type === "card" ? "card" : "sticker",
 				delta: !isSelfScan && fixDecimal((result.rating - ownedRating) * 10),
+				need: ownedRating === 0,
 			};
 		});
 		const sortedInc = sortBy(strippedResults, [

@@ -205,5 +205,6 @@ const pickObj = (item, selectedCollection, owner) => {
 		collectionId: selectedCollection.collection.id,
 		owner: owner.username,
 		owenrId: owner.id,
+		marketId: item.isMarketList ? item.marketId : "-",
 	};
 };

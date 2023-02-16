@@ -37,6 +37,7 @@ const FullListRow = React.memo(
 						: "bg-gray-100 dark:bg-gray-800"
 				}`}
 				key={item.id}
+				onClick={() => console.log(item)}
 			>
 				<td
 					className={`py-1 px-2 sm:py-3 sm:px-6 ${
@@ -59,7 +60,10 @@ const FullListRow = React.memo(
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.id}</td>
 				{!singleUserSearch && <td className='py-1 px-2 sm:py-3 sm:px-6'>{item.owner}</td>}
 				{!isSelfScan && (
-					<td className='py-1 px-2 sm:py-3 sm:px-6'>
+					<td
+						className={`py-1 px-2 sm:py-3 sm:px-6 ${item.need ? "font-bold" : ""}`}
+						title={item.need ? "Need" : ""}
+					>
 						{item.delta > 0 ? `+${item.delta}` : 0}
 					</td>
 				)}
