@@ -11,7 +11,7 @@ import ModeSelection from "@/components/transfer/ModeSelection";
 
 const AccountTransfer = () => {
 	const { user } = useContext(UserContext);
-	const [selectedUser, setSelectedUser] = useState(null);
+	const [selectedUsers, setSelectedUsers] = useState([]);
 	const [transferMode, setTransferMode] = useState(null);
 	const [send, setSend] = useState(true);
 	const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ const AccountTransfer = () => {
 	useEffect(() => {
 		setShowReceiveSection(false);
 		setShowSendSection(false);
-	}, [selectedUser?.id]);
+	}, [selectedUsers[0]?.id]);
 
 	return (
 		<>
@@ -63,19 +63,21 @@ const AccountTransfer = () => {
 				<div className='relative mt-2 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='overflow-hidden'>
 						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
-							<span>Selected User: {selectedUser?.username}</span>
+							<span>
+								Selected User: {selectedUsers.length > 0 && selectedUsers[0].username}
+							</span>
 						</div>
 						<UserSearch
-							setSelectedUser={setSelectedUser}
-							selectedUser={selectedUser}
+							setSelectedUsers={setSelectedUsers}
+							selectedUsers={selectedUsers}
 							allowed={user.info.transfers > 0}
 						/>
 					</div>
 				</div>
-				{selectedUser && (
+				{selectedUsers.length > 0 && (
 					<Toggle
 						user={user}
-						selectedUser={selectedUser}
+						selectedUser={selectedUsers[0]}
 						inProgress={loading}
 						send={send}
 						setSend={setSend}
@@ -86,7 +88,9 @@ const AccountTransfer = () => {
 					{/* accept received trades*/}
 					<button
 						className='button ml-auto'
-						disabled={!selectedUser || loading || selectedUser.id === user.user.id}
+						disabled={
+							!selectedUsers.length > 0 || loading || selectedUsers[0].id === user.user.id
+						}
 						onClick={handleStart}
 					>
 						Next
@@ -94,7 +98,7 @@ const AccountTransfer = () => {
 				</div>
 				{showReceiveSection && (
 					<ReceiveSection
-						selectedUser={selectedUser}
+						selectedUser={selectedUsers[0]}
 						loading={loading}
 						setLoading={setLoading}
 					/>
@@ -107,7 +111,7 @@ const AccountTransfer = () => {
 						/>
 						<SendSection
 							transferMode={transferMode}
-							selectedUser={selectedUser}
+							selectedUser={selectedUsers[0]}
 							user={user}
 							loading={loading}
 							setLoading={setLoading}
