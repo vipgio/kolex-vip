@@ -131,7 +131,7 @@ const NewNavbar = () => {
 						className='rounded-full focus:outline-purple-500 focus-visible:outline-offset-4 focus-visible:outline-orange-500'
 						// className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
 					>
-						<FaDiscord className='h-full w-full hover:text-gray-200' />
+						<FaDiscord className='h-full w-full hover:text-gray-600 dark:hover:text-gray-200' />
 					</a>
 				</button>
 				<button

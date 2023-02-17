@@ -1,21 +1,20 @@
-import { useContext, useEffect, useState, useRef } from "react";
-import axios from "axios";
+import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
-import { UserContext } from "context/UserContext";
-import SpinResult from "./SpinResult";
 import { useAxios } from "hooks/useAxios";
+import SpinResult from "./SpinResult";
 import Tooltip from "./Tooltip";
+import Recap from "./spinner/Recap";
 import "react-toastify/dist/ReactToastify.css";
 
 const SpinArea = ({ info }) => {
 	const intervalRef = useRef();
 	const spinCount = useRef(0);
-	const { fetchData } = useAxios();
-	const { user } = useContext(UserContext);
+	const { fetchData, postData } = useAxios();
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
 	const [spinLimit, setSpinLimit] = useState(10000);
+	const [showRecap, setShowRecap] = useState(false);
 	const [funds, setFunds] = useState({
 		craftingcoins: 0,
 		epicoins: 0,
@@ -28,38 +27,19 @@ const SpinArea = ({ info }) => {
 	};
 
 	const buySpin = async () => {
-		const { data } = await axios.post(
-			"/api/spinner/buySpin",
-			{
-				data: {
-					amount: 1,
-				},
-			},
-			{
-				headers: {
-					jwt: user.jwt,
-				},
-			}
-		);
-		if (data.success) return data.data;
-		if (!data.success) console.log(data.response);
+		const { result, error } = await postData("/api/spinner/buySpin", {
+			amount: 1,
+		});
+		if (result) return result;
+		if (error) console.log(error);
 	};
 
 	const spin = async (id) => {
-		const { data } = await axios.post(
-			"/api/spinner/spin",
-			{
-				data: {
-					spinnerId: id,
-				},
-			},
-			{
-				headers: {
-					jwt: user.jwt,
-				},
-			}
-		);
-		if (data.success) return data.data;
+		const { result, error } = await postData("/api/spinner/spin", {
+			spinnerId: id,
+		});
+		if (result) return result;
+		if (error) console.log(error);
 	};
 
 	const doSpin = async () => {
@@ -69,23 +49,17 @@ const SpinArea = ({ info }) => {
 				const spinResult = await spin(info.id);
 				spinCount.current++;
 				if (spinResult.cards.length > 0) {
-					const { data: templates } = await axios.get(`/api/cards/templates`, {
-						params: {
-							cardIds: spinResult.cards.map((card) => card.cardTemplateId).toString(),
-						},
-						headers: {
-							jwt: user.jwt,
-						},
+					const { result: templates, error } = await fetchData("/api/cards/templates", {
+						cardIds: spinResult.cards.map((card) => card.cardTemplateId).toString(),
 					});
-					const title =
-						templates && templates.data && templates.data[0] && templates.data[0].title;
+					const title = templates && templates[0] && templates[0].title;
 					setSpinRes((prev) => [
 						{
 							...spinResult,
 							time: new Date(),
 							title: title
 								? title
-								: "Something, but kolex is buggy so can't find the card",
+								: "Something, but there was a problem so can't find the card",
 						},
 						...prev,
 					]);
@@ -95,9 +69,9 @@ const SpinArea = ({ info }) => {
 				await getFunds();
 			} catch (err) {
 				console.log(err);
-				if (err.response.data.errorCode === "low_user_balance") stopSpin();
-				toast.error(err.response.data.error, {
-					toastId: err.response.data.errorCode,
+				if (err.response?.data.errorCode === "low_user_balance") stopSpin();
+				toast.error(err.response?.data.error, {
+					toastId: err.response?.data.errorCode,
 				});
 			}
 		} else {
@@ -206,6 +180,22 @@ const SpinArea = ({ info }) => {
 						</span>
 						{spinRes.length === 1 ? "time" : "times"}
 					</div>
+					{spinRes.length > 0 && (
+						<button
+							onClick={() => setShowRecap(true)}
+							className='ml-2 inline-flex cursor-pointer items-center rounded-md border border-gray-800 bg-gray-100 px-1 py-0.5 text-center text-gray-700 shadow-lg transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-200 dark:text-gray-800 dark:hover:text-gray-800'
+						>
+							Recap
+						</button>
+					)}
+					{showRecap ? (
+						<Recap
+							spins={spinRes}
+							items={info.items}
+							isOpen={showRecap}
+							setIsOpen={setShowRecap}
+						/>
+					) : null}
 					<div className='ml-auto'>
 						<button
 							className='flex items-center rounded-md bg-red-500 p-2 hover:bg-red-600 active:bg-red-700'
