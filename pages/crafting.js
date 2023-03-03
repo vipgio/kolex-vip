@@ -47,7 +47,7 @@ const Crafting = () => {
 			}
 		} catch (err) {
 			setLoading(false);
-			console.log(err);
+
 			toast.error(err.message, {
 				toastId: err.code,
 			});
@@ -77,9 +77,11 @@ const Crafting = () => {
 					<LoadingSpin />
 				) : plans.length > 0 ? (
 					<div className='grid grid-cols-1 gap-5 self-start px-5 sm:grid-cols-3'>
-						{plans.map((plan) => (
-							<PlanSelection plan={plan} slots={slots} key={plan.id} />
-						))}
+						{plans
+							.sort((a, b) => a.id - b.id)
+							.map((plan) => (
+								<PlanSelection plan={plan} slots={slots} key={plan.id} />
+							))}
 					</div>
 				) : (
 					<div className='flex justify-center text-gray-700 dark:text-gray-300 '>

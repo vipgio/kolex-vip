@@ -34,6 +34,16 @@ const BigModal = ({
 		}
 	}, [leave]);
 
+	useEffect(() => {
+		const listener = (e) => {
+			if (e.key === "Escape") {
+				close();
+			}
+		};
+		window.addEventListener("keydown", listener);
+		return () => window.removeEventListener("keydown", listener);
+	}, []);
+
 	return (
 		<Transition
 			appear={true}

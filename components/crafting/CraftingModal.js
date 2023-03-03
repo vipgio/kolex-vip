@@ -13,7 +13,7 @@ const CraftingModal = React.memo(
 		const { user } = useContext(UserContext);
 		const totalCards = useRef(0);
 		const [loading, setLoading] = useState(true);
-		const [dupeOnly, setDupeOnly] = useState("any");
+		const [dupeOnly, setDupeOnly] = useState("dupe");
 		const [craftResult, setCraftResult] = useState([]);
 		const [showResult, setShowResult] = useState(false);
 		const [craftCount, setCraftCount] = useState(0);
@@ -295,19 +295,6 @@ const CraftingModal = React.memo(
 									</div>
 									<div className='ml-5 flex flex-col'>
 										<div className='flex'>
-											<label htmlFor='any' className='mr-1 hover:cursor-pointer'>
-												Use any worst mint
-											</label>
-											<input
-												type='radio'
-												name='dupe'
-												id='any'
-												checked={dupeOnly === "any"}
-												onChange={(e) => setDupeOnly(e.target.id)}
-												className='hover:cursor-pointer'
-											/>
-										</div>
-										<div className='flex'>
 											<label htmlFor='dupe' className='mr-1 hover:cursor-pointer'>
 												Only use dupe items
 											</label>
@@ -316,6 +303,19 @@ const CraftingModal = React.memo(
 												name='dupe'
 												id='dupe'
 												checked={dupeOnly === "dupe"}
+												onChange={(e) => setDupeOnly(e.target.id)}
+												className='hover:cursor-pointer'
+											/>
+										</div>
+										<div className='flex'>
+											<label htmlFor='any' className='mr-1 hover:cursor-pointer'>
+												Use any worst mint
+											</label>
+											<input
+												type='radio'
+												name='dupe'
+												id='any'
+												checked={dupeOnly === "any"}
 												onChange={(e) => setDupeOnly(e.target.id)}
 												className='hover:cursor-pointer'
 											/>

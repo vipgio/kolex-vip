@@ -65,7 +65,6 @@ const History = () => {
 						setHistory((prev) => [...prev, data.data]);
 						// setLoading(false);
 					} catch (err) {
-						console.log(err);
 						setLoading(false);
 						toast.error(`${err.response.data.error} ${cardId}`, {
 							toastId: cardId,

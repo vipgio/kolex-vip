@@ -24,7 +24,6 @@ export default async function handler(req, res) {
 		const { data } = await getListed(jwt, userId, page, type);
 		res.status(200).json(data);
 	} catch (err) {
-		console.log(err);
 		res.status(err.response.status).json(err.response.data);
 	}
 }

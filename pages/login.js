@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaDiscord } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
 import Tooltip from "@/components/Tooltip";
 import "react-toastify/dist/ReactToastify.css";
@@ -53,7 +53,6 @@ const Login = () => {
 				setLoading(false);
 			}
 		} catch (err) {
-			console.log(err);
 			if (!codeEnabled && err.response.data.errorCode === "2fa_invalid") {
 				setCodeEnabled(true);
 				toast.warning("Enter your 2FA code", {
@@ -81,6 +80,20 @@ const Login = () => {
 				pauseOnHover
 			/>
 			{/* <div className='flex w-full'> */}
+			<div className='absolute right-8 top-4'>
+				<button className='mx-2 h-5 w-5'>
+					<a
+						href='https://discordapp.com/users/473436055958192128'
+						target='_blank'
+						rel='noreferrer'
+						title='Contact me on Discord'
+						className='rounded-full focus:outline-purple-500 focus-visible:outline-offset-4 focus-visible:outline-orange-500'
+						// className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
+					>
+						<FaDiscord className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
+					</a>
+				</button>
+			</div>
 			<div className='absolute right-0 top-4' title='Source Code'>
 				<a
 					href='https://github.com/vipgio/kolex-vip'
@@ -126,7 +139,8 @@ const Login = () => {
 						<input
 							type='text'
 							name='2fa'
-							placeholder='Two Factor Authentication'
+							placeholder='Two Factor Authentication Code'
+							autoComplete='off'
 							value={code}
 							onChange={(e) => setCode(e.target.value)}
 							disabled={loading}

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "context/UserContext";
 import Meta from "@/components/Meta";
-import SpinArea from "@/components/SpinArea";
+import SpinArea from "@/components/spinner/SpinArea";
 
 const Spinner = () => {
 	const { user } = useContext(UserContext);

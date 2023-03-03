@@ -158,7 +158,7 @@ const features = {
 	cardlister: { name: "Card Lister", link: "/cardlister" },
 	history: { name: "History", link: "/history" },
 	trades: { name: "Trades", link: "" },
-	feed: { name: "Custom Feed", link: "" },
+	feed: { name: "Custom Feed", link: "/feed" },
 	transfer: { name: "Account Transfer", link: "/transfer" },
 	vip: { name: "Stuff", link: "/vip" },
 };

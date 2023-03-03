@@ -6,11 +6,7 @@ export default async function handler(req, res) {
 	const supabase = createClient(supabaseUrl, supabaseKey);
 	const { username } = req.query;
 	try {
-		let { data, error } = await supabase
-			.from("whitelist")
-			.select("*")
-			.eq("username", username);
-		error && console.log(error);
+		let { data } = await supabase.from("whitelist").select("*").eq("username", username);
 		res.status(200).json(data[0]);
 	} catch (err) {
 		res.status(500).json(err);

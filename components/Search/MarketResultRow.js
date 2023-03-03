@@ -26,11 +26,16 @@ const MarketResultRow = ({ item, allowed }) => {
 				{ toastId: item.marketId, autoClose: 3000, position: "top-left" }
 			);
 		} else {
-			toast.error(error.response.data.error, {
-				toastId: item.marketId,
-				autoClose: 3000,
-				position: "top-left",
-			});
+			toast.error(
+				error.response.data.errorCode === "market_price_changed"
+					? "Market price changed!"
+					: error.response.data.error,
+				{
+					toastId: item.marketId,
+					autoClose: 3000,
+					position: "top-left",
+				}
+			);
 		}
 		setLoading(false);
 	};

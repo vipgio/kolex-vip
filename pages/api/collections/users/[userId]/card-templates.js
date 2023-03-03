@@ -37,7 +37,6 @@ export default async function handler(req, res) {
 		const result = type === "card" ? cards : stickers;
 		res.status(200).json(result);
 	} catch (err) {
-		console.log(err);
 		res.status(err.response.status).json(err.response.data);
 	}
 }

@@ -3,8 +3,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
 import { useAxios } from "hooks/useAxios";
 import SpinResult from "./SpinResult";
-import Tooltip from "./Tooltip";
-import Recap from "./spinner/Recap";
+import Tooltip from "../Tooltip";
+import Recap from "./Recap";
 import "react-toastify/dist/ReactToastify.css";
 
 const SpinArea = ({ info }) => {
@@ -68,7 +68,6 @@ const SpinArea = ({ info }) => {
 				}
 				await getFunds();
 			} catch (err) {
-				console.log(err);
 				if (err.response?.data.errorCode === "low_user_balance") stopSpin();
 				toast.error(err.response?.data.error, {
 					toastId: err.response?.data.errorCode,
