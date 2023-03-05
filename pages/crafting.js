@@ -2,12 +2,14 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import Meta from "@/components/Meta";
 import PlanSelection from "@/components/crafting/PlanSelection";
 import LoadingSpin from "@/components/LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 
 const Crafting = () => {
+	const { fetchData } = useAxios();
 	const [plans, setPlans] = useState([]);
 	const [slots, setSlots] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -36,18 +38,15 @@ const Crafting = () => {
 			const data = await getPlans();
 			setPlans(data.data.plans);
 			const slots = await getUserSlots();
-			const freeSlots = slots.data.slots.filter((slot) => !slot.used);
-			if (freeSlots.length === 0) {
-				toast.error("You have no available slots. Contact me or staff to resolve", {
-					toastId: "slots_full",
-				});
+			setSlots(slots.data.slots);
+			const usedSlots = slots.data.slots.filter((slot) => slot.used);
+			if (usedSlots.length > 0) {
+				await clearSlots(usedSlots);
 			} else {
-				setSlots(freeSlots);
 				setLoading(false);
 			}
 		} catch (err) {
 			setLoading(false);
-
 			toast.error(err.message, {
 				toastId: err.code,
 			});
@@ -57,6 +56,35 @@ const Crafting = () => {
 	useEffect(() => {
 		getData();
 	}, []);
+
+	const clearSlots = async (slots) => {
+		slots.map(async (slot) => {
+			try {
+				const { data } = await axios.post(
+					`/api/crafting/open-instant`,
+					{
+						slotId: slot.id,
+					},
+					{
+						headers: {
+							jwt: user.jwt,
+						},
+					}
+				);
+				if (data.success) {
+					toast.success("All slots cleared!", {
+						toastId: "cleared",
+					});
+				}
+				setLoading(false);
+			} catch (err) {
+				toast.error(err.response.data.error, {
+					toastId: err.response.data.errorCode,
+				});
+				setLoading(false);
+			}
+		});
+	};
 
 	return (
 		<>
@@ -80,7 +108,7 @@ const Crafting = () => {
 						{plans
 							.sort((a, b) => a.id - b.id)
 							.map((plan) => (
-								<PlanSelection plan={plan} slots={slots} key={plan.id} />
+								<PlanSelection plan={plan} key={plan.id} />
 							))}
 					</div>
 				) : (
