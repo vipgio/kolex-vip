@@ -1,6 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
+import { API } from "@/config/config";
+import { UserContext } from "context/UserContext";
 import { useAxios } from "hooks/useAxios";
 import SpinResult from "./SpinResult";
 import Tooltip from "../Tooltip";
@@ -8,6 +11,7 @@ import Recap from "./Recap";
 import "react-toastify/dist/ReactToastify.css";
 
 const SpinArea = ({ info }) => {
+	const { user } = useContext(UserContext);
 	const intervalRef = useRef();
 	const spinCount = useRef(0);
 	const { fetchData, postData } = useAxios();
@@ -35,11 +39,22 @@ const SpinArea = ({ info }) => {
 	};
 
 	const spin = async (id) => {
-		const { result, error } = await postData("/api/spinner/spin", {
-			spinnerId: id,
-		});
-		if (result) return result;
-		if (error) console.log(error);
+		try {
+			const { data } = await axios.post(
+				`${API}/spinner/spin?categoryId=1`,
+				{
+					spinnerId: id,
+				},
+				{
+					headers: {
+						"x-user-jwt": user.jwt,
+					},
+				}
+			);
+			if (data.success) return data.data;
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	const doSpin = async () => {

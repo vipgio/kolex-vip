@@ -4,23 +4,19 @@ import countBy from "lodash/countBy";
 
 const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 	const counted = Object.entries(countBy(spins, "id"));
+	const totalSpent =
+		counted.reduce(
+			(acc, cur) =>
+				acc +
+				items.find((item) => item.id === Number(cur[0])).properties.silvercoins * cur[1],
+			0
+		) -
+		spins.length * 1000;
 
 	const closeModal = () => setIsOpen(false);
 
-	const openModal = () => setIsOpen(true);
-
 	return (
 		<>
-			<div className='absolute flex items-center justify-center'>
-				<button
-					type='button'
-					onClick={openModal}
-					className='flex h-5 w-5 items-center justify-center rounded-full text-sm font-medium text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:text-gray-100'
-				>
-					Recap
-				</button>
-			</div>
-
 			<Transition appear show={isOpen} as={Fragment}>
 				<Dialog as='div' className='relative z-30' onClose={closeModal}>
 					<Transition.Child
@@ -50,6 +46,7 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 									<Dialog.Title
 										as='h3'
 										className='text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
+										onClick={() => console.log(spins, items)}
 									>
 										Spins Recap: {spins.length} spins
 									</Dialog.Title>
@@ -77,6 +74,9 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 													</Fragment>
 												);
 											})}
+										<div className='mt-3 font-semibold'>
+											Silver: {totalSpent} Silvercoins
+										</div>
 									</div>
 									<div className='mt-4'>
 										<button type='button' className='button' onClick={closeModal}>

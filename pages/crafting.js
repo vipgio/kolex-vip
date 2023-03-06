@@ -9,9 +9,7 @@ import LoadingSpin from "@/components/LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 
 const Crafting = () => {
-	const { fetchData } = useAxios();
 	const [plans, setPlans] = useState([]);
-	const [slots, setSlots] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const { user } = useContext(UserContext);
 
@@ -38,7 +36,6 @@ const Crafting = () => {
 			const data = await getPlans();
 			setPlans(data.data.plans);
 			const slots = await getUserSlots();
-			setSlots(slots.data.slots);
 			const usedSlots = slots.data.slots.filter((slot) => slot.used);
 			if (usedSlots.length > 0) {
 				await clearSlots(usedSlots);
