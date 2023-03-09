@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
 import axios from "axios";
+import axiosRateLimit from "axios-rate-limit";
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,6 +8,9 @@ import { UserContext } from "context/UserContext";
 import CraftResultModal from "./CraftResultModal";
 import BigModal from "../BigModal";
 import "react-toastify/dist/ReactToastify.css";
+
+const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
+const { API } = require("@/config/config");
 
 const CraftingModal = React.memo(
 	({ showModal, setShowModal, plan }) => {
@@ -146,15 +150,17 @@ const CraftingModal = React.memo(
 							}
 							if (template.userCount) {
 								try {
-									const { data: cards } = await axios.get(`/api/crafting/user-cards`, {
-										signal: controller.signal,
-										params: {
-											templateId: template.id,
-										},
-										headers: {
-											jwt: user.jwt,
-										},
-									});
+									const { data: cards } = await http(
+										`${API}/crafting/user-cards/${template.id}?categoryId=1`,
+										{
+											method: "GET",
+											headers: {
+												"Content-Type": "application/json",
+												"x-user-jwt": user.jwt,
+											},
+										}
+									);
+									console.log(cards);
 									cards.data.cards.map((item) => {
 										setOwnedCards((prev) => {
 											const oldItems = prev.filter((o) => o.id === reqId)[0];
