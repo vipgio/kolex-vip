@@ -3,9 +3,9 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaGithub, FaDiscord } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
-import Tooltip from "@/components/Tooltip";
+import KolexLogin from "@/components/login/KolexLogin";
+import ESLLogin from "@/components/login/ESLLogin";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingSpin from "@/components/LoadingSpin";
 
 const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
@@ -104,61 +104,20 @@ const Login = () => {
 				</a>
 			</div>
 			<div className='flex h-full w-full flex-col items-center justify-center'>
-				<span className='pb-2 text-xl font-semibold text-gray-700 dark:text-gray-300'>
-					Login using your Kolex account
-				</span>
-				<form
-					className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
+				<KolexLogin
+					code={code}
+					email={email}
+					password={password}
+					setPassword={setPassword}
+					setEmail={setEmail}
+					setCode={setCode}
+					loading={loading}
 					onSubmit={onSubmit}
-				>
-					<input
-						type='email'
-						name='email'
-						placeholder='Email address'
-						value={email}
-						required={true}
-						onChange={(e) => setEmail(e.target.value)}
-						autoComplete='email'
-						disabled={loading}
-						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-					/>
-
-					<input
-						type='password'
-						name='password'
-						placeholder='Password'
-						value={password}
-						required={true}
-						onChange={(e) => setPassword(e.target.value)}
-						autoComplete='current-password'
-						disabled={loading}
-						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-					/>
-
-					{codeEnabled && (
-						<input
-							type='text'
-							name='2fa'
-							placeholder='Two Factor Authentication Code'
-							autoComplete='off'
-							value={code}
-							onChange={(e) => setCode(e.target.value)}
-							disabled={loading}
-							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-						/>
-					)}
-					<button type='submit' disabled={loading} className='submit-button'>
-						{loading ? <LoadingSpin /> : "Login"}
-					</button>
-					<div className='pr-2 text-gray-700 dark:text-gray-300'>
-						<Tooltip
-							text={
-								"Your password is never stored or sent to anywhere other than kolex. If you have any questions you can check the source code or contact me on discord vipgio#4884"
-							}
-							direction='right'
-						/>
-					</div>
-				</form>
+					codeEnabled={codeEnabled}
+				/>
+				{/* <div className='mt-6'>
+					<ESLLogin />
+				</div> */}
 				<div className='absolute bottom-0 h-8 w-full border-t border-gray-600 p-1 dark:border-gray-400'>
 					<span className='text-sm text-gray-700 dark:text-gray-300'>
 						Cool site logo by{" "}

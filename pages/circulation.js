@@ -20,7 +20,7 @@ const Circulation = () => {
 			templateIds: templateIds,
 		});
 		if (packs.length > 0) {
-			const { result: packInfo } = await fetchData(`/api/packs/templates/${packs[0].id}`);
+			const { result: packInfo } = await fetchData(`/api/packs/templates/${packs[2].id}`);
 			const stickersMinted = items.stickers.map((sticker) => ({
 				...sticker,
 				mintCount: packInfo.entityTemplates.stickerTemplates.find(

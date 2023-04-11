@@ -14,7 +14,7 @@ const CompactRow = ({ packs, setListed, insertFloor }) => {
 
 	const getBestPrice = (price, floor) => {
 		if (price === floor) return floor;
-		if (price > floor) return Math.max(floor, minPrice);
+		if (price > floor) return Math.max(floor - 0.01, minPrice);
 	};
 
 	useEffect(() => {
