@@ -128,7 +128,9 @@ const CardHistory = React.memo(
 										{event.type === "imx-locked" && (
 											<div>
 												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
+													{event.receiver
+														? event.receiver.username
+														: event.sender.username}{" "}
 												</span>
 												transferred the item to Immutable.{" "}
 												<span className='block text-gray-500'>
@@ -153,6 +155,22 @@ const CardHistory = React.memo(
 													{event.receiver.username}{" "}
 												</span>
 												purchased the item from Immutable.{" "}
+												<span className='block text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
+											</div>
+										)}
+										{event.type === "eth-owner-update" && (
+											<div>
+												Ethereum item ownership updated.{" "}
+												<span className='block text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
+												</span>
+											</div>
+										)}
+										{event.type === "eth-locked" && (
+											<div>
+												Ethereum token trading disabled.{" "}
 												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
