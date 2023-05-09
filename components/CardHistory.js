@@ -141,9 +141,11 @@ const CardHistory = React.memo(
 										{event.type === "imx-unlocked" && (
 											<div>
 												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver?.username}{" "}
+													{event.receiver
+														? event.receiver.username
+														: event.sender?.username}{" "}
 												</span>
-												Item was transferred to Kolex.{" "}
+												transferred the item to Kolex.{" "}
 												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
@@ -151,13 +153,45 @@ const CardHistory = React.memo(
 										)}
 										{event.type === "imx-market" && (
 											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												purchased the item from Immutable.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
+												{event.receiver ? (
+													<>
+														<span className='font-medium text-green-600 dark:text-green-400'>
+															{event.receiver ? event.receiver.username : "null"}{" "}
+														</span>
+														purchased the item from Immutable
+														{event.value > 0 ? (
+															<>
+																{" "}
+																for
+																<span className='ml-1 font-semibold text-red-500'>
+																	{event.value}
+																</span>
+																ETH.{" "}
+															</>
+														) : (
+															"."
+														)}
+													</>
+												) : (
+													<>
+														<span className='font-medium text-green-600 dark:text-green-400'>
+															{event.sender ? event.sender.username : "null"}{" "}
+														</span>
+														sold the item on Immutable
+														{event.value > 0 ? (
+															<>
+																{" "}
+																for
+																<span className='ml-1 font-semibold text-red-500'>
+																	{event.value}
+																</span>
+																ETH.{" "}
+															</>
+														) : (
+															"."
+														)}
+													</>
+												)}
 											</div>
 										)}
 										{event.type === "eth-owner-update" && (
