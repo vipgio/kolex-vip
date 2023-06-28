@@ -19,7 +19,7 @@ const Packmanager = () => {
 			if (res.data.success)
 				if (res.data.data.packs.length > 0) {
 					res.data.data.packs.forEach((pack) => {
-						const index = findIndex(templates, { name: pack.packTemplate.name });
+						const index = findIndex(templates, { id: pack.packTemplate.id });
 
 						index !== -1 // if the pack template is already in the array
 							? templates[index].packs.push({
