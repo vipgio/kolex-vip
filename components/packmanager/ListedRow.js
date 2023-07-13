@@ -4,6 +4,7 @@ import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
+import fixDecimal from "utils/NumberUtils";
 
 const ListedRow = ({ pack, setListed, insertFloor }) => {
 	const { patchData, deleteData } = useAxios();
@@ -12,12 +13,13 @@ const ListedRow = ({ pack, setListed, insertFloor }) => {
 
 	const getBestPrice = (price, floor) => {
 		if (price === floor) return floor;
-		if (price > floor) return Math.max(floor - 0.01, minPrice);
+		if (price > floor) return Math.max((floor * 100 - 1) / 100, minPrice);
+		if (price < floor) return floor;
 	};
 
 	useEffect(() => {
 		if (insertFloor) {
-			setNewPrice(getBestPrice(pack.price, pack.floor).toString());
+			setNewPrice(fixDecimal(getBestPrice(pack.price, pack.floor)).toString());
 		}
 	}, [insertFloor]);
 

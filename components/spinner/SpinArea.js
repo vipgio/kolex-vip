@@ -14,10 +14,11 @@ const SpinArea = ({ info }) => {
 	const { user } = useContext(UserContext);
 	const intervalRef = useRef();
 	const spinCount = useRef(0);
+	const inProgress = useRef(false);
 	const { fetchData, postData } = useAxios();
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
-	const [spinLimit, setSpinLimit] = useState(10000);
+	const [spinLimit, setSpinLimit] = useState(1000);
 	const [showRecap, setShowRecap] = useState(false);
 	const [funds, setFunds] = useState({
 		craftingcoins: 0,
@@ -59,35 +60,39 @@ const SpinArea = ({ info }) => {
 
 	const doSpin = async () => {
 		if (spinCount.current < spinLimit) {
-			try {
-				await buySpin();
-				const spinResult = await spin(info.id);
-				spinCount.current++;
-				if (spinResult.cards.length > 0) {
-					const { result: templates, error } = await fetchData("/api/cards/templates", {
-						cardIds: spinResult.cards.map((card) => card.cardTemplateId).toString(),
+			if (inProgress.current === false)
+				try {
+					inProgress.current = true;
+					await buySpin();
+					const spinResult = await spin(info.id);
+					spinCount.current++;
+					if (spinResult.cards.length > 0) {
+						const { result: templates, error } = await fetchData("/api/cards/templates", {
+							cardIds: spinResult.cards.map((card) => card.cardTemplateId).toString(),
+						});
+						const title = templates && templates[0] && templates[0].title;
+						setSpinRes((prev) => [
+							{
+								...spinResult,
+								time: new Date(),
+								title: title
+									? title
+									: "Something, but there was a problem so can't find the card",
+							},
+							...prev,
+						]);
+						inProgress.current = false;
+					} else {
+						setSpinRes((prev) => [{ ...spinResult, time: new Date() }, ...prev]);
+						inProgress.current = false;
+					}
+					await getFunds();
+				} catch (err) {
+					if (err.response?.data.errorCode === "low_user_balance") stopSpin();
+					toast.error(err.response?.data.error, {
+						toastId: err.response?.data.errorCode,
 					});
-					const title = templates && templates[0] && templates[0].title;
-					setSpinRes((prev) => [
-						{
-							...spinResult,
-							time: new Date(),
-							title: title
-								? title
-								: "Something, but there was a problem so can't find the card",
-						},
-						...prev,
-					]);
-				} else {
-					setSpinRes((prev) => [{ ...spinResult, time: new Date() }, ...prev]);
 				}
-				await getFunds();
-			} catch (err) {
-				if (err.response?.data.errorCode === "low_user_balance") stopSpin();
-				toast.error(err.response?.data.error, {
-					toastId: err.response?.data.errorCode,
-				});
-			}
 		} else {
 			stopSpin();
 		}

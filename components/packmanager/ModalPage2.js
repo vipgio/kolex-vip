@@ -167,11 +167,11 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							disabled={!offerEnabled}
 							className='input-field w-28 disabled:cursor-not-allowed'
 							min={0.1}
-							max={price - 0.01}
+							max={(price * 100 - 0.01 * 100) / 100}
 							onChange={(e) => setMinOffer(e.target.value)} // remove leading zeros and non-numeric characters
 							onBlur={(e) => {
 								if (Number(e.target.value) >= Number(price)) {
-									setMinOffer(price - 0.01);
+									setMinOffer((price * 100 - 0.01 * 100) / 100);
 								}
 							}}
 							onFocus={(e) => e.target.select()}

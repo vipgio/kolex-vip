@@ -75,7 +75,7 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 												);
 											})}
 										<div className='mt-3 font-semibold'>
-											Silver: {totalSpent} Silvercoins
+											Silver: {totalSpent.toLocaleString()} Silvercoins
 										</div>
 									</div>
 									<div className='mt-4'>
