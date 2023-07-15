@@ -80,7 +80,7 @@ const PackResults = React.memo(
 					<div className='flex'>
 						Link to marketplace:
 						<a
-							href={`https://kolex.gg/loadout/marketplace/pack/${pack.id}`}
+							href={`https://kolex.gg/csgo/marketplace/pack/${pack.id}`}
 							className='ml-1 flex items-center text-indigo-500 hover:underline'
 							target='_blank'
 							rel='noreferrer'
@@ -105,7 +105,7 @@ const PackResults = React.memo(
 					<div className='flex'>
 						Link to drop page:
 						<a
-							href={`https://kolex.gg/loadout/drop/${pack.id}`}
+							href={`https://kolex.gg/csgo/drop/${pack.id}`}
 							className='ml-1 flex items-center text-indigo-500 hover:underline'
 							target='_blank'
 							rel='noreferrer'

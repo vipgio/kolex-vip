@@ -1,13 +1,10 @@
 import { useContext, useState, useEffect } from "react";
 import pick from "lodash/pick";
-import ImageWrapper from "HOC/ImageWrapper";
-import { CDN } from "@/config/config";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
 import Toggle from "@/components/packs/Toggle";
 import Filters from "@/components/packs/Filters";
 import DirectSearch from "@/components/packs/DirectSearch";
-import PackModal from "@/components/packs/PackModal";
 import FilteredBox from "@/components/packs/FilteredBox";
 
 const PackSearch = () => {
