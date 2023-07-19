@@ -2,10 +2,11 @@ import { useContext, useState } from "react";
 import uniqBy from "lodash/uniqBy";
 import { UserContext } from "context/UserContext";
 import TransactionResultsRow from "./TransactionResultsRow";
+import ExportToCSV from "../ExportToCSV";
 
-const TransactionResults = ({ results }) => {
+const TransactionResults = ({ results, filters }) => {
 	const { user } = useContext(UserContext);
-	const [filterMethod, setFilterMethod] = useState("all");
+	const [filterMethod, setFilterMethod] = useState("both");
 	const filteredResults =
 		filterMethod === "both"
 			? results
@@ -35,26 +36,45 @@ const TransactionResults = ({ results }) => {
 					<option value='expense'>Expense</option>
 				</select>
 			</div>
-			<div className='m-1 font-medium text-gray-700 dark:text-gray-300'>
-				Total events: {filteredResults.length}
-			</div>
-			<div className='m-1 font-medium text-gray-700 dark:text-gray-300'>
-				Total amount:
-				<span
-					className={
-						Number(filteredResults.reduce((acc, cur) => acc + Number(cur.amount), 0)) > 0
-							? "text-green-400"
-							: "text-red-400"
-					}
-				>
-					{" "}
-					{filteredResults
-						.reduce((acc, cur) => acc + Number(cur.amount), 0)
-						.toLocaleString()}{" "}
-				</span>
-				{results[0]?.costType.length <= 4
-					? results[0]?.costType.toUpperCase()
-					: results[0]?.costType[0].toUpperCase() + results[0]?.costType.slice(1)}
+			<div className='flex'>
+				<div>
+					<div className='m-1 font-medium text-gray-700 dark:text-gray-300'>
+						Total events: {filteredResults.length}
+					</div>
+					<div className='m-1 font-medium text-gray-700 dark:text-gray-300'>
+						Total amount:
+						<span
+							className={
+								Number(
+									filteredResults.reduce((acc, cur) => acc + Number(cur.amount), 0)
+								) > 0
+									? "text-green-400"
+									: "text-red-400"
+							}
+						>
+							{" "}
+							{filteredResults
+								.reduce((acc, cur) => acc + Number(cur.amount), 0)
+								.toLocaleString()}{" "}
+						</span>
+						{results[0]?.costType.length <= 4
+							? results[0]?.costType.toUpperCase()
+							: results[0]?.costType[0].toUpperCase() + results[0]?.costType.slice(1)}
+					</div>
+				</div>
+				<div className='ml-auto mr-2'>
+					<ExportToCSV
+						type='transaction'
+						filename={`Transactions - ${filters.startDate
+							?.toISOString()
+							.split("T")[0]
+							.replaceAll("-", "/")}-${filters.endDate
+							?.toISOString()
+							.split("T")[0]
+							.replaceAll("-", "/")} - ${filters.costType}`}
+						data={filteredResults}
+					/>
+				</div>
 			</div>
 			<div className='mx-1 mb-5 flex flex-col justify-center overflow-x-auto rounded border border-gray-300'>
 				<table className='w-full table-auto'>

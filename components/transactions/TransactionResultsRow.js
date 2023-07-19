@@ -25,7 +25,7 @@ const TransactionResultsRow = ({ item, allowed }) => {
 				{item.type[0].toUpperCase() + item.type.slice(1)}
 			</td>
 			{item.costType !== "silvercoins" && (
-				<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.details.title}</td>
+				<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.details?.title}</td>
 			)}
 			<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>
 				{item.costType.length <= 4

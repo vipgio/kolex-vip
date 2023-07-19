@@ -41,6 +41,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 			"Need",
 			"Point Gain",
 		],
+		transaction: ["Date", "Description", "Amount", "Type", "Details", "Cost Type", "ID"],
 	};
 
 	const array =
@@ -83,7 +84,8 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.owned,
 					item.inCirculation,
 			  ])
-			: data.map((item) => [
+			: type === "full"
+			? data.map((item) => [
 					//scanner
 					item.mintBatch,
 					item.mintNumber,
@@ -98,6 +100,15 @@ const ExportToCSV = ({ data, filename, type }) => {
 					(item.rating * 10).toFixed(2),
 					item.need ? "Yes" : "No",
 					Math.max(item.delta, 0),
+			  ]) //transaction
+			: data.map((item) => [
+					item.created.replace("T", " ").split(".")[0],
+					item.description,
+					item.amount,
+					item.type,
+					item.details?.title ? item.details.title : "-",
+					item.costType,
+					item.details?.entityId ? item.details.entityId : "-",
 			  ]);
 
 	const csvData = [headers[type], ...array];
