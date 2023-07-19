@@ -3,7 +3,7 @@ import uniqBy from "lodash/uniqBy";
 import { UserContext } from "context/UserContext";
 import TransactionResultsRow from "./TransactionResultsRow";
 
-const TransactionResults = ({ results, filters }) => {
+const TransactionResults = ({ results }) => {
 	const { user } = useContext(UserContext);
 	const [filterMethod, setFilterMethod] = useState("all");
 	const filteredResults =

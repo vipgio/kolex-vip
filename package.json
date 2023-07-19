@@ -29,8 +29,8 @@
 	},
 	"scripts": {
 		"dev": "explorer http://localhost:3001 & next dev -p 3001",
-		"build": "next build -p 3001",
-		"start": "next start -p 3001",
+		"build": "next build",
+		"start": "next start",
 		"lint": "next lint"
 	},
 	"browserslist": {
