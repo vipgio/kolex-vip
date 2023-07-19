@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { maxPrice, minPrice } from "@/config/config";
 
 const FiltersModal = ({ isOpen, setIsOpen, filters, setFilters, defaultFilters }) => {
 	const closeModal = () => setIsOpen(false);
@@ -66,8 +67,8 @@ const FiltersModal = ({ isOpen, setIsOpen, filters, setFilters, defaultFilters }
 												name='minFloor'
 												id='minFloor'
 												className='input-field'
-												min={0.1}
-												max={20000}
+												min={minPrice}
+												max={maxPrice}
 												step={0.01}
 												value={filters.minFloor}
 												onChange={(e) =>
@@ -85,8 +86,8 @@ const FiltersModal = ({ isOpen, setIsOpen, filters, setFilters, defaultFilters }
 												name='maxFloor'
 												id='maxFloor'
 												className='input-field'
-												min={0.1}
-												max={20000}
+												min={minPrice}
+												max={maxPrice}
 												step={0.01}
 												value={filters.maxFloor}
 												onChange={(e) =>

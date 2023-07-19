@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import sortBy from "lodash/sortBy";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { CDN } from "@/config/config";
+import { CDN, maxPrice, minPrice } from "@/config/config";
 import ImageWrapper from "HOC/ImageWrapper";
 import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
@@ -14,7 +14,7 @@ const CardGallery = ({ templates, user }) => {
 	const [showSimpleModal, setShowSimpleModal] = useState(false);
 	const [showFiltersModal, setShowFiltersModal] = useState(false);
 	const [sortMethod, setSortMethod] = useState("listed");
-	const defaultFilters = { minOwned: 1, minFloor: 0.1, maxFloor: 20000 };
+	const defaultFilters = { minOwned: 1, minFloor: minPrice, maxFloor: maxPrice };
 	const [filters, setFilters] = useState(defaultFilters);
 
 	useEffect(() => {

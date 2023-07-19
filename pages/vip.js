@@ -144,42 +144,6 @@ const Vip = () => {
 							))}
 					</div>
 				</div>
-				{/* <div className='w-1/2 border'>
-					<div className='flex flex-col text-gray-700 dark:text-gray-300'>
-						<div>
-							<label htmlFor='itemId'>Item ID: </label>
-							<input
-								type='number'
-								name='itemId'
-								id='itemId'
-								className='input-field my-2'
-								value={listing.marketId}
-								onChange={(e) =>
-									setListing((prev) => ({ ...prev, marketId: e.target.value }))
-								}
-							/>
-						</div>
-						<div>
-							<label htmlFor='price'>Price: </label>
-							<input
-								type='number'
-								name='price'
-								id='price'
-								className='input-field'
-								min={0.1}
-								step={0.01}
-								max={20000}
-								value={listing.price}
-								onChange={(e) =>
-									setListing((prev) => ({ ...prev, price: e.target.value }))
-								}
-							/>
-						</div>
-					</div>
-					<button className='button mt-3' onClick={buyItem}>
-						BUY
-					</button>
-				</div> */}
 			</div>
 		</>
 	);

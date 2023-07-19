@@ -70,11 +70,20 @@ const HistoryModal = React.memo(
 											as='h3'
 											className='text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
 										>
-											{data.mintBatch ? data.mintBatch : data[data.type].mintBatch}
-											{data.mintNumber
-												? data.mintNumber
-												: data[data.type].mintNumber}{" "}
-											{data.title}
+											{data.mintBatch ? (
+												<>
+													{data.mintBatch ? data.mintBatch : data[data.type].mintBatch}
+													{data.mintNumber
+														? data.mintNumber
+														: data[data.type].mintNumber}{" "}
+													{data.title}
+												</>
+											) : (
+												<>
+													{history?.mintBatch}
+													{history?.mintNumber} {data.title}
+												</>
+											)}
 										</Dialog.Title>
 										{history.history ? (
 											<>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import isEqual from "lodash/isEqual";
 import MintSelectorModal from "./MintSelectorModal";
-const minPrice = 0.1;
+import { maxPrice, minPrice } from "@/config/config";
 
 const ItemBox = React.memo(
-	({ template, insertFloor, setListingDetails, setLoadedState }) => {
+	({ template, insertFloor, setListingDetails }) => {
 		const [showMintModal, setShowMintModal] = useState(false);
 		const [selectedCards, setSelectedCards] = useState([]);
 		const [price, setPrice] = useState("");
@@ -51,9 +51,9 @@ const ItemBox = React.memo(
 								type='number'
 								name='price'
 								id='price'
-								max={20000}
 								min={minPrice}
 								step={0.01}
+								max={maxPrice}
 								value={price}
 								onChange={(e) => setPrice(e.target.value)}
 								className='input-field mt-1'

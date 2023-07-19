@@ -1,5 +1,5 @@
 const dev = process.env.NODE_ENV !== "production";
-export const server = dev ? "http://localhost:3000" : "https://kolex-vip.vercel.app";
+export const server = dev ? "http://localhost:3001" : "https://kolex-vip.vercel.app";
 
 const staging = false;
 export const API = staging

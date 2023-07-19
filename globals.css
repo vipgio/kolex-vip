@@ -65,3 +65,17 @@ body {
 .navbar-icon-bar {
 	@apply absolute left-1 origin-center rounded-sm bg-white transition-all duration-300 ease-in-out;
 }
+
+.half-border {
+	position: relative;
+}
+.half-border:after {
+	content: "";
+	background: #d1d5db;
+	position: absolute;
+	bottom: 0;
+	left: 20%;
+	height: 1px;
+	width: 60%;
+	opacity: 80%;
+}

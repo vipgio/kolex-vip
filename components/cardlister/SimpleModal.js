@@ -6,10 +6,11 @@ import isEqual from "lodash/isEqual";
 import uniqBy from "lodash/uniqBy";
 import min from "lodash/min";
 import max from "lodash/max";
+import { maxPrice, minPrice } from "@/config/config";
 import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
-import "react-toastify/dist/ReactToastify.css";
 import BigModal from "../BigModal";
+import "react-toastify/dist/ReactToastify.css";
 
 const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 	const [loading, setLoading] = useState(false);
@@ -295,9 +296,9 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 							type='number'
 							name='price'
 							id='price'
-							min={0.1}
-							max={20000}
+							min={minPrice}
 							step={0.01}
+							max={maxPrice}
 							className='input-field ml-1'
 							onChange={(e) => setPrice(e.target.value)}
 						/>

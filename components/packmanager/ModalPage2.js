@@ -4,6 +4,7 @@ import axios from "axios";
 import sortBy from "lodash/sortBy";
 import remove from "lodash/remove";
 import findIndex from "lodash/findIndex";
+import { maxPrice, minPrice } from "@/config/config";
 import { UserContext } from "context/UserContext";
 import CoolButton from "./CoolButton";
 import "react-toastify/dist/ReactToastify.css";
@@ -141,11 +142,11 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							id='price'
 							value={price}
 							className='input-field w-28'
-							max={200000}
+							min={minPrice}
+							step={0.01}
+							max={maxPrice}
 							onChange={(e) => setPrice(e.target.value)} // remove leading zeros and non-numeric characters
 							onFocus={(e) => e.target.select()}
-							step={0.01}
-							min={0.1}
 						/>
 						<div className='flex justify-center'>
 							<label htmlFor='minOffer' className='text-gray-700 dark:text-gray-300'>

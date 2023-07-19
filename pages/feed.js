@@ -1,8 +1,9 @@
-import LoadingSpin from "@/components/LoadingSpin";
-import Meta from "@/components/Meta";
-import { useAxios } from "hooks/useAxios";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { maxPrice, minPrice } from "@/config/config";
+import { useAxios } from "hooks/useAxios";
+import LoadingSpin from "@/components/LoadingSpin";
+import Meta from "@/components/Meta";
 import "react-toastify/dist/ReactToastify.css";
 
 const Feed = () => {
@@ -76,9 +77,9 @@ const Feed = () => {
 							type='number'
 							name='price'
 							id='price'
-							min={0.1}
-							max={20000}
+							min={minPrice}
 							step={0.01}
+							max={maxPrice}
 							required={true}
 							value={item.price}
 							onChange={(e) => setItem((prev) => ({ ...prev, price: e.target.value }))}
