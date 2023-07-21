@@ -2,12 +2,11 @@ import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import DatePicker from "react-datepicker";
 import { HiCheck, HiOutlineChevronUpDown } from "react-icons/hi2";
-import { minPrice } from "@/config/config";
 import LoadingSpin from "../LoadingSpin";
 import "react-datepicker/dist/react-datepicker.css";
 import Tooltip from "../Tooltip";
 
-const Filters = ({ filters, setFilters, defaultFilters, loading, onSubmit }) => {
+const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 	const costTypes = ["usd", "silvercoins", "epicoins"];
 
 	const onChange = (dates) => {
@@ -95,79 +94,6 @@ const Filters = ({ filters, setFilters, defaultFilters, loading, onSubmit }) => 
 							</Listbox>
 						</div>
 					</div>
-
-					{/* <div className='mt-3 flex items-center gap-x-2'>
-							<label
-								htmlFor='min'
-								className='font-medium text-gray-700 dark:text-gray-300'
-							>
-								Price range from
-							</label>
-							<input
-								type='number'
-								name='min'
-								id='min'
-								className='input-field w-24'
-								min={minPrice}
-								step={0.01}
-								max={filters.max}
-								value={filters.min}
-								onChange={(e) => setFilters((prev) => ({ ...prev, min: e.target.value }))}
-								autoComplete='off'
-								required
-							/>
-							<label
-								htmlFor='max'
-								className='font-medium text-gray-700 dark:text-gray-300'
-							>
-								to
-							</label>
-							<input
-								type='number'
-								name='max'
-								id='max'
-								className='input-field w-24'
-								min={filters.min}
-								step={0.01}
-								max={1000000}
-								value={filters.max}
-								onChange={(e) => setFilters((prev) => ({ ...prev, max: e.target.value }))}
-								autoComplete='off'
-								required
-							/>
-						</div> */}
-					{/* <div className='my-3 flex w-full flex-col justify-evenly px-5 text-gray-700 dark:text-gray-300 lg:flex-row'>
-						<div className='flex items-center justify-center'>
-							<label htmlFor='income' className='hover:cursor-pointer'>
-								Hide the incomes
-							</label>
-							<input
-								type='checkbox'
-								name='income'
-								id='income'
-								className='ml-1 mt-1 hover:cursor-pointer'
-								checked={filters.income}
-								onChange={(e) =>
-									setFilters((prev) => ({ ...prev, income: e.target.checked }))
-								}
-							/>
-						</div>
-						<div className='flex items-center justify-center'>
-							<label htmlFor='expense' className='hover:cursor-pointer'>
-								Hide the expenses
-							</label>
-							<input
-								type='checkbox'
-								name='expense'
-								id='expense'
-								className='ml-1 mt-1 hover:cursor-pointer'
-								checked={filters.expense}
-								onChange={(e) =>
-									setFilters((prev) => ({ ...prev, expense: e.target.checked }))
-								}
-							/>
-						</div>
-					</div> */}
 
 					<button
 						className='submit-button'

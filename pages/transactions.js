@@ -18,9 +18,11 @@ const Transactions = () => {
 	const [filters, setFilters] = useState(defaultFilters);
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [pageCounter, setPageCounter] = useState(1);
 	const finished = useRef(false);
 
 	const getTransactions = async (pageNumber) => {
+		setPageCounter(pageNumber);
 		try {
 			const { result } = await fetchData(`/api/users/transactions`, {
 				page: pageNumber,
@@ -79,6 +81,11 @@ const Transactions = () => {
 				loading={loading}
 				onSubmit={onSubmit}
 			/>
+			{loading ? (
+				<div className='mt-1 ml-1 w-full text-center text-gray-700 dark:text-gray-300'>
+					Checking page {pageCounter} of your transactions...
+				</div>
+			) : null}
 			{results.length > 0 ? (
 				<TransactionResults results={results} filters={filters} />
 			) : null}
