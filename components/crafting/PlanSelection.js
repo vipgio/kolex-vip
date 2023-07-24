@@ -14,7 +14,8 @@ const PlanSelection = ({ plan }) => {
 				<div className='inline-flex w-full max-w-xs justify-center p-1'>
 					<ImageWrapper
 						src={`${CDN}${
-							plan.theme.images[0].url || plan.theme.treatment.images[0].url
+							plan.theme.images.find((img) => img.name === "prize").url ||
+							plan.theme.treatment.images[0].url
 						}`}
 						width={200}
 						height={300}

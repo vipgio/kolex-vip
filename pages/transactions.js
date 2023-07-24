@@ -40,8 +40,8 @@ const Transactions = () => {
 					}),
 				]);
 				if (
-					result.transactions[0].created.split("T")[0] <
-					filters.startDate.toISOString().split("T")[0]
+					result.transactions[0]?.created?.split("T")[0] <
+					filters.startDate?.toISOString()?.split("T")[0]
 				) {
 					finished.current = true;
 					setLoading(false);
