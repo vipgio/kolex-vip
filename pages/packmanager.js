@@ -9,13 +9,13 @@ import Tooltip from "@/components/Tooltip";
 import ListedModal from "@/components/packmanager/ListedModal";
 
 const Packmanager = () => {
-	const { userPacks, setLoading, loading, user } = useContext(UserContext);
+	const { userPacks, setLoading, loading, user, categoryId } = useContext(UserContext);
 	const [showListedModal, setShowListedModal] = useState(false);
 	const [packs, setPacks] = useState([]);
 
 	let templates = [];
 	const getAllPacks = async (page) => {
-		userPacks(page).then((res) => {
+		userPacks(page, categoryId).then((res) => {
 			if (res.data.success)
 				if (res.data.data.packs.length > 0) {
 					res.data.data.packs.forEach((pack) => {

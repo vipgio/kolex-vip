@@ -27,7 +27,7 @@ const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022", "20
 
 const SetSelector = React.memo(
 	({ setSelectedCollection }) => {
-		const { user } = useContext(UserContext);
+		const { user, categoryId } = useContext(UserContext);
 		const [collections, setCollections] = useState([]);
 
 		useEffect(() => {
@@ -87,6 +87,7 @@ const SetSelector = React.memo(
 					{
 						params: {
 							userId: user.user.id,
+							categoryId: categoryId,
 						},
 						headers: {
 							jwt: user.jwt,

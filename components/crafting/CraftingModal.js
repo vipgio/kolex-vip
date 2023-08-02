@@ -14,7 +14,7 @@ const { API } = require("@/config/config");
 
 const CraftingModal = React.memo(
 	({ showModal, setShowModal, plan }) => {
-		const { user } = useContext(UserContext);
+		const { user, categoryId } = useContext(UserContext);
 		const totalCards = useRef(0);
 		const [loading, setLoading] = useState(true);
 		const [dupeOnly, setDupeOnly] = useState("dupe");
@@ -151,7 +151,7 @@ const CraftingModal = React.memo(
 							if (template.userCount) {
 								try {
 									const { data: cards } = await http(
-										`${API}/crafting/user-cards/${template.id}?categoryId=1`,
+										`${API}/crafting/user-cards/${template.id}?categoryId=${categoryId}`,
 										{
 											method: "GET",
 											headers: {

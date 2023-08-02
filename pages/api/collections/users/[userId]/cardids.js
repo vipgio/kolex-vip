@@ -5,12 +5,12 @@ const { API } = require("@/config/config");
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { userId, collectionId } = req.query;
+	const { userId, collectionId, categoryId } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 	try {
-		const getCardIds = async (jwt, userId, collectionId) => {
+		const getCardIds = async (jwt, userId, collectionId, categoryId = 1) => {
 			return http(
-				`${API}/collections/users/${userId}/cardids?categoryId=1&collectionId=${collectionId}`,
+				`${API}/collections/users/${userId}/cardids?categoryId=${categoryId}&collectionId=${collectionId}`,
 				{
 					method: "GET",
 					headers: {
@@ -20,9 +20,9 @@ export default async function handler(req, res) {
 				}
 			);
 		};
-		const getStickerIds = async (jwt, userId, collectionId) => {
+		const getStickerIds = async (jwt, userId, collectionId, categoryId = 1) => {
 			return http(
-				`${API}/collections/users/${userId}/stickerids?categoryId=1&collectionId=${collectionId}`,
+				`${API}/collections/users/${userId}/stickerids?categoryId=${categoryId}&collectionId=${collectionId}`,
 				{
 					method: "GET",
 					headers: {
@@ -32,8 +32,8 @@ export default async function handler(req, res) {
 				}
 			);
 		};
-		const { data: cards } = await getCardIds(jwt, userId, collectionId);
-		const { data: stickers } = await getStickerIds(jwt, userId, collectionId);
+		const { data: cards } = await getCardIds(jwt, userId, collectionId, categoryId);
+		const { data: stickers } = await getStickerIds(jwt, userId, collectionId, categoryId);
 		const result = {
 			success: cards.success && stickers.success,
 			data: [...cards.data, ...stickers.data],

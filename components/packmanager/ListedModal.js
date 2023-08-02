@@ -7,7 +7,7 @@ import ListedTable from "./ListedTable";
 import Toggle from "./Toggle";
 
 const ListedModal = ({ showModal, setShowModal }) => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 	const { fetchData } = useAxios();
 	const finished = useRef(false);
 	const [listed, setListed] = useState([]);
@@ -22,7 +22,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 		setShowModal(true);
 		let page = firstPage;
 
-		const data = await getListed(page);
+		const data = await getListed(page, categoryId);
 		if (data.count > 0 && !finished.current) {
 			const templateList = uniq(
 				data.market.map((item) => {
@@ -34,6 +34,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 				type: "pack",
 				page: 1,
 				price: "asc",
+				categoryId: categoryId,
 			});
 			setListed((prev) => [
 				...prev,
@@ -70,6 +71,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 			{
 				page: page,
 				type: "pack",
+				categoryId: categoryId,
 			}
 		);
 		if (result) return result;

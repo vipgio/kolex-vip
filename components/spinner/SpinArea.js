@@ -11,7 +11,7 @@ import Recap from "./Recap";
 import "react-toastify/dist/ReactToastify.css";
 
 const SpinArea = ({ info }) => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 	const intervalRef = useRef();
 	const spinCount = useRef(0);
 	const inProgress = useRef(false);
@@ -42,7 +42,7 @@ const SpinArea = ({ info }) => {
 	const spin = async (id) => {
 		try {
 			const { data } = await axios.post(
-				`${API}/spinner/spin?categoryId=1`,
+				`${API}/spinner/spin?categoryId=${categoryId}`,
 				{
 					spinnerId: id,
 				},

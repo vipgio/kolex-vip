@@ -5,7 +5,7 @@ import Meta from "@/components/Meta";
 import SpinArea from "@/components/spinner/SpinArea";
 
 const Spinner = () => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 	const [spinnerInfo, setSpinnerInfo] = useState({});
 
 	useEffect(() => {
@@ -13,6 +13,9 @@ const Spinner = () => {
 			const { data } = await axios.get("/api/spinner/info", {
 				headers: {
 					jwt: user.jwt,
+				},
+				params: {
+					categoryId: categoryId,
 				},
 			});
 			if (data.success) {

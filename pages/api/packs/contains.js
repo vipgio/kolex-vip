@@ -5,13 +5,13 @@ const { API } = require("@/config/config");
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { templateIds } = req.query;
+	const { templateIds, categoryId } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
 	try {
-		const contains = async (jwt, templateIds) => {
+		const contains = async (jwt, templateIds, categoryId = 1) => {
 			return http(
-				`${API}/packs/contains?cardTemplateIds=${templateIds}&page=1&categoryId=1`,
+				`${API}/packs/contains?cardTemplateIds=${templateIds}&page=1&categoryId=${categoryId}`,
 				{
 					method: "GET",
 					headers: {
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 				}
 			);
 		};
-		const { data } = await contains(jwt, templateIds);
+		const { data } = await contains(jwt, templateIds, categoryId);
 		res.status(200).json(data);
 	} catch (err) {
 		res.status(err.response.status).json(err.response.data);

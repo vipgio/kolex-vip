@@ -3,13 +3,13 @@ import axios from "axios";
 import { UserContext } from "context/UserContext";
 
 const useAxios = () => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 
 	const fetchData = async (endpoint, params) => {
 		let result, error;
 		try {
 			const { data } = await axios.get(endpoint, {
-				params: params,
+				params: { ...params, categoryId: categoryId },
 				headers: { jwt: user.jwt },
 			});
 			if (data.success) {

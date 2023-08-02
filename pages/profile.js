@@ -6,7 +6,7 @@ import Meta from "components/Meta";
 import ActivePacks from "@/components/ActivePacks";
 
 const Profile = () => {
-	const { user, setUser } = useContext(UserContext);
+	const { user, setUser, categoryId } = useContext(UserContext);
 	return (
 		<>
 			<Meta title='Profile | Kolex VIP' />
@@ -82,6 +82,24 @@ const Profile = () => {
 									{user.info.ends === 1 ? "day" : "days"}
 								</div>
 							) : null}
+							{user.user.totalDeposited >= 0 ? (
+								<div>
+									Total Deposited:{" "}
+									<span
+										className={`font-semibol ${
+											user.user.totalDeposited > 10000
+												? "text-red-500"
+												: user.user.totalDeposited > 5000
+												? "text-amber-500"
+												: user.user.totalDeposited > 100
+												? "text-green-500"
+												: "text-indigo-500"
+										}`}
+									>
+										${user.user.totalDeposited}
+									</span>
+								</div>
+							) : null}
 							<div>
 								Account created:{" "}
 								<span className='font-semibold text-indigo-500'>
@@ -146,7 +164,7 @@ const Profile = () => {
 					</div>
 				</button>
 			</div>
-			<ActivePacks user={user} />
+			<ActivePacks user={user} categoryId={categoryId} />
 		</>
 	);
 };

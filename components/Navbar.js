@@ -1,4 +1,4 @@
-import { useContext, forwardRef, useState } from "react";
+import { useContext, forwardRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
@@ -10,7 +10,6 @@ import {
 	FaSun,
 	FaDiscord,
 	FaPeopleArrows,
-	FaMoneyBillWave,
 } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
 import { BsArrowLeftRight } from "react-icons/bs";
@@ -18,9 +17,10 @@ import { UserContext } from "context/UserContext";
 import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
 import TradeModal from "./trade/TradeModal";
+import { useRouter } from "next/router";
 
 const NewNavbar = () => {
-	const { user, tradeList } = useContext(UserContext);
+	const { user, tradeList, categoryId, setCategoryId } = useContext(UserContext);
 	const { theme, setTheme } = useContext(ThemeContext);
 	const [showTradeModal, setShowTradeModal] = useState(false);
 	const sendItems =
@@ -32,6 +32,11 @@ const NewNavbar = () => {
 		  )
 		: 0;
 	const cardsInTrade = sendItems + receiveItems;
+	const router = useRouter();
+	const changeCategory = (id) => {
+		setCategoryId(id);
+		router.reload();
+	};
 	return (
 		user && (
 			<nav className='flex h-12 items-center justify-center rounded-b-md bg-blue-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500 dark:text-gray-300'>
@@ -52,6 +57,38 @@ const NewNavbar = () => {
 								leaveTo='transform opacity-0 scale-95'
 							>
 								<Menu.Items className='absolute left-0 mt-1 w-56 origin-top-left rounded-lg border border-gray-800 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200 dark:bg-gray-800'>
+									<div className='mb-1 grid h-8 w-full grid-cols-3 divide-x divide-gray-700 overflow-hidden rounded border border-gray-700 text-xs text-gray-700 dark:divide-gray-300 dark:border-gray-300 dark:text-gray-300'>
+										<span
+											className={`inline-flex items-center justify-center ${
+												categoryId === "1"
+													? "cursor-default bg-blue-500 dark:bg-blue-700"
+													: "cursor-pointer hover:bg-blue-500 dark:hover:bg-blue-700"
+											}`}
+											onClick={() => (categoryId !== "1" ? changeCategory("1") : null)}
+										>
+											CSGO
+										</span>
+										<span
+											className={`inline-flex items-center justify-center ${
+												categoryId === "2"
+													? "cursor-default bg-purple-500 dark:bg-purple-700"
+													: "cursor-pointer hover:bg-purple-500 dark:hover:bg-purple-700"
+											}`}
+											onClick={() => (categoryId !== "2" ? changeCategory("2") : null)}
+										>
+											Streamers
+										</span>
+										<span
+											className={`inline-flex items-center justify-center ${
+												categoryId === "4"
+													? "cursor-default bg-orange-500 dark:bg-orange-700"
+													: "cursor-pointer hover:bg-orange-500 dark:hover:bg-orange-700"
+											}`}
+											onClick={() => (categoryId !== "4" ? changeCategory("4") : null)}
+										>
+											PUBGM
+										</span>
+									</div>
 									{pages.map((page) => (
 										<Menu.Items key={page.link}>
 											<Menu.Item>
@@ -153,7 +190,15 @@ const NewNavbar = () => {
 					</div>
 				</button>
 				<Link href='/features'>
-					<a className='my-outline mr-2 rounded bg-gray-100 p-1.5 text-blue-500 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1  active:bg-gray-300 dark:bg-blue-500 dark:text-gray-100 dark:hover:bg-blue-600 dark:active:bg-blue-700'>
+					<a
+						className={`my-outline mr-2 rounded bg-gray-100 p-1.5 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1  active:bg-gray-300 dark:text-gray-100 ${
+							categoryId === "1"
+								? "text-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:active:bg-blue-700"
+								: categoryId === "2"
+								? "text-purple-500 dark:bg-purple-500 dark:hover:bg-purple-600 dark:active:bg-purple-700"
+								: "text-orange-500 dark:bg-orange-500 dark:hover:bg-orange-600 dark:active:bg-orange-700"
+						}`}
+					>
 						Features
 					</a>
 				</Link>
@@ -280,7 +325,6 @@ const pages = [
 			</svg>
 		),
 		paid: false,
-		new: true,
 	},
 	{
 		link: "packmanager",

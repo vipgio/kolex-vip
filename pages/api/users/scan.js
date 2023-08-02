@@ -5,12 +5,12 @@ const { API } = require("@/config/config");
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { userId, collectionId } = req.query;
+	const { userId, collectionId, categoryId } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 	try {
-		const searchUser = async (jwt, userId, collectionId) => {
+		const searchUser = async (jwt, userId, collectionId, categoryId) => {
 			return http(
-				`${API}/collections/${collectionId}/users/${userId}/owned2?categoryId=1`,
+				`${API}/collections/${collectionId}/users/${userId}/owned2?categoryId=${categoryId}`,
 				{
 					method: "GET",
 					headers: {
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 				}
 			);
 		};
-		const { data } = await searchUser(jwt, userId, collectionId);
+		const { data } = await searchUser(jwt, userId, collectionId, categoryId);
 		res.status(200).json(data);
 	} catch (err) {
 		res.status(err.response.status).json(err.response.data);

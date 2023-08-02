@@ -26,7 +26,6 @@ const Transactions = () => {
 		try {
 			const { result } = await fetchData(`/api/users/transactions`, {
 				page: pageNumber,
-				categoryId: 1,
 			});
 			if (result.transactions.length === 50 && !finished.current) {
 				setResults((prev) => [

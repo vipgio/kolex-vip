@@ -8,7 +8,7 @@ import DirectSearch from "@/components/packs/DirectSearch";
 import FilteredBox from "@/components/packs/FilteredBox";
 
 const PackSearch = () => {
-	const { getPacks, loading, setLoading } = useContext(UserContext);
+	const { getPacks, loading, setLoading, categoryId } = useContext(UserContext);
 	const [packs, setPacks] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [results, setResults] = useState(null);
@@ -35,7 +35,7 @@ const PackSearch = () => {
 	}, [searchQuery]);
 
 	const getAllPacks = async (page) => {
-		getPacks(page).then((res) => {
+		getPacks(page, categoryId).then((res) => {
 			if (res.data.success)
 				if (res.data.data.length > 0) {
 					setPacks((prev) => [

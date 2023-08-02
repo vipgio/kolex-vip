@@ -6,7 +6,7 @@ import ImageWrapper from "HOC/ImageWrapper";
 import LoadingSpin from "./LoadingSpin";
 import RefreshButton from "./RefreshButton";
 
-const ActivePacks = ({ user }) => {
+const ActivePacks = ({ user, categoryId }) => {
 	const { fetchData } = useAxios();
 	const [activePacks, setActivePacks] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -17,7 +17,9 @@ const ActivePacks = ({ user }) => {
 		try {
 			const { result } = await fetchData(`/api/packs?page=${page}`);
 			if (result.length > 0 && isApiSubscribed) {
-				const active = result.filter((pack) => new Date(pack.purchaseEnd) - now > 0);
+				const active = result.filter(
+					(pack) => new Date(pack.purchaseEnd) - now > 0 && pack.categoryId === categoryId
+				);
 				setActivePacks((prev) => [...prev, ...active]);
 				getStorePacks(++page);
 			} else {
@@ -61,7 +63,7 @@ const ActivePacks = ({ user }) => {
 					<div className='flex justify-center'>
 						<LoadingSpin />
 					</div>
-				) : (
+				) : activePacks.length > 0 ? (
 					<div className='grid grid-cols-1 gap-2 p-1.5 xs:grid-cols-2 sm:grid-cols-4'>
 						{uniqBy(activePacks, "id").map((pack) => (
 							<div
@@ -88,6 +90,8 @@ const ActivePacks = ({ user }) => {
 							</div>
 						))}
 					</div>
+				) : (
+					<div className='text-center'>No packs available</div>
 				)}
 			</div>
 		</div>

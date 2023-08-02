@@ -18,6 +18,7 @@ const UserContextProvider = (props) => {
 		// receive: [{ user: "", id: "", items: [], bestOwned: [] }],
 	});
 	const [owned, setOwned] = useState([]);
+	const [categoryId, setCategoryId] = useState(null);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -56,9 +57,28 @@ const UserContextProvider = (props) => {
 		}
 	}, [tradeList]);
 
-	const getCardCirc = async (collectionId) => {
+	useEffect(() => {
+		const localCategory = localStorage.getItem("categoryId");
+		console.log(localCategory);
+		if (localCategory) {
+			setCategoryId(localCategory);
+		} else {
+			setCategoryId(1);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (categoryId) {
+			localStorage.setItem("categoryId", categoryId);
+			setCategoryId(categoryId);
+		} else {
+			localStorage.removeItem("categoryId");
+		}
+	}, [categoryId]);
+
+	const getCardCirc = async (collectionId, categoryId) => {
 		return http(
-			`https://api.kolex.gg/api/v1/collections/${collectionId}/card-templates?categoryId=1`,
+			`https://api.kolex.gg/api/v1/collections/${collectionId}/card-templates?categoryId=${categoryId}`,
 			{
 				method: "GET",
 				headers: {
@@ -68,9 +88,9 @@ const UserContextProvider = (props) => {
 			}
 		);
 	};
-	const getStickerCirc = async (collectionId) => {
+	const getStickerCirc = async (collectionId, categoryId) => {
 		return http(
-			`https://api.kolex.gg/api/v1/collections/${collectionId}/sticker-templates?categoryId=1`,
+			`https://api.kolex.gg/api/v1/collections/${collectionId}/sticker-templates?categoryId=${categoryId}`,
 			{
 				method: "GET",
 				headers: {
@@ -81,24 +101,30 @@ const UserContextProvider = (props) => {
 		);
 	};
 
-	const getPacks = async (page) => {
-		return http(`https://api.kolex.gg/api/v1/packs?page=${page}&categoryId=1`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				"x-user-jwt": user.jwt,
-			},
-		});
+	const getPacks = async (page, categoryId) => {
+		return http(
+			`https://api.kolex.gg/api/v1/packs?page=${page}&categoryId=${categoryId}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"x-user-jwt": user.jwt,
+				},
+			}
+		);
 	};
 
-	const userPacks = async (page) => {
-		return http(`https://api.kolex.gg/api/v1/packs/user?page=${page}&categoryId=1`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				"x-user-jwt": user.jwt,
-			},
-		});
+	const userPacks = async (page, categoryId) => {
+		return http(
+			`https://api.kolex.gg/api/v1/packs/user?page=${page}&categoryId=${categoryId}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"x-user-jwt": user.jwt,
+				},
+			}
+		);
 	};
 
 	return (
@@ -117,6 +143,8 @@ const UserContextProvider = (props) => {
 				setTradeList,
 				setOwned,
 				owned,
+				categoryId,
+				setCategoryId,
 			}}
 		>
 			{props.children}
