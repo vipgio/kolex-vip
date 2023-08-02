@@ -18,7 +18,8 @@ const ActivePacks = ({ user, categoryId }) => {
 			const { result } = await fetchData(`/api/packs?page=${page}`);
 			if (result.length > 0 && isApiSubscribed) {
 				const active = result.filter(
-					(pack) => new Date(pack.purchaseEnd) - now > 0 && pack.categoryId === categoryId
+					(pack) =>
+						new Date(pack.purchaseEnd) - now > 0 && pack.categoryId === Number(categoryId)
 				);
 				setActivePacks((prev) => [...prev, ...active]);
 				getStorePacks(++page);

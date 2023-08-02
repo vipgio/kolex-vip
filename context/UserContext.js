@@ -10,13 +10,7 @@ const UserContextProvider = (props) => {
 	const [loading, setLoading] = useState(false); // loading state for fetchig data
 	const [user, setUser] = useState(null); // user object
 	const [initialLoading, setInitialLoading] = useState(true); // used to show loading screen on first load and redirect
-	const [tradeList, setTradeList] = useState({
-		// send: {
-		// 	items: [],
-		// 	bestOwned: [],
-		// },
-		// receive: [{ user: "", id: "", items: [], bestOwned: [] }],
-	});
+	const [tradeList, setTradeList] = useState({});
 	const [owned, setOwned] = useState([]);
 	const [categoryId, setCategoryId] = useState(null);
 	const router = useRouter();
@@ -59,11 +53,10 @@ const UserContextProvider = (props) => {
 
 	useEffect(() => {
 		const localCategory = localStorage.getItem("categoryId");
-		console.log(localCategory);
 		if (localCategory) {
 			setCategoryId(localCategory);
 		} else {
-			setCategoryId(1);
+			setCategoryId("1");
 		}
 	}, []);
 
