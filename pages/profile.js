@@ -87,9 +87,9 @@ const Profile = () => {
 									Total Deposited:{" "}
 									<span
 										className={`font-semibol ${
-											user.user.totalDeposited > 10000
+											user.user.totalDeposited > 5000
 												? "text-red-500"
-												: user.user.totalDeposited > 5000
+												: user.user.totalDeposited > 1000
 												? "text-amber-500"
 												: user.user.totalDeposited > 100
 												? "text-green-500"
@@ -175,7 +175,6 @@ const features = {
 	mintsearch: { name: "Mint Search", link: "/mintsearch" },
 	cardlister: { name: "Card Lister", link: "/cardlister" },
 	history: { name: "History", link: "/history" },
-	trades: { name: "Trades", link: "" },
 	feed: { name: "Custom Feed", link: "/feed" },
 	transfer: { name: "Account Transfer", link: "/transfer" },
 	vip: { name: "Stuff", link: "/vip" },

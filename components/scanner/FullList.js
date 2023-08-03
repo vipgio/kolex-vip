@@ -1,43 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import sortBy from "lodash/sortBy";
-import { useTrade } from "hooks/useTrade";
 import FullListRow from "./FullListRow";
-import { UserContext } from "context/UserContext";
-import { FaBan, FaLock } from "react-icons/fa";
 
-const FullList = ({
-	results,
-	owner,
-	isSelfScan,
-	ownedItems,
-	filterMethod,
-	singleUserSearch,
-}) => {
-	const { isInList, addItem, removeItem } = useTrade();
-	const { user } = useContext(UserContext);
-	const allowed = user.info.allowed.includes("trades");
+const FullList = ({ results, owner, isSelfScan, ownedItems, singleUserSearch }) => {
 	const [sortMethod, setSortMethod] = useState("mint");
 	const [show, setShow] = useState(0);
 
 	const handleSort = (e) => {
 		setSortMethod(e.target.value);
-	};
-
-	const addAll = () => {
-		results.forEach((item) => {
-			if (item.status === "available" && !isInList(isSelfScan, item)) {
-				addItem(isSelfScan, item, owner, ownedItems);
-			}
-		});
-	};
-
-	const removeAll = () => {
-		results.forEach((item) => {
-			if (isInList(isSelfScan, item)) {
-				removeItem(isSelfScan, item, owner);
-			}
-		});
 	};
 
 	const { ref } = useInView({
@@ -68,31 +39,6 @@ const FullList = ({
 						<option value='circ'>Circulation</option>
 					</select>
 				</div>
-				{allowed &&
-					(filterMethod === "best" ||
-						filterMethod === "second" ||
-						filterMethod === "worst") && (
-						<div className='ml-auto flex'>
-							<button
-								className='simple-button text-sm sm:text-base'
-								onClick={removeAll}
-								disabled={!allowed}
-								title='You need "trades" access for this feature.'
-							>
-								{!allowed && <FaLock className='mr-1 text-gray-800' />}
-								Remove all from trade list
-							</button>
-							<button
-								className='simple-button ml-2 text-sm sm:text-base'
-								onClick={addAll}
-								disabled={!allowed}
-								title='You need "trades" access for this feature.'
-							>
-								{!allowed && <FaLock className='mr-1 text-gray-800' />}
-								Add all to trade list
-							</button>
-						</div>
-					)}
 			</div>
 			<div className='overflow-x-auto'>
 				<table className='w-full table-auto overflow-hidden border-t text-gray-600 transition-colors dark:text-gray-400'>
@@ -107,7 +53,6 @@ const FullList = ({
 							{!singleUserSearch && <th className='py-1 px-2 sm:py-3 sm:px-6'>Owner</th>}
 							{!isSelfScan && <th className='py-1 px-2 sm:py-3 sm:px-6'>Point gain</th>}
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
-							{allowed && <th className='py-1 px-2 sm:py-3 sm:px-6'>Trade List</th>}
 						</tr>
 					</thead>
 					<tbody className='text-center transition-colors'>

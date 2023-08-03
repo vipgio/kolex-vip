@@ -1,5 +1,6 @@
 import { useContext, forwardRef, useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
 import {
@@ -12,26 +13,13 @@ import {
 	FaPeopleArrows,
 } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
-import { BsArrowLeftRight } from "react-icons/bs";
 import { UserContext } from "context/UserContext";
 import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
-import TradeModal from "./trade/TradeModal";
-import { useRouter } from "next/router";
 
 const NewNavbar = () => {
-	const { user, tradeList, categoryId, setCategoryId } = useContext(UserContext);
+	const { user, categoryId, setCategoryId } = useContext(UserContext);
 	const { theme, setTheme } = useContext(ThemeContext);
-	const [showTradeModal, setShowTradeModal] = useState(false);
-	const sendItems =
-		tradeList.send && tradeList.send[0] ? tradeList.send[0].items.length : 0;
-	const receiveItems = tradeList.receive
-		? tradeList.receive.reduce(
-				(previousValue, currentValue) => previousValue + currentValue.items.length,
-				0
-		  )
-		: 0;
-	const cardsInTrade = sendItems + receiveItems;
 	const router = useRouter();
 	const changeCategory = (id) => {
 		setCategoryId(id);
@@ -134,33 +122,7 @@ const NewNavbar = () => {
 						</>
 					)}
 				</Menu>
-				<div className='ml-auto mt-1 mr-2'>
-					{user.info.allowed.includes("trades") && (
-						<button
-							className='my-outline relative rounded text-gray-700 dark:text-gray-300'
-							// onClick={() => console.log(tradeList)}
-							onClick={() => setShowTradeModal(true)}
-						>
-							<BsArrowLeftRight
-								className='h-5 w-5'
-								title={
-									cardsInTrade === 0
-										? "No items in your trade list. Use the Scanner to add items"
-										: "Trade"
-								}
-							/>
-							{cardsInTrade !== 0 && (
-								<div
-									className='absolute top-1 right-full mr-1 font-semibold'
-									title='Items in the trade list'
-								>
-									{cardsInTrade}
-								</div>
-							)}
-						</button>
-					)}
-				</div>
-				<button className='mx-2 h-5 w-5' tabIndex={-1}>
+				<button className='mr-2 ml-auto h-5 w-5' tabIndex={-1}>
 					<a
 						href='https://discordapp.com/users/473436055958192128'
 						target='_blank'
@@ -202,9 +164,6 @@ const NewNavbar = () => {
 						Features
 					</a>
 				</Link>
-				{showTradeModal && (
-					<TradeModal showModal={showTradeModal} setShowModal={setShowTradeModal} />
-				)}
 			</nav>
 		)
 	);
