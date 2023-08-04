@@ -79,13 +79,13 @@ const Pricing = ({ features }) => {
 									{bundle.features.toString().replaceAll(",", " + ")}
 								</td>
 								<td className='py-1 px-2 sm:py-3 sm:px-6'>
-									<span className='mr-1.5 line-through decoration-orange-500'>
+									<span className='mr-1.5 line-through decoration-red-500'>
 										${bundle.oldPrice}
 									</span>
 									<span>${bundle.price}</span>
 								</td>
 								<td className='py-1 px-2 sm:py-3 sm:px-6'>
-									<span className='mr-1.5 line-through decoration-orange-500'>
+									<span className='mr-1.5 line-through decoration-red-500'>
 										${bundle.oldPrice2}
 									</span>
 									<span>${bundle.price2}</span>

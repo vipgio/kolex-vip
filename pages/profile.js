@@ -50,7 +50,7 @@ const Profile = () => {
 								{user.info.allowed.length > 0 ? (
 									user.info.allowed.map((option, i) => [
 										i > 0 && (
-											<span className='text-main-500' key={i}>
+											<span className='text-primary-500' key={i}>
 												{" "}
 												|{" "}
 											</span>
@@ -102,7 +102,7 @@ const Profile = () => {
 							) : null}
 							<div>
 								Account created:{" "}
-								<span className='font-semibold text-indigo-500'>
+								<span className='font-semibold text-primary-500'>
 									{user.user.created.split("T")[0]}
 								</span>
 							</div>
@@ -111,13 +111,13 @@ const Profile = () => {
 
 							<div>
 								User ID:{" "}
-								<span className='font-semibold text-indigo-500'>{user.user.id}</span>
+								<span className='font-semibold text-primary-500'>{user.user.id}</span>
 							</div>
 
 							{user.user.ethAddress && (
 								<div>
 									ETH Wallet:{" "}
-									<span className='break-all font-semibold text-indigo-500'>
+									<span className='break-all font-semibold text-primary-500'>
 										{user.user.ethAddress}
 									</span>
 								</div>
@@ -130,7 +130,7 @@ const Profile = () => {
 										xmlns='http://www.w3.org/2000/svg'
 										width='24'
 										height='24'
-										style={{ fill: "#6366f1" }}
+										className='fill-primary-700'
 									>
 										<path d='m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z'></path>
 									</svg>

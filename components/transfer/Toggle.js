@@ -8,7 +8,7 @@ const Toggle = ({ user, selectedUser, inProgress, send, setSend }) => {
 					checked={send}
 					onChange={setSend}
 					disabled={inProgress}
-					className='relative inline-flex h-6 w-11 items-center rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300 enabled:ui-checked:bg-blue-500 enabled:ui-not-checked:bg-blue-500'
+					className='relative inline-flex h-6 w-11 items-center rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300 enabled:ui-checked:bg-primary-500 enabled:ui-not-checked:bg-primary-500'
 				>
 					<span className='inline-block h-4 w-4 transform rounded-full bg-white transition ui-checked:translate-x-6 ui-not-checked:translate-x-1' />
 				</Switch>
@@ -19,20 +19,20 @@ const Toggle = ({ user, selectedUser, inProgress, send, setSend }) => {
 					{send ? (
 						<div>
 							Send all items from{" "}
-							<span className='font-semibold text-orange-500'>{user.user.username}</span>{" "}
+							<span className='font-semibold text-primary-500'>{user.user.username}</span>{" "}
 							to{" "}
-							<span className='font-semibold text-orange-500'>
+							<span className='font-semibold text-primary-500'>
 								{selectedUser.username}
 							</span>
 						</div>
 					) : (
 						<div>
 							Accept all trdes from{" "}
-							<span className='font-semibold text-orange-500'>
+							<span className='font-semibold text-primary-500'>
 								{selectedUser.username}
 							</span>{" "}
 							to{" "}
-							<span className='font-semibold text-orange-500'>{user.user.username}</span>
+							<span className='font-semibold text-primary-500'>{user.user.username}</span>
 						</div>
 					)}
 				</Switch.Label>

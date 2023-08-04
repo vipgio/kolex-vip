@@ -119,11 +119,7 @@ const ScanResult = React.memo(
 							>
 								Select a filter method:{" "}
 							</label>
-							<select
-								id='filter'
-								className='rounded-md border border-gray-700 p-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-300'
-								onChange={handleFilter}
-							>
+							<select id='filter' className='dropdown' onChange={handleFilter}>
 								<option value='all'>All items</option>
 								<option value='best'>Best set</option>
 								<option value='dupes'>All duplicates</option>

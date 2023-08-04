@@ -85,7 +85,7 @@ const ActivePacks = ({ user, categoryId }) => {
 									<div>{pack.name}</div>
 									<div>
 										Packs left:{" "}
-										<span className='text-orange-500'>{pack.inventoryCount}</span>
+										<span className='text-primary-500'>{pack.inventoryCount}</span>
 									</div>
 								</div>
 							</div>

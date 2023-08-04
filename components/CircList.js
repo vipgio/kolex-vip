@@ -8,7 +8,7 @@ const CircList = ({ data }) => {
 
 	return (
 		<div className='relative mb-5 flex justify-center px-2'>
-			<div className='grid divide-y divide-indigo-400 rounded border border-indigo-400'>
+			<div className='grid divide-y divide-primary-400 rounded border border-primary-400'>
 				<div className='p-1 text-center text-lg font-semibold text-gray-700 dark:text-gray-200'>
 					<div>Total Circulation: {opened}</div>
 					{minted > 0 ? <div>Total Minted: {minted}</div> : null}

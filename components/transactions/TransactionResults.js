@@ -28,7 +28,7 @@ const TransactionResults = ({ results, filters }) => {
 				</label>
 				<select
 					id='filter'
-					className='h-8 rounded-md border border-gray-700 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-300'
+					className='h-8 rounded-md border border-gray-700 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-gray-300'
 					onChange={handleFilter}
 				>
 					<option value='both'>Income & Expense</option>

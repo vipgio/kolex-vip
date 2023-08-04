@@ -10,20 +10,20 @@ const CoolButton = ({ action, setAction }) => {
 			onMouseDown={(e) => e.preventDefault()}
 		>
 			<div
-				className='absolute my-[2px] h-[calc(100%_-_4px)] w-1/2 rounded-full bg-orange-400 transition-all duration-500 ease-in-out'
+				className='absolute my-[2px] h-[calc(100%_-_4px)] w-1/2 rounded-full bg-primary-400 transition-all duration-500 ease-in-out'
 				style={{ left: `${action === "open" ? `calc(50% - 2px)` : `calc(0% + 2px)`}` }}
 			></div>
 			<div className='relative z-20 flex justify-around'>
 				<div
 					className={`text-center duration-500 ease-in-out ${
-						action === "open" ? "text-orange-500" : "text-xl font-bold text-white"
+						action === "open" ? "text-primary-500" : "text-xl font-bold text-white"
 					}`}
 				>
 					List
 				</div>
 				<div
 					className={`text-center duration-500 ease-in-out ${
-						action === "open" ? "ml-3 text-xl font-bold text-white" : "text-orange-500"
+						action === "open" ? "ml-3 text-xl font-bold text-white" : "text-primary-500"
 					}`}
 				>
 					Open

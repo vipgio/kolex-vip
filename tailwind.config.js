@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require("tailwindcss/defaultTheme");
+const { createThemes } = require("tw-colors");
 module.exports = {
 	content: [
 		"./pages/*.{js,jsx,ts,tsx}",
@@ -9,14 +10,6 @@ module.exports = {
 	darkMode: "class",
 	theme: {
 		extend: {
-			colors: {
-				main: {
-					400: "#60a5fa",
-					500: "#3b82f6",
-					600: "#2563eb",
-					700: "#1d4ed8",
-				},
-			},
 			keyframes: {
 				fadeIn: {
 					from: {
@@ -49,5 +42,30 @@ module.exports = {
 			comic: ['"Comic Sans MS"', '"Comic Sans"', "cursive"],
 		},
 	},
-	plugins: [require("@headlessui/tailwindcss")],
+	plugins: [
+		require("@headlessui/tailwindcss"),
+		createThemes({
+			cs: {
+				"primary-300": "#93c5fd",
+				"primary-400": "#60a5fa",
+				"primary-500": "#3b82f6",
+				"primary-600": "#2563eb",
+				"primary-700": "#1d4ed8",
+			},
+			streamers: {
+				"primary-300": "#d8b4fe",
+				"primary-400": "#a78bfa",
+				"primary-500": "#8b5cf6",
+				"primary-600": "#7c3aed",
+				"primary-700": "#6d28d9",
+			},
+			pubg: {
+				"primary-300": "#fdba74",
+				"primary-400": "#fb923c",
+				"primary-500": "#f97316",
+				"primary-600": "#ea580c",
+				"primary-700": "#c2410c",
+			},
+		}),
+	],
 };

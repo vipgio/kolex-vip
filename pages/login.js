@@ -125,7 +125,7 @@ const Login = () => {
 							href='https://discordapp.com/users/341825527104929792'
 							target='_blank'
 							rel='noreferrer'
-							className='text-indigo-500 hover:underline'
+							className='text-primary-500 hover:underline'
 						>
 							Nexus
 						</a>

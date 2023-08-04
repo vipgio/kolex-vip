@@ -29,7 +29,7 @@ const ModeSelection = ({ transferMode, setTransferMode }) => {
 							<RadioGroup.Option
 								key={plan.name}
 								value={plan}
-								className='relative flex cursor-pointer rounded-lg px-3 py-2 shadow-md focus:outline-none ui-checked:bg-main-500/80 ui-checked:text-gray-900 ui-not-checked:bg-gray-900 dark:ui-checked:text-gray-100 dark:ui-not-checked:bg-gray-100'
+								className='ui-checked:bg-primary-500/80 relative flex cursor-pointer rounded-lg px-3 py-2 shadow-md focus:outline-none ui-checked:text-gray-900 ui-not-checked:bg-gray-900 dark:ui-checked:text-gray-100 dark:ui-not-checked:bg-gray-100'
 							>
 								{({ checked }) => (
 									<>

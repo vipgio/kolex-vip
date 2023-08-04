@@ -8,7 +8,7 @@ const NotFound = () => {
 			<div className='mt-10 flex w-full justify-center text-gray-800 dark:text-gray-200'>
 				<span className='mr-1'>This page cannot be found. Return to the</span>
 				<Link href='/'>
-					<a className='underline hover:text-orange-500'>Homepage</a>
+					<a className='underline hover:text-red-500'>Homepage</a>
 				</Link>
 			</div>
 		</>

@@ -25,12 +25,12 @@ const PackResults = React.memo(
 					<div>{pack.description}</div>
 					<div>
 						Number of items in pack:{" "}
-						<span className='font-semibold text-indigo-500'>{pack.entityCount}</span>
+						<span className='font-semibold text-primary-500'>{pack.entityCount}</span>
 					</div>
 					{pack.purchaseStart && (
 						<div>
 							Release date:{" "}
-							<span className='font-semibold text-indigo-500'>
+							<span className='font-semibold text-primary-500'>
 								{pack.purchaseStart.split("T")[0]}
 							</span>
 						</div>
@@ -38,20 +38,20 @@ const PackResults = React.memo(
 					{pack.marketStart && (
 						<div>
 							Market start:{" "}
-							<span className='font-semibold text-indigo-500'>{pack.marketStart}</span>
+							<span className='font-semibold text-primary-500'>{pack.marketStart}</span>
 						</div>
 					)}
 					<div>
 						Total Minted:{" "}
-						<span className='font-semibold text-indigo-500'>{pack.mintCount}</span>
+						<span className='font-semibold text-primary-500'>{pack.mintCount}</span>
 					</div>
 					<div>
 						Inventory Count:{" "}
-						<span className='font-semibold text-indigo-500'>{pack.inventoryCount}</span>
+						<span className='font-semibold text-primary-500'>{pack.inventoryCount}</span>
 					</div>
 					<div>
 						Total Opened:{" "}
-						<span className='font-semibold text-indigo-500'>{pack.openedCount}</span>
+						<span className='font-semibold text-primary-500'>{pack.openedCount}</span>
 					</div>
 					<div>
 						Packs Unopened:{" "}
@@ -61,27 +61,27 @@ const PackResults = React.memo(
 					</div>
 					<div>
 						Season:{" "}
-						<span className='font-semibold text-indigo-500'>
+						<span className='font-semibold text-primary-500'>
 							{pack.properties.seasons[0]}
 						</span>
 					</div>
 					{pack.cost && (
 						<div>
 							Price:{" "}
-							<span className='font-semibold text-indigo-500'>
+							<span className='font-semibold text-primary-500'>
 								{Number(pack.cost).toLocaleString()}{" "}
 								{pack.costType[0].toUpperCase() + pack.costType.slice(1)}
 							</span>
 						</div>
 					)}
 					<div>
-						Pack ID: <span className='font-semibold text-indigo-500'>{pack.id}</span>
+						Pack ID: <span className='font-semibold text-primary-500'>{pack.id}</span>
 					</div>
 					<div className='flex'>
 						Link to marketplace:
 						<a
 							href={`https://kolex.gg/csgo/marketplace/pack/${pack.id}`}
-							className='ml-1 flex items-center text-indigo-500 hover:underline'
+							className='ml-1 flex items-center text-primary-500 hover:underline'
 							target='_blank'
 							rel='noreferrer'
 						>
@@ -106,7 +106,7 @@ const PackResults = React.memo(
 						Link to drop page:
 						<a
 							href={`https://kolex.gg/csgo/drop/${pack.id}`}
-							className='ml-1 flex items-center text-indigo-500 hover:underline'
+							className='ml-1 flex items-center text-primary-500 hover:underline'
 							target='_blank'
 							rel='noreferrer'
 						>

@@ -111,7 +111,7 @@ const ListedRow = React.memo(
 						) : (
 							<>
 								<button
-									className='ml-1 cursor-pointer text-blue-500 active:text-blue-400 disabled:cursor-not-allowed disabled:text-gray-500'
+									className='text-primary-500 active:text-primary-400 ml-1 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-500'
 									title='Update listing'
 									onClick={handleUpdate}
 									disabled={newPrice < minPrice}

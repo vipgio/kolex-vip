@@ -21,7 +21,7 @@ const Details = ({ features }) => {
 									<FaLock title='Paid only' />
 								</div>
 							)}
-							<h2 className='text-center text-lg font-semibold text-orange-400 hover:underline'>
+							<h2 className='text-center text-lg font-semibold text-primary-400 hover:underline'>
 								<Link href={feature.info.link}>
 									<a title={feature.info.name}>{feature.info.name}</a>
 								</Link>

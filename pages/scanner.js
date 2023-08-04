@@ -103,7 +103,7 @@ const Scanner = () => {
 									{selectedUsers?.length > 0 &&
 										selectedUsers.map((user, index) => (
 											<span key={user.id}>
-												{!!index && <span className='mx-2 text-main-500'>|</span>}
+												{!!index && <span className='text-primary-500 mx-2'>|</span>}
 												<span>{user.username}</span>
 												<span
 													className='ml-1 mr-1 cursor-pointer text-red-500'

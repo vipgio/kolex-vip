@@ -34,7 +34,7 @@ const HistoryModal = React.memo(
 					<button
 						type='button'
 						onClick={openModal}
-						className='flex h-5 w-5 items-center justify-center rounded-full text-sm font-medium text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:text-gray-100'
+						className='flex h-5 w-5 items-center justify-center rounded-full text-sm font-medium text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:text-gray-100'
 					>
 						<FaHistory />
 					</button>

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
+import { links } from "@/config/config";
 import HistoryModal from "../HistoryModal";
 
-const MintResultRow = ({ item, allowed }) => {
+const MintResultRow = ({ item, allowed, categoryId }) => {
 	const [showHistory, setShowHistory] = useState(false);
 
 	const openModal = () => {
@@ -32,9 +33,9 @@ const MintResultRow = ({ item, allowed }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
 					target='_blank'
-					href={`https://kolex.gg/csgo/users/${item.owner.username}`}
+					href={`https://kolex.gg/${links[categoryId]}/users/${item.owner.username}`}
 					rel='noopener noreferrer'
-					className='hover:text-orange-500 hover:underline hover:underline-offset-2'
+					className='hover:text-primary-500 hover:underline hover:underline-offset-2'
 				>
 					{item.owner.username}
 				</a>

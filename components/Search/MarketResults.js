@@ -17,7 +17,7 @@ const MarketResults = ({
 	filter,
 	selectedCollection,
 }) => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 	const [hideBadDeals, setHideBadDeals] = useState(false);
 
 	const suffix = filter.sigsOnly
@@ -83,6 +83,7 @@ const MarketResults = ({
 								item={item}
 								allowed={user.info.allowed.includes("history")}
 								key={item.marketId}
+								categoryId={categoryId}
 							/>
 						))}
 					</tbody>
@@ -98,7 +99,7 @@ const MarketResults = ({
 								id='badDeals'
 								checked={hideBadDeals}
 								onChange={(e) => setHideBadDeals(e.target.checked)}
-								className='cursor-pointer'
+								className='cursor-pointer accent-primary-600'
 							/>
 							<label
 								htmlFor='badDeals'

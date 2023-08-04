@@ -39,7 +39,7 @@ const CardGallery = ({ templates, user }) => {
 				<select
 					name='sort'
 					id='sort'
-					className='mx-2 my-1 rounded-md border border-gray-800 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+					className='dropdown mx-2 my-1 sm:mb-0'
 					onChange={(e) => setSortMethod(e.target.value)}
 					value={sortMethod}
 				>
@@ -144,7 +144,7 @@ const CardGallery = ({ templates, user }) => {
 									alt={card.title}
 									className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
 										selectedTemplates.some((e) => e.id === card.id)
-											? "border-orange-500 grayscale-0"
+											? "border-primary-500 grayscale-0"
 											: "border-transparent"
 									}`}
 								/>
@@ -167,7 +167,7 @@ const CardGallery = ({ templates, user }) => {
 									{card.floor ? "$" + card.floor : "-"}
 								</span>
 							</div>
-							<div className='w-full text-center text-xs font-semibold text-orange-500'>
+							<div className='w-full text-center text-xs font-semibold text-primary-500'>
 								x
 								<span className='text-base' title='Owned count'>
 									{card.count}

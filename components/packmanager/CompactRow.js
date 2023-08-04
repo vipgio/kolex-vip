@@ -122,7 +122,7 @@ const CompactRow = ({ packs, setListed, insertFloor }) => {
 					) : (
 						<>
 							<button
-								className='ml-2 cursor-pointer text-blue-500 active:text-blue-400 disabled:cursor-not-allowed disabled:text-gray-500'
+								className='text-primary-500 active:text-primary-400 ml-2 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-500'
 								title='Update listing'
 								onClick={handleUpdate}
 								disabled={newPrice < minPrice}

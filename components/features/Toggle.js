@@ -9,20 +9,20 @@ const Toggle = ({ action, setAction }) => {
 			onMouseDown={(e) => e.preventDefault()}
 		>
 			<div
-				className='absolute my-1 h-[calc(100%_-_4px)] w-[calc(50%_+_2px)] rounded-full bg-orange-400 transition-all duration-500 ease-in-out'
+				className='absolute my-1 h-[calc(100%_-_4px)] w-[calc(50%_+_2px)] rounded-full bg-primary-400 transition-all duration-500 ease-in-out'
 				style={{ left: `${action === "pricing" ? `calc(50% - 5px)` : `calc(0% + 2px)`}` }}
 			></div>
 			<div className='relative z-20 flex justify-around'>
 				<div
 					className={`text-center duration-300 ease-in-out ${
-						action === "pricing" ? "text-orange-500" : "font-bold text-white"
+						action === "pricing" ? "text-primary-500" : "font-bold text-white"
 					}`}
 				>
 					Features
 				</div>
 				<div
 					className={`mr-1 text-center duration-300 ease-in-out ${
-						action === "pricing" ? "font-bold text-white" : "text-orange-500"
+						action === "pricing" ? "font-bold text-white" : "text-primary-500"
 					}`}
 				>
 					Pricing

@@ -48,6 +48,14 @@ const UserContextProvider = (props) => {
 		if (categoryId) {
 			localStorage.setItem("categoryId", categoryId);
 			setCategoryId(categoryId);
+			console.log(categoryId);
+			if (categoryId == "1") {
+				document.documentElement.classList.add("theme-cs");
+			} else if (categoryId == "2") {
+				document.documentElement.classList.add("theme-streamers");
+			} else {
+				document.documentElement.classList.add("theme-pubg");
+			}
 		} else {
 			localStorage.removeItem("categoryId");
 		}

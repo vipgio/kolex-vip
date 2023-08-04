@@ -20,7 +20,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 					<Listbox.Label className='mr-2 text-gray-700 dark:text-gray-300'>
 						Seasons:
 					</Listbox.Label>
-					<Listbox.Button className='relative h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
+					<Listbox.Button className='relative h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
 						<span className='block truncate'>
 							{filters.seasons.length > 0 ? filters.seasons.join(", ") : "Select seasons"}
 						</span>
@@ -72,7 +72,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 					<Listbox.Label className='mr-2 text-gray-700 dark:text-gray-300'>
 						Cost Types:
 					</Listbox.Label>
-					<Listbox.Button className='relative h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
+					<Listbox.Button className='relative h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
 						<span className='block truncate'>
 							{filters.costTypes.length > 0
 								? filters.costTypes

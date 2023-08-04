@@ -17,7 +17,7 @@ const MintResults = ({
 	filter,
 	selectedCollection,
 }) => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 
 	const suffix = filter.sigsOnly
 		? "Signatures"
@@ -34,7 +34,7 @@ const MintResults = ({
 						{results.length}
 						{!filter.sigsOnly && !filter.upgradesOnly && (
 							<>
-								<span className='text-orange-500'>/</span>
+								<span className='text-primary-500'>/</span>
 								{total}
 							</>
 						)}
@@ -82,6 +82,7 @@ const MintResults = ({
 								item={item}
 								allowed={user.info.allowed.includes("history")}
 								key={item.id}
+								categoryId={categoryId}
 							/>
 						))}
 					</tbody>

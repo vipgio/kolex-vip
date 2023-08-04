@@ -44,7 +44,7 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 								value={filters.costType}
 								onChange={(e) => setFilters((prev) => ({ ...prev, costType: e }))}
 							>
-								<Listbox.Button className='relative mt-1 h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
+								<Listbox.Button className='relative mt-1 h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
 									<span className='block truncate'>
 										{filters.costType.length > 0
 											? filters.costType.length <= 4

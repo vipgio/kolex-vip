@@ -126,7 +126,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 					<select
 						name='sort'
 						id='sort'
-						className='mx-2 my-1 rounded-md border border-gray-800 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+						className='dropdown mx-2 my-1 transition-opacity disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
 						onChange={(e) => setSortMethod(e.target.value)}
 					>
 						{/* <option disabled selected value>

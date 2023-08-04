@@ -27,7 +27,7 @@ const NewNavbar = () => {
 	};
 	return (
 		user && (
-			<nav className='flex h-12 items-center justify-center rounded-b-md bg-blue-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500 dark:text-gray-300'>
+			<nav className='flex h-12 items-center justify-center rounded-b-md bg-primary-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500 dark:text-gray-300'>
 				<Menu as='div' className='relative z-30 inline-block h-full w-12 text-left'>
 					{({ open }) => (
 						<>
@@ -49,8 +49,8 @@ const NewNavbar = () => {
 										<span
 											className={`inline-flex items-center justify-center ${
 												categoryId === "1"
-													? "cursor-default bg-blue-500 dark:bg-blue-700"
-													: "cursor-pointer hover:bg-blue-500 dark:hover:bg-blue-700"
+													? "cursor-default bg-indigo-500 dark:bg-indigo-600"
+													: "cursor-pointer hover:bg-indigo-500 dark:hover:bg-indigo-600"
 											}`}
 											onClick={() => (categoryId !== "1" ? changeCategory("1") : null)}
 										>
@@ -59,8 +59,8 @@ const NewNavbar = () => {
 										<span
 											className={`inline-flex items-center justify-center ${
 												categoryId === "2"
-													? "cursor-default bg-purple-500 dark:bg-purple-700"
-													: "cursor-pointer hover:bg-purple-500 dark:hover:bg-purple-700"
+													? "cursor-default bg-purple-500 dark:bg-purple-600"
+													: "cursor-pointer hover:bg-purple-500 dark:hover:bg-purple-600"
 											}`}
 											onClick={() => (categoryId !== "2" ? changeCategory("2") : null)}
 										>
@@ -69,8 +69,8 @@ const NewNavbar = () => {
 										<span
 											className={`inline-flex items-center justify-center ${
 												categoryId === "4"
-													? "cursor-default bg-orange-500 dark:bg-orange-700"
-													: "cursor-pointer hover:bg-orange-500 dark:hover:bg-orange-700"
+													? "cursor-default bg-orange-500 dark:bg-orange-600"
+													: "cursor-pointer hover:bg-orange-500 dark:hover:bg-orange-600"
 											}`}
 											onClick={() => (categoryId !== "4" ? changeCategory("4") : null)}
 										>
@@ -91,7 +91,7 @@ const NewNavbar = () => {
 														}
 														className={`${
 															active
-																? "bg-blue-500 fill-gray-200 text-gray-200 dark:bg-gray-200 dark:fill-gray-700 dark:text-gray-700"
+																? "bg-primary-500 fill-gray-200 text-gray-200 dark:bg-gray-200 dark:fill-gray-700 dark:text-gray-700"
 																: "fill-gray-700 text-gray-700 dark:fill-gray-200 dark:text-gray-200"
 														} group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors active:bg-gray-800 active:shadow-md dark:active:bg-gray-300`}
 													>
@@ -128,7 +128,7 @@ const NewNavbar = () => {
 						target='_blank'
 						rel='noreferrer'
 						title='Contact me on Discord'
-						className='rounded-full focus:outline-purple-500 focus-visible:outline-offset-4 focus-visible:outline-orange-500'
+						className='rounded-full focus:outline-primary-500 focus-visible:outline-offset-4 focus-visible:outline-primary-500'
 						// className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
 					>
 						<FaDiscord className='h-full w-full hover:text-gray-600 dark:hover:text-gray-200' />
@@ -155,7 +155,7 @@ const NewNavbar = () => {
 					<a
 						className={`my-outline mr-2 rounded bg-gray-100 p-1.5 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1  active:bg-gray-300 dark:text-gray-100 ${
 							categoryId === "1"
-								? "text-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:active:bg-blue-700"
+								? "text-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:active:bg-primary-700"
 								: categoryId === "2"
 								? "text-purple-500 dark:bg-purple-500 dark:hover:bg-purple-600 dark:active:bg-purple-700"
 								: "text-orange-500 dark:bg-orange-500 dark:hover:bg-orange-600 dark:active:bg-orange-700"

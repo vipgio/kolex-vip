@@ -349,7 +349,7 @@ const CardGallery = React.memo(
 								name='need'
 								id='need'
 								onChange={(e) => setNeedOnly(e.target.checked)}
-								className='accent-orange-500 hover:cursor-pointer'
+								className='accent-primary-500 hover:cursor-pointer'
 							/>
 						</span>
 					</div>
@@ -362,7 +362,7 @@ const CardGallery = React.memo(
 							}}
 							disabled={!selectedCards.length}
 						>
-							<FiShoppingCart className='mr-2 text-orange-500' />
+							<FiShoppingCart className='mr-2 text-primary-500' />
 							<span>Search Market</span>
 						</button>
 						<button
@@ -373,7 +373,7 @@ const CardGallery = React.memo(
 							}}
 							disabled={!selectedCards.length}
 						>
-							<FiUser className='mr-2 text-orange-500' />
+							<FiUser className='mr-2 text-primary-500' />
 							<span>Search Users</span>
 						</button>
 					</div>

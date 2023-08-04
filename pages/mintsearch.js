@@ -137,7 +137,7 @@ const Searcher = () => {
 							type='checkbox'
 							name='sigs'
 							id='sigs'
-							className='ml-1 mt-1 accent-orange-500 hover:cursor-pointer'
+							className='ml-1 mt-1 accent-primary-500 hover:cursor-pointer'
 							checked={filter.sigsOnly}
 							onChange={(e) =>
 								setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))
@@ -152,7 +152,7 @@ const Searcher = () => {
 							type='checkbox'
 							name='upgrade'
 							id='upgrade'
-							className='ml-1 mr-1 mt-1 accent-orange-500 hover:cursor-pointer sm:mr-0'
+							className='ml-1 mr-1 mt-1 accent-primary-500 hover:cursor-pointer sm:mr-0'
 							checked={filter.upgradesOnly}
 							onChange={(e) =>
 								setFilter((prev) => ({ ...prev, upgradesOnly: e.target.checked }))

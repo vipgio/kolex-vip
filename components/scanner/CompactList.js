@@ -13,12 +13,7 @@ const CompactList = ({ results }) => {
 				<label htmlFor='sort' className='mr-1 text-gray-800 dark:text-gray-300'>
 					Sort By:{" "}
 				</label>
-				<select
-					name='sort'
-					id='sort'
-					className='rounded-md border border-gray-700 p-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-300'
-					onChange={handleSort}
-				>
+				<select name='sort' id='sort' className='dropdown' onChange={handleSort}>
 					<option value='mint'>Mint</option>
 					<option value='owned'>Owned</option>
 					<option value='circ'>Circulation</option>

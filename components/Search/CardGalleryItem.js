@@ -29,7 +29,7 @@ const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {
 					alt={item.title}
 					className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
 						selectedCards.some((e) => e.id === item.id)
-							? "border-orange-500 grayscale-0"
+							? "border-primary-500 grayscale-0"
 							: "border-transparent"
 					}`}
 				/>

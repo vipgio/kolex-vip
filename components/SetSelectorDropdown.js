@@ -16,7 +16,7 @@ const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 		<div tabIndex={-1}>
 			<Menu
 				menuButton={
-					<MenuButton className='m-2 box-border rounded-md border border-gray-300 bg-white p-2 text-sm text-gray-800 shadow-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 dark:bg-gray-800 dark:text-gray-100'>
+					<MenuButton className='m-2 box-border rounded-md border border-gray-300 bg-white p-2 text-sm text-gray-800 shadow-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:bg-gray-800 dark:text-gray-100'>
 						Select a collection
 					</MenuButton>
 				}
@@ -143,7 +143,7 @@ const menuClassName = ({ state }) =>
 
 const menuItemClassName = ({ hover, disabled, submenu }) =>
 	`rounded-md px-3 py-1 focus:outline-none text-black dark:text-gray-100 flex items-center ${
-		hover && "text-white bg-blue-500"
+		hover && "text-white bg-primary-500"
 	} ${disabled && "text-gray-400"} ${
 		submenu &&
 		"relative after:content-['❯'] after:absolute text-black dark:text-gray-100 after:right-1"
