@@ -18,13 +18,10 @@ const SpinArea = ({ info }) => {
 	const { fetchData, postData } = useAxios();
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
-	const [spinLimit, setSpinLimit] = useState(1000);
+	const defMax = 1000;
+	const [spinLimit, setSpinLimit] = useState(defMax);
 	const [showRecap, setShowRecap] = useState(false);
-	const [funds, setFunds] = useState({
-		craftingcoins: 0,
-		epicoins: 0,
-		silvercoins: 0,
-	});
+	const [funds, setFunds] = useState({ silvercoins: 0 });
 
 	const getFunds = async () => {
 		const { result } = await fetchData("/api/users/funds");
@@ -150,14 +147,14 @@ const SpinArea = ({ info }) => {
 					<div className='flex items-center text-gray-700 dark:text-gray-300'>
 						<Tooltip
 							direction='left'
-							text={`Number of spins before it stops. Default is 10,000 times.`}
+							text={`Number of spins before it stops. Default is ${defMax.toLocaleString()} times.`}
 						/>
 						<span>Spin limit:</span>
 						<input
 							type='number'
 							name='counter'
 							id='counter'
-							disabled={spinActive}
+							disabled={spinActive || !info.id}
 							min={1}
 							max={10000}
 							value={spinLimit}
@@ -176,7 +173,8 @@ const SpinArea = ({ info }) => {
 					) : (
 						<button
 							onClick={startSpin}
-							className='inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 hover:bg-green-600 active:bg-green-700 dark:text-gray-200'
+							disabled={!info.id}
+							className='inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 hover:bg-green-600 enabled:active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
 						>
 							<FaPlay className='mr-1 hidden sm:block' />
 							Start Spinning
@@ -192,8 +190,8 @@ const SpinArea = ({ info }) => {
 				</div>
 				<div className='mt-1 flex items-center border-t border-gray-500 pt-2 text-gray-800 dark:text-gray-200'>
 					<div>
-						Used the Spinner
-						<span className='dark:text-primary-300 text-primary-500'>
+						Used the spinner
+						<span className='text-primary-500 dark:text-primary-300'>
 							{" "}
 							{spinRes.length}{" "}
 						</span>

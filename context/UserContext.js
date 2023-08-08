@@ -48,7 +48,7 @@ const UserContextProvider = (props) => {
 		if (categoryId) {
 			localStorage.setItem("categoryId", categoryId);
 			setCategoryId(categoryId);
-			console.log(categoryId);
+			console.log("Category ID: ", categoryId);
 			if (categoryId == "1") {
 				document.documentElement.classList.add("theme-cs");
 			} else if (categoryId == "2") {
