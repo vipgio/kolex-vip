@@ -4,6 +4,7 @@ import Link from "next/link";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
 import ActivePacks from "@/components/ActivePacks";
+import TotalDeposit from "@/components/TotalDeposit";
 
 const Profile = () => {
 	const { user, setUser, categoryId } = useContext(UserContext);
@@ -83,22 +84,7 @@ const Profile = () => {
 								</div>
 							) : null}
 							{user.user.totalDeposited >= 0 ? (
-								<div>
-									Total Deposited:{" "}
-									<span
-										className={`font-semibol ${
-											user.user.totalDeposited > 5000
-												? "text-red-500"
-												: user.user.totalDeposited > 1000
-												? "text-amber-500"
-												: user.user.totalDeposited > 100
-												? "text-green-500"
-												: "text-indigo-500"
-										}`}
-									>
-										${user.user.totalDeposited}
-									</span>
-								</div>
+								<TotalDeposit total={user.user.totalDeposited} />
 							) : null}
 							<div>
 								Account created:{" "}
@@ -130,7 +116,7 @@ const Profile = () => {
 										xmlns='http://www.w3.org/2000/svg'
 										width='24'
 										height='24'
-										className='fill-primary-700'
+										className='fill-primary-500'
 									>
 										<path d='m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z'></path>
 									</svg>
