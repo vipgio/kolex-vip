@@ -53,8 +53,10 @@ const UserContextProvider = (props) => {
 				document.documentElement.classList.add("theme-cs");
 			} else if (categoryId == "2") {
 				document.documentElement.classList.add("theme-streamers");
-			} else {
+			} else if (categoryId == "4") {
 				document.documentElement.classList.add("theme-pubg");
+			} else {
+				document.documentElement.classList.add("theme-skgaming");
 			}
 		} else {
 			localStorage.removeItem("categoryId");

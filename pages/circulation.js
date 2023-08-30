@@ -1,47 +1,55 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "context/UserContext";
+import SetSelector from "HOC/SetSelector";
 import Meta from "@/components/Meta";
 import CircList from "@/components/CircList";
-import SetSelector from "HOC/SetSelector";
 import LoadingSpin from "@/components/LoadingSpin";
 import { useAxios } from "hooks/useAxios";
 
 const Circulation = () => {
-	const { getCardCirc, getStickerCirc, loading, setLoading } = useContext(UserContext);
+	const { getCardCirc, getStickerCirc, loading, setLoading, categoryId } =
+		useContext(UserContext);
 	const [collection, setCollection] = useState({
 		info: {},
 		items: { cards: [], stickers: [] },
 	});
 	const [selectedCollection, setSelectedCollection] = useState(null);
+	const [cardPrices, setCardPrices] = useState([]);
+	const [stickerPrices, setStickerPrices] = useState([]);
 	const { fetchData } = useAxios();
 
-	const getLinkedPacks = async (templateIds, items) => {
-		const { result: packs } = await fetchData("/api/packs/contains", {
-			templateIds: templateIds,
-		});
-		if (packs.length > 0) {
-			const { result: packInfo } = await fetchData(`/api/packs/templates/${packs[0].id}`);
-			const stickersMinted = items.stickers.map((sticker) => ({
-				...sticker,
-				mintCount: packInfo.entityTemplates.stickerTemplates.find(
-					(template) => template.id === sticker.id
-				)?.mintCount,
-			}));
-			const cardsMinted = items.cards.map((card) => ({
-				...card,
-				mintCount: packInfo.entityTemplates.cardTemplates.find(
-					(template) => template.id === card.id
-				)?.mintCount,
-			}));
-
-			setCollection((prev) => ({
-				info: {
-					...prev.info,
-				},
-				items: { cards: cardsMinted, stickers: stickersMinted },
-			}));
+	const getCardPrices = async (page) => {
+		try {
+			const { result } = await fetchData(`/api/market/templates`, {
+				collectionIds: selectedCollection.collection.id,
+				type: "card",
+				page: page,
+				price: "asc",
+				categoryId: categoryId,
+			});
+			if (result?.templates.length > 0) {
+				setCardPrices((prev) => [...prev, ...result.templates]);
+				await getCardPrices(++page);
+			}
+		} catch (err) {
+			console.log(err);
 		}
-		setLoading(false);
+	};
+
+	const getStickerPrices = async (page) => {
+		try {
+			const { result } = await fetchData(`/api/market/templates`, {
+				collectionIds: selectedCollection.collection.id,
+				type: "sticker",
+				page: page,
+				price: "asc",
+				categoryId: categoryId,
+			});
+			setStickerPrices((prev) => [...prev, ...result.templates]);
+			result && result.templates.length > 0 && (await getStickerPrices(++page));
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	const displayCirc = async () => {
@@ -51,8 +59,13 @@ const Circulation = () => {
 				info: {},
 				items: { cards: [], stickers: [] },
 			});
+
 			const { data: cards } = await getCardCirc(selectedCollection.collection.id);
+			cards.data.length > 0 && (await getCardPrices(1));
+
 			const { data: stickers } = await getStickerCirc(selectedCollection.collection.id);
+			stickers.data.length > 0 && (await getStickerPrices(1));
+
 			if (cards.success && stickers.success) {
 				const items = {
 					cards: cards.data.map((card) => getObj(card, "card")),
@@ -62,8 +75,8 @@ const Circulation = () => {
 					...collection,
 					items: items,
 				}));
-				await getLinkedPacks([...cards.data, ...stickers.data][2].id, items);
 			}
+			setLoading(false);
 		} catch (err) {
 			console.log(err);
 			setLoading(false);
@@ -71,6 +84,8 @@ const Circulation = () => {
 	};
 
 	useEffect(() => {
+		setCardPrices([]);
+		setStickerPrices([]);
 		selectedCollection && displayCirc();
 	}, [selectedCollection]);
 
@@ -82,7 +97,7 @@ const Circulation = () => {
 					<div className='px-4 pt-2 text-center font-semibold text-gray-700 dark:text-gray-300'>
 						Selected Collection:
 						{selectedCollection && (
-							<span>
+							<span onClick={() => console.log(cardPrices)}>
 								{" "}
 								{selectedCollection.collection.properties.seasons[0]} -{" "}
 								{selectedCollection.collection.properties.tiers[0]} -{" "}
@@ -101,7 +116,10 @@ const Circulation = () => {
 				{loading ? <LoadingSpin /> : null}
 				{collection.items.cards.length + collection.items.stickers.length > 0 &&
 					!loading && (
-						<CircList data={[...collection.items.cards, ...collection.items.stickers]} />
+						<CircList
+							data={[...collection.items.cards, ...collection.items.stickers]}
+							prices={[...cardPrices, ...stickerPrices]}
+						/>
 					)}
 			</div>
 		</>

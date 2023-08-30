@@ -145,7 +145,7 @@ const Searcher = () => {
 						/>
 					</div>
 					<div className='flex items-center'>
-						<label htmlFor='upgrade' className='mt-1 hover:cursor-pointer'>
+						<label htmlFor='upgrade' className='my-1 hover:cursor-pointer'>
 							Only search for point upgrades
 						</label>
 						<input

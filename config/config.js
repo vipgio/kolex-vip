@@ -15,4 +15,5 @@ export const links = {
 	1: "csgo",
 	2: "streamers",
 	4: "pubgm",
+	40: "skgaming",
 };

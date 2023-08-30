@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "context/UserContext";
-import { useAxios } from "hooks/useAxios";
 import Meta from "@/components/Meta";
 import PlanSelection from "@/components/crafting/PlanSelection";
 import LoadingSpin from "@/components/LoadingSpin";
@@ -11,10 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 const Crafting = () => {
 	const [plans, setPlans] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 
 	const getPlans = async () => {
 		const { data } = await axios.get(`/api/crafting/plans`, {
+			params: {
+				categoryId: categoryId,
+			},
 			headers: {
 				jwt: user.jwt,
 			},
@@ -24,6 +26,9 @@ const Crafting = () => {
 
 	const getUserSlots = async () => {
 		const { data } = await axios.get(`/api/crafting/user-slots`, {
+			params: {
+				categoryId: categoryId,
+			},
 			headers: {
 				jwt: user.jwt,
 			},

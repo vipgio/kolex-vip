@@ -45,7 +45,7 @@ const NewNavbar = () => {
 								leaveTo='transform opacity-0 scale-95'
 							>
 								<Menu.Items className='absolute left-0 mt-1 w-56 origin-top-left rounded-lg border border-gray-800 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200 dark:bg-gray-800'>
-									<div className='mb-1 grid h-8 w-full grid-cols-3 divide-x divide-gray-700 overflow-hidden rounded border border-gray-700 text-xs text-gray-700 dark:divide-gray-300 dark:border-gray-300 dark:text-gray-300'>
+									<div className='mb-1 grid h-8 w-full grid-cols-4 divide-x divide-gray-700 overflow-hidden rounded border border-gray-700 text-xs text-gray-700 dark:divide-gray-300 dark:border-gray-300 dark:text-gray-300'>
 										<span
 											className={`inline-flex items-center justify-center ${
 												categoryId === "1"
@@ -75,6 +75,16 @@ const NewNavbar = () => {
 											onClick={() => (categoryId !== "4" ? changeCategory("4") : null)}
 										>
 											PUBGM
+										</span>
+										<span
+											className={`inline-flex items-center justify-center ${
+												categoryId === "40"
+													? "cursor-default bg-cyan-500 dark:bg-cyan-600"
+													: "cursor-pointer hover:bg-cyan-500 dark:hover:bg-cyan-600"
+											}`}
+											onClick={() => (categoryId !== "40" ? changeCategory("40") : null)}
+										>
+											SK
 										</span>
 									</div>
 									{pages.map((page) => (
@@ -152,15 +162,7 @@ const NewNavbar = () => {
 					</div>
 				</button>
 				<Link href='/features'>
-					<a
-						className={`my-outline mr-2 rounded bg-gray-100 p-1.5 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1  active:bg-gray-300 dark:text-gray-100 ${
-							categoryId === "1"
-								? "text-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:active:bg-primary-700"
-								: categoryId === "2"
-								? "text-purple-500 dark:bg-purple-500 dark:hover:bg-purple-600 dark:active:bg-purple-700"
-								: "text-orange-500 dark:bg-orange-500 dark:hover:bg-orange-600 dark:active:bg-orange-700"
-						}`}
-					>
+					<a className='my-outline mr-2 rounded bg-gray-100 p-1.5 text-primary-500 transition-colors hover:bg-gray-200  focus-visible:ring-offset-1 active:bg-gray-300 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'>
 						Features
 					</a>
 				</Link>

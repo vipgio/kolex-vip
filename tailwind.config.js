@@ -66,6 +66,13 @@ module.exports = {
 				"primary-600": "#ea580c",
 				"primary-700": "#c2410c",
 			},
+			skgaming: {
+				"primary-300": "#67e8f9",
+				"primary-400": "#22d3ee",
+				"primary-500": "#06b6d4",
+				"primary-600": "#0891b2",
+				"primary-700": "#0e7490",
+			},
 		}),
 	],
 };
