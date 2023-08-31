@@ -81,6 +81,19 @@ const Spinner = () => {
 												.toFixed(4)}
 										</th>
 									</tr>
+									<tr className='border-t border-gray-500 bg-white hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-600'>
+										<td className='font-semibold'>Silver return per 100 spins</td>
+										<th>
+											{(
+												spinnerInfo.items.reduce(
+													(prev, curr) =>
+														prev +
+														(Number(curr.chance) / 100) * curr.properties.silvercoins,
+													0
+												) * 100
+											).toLocaleString()}
+										</th>
+									</tr>
 								</tbody>
 							</table>
 						) : (
