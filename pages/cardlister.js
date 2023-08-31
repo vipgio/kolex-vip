@@ -145,10 +145,10 @@ const Cardlister = () => {
 		try {
 			const { data } = await axios.get(`/api/market/templates`, {
 				params: {
-					templateIds: templates.map((o) => o.id).toString(),
 					type: type,
 					page: page,
 					price: "asc",
+					collectionIds: selectedCollection.collection.id,
 				},
 				headers: {
 					jwt: user.jwt,
