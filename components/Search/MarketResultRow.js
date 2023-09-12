@@ -77,7 +77,7 @@ const MarketResultRow = ({ item, allowed, categoryId }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
 					target='_blank'
-					href={`https://kolex.gg/${links[categoryId]}/users/${item.user.username}`}
+					href={`https://kolex.gg/${links[categoryId]}/user/${item.user.username}`}
 					rel='noopener noreferrer'
 					className='underline hover:text-primary-500'
 				>

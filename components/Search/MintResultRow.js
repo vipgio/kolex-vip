@@ -33,7 +33,7 @@ const MintResultRow = ({ item, allowed, categoryId }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
 					target='_blank'
-					href={`https://kolex.gg/${links[categoryId]}/users/${item.owner.username}`}
+					href={`https://kolex.gg/${links[categoryId]}/user/${item.owner.username}`}
 					rel='noopener noreferrer'
 					className='hover:text-primary-500 hover:underline hover:underline-offset-2'
 				>
