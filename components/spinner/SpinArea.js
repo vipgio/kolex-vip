@@ -29,6 +29,7 @@ const SpinArea = ({ info }) => {
 	};
 
 	const buySpin = async () => {
+		inProgress.current = true;
 		const { result, error } = await postData("/api/spinner/buySpin", {
 			amount: 1,
 		});
@@ -37,6 +38,7 @@ const SpinArea = ({ info }) => {
 	};
 
 	const spin = async (id) => {
+		inProgress.current = true;
 		try {
 			const { data } = await axios.post(
 				`${API}/spinner/spin?categoryId=${categoryId}`,
@@ -57,9 +59,9 @@ const SpinArea = ({ info }) => {
 
 	const doSpin = async () => {
 		if (spinCount.current < spinLimit) {
-			if (inProgress.current === false)
+			if (inProgress.current === false) {
+				inProgress.current = true;
 				try {
-					inProgress.current = true;
 					await buySpin();
 					const spinResult = await spin(info.id);
 					spinCount.current++;
@@ -78,18 +80,20 @@ const SpinArea = ({ info }) => {
 							},
 							...prev,
 						]);
-						inProgress.current = false;
 					} else {
 						setSpinRes((prev) => [{ ...spinResult, time: new Date() }, ...prev]);
-						inProgress.current = false;
 					}
 					await getFunds();
+					inProgress.current = false;
 				} catch (err) {
+					console.log(err);
+					inProgress.current = false;
 					if (err.response?.data.errorCode === "low_user_balance") stopSpin();
 					toast.error(err.response?.data.error, {
 						toastId: err.response?.data.errorCode,
 					});
 				}
+			}
 		} else {
 			stopSpin();
 		}
@@ -145,10 +149,18 @@ const SpinArea = ({ info }) => {
 						Silver: {funds.silvercoins.toLocaleString()}
 					</div>
 					<div className='flex items-center text-gray-700 dark:text-gray-300'>
-						<Tooltip
-							direction='left'
-							text={`Number of spins before it stops. Default is ${defMax.toLocaleString()} times.`}
-						/>
+						<span className='sm:hidden'>
+							<Tooltip
+								direction='right'
+								text={`Number of spins before it stops. Default is ${defMax.toLocaleString()} times.`}
+							/>
+						</span>
+						<span className='hidden sm:block'>
+							<Tooltip
+								direction='left'
+								text={`Number of spins before it stops. Default is ${defMax.toLocaleString()} times.`}
+							/>
+						</span>
 						<span>Spin limit:</span>
 						<input
 							type='number'
@@ -188,7 +200,7 @@ const SpinArea = ({ info }) => {
 							<SpinResult result={res} spinnerInfo={info} key={res.time} />
 						))}
 				</div>
-				<div className='mt-1 flex items-center border-t border-gray-500 pt-2 text-gray-800 dark:text-gray-200'>
+				<div className='mt-auto flex items-center border-t border-gray-500 pt-2 text-gray-800 dark:text-gray-200'>
 					<div>
 						Used the spinner
 						<span className='text-primary-500 dark:text-primary-300'>
