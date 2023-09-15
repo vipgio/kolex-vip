@@ -87,7 +87,6 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 											};
 										});
 									if (foundCards.length > 0) {
-										console.log(foundCards);
 										setResults((prev) => [...prev, ...foundCards]);
 									}
 
@@ -245,6 +244,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 
 	const getAllListings = async (item, firstPage) => {
 		let page = firstPage;
+		setLoading(true);
 		try {
 			const data = await getMarketInfo(item.id, page, item.type);
 			if (data.success && data.data.count > 0) {
@@ -303,13 +303,10 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 					!finished.current
 				) {
 					getAllListings(item, ++page);
-				} else {
-					setLoading(false);
-					finished.current = true;
 				}
-			} else {
+			}
+			if (data.data.count < 40) {
 				setLoading(false);
-				finished.current = true;
 			}
 		} catch (err) {
 			console.log(err);
@@ -343,6 +340,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 										title: template.title,
 										type: template.cardType ? "card" : "sticker",
 										uuid: template.uuid,
+										id: template.id,
 									}))
 							)
 						}

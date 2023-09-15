@@ -3,7 +3,6 @@ import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
 import HistoryModal from "../HistoryModal";
 
 const MintResultRow = ({ item, allowed }) => {
-	console.log(item);
 	const [showHistory, setShowHistory] = useState(false);
 
 	const openModal = () => {
