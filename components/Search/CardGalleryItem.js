@@ -3,16 +3,17 @@ import ImageWrapper from "HOC/ImageWrapper";
 
 const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {
 	const handleItem = () => {
-		selectedCards.some((e) => e.id === item.id)
+		selectedCards.some((e) => e.uuid === item.uuid)
 			? setSelectedCards((prev) =>
-					prev.filter((selectedItem) => selectedItem.id !== item.id)
+					prev.filter((selectedItem) => selectedItem.uuid !== item.uuid)
 			  )
 			: setSelectedCards((prev) => [
 					...prev,
 					{
-						id: item.id,
+						uuid: item.uuid,
 						title: item.title,
 						type: item.cardType ? "card" : "sticker",
+						id: item.id,
 					},
 			  ]);
 	};
@@ -28,12 +29,12 @@ const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {
 					height={300 * 1.5}
 					alt={item.title}
 					className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
-						selectedCards.some((e) => e.id === item.id)
+						selectedCards.some((e) => e.uuid === item.uuid)
 							? "border-primary-500 grayscale-0"
 							: "border-transparent"
 					}`}
 				/>
-				{!selectedCards.some((e) => e.id === item.id) && (
+				{!selectedCards.some((e) => e.uuid === item.uuid) && (
 					<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
 				)}
 			</div>

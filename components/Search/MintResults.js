@@ -67,6 +67,7 @@ const MintResults = ({
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>ID</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Point gain</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Owner</th>
+							<th className='py-1 px-2 sm:py-3 sm:px-6'>Link</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
 						</tr>
 					</thead>

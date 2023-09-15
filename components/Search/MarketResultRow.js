@@ -2,12 +2,11 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
 import { useAxios } from "hooks/useAxios";
-import { links } from "@/config/config";
 import HistoryModal from "../HistoryModal";
 import LoadingSpin from "../LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 
-const MarketResultRow = ({ item, allowed, categoryId }) => {
+const MarketResultRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const { postData } = useAxios();
@@ -77,7 +76,7 @@ const MarketResultRow = ({ item, allowed, categoryId }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
 					target='_blank'
-					href={`https://kolex.gg/${links[categoryId]}/user/${item.user.username}`}
+					href={`https://kolex.gg/user/${item.user.username}`}
 					rel='noopener noreferrer'
 					className='underline hover:text-primary-500'
 				>
@@ -86,9 +85,9 @@ const MarketResultRow = ({ item, allowed, categoryId }) => {
 			</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
-					href={`https://kolex.gg/${links[categoryId]}/marketplace/${item.type}/${
-						item.card ? item.card.cardTemplateId : item.sticker.stickerTemplateId
-					}/${item.marketId}`}
+					href={`https://kolex.gg/${item.type}/${item.templateUUID}/${
+						item[item.type].uuid
+					}`}
 					target='_blank'
 					rel='noopener noreferrer'
 					className='text-primary-500 underline'

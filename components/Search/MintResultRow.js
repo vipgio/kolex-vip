@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
-import { links } from "@/config/config";
 import HistoryModal from "../HistoryModal";
 
-const MintResultRow = ({ item, allowed, categoryId }) => {
+const MintResultRow = ({ item, allowed }) => {
+	console.log(item);
 	const [showHistory, setShowHistory] = useState(false);
 
 	const openModal = () => {
@@ -33,11 +33,21 @@ const MintResultRow = ({ item, allowed, categoryId }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
 					target='_blank'
-					href={`https://kolex.gg/${links[categoryId]}/user/${item.owner.username}`}
+					href={`https://kolex.gg/user/${item.owner.username}`}
 					rel='noopener noreferrer'
 					className='hover:text-primary-500 hover:underline hover:underline-offset-2'
 				>
 					{item.owner.username}
+				</a>
+			</td>
+			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+				<a
+					href={`https://kolex.gg/${item.type}/${item.templateUUID}/${item.uuid}`}
+					target='_blank'
+					rel='noopener noreferrer'
+					className='text-primary-500 underline'
+				>
+					Click
 				</a>
 			</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
