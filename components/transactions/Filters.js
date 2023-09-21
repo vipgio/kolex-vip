@@ -33,7 +33,6 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 								selected={filters.startDate}
 								startDate={filters.startDate}
 								endDate={filters.endDate}
-								maxDate={new Date()}
 								selectsRange
 								showPopperArrow={false}
 								onChange={onChange}

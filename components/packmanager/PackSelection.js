@@ -46,7 +46,7 @@ const PackSelection = ({
 											USD
 										</span>
 										<a
-											href={`https://kolex.gg/csgo/marketplace/pack/${packTemplate.id}`}
+											href={`https://kolex.gg/market/pack/${packTemplate.id}`}
 											className='ml-1 flex items-center'
 											target='_blank'
 											rel='noreferrer'
@@ -72,7 +72,7 @@ const PackSelection = ({
 								<div className='flex'>
 									Market floor:{" "}
 									<a
-										href={`https://app.epics.gg/csgo/marketplace/pack/${packTemplate.id}`}
+										href={`https://kolex.gg/market/pack/${packTemplate.id}`}
 										className='ml-1 flex items-center text-orange-400 hover:underline'
 										target='_blank'
 										rel='noreferrer'

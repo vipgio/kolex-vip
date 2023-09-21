@@ -71,7 +71,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.delta,
 					item.minOffer ? item.minOffer : "-",
 					item.price,
-					`https://kolex.gg/csgo/marketplace/${item.type}/${
+					`https://kolex.gg/market/${item.type}/${
 						item.card ? item.card.cardTemplateId : item.sticker.stickerTemplateId
 					}/${item.marketId}`,
 			  ])

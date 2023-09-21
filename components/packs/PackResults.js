@@ -58,6 +58,11 @@ const PackResults = React.memo(
 						<span className='font-semibold text-orange-500'>
 							{pack.mintCount - pack.openedCount}
 						</span>
+						{pack.inventoryCount > 0 ? (
+							<span className='ml-1'>
+								({pack.mintCount - pack.openedCount - pack.inventoryCount} available)
+							</span>
+						) : null}
 					</div>
 					<div>
 						Season:{" "}
@@ -78,9 +83,9 @@ const PackResults = React.memo(
 						Pack ID: <span className='font-semibold text-primary-500'>{pack.id}</span>
 					</div>
 					<div className='flex'>
-						Link to marketplace:
+						Link to market:
 						<a
-							href={`https://kolex.gg/csgo/marketplace/pack/${pack.id}`}
+							href={`https://kolex.gg/market/pack/${pack.id}`}
 							className='ml-1 flex items-center text-primary-500 hover:underline'
 							target='_blank'
 							rel='noreferrer'
@@ -102,10 +107,10 @@ const PackResults = React.memo(
 							</svg>
 						</a>
 					</div>
-					<div className='flex'>
+					<div className='mb-1 flex'>
 						Link to drop page:
 						<a
-							href={`https://kolex.gg/csgo/drop/${pack.id}`}
+							href={`https://kolex.gg/drops/${pack.id}`}
 							className='ml-1 flex items-center text-primary-500 hover:underline'
 							target='_blank'
 							rel='noreferrer'
