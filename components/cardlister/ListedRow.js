@@ -16,7 +16,6 @@ const ListedRow = React.memo(
 
 		useEffect(() => {
 			if (insertFloor && floor) {
-				console.log(floor);
 				setNewPrice(
 					(floor * 100 - 0.01 * 100) / 100 >= minPrice
 						? ((floor * 100 - 0.01 * 100) / 100).toString()
@@ -48,7 +47,6 @@ const ListedRow = React.memo(
 			const { result, error } = await fetchData(
 				`/api/market/card/${item.templateId}?page=1&type=card`
 			);
-			console.log(result);
 			if (result) {
 				setFloor(() => result.market[0][0].price);
 			}
