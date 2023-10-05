@@ -15,11 +15,12 @@ const ListedRow = React.memo(
 		const [loading, setLoading] = useState(false);
 
 		useEffect(() => {
-			if (insertFloor) {
+			if (insertFloor && floor) {
+				console.log(floor);
 				setNewPrice(
-					(item.floor * 100 - 0.01 * 100) / 100 >= minPrice
-						? ((item.floor * 100 - 0.01 * 100) / 100).toString()
-						: item.floor.toString()
+					(floor * 100 - 0.01 * 100) / 100 >= minPrice
+						? ((floor * 100 - 0.01 * 100) / 100).toString()
+						: floor.toString()
 				);
 			}
 		}, [insertFloor]);
@@ -47,7 +48,8 @@ const ListedRow = React.memo(
 			const { result, error } = await fetchData(
 				`/api/market/card/${item.templateId}?page=1&type=card`
 			);
-			if (result && result.success) {
+			console.log(result);
+			if (result) {
 				setFloor(() => result.market[0][0].price);
 			}
 			if (error) {
