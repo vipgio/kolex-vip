@@ -90,7 +90,9 @@ const ListedRow = React.memo(
 				<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.circulation}</td>
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.floor}</td>
+				<td className='py-1 px-2 sm:py-3 sm:px-6'>
+					{item.floor ? `$${item.floor}` : `-`}
+				</td>
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>
 					<input
 						type='number'
@@ -111,7 +113,7 @@ const ListedRow = React.memo(
 						) : (
 							<>
 								<button
-									className='text-primary-500 active:text-primary-400 ml-1 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-500'
+									className='ml-1 cursor-pointer text-primary-500 active:text-primary-400 disabled:cursor-not-allowed disabled:text-gray-500'
 									title='Update listing'
 									onClick={handleUpdate}
 									disabled={newPrice < minPrice}

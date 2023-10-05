@@ -42,6 +42,10 @@ const ListedModal = ({ showModal, setShowModal }) => {
 			setListed((prev) => [
 				...prev,
 				...data.market.map((item) => {
+					const template = templates.find((res) => res.id === item.card.cardTemplateId);
+					const floor = floorData.templates.find(
+						(res) => res.entityTemplateId === item.card.cardTemplateId
+					);
 					const obj = {
 						marketId: item.marketId,
 						templateId: item.card.cardTemplateId,
@@ -52,13 +56,9 @@ const ListedModal = ({ showModal, setShowModal }) => {
 						type: item.type,
 						created: item.created,
 						signatureImage: item.card.signatureImage,
-						circulation: templates.filter((res) => res.id === item.card.cardTemplateId)[0]
-							.inCirculation,
-						title: templates.filter((res) => res.id === item.card.cardTemplateId)[0]
-							.title,
-						floor: floorData.templates.filter(
-							(res) => res.entityTemplateId === item.card.cardTemplateId
-						)[0].lowestPrice,
+						circulation: template ? template.inCirculation : null,
+						title: template ? template.title : null,
+						floor: floor ? floor.lowestPrice : null,
 					};
 					return obj;
 				}),
