@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import isEqual from "lodash/isEqual";
 import { toast } from "react-toastify";
 import { FaSignature, FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
+import { AiOutlineReload } from "react-icons/ai";
 import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
 
 const ListedRow = React.memo(
 	({ item, setListed, insertFloor }) => {
-		const { patchData, deleteData } = useAxios();
+		const { patchData, deleteData, fetchData } = useAxios();
 		const [newPrice, setNewPrice] = useState(0);
+		const [floor, setFloor] = useState(item.floor);
 		const [loading, setLoading] = useState(false);
 
 		useEffect(() => {
@@ -30,6 +32,23 @@ const ListedRow = React.memo(
 				toast.success(`Removed ${item.title} from market!`, {
 					toastId: item.marketId,
 				});
+			}
+			if (error) {
+				console.log(error);
+				toast.error(`${error.response.data.error}`, {
+					toastId: item.marketId,
+				});
+			}
+			setLoading(false);
+		};
+
+		const fetchFloor = async () => {
+			setLoading(true);
+			const { result, error } = await fetchData(
+				`/api/market/card/${item.templateId}?page=1&type=card`
+			);
+			if (result && result.success) {
+				setFloor(() => result.market[0][0].price);
 			}
 			if (error) {
 				console.log(error);
@@ -90,9 +109,7 @@ const ListedRow = React.memo(
 				<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.circulation}</td>
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>
-					{item.floor ? `$${item.floor}` : `-`}
-				</td>
+				<td className='py-1 px-2 sm:py-3 sm:px-6'>{floor ? `$${floor}` : `-`}</td>
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>
 					<input
 						type='number'
@@ -113,13 +130,22 @@ const ListedRow = React.memo(
 						) : (
 							<>
 								<button
-									className='ml-1 cursor-pointer text-primary-500 active:text-primary-400 disabled:cursor-not-allowed disabled:text-gray-500'
+									className='ml-1 mr-auto cursor-pointer text-primary-500 active:text-primary-400 disabled:cursor-not-allowed disabled:text-gray-500'
 									title='Update listing'
 									onClick={handleUpdate}
 									disabled={newPrice < minPrice}
 								>
 									<FaRegCheckCircle size={18} />
 								</button>
+								{item.floor ? null : (
+									<button
+										className='mx-auto cursor-pointer text-gray-300 active:text-gray-200'
+										title='Get floor price'
+										onClick={fetchFloor}
+									>
+										<AiOutlineReload size={18} />
+									</button>
+								)}
 								<button
 									className='ml-auto mr-1 cursor-pointer text-red-500 active:text-red-400'
 									title='Remove listing'
