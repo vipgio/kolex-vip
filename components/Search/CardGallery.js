@@ -292,6 +292,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 					...prev,
 					...accepted.map((list) => ({
 						...list,
+						uuid: list.card ? list.card.uuid : list.sticker.uuid,
 						title: item.title,
 						delta: fixDecimal((list[item.type].rating - ownedRating) * 10),
 						templateUUID: item.uuid,

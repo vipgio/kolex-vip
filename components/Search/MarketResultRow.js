@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
+import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
 import { useAxios } from "hooks/useAxios";
 import HistoryModal from "../HistoryModal";
 import LoadingSpin from "../LoadingSpin";
@@ -85,9 +85,7 @@ const MarketResultRow = ({ item, allowed }) => {
 			</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
-					href={`https://kolex.gg/${item.type}/${item.templateUUID}/${
-						item[item.type].uuid
-					}`}
+					href={`https://kolex.gg/${item.type}/${item.templateUUID}/${item.uuid}`}
 					target='_blank'
 					rel='noopener noreferrer'
 					className='text-primary-500 underline'
@@ -98,10 +96,20 @@ const MarketResultRow = ({ item, allowed }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<div className='relative flex h-8 items-center justify-center'>
 					{allowed ? (
-						item.type === "sticker" ? (
-							<FaBan title="Doesn't work with stickers" />
-						) : showHistory ? (
-							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
+						item.type === "card" ? (
+							<HistoryModal
+								data={item}
+								isOpen={showHistory}
+								setIsOpen={setShowHistory}
+								type='card'
+							/>
+						) : item.type === "sticker" ? (
+							<HistoryModal
+								data={item}
+								isOpen={showHistory}
+								setIsOpen={setShowHistory}
+								type='sticker'
+							/>
 						) : (
 							<button onClick={openModal}>
 								<FaHistory />

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
+import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
 import HistoryModal from "components/HistoryModal";
 
@@ -50,12 +50,19 @@ const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 				<span className='relative flex h-8 items-center justify-center'>
 					{user.info.allowed.includes("history") ? (
 						item.type === "sticker" ? (
-							<FaBan
-								title="Doesn't work with stickers"
-								className='fill-gray-900 dark:fill-current'
+							<HistoryModal
+								data={item}
+								isOpen={showHistory}
+								setIsOpen={setShowHistory}
+								type='sticker'
 							/>
-						) : showHistory ? (
-							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
+						) : item.type === "card" ? (
+							<HistoryModal
+								data={item}
+								isOpen={showHistory}
+								setIsOpen={setShowHistory}
+								type='card'
+							/>
 						) : (
 							<button onClick={openModal}>
 								<FaHistory />

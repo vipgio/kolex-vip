@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
+import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
 import HistoryModal from "../HistoryModal";
 
 const MintResultRow = ({ item, allowed }) => {
@@ -50,12 +50,22 @@ const MintResultRow = ({ item, allowed }) => {
 				</a>
 			</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
-				<div className='relative flex h-8 items-center justify-center'>
+				<div className='relative flex h-8 items-center justify-center text-gray-200'>
 					{allowed ? (
-						item.type !== "card" ? (
-							<FaBan title="Doesn't work with stickers" />
-						) : showHistory ? (
-							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
+						item.type === "card" ? (
+							<HistoryModal
+								data={item}
+								isOpen={showHistory}
+								setIsOpen={setShowHistory}
+								type='card'
+							/>
+						) : item.type === "sticker" ? (
+							<HistoryModal
+								data={item}
+								isOpen={showHistory}
+								setIsOpen={setShowHistory}
+								type='sticker'
+							/>
 						) : (
 							<button onClick={openModal}>
 								<FaHistory />

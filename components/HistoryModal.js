@@ -6,13 +6,13 @@ import LoadingSpin from "./LoadingSpin";
 import { useAxios } from "hooks/useAxios";
 
 const HistoryModal = React.memo(
-	({ data, isOpen, setIsOpen }) => {
+	({ data, isOpen, setIsOpen, type = "card" }) => {
 		const { fetchData } = useAxios();
 		const [history, setHistory] = useState({});
 
 		useEffect(() => {
 			if (isOpen) {
-				const getHistory = async (cardId) => {
+				const getCardHistory = async (cardId) => {
 					try {
 						const { result } = await fetchData(`/api/cards/${cardId}`);
 						result && setHistory(result);
@@ -20,7 +20,18 @@ const HistoryModal = React.memo(
 						console.log(err);
 					}
 				};
-				getHistory(data.id ? data.id : data.card.id);
+				const getStickerHistory = async (uuid) => {
+					try {
+						const { result } = await fetchData(`/api/uuid/sticker`, {
+							uuid: uuid,
+						});
+						result && setHistory(result);
+					} catch (err) {
+						console.log(err);
+					}
+				};
+				type === "sticker" && getStickerHistory(data.uuid);
+				type === "card" && getCardHistory(data.id ? data.id : data.card.id);
 			}
 		}, [isOpen]);
 
@@ -34,7 +45,7 @@ const HistoryModal = React.memo(
 					<button
 						type='button'
 						onClick={openModal}
-						className='flex h-5 w-5 items-center justify-center rounded-full text-sm font-medium text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:text-gray-100'
+						className='flex h-5 w-5 items-center justify-center rounded-full text-sm font-medium text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:text-gray-300'
 					>
 						<FaHistory />
 					</button>

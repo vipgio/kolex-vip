@@ -103,7 +103,7 @@ const Scanner = () => {
 									{selectedUsers?.length > 0 &&
 										selectedUsers.map((user, index) => (
 											<span key={user.id}>
-												{!!index && <span className='text-primary-500 mx-2'>|</span>}
+												{!!index && <span className='mx-2 text-primary-500'>|</span>}
 												<span>{user.username}</span>
 												<span
 													className='ml-1 mr-1 cursor-pointer text-red-500'
@@ -191,6 +191,7 @@ const Scanner = () => {
 export default Scanner;
 
 const pickObj = (item, selectedCollection, owner) => {
+	console.log(item);
 	return {
 		templateId: item.cardTemplateId ? item.cardTemplateId : item.stickerTemplateId,
 		id: item.id,
@@ -206,5 +207,6 @@ const pickObj = (item, selectedCollection, owner) => {
 		owner: owner.username,
 		owenrId: owner.id,
 		marketId: item.isMarketList ? item.marketId : "-",
+		uuid: item.uuid,
 	};
 };
