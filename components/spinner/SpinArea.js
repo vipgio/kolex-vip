@@ -143,7 +143,7 @@ const SpinArea = ({ info }) => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='mt-3 flex w-full flex-col rounded-md border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
+			<div className='mt-3 flex max-h-[33rem] w-full flex-col rounded-md border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
 				<div className='flex w-full items-center justify-evenly border-b border-gray-500 pb-2'>
 					<div className='ml-1 mr-auto text-center text-lg font-semibold text-gray-700 dark:text-slate-200'>
 						Silver: {funds.silvercoins.toLocaleString()}
@@ -194,13 +194,13 @@ const SpinArea = ({ info }) => {
 					)}
 				</div>
 
-				<div className='max-h-96 min-h-[24rem] divide-y divide-gray-500 overflow-auto sm:divide-y-0'>
+				<div className='max-h-full min-h-[24rem] divide-y divide-gray-500 overflow-auto sm:divide-y-0'>
 					{info.id &&
 						spinRes.map((res) => (
 							<SpinResult result={res} spinnerInfo={info} key={res.time} />
 						))}
 				</div>
-				<div className='mt-auto flex items-center border-t border-gray-500 pt-2 text-gray-800 dark:text-gray-200'>
+				<div className='mt-auto flex max-h-96 items-center border-t border-gray-500 pt-2 text-gray-800 dark:text-gray-200'>
 					<div>
 						Used the spinner
 						<span className='text-primary-500 dark:text-primary-300'>
