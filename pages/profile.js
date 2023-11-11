@@ -231,7 +231,7 @@ const Profile = () => {
 					</div>
 				</button>
 			</div>
-			{/* <ActivePacks user={user} categoryId={categoryId} /> */}
+			<ActivePacks user={user} categoryId={categoryId} />
 		</>
 	);
 };
