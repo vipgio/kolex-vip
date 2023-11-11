@@ -1,13 +1,73 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/future/image";
 import Link from "next/link";
+import { useAxios } from "hooks/useAxios";
 import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
 import ActivePacks from "@/components/ActivePacks";
 import TotalDeposit from "@/components/TotalDeposit";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const Profile = () => {
 	const { user, setUser, categoryId } = useContext(UserContext);
+	const [achievements, setAchievements] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const { fetchData, postData } = useAxios();
+
+	const getQuest = async () => {
+		setLoading(true);
+		const { result } = await fetchData(`/api/achievements`, {
+			userId: user.user.id,
+			categoryId: categoryId,
+		});
+		const general = result.achievements.filter(
+			(quest) => quest.progress.claimAvailable === true
+		);
+		const daily = result.daily.filter((quest) => quest.progress.claimAvailable === true);
+		const weekly = result.weekly.filter(
+			(quest) => quest.progress.claimAvailable === true
+		);
+
+		setAchievements([...general, ...daily, ...weekly]);
+		setLoading(false);
+	};
+
+	const claim = async () => {
+		setLoading(true);
+		let counter = 0;
+		for (const questId of achievements.map((achieve) => achieve.id)) {
+			const { result, error } = await postData(`/api/achievements/${questId}/claim`);
+			if (result) {
+				counter++;
+				toast.isActive(questId)
+					? toast.update(questId, {
+							render: `Claimed ${counter}x Achievements!`,
+					  })
+					: toast.success(
+							`Claimed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`,
+							{
+								toastId: questId,
+								position: "top-left",
+							}
+					  );
+			}
+			if (error) {
+				console.log(error);
+				toast.error(`${error.response.data.error}`, {
+					toastId: questId,
+					position: "top-left",
+				});
+			}
+		}
+		setLoading(false);
+	};
+
+	useEffect(() => {
+		getQuest();
+	}, []);
+
 	return (
 		<>
 			<Meta title='Profile | Kolex VIP' />
@@ -134,6 +194,27 @@ const Profile = () => {
 									</svg>
 								</div>
 							)}
+							<div className='inline-flex items-center'>
+								Achievements available:{" "}
+								{loading ? (
+									<span className='ml-1'>
+										<LoadingSpin size={4} />
+									</span>
+								) : (
+									<span className='ml-1 font-semibold text-primary-500'>
+										<span className='mr-1'>{achievements.length}</span>
+										{achievements.length > 0 && (
+											<span>
+												(
+												<button className='hover:text-orange-500' onClick={() => claim()}>
+													Claim
+												</button>
+												)
+											</span>
+										)}
+									</span>
+								)}
+							</div>
 						</>
 					)}
 				</div>
@@ -150,7 +231,7 @@ const Profile = () => {
 					</div>
 				</button>
 			</div>
-			<ActivePacks user={user} categoryId={categoryId} />
+			{/* <ActivePacks user={user} categoryId={categoryId} /> */}
 		</>
 	);
 };
