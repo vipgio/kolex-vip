@@ -40,6 +40,7 @@ const Profile = () => {
 		for (const questId of achievements.map((achieve) => achieve.id)) {
 			const { result, error } = await postData(`/api/achievements/${questId}/claim`);
 			if (result) {
+				setAchievements((prev) => prev.filter((quest) => quest.id !== questId));
 				counter++;
 				toast.isActive(questId)
 					? toast.update(questId, {
@@ -49,7 +50,7 @@ const Profile = () => {
 							`Claimed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`,
 							{
 								toastId: questId,
-								position: "top-left",
+								position: "top-right",
 							}
 					  );
 			}
@@ -76,6 +77,18 @@ const Profile = () => {
 					user.user.username === "Fynngin" ? "font-comic" : ""
 				}`}
 			>
+				<ToastContainer
+					position='top-right'
+					autoClose={5000}
+					hideProgressBar={false}
+					newestOnTop
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					limit={1}
+				/>
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border border-gray-700 dark:border-gray-300'>
 						<Image
