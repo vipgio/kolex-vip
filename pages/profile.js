@@ -87,7 +87,6 @@ const Profile = () => {
 					pauseOnFocusLoss
 					draggable
 					pauseOnHover
-					limit={1}
 				/>
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border border-gray-700 dark:border-gray-300'>
