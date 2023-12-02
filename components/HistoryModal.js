@@ -84,7 +84,7 @@ const HistoryModal = React.memo(
 											{data.mintBatch ? (
 												<>
 													{data.mintBatch ? data.mintBatch : data[data.type].mintBatch}
-													{data.mintNumber
+													{data.mintNumber || data.mintNumber === 0
 														? data.mintNumber
 														: data[data.type].mintNumber}{" "}
 													{data.title}
