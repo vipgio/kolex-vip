@@ -78,13 +78,13 @@ const NewNavbar = () => {
 										</span>
 										<span
 											className={`inline-flex items-center justify-center ${
-												categoryId === "40"
+												categoryId === "73"
 													? "cursor-default bg-cyan-500 dark:bg-cyan-600"
 													: "cursor-pointer hover:bg-cyan-500 dark:hover:bg-cyan-600"
 											}`}
-											onClick={() => (categoryId !== "40" ? changeCategory("40") : null)}
+											onClick={() => (categoryId !== "73" ? changeCategory("73") : null)}
 										>
-											SK
+											Kings
 										</span>
 									</div>
 									{pages.map((page) => (
