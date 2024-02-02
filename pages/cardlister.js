@@ -11,7 +11,7 @@ import Tooltip from "@/components/Tooltip";
 import RefreshButton from "@/components/RefreshButton";
 
 const Cardlister = () => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [templates, setTemplates] = useState([]);
 	const [showListedModal, setShowListedModal] = useState(false);
@@ -113,8 +113,9 @@ const Cardlister = () => {
 	};
 
 	const getAllMarket = async (cards, firstPage, type) => {
+		setLoading(true);
 		let page = firstPage;
-		if (cards.length > 0)
+		if (cards.length > 0) {
 			try {
 				const data = await getMarketInfo(cards, page, type);
 				if (data.success && data.data.templates.length > 0) {
@@ -134,11 +135,15 @@ const Cardlister = () => {
 						})
 					);
 					if (data.data.templates.length > 0) getAllMarket(cards, ++page, type);
+					setLoading(false);
 					return data;
 				}
 			} catch (err) {
 				console.log(err);
 			}
+		} else {
+			setLoading(false);
+		}
 	};
 
 	const getMarketInfo = async (templates, page, type) => {
@@ -149,6 +154,7 @@ const Cardlister = () => {
 					page: page,
 					price: "asc",
 					collectionIds: selectedCollection.collection.id,
+					categoryId: categoryId,
 				},
 				headers: {
 					jwt: user.jwt,
