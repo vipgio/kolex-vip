@@ -73,9 +73,9 @@ const Login = () => {
 				<p className='text-center'>
 					Kolex recently added a security feature (captcha) which prevents third party
 					tools from accessing the site. <br />
-					If you paid for anything, please contact me on Discord and i'll refund you.{" "}
+					If you paid for anything, please contact me on Discord and I&apos;ll refund you.{" "}
 					<br />
-					I'm trying to work with Kolex to get this fixed.
+					I&apos;m trying to work with Kolex to get this fixed.
 					<br />
 					So until they fix it, the site is <span className='text-red-500'>down</span>.
 				</p>
