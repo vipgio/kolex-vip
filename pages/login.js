@@ -69,7 +69,18 @@ const Login = () => {
 
 	return (
 		<>
-			<ToastContainer
+			<div className='flex h-full w-full flex-col items-center justify-center text-primary-500'>
+				<p className='text-center'>
+					Kolex recently added a security feature (captcha) which prevents third party
+					tools from accessing the site. <br />
+					If you paid for anything, please contact me on Discord and i'll refund you.{" "}
+					<br />
+					I'm trying to work with Kolex to get this fixed.
+					<br />
+					So until they fix it, the site is <span className='text-red-500'>down</span>.
+				</p>
+			</div>
+			{/* <ToastContainer
 				position='top-right'
 				hideProgressBar
 				newestOnTop
@@ -79,7 +90,6 @@ const Login = () => {
 				draggable
 				pauseOnHover
 			/>
-			{/* <div className='flex w-full'> */}
 			<div className='absolute right-8 top-4'>
 				<button className='mx-2 h-5 w-5'>
 					<a
@@ -115,9 +125,6 @@ const Login = () => {
 					onSubmit={onSubmit}
 					codeEnabled={codeEnabled}
 				/>
-				{/* <div className='mt-6'>
-					<ESLLogin />
-				</div> */}
 				<div className='absolute bottom-0 h-8 w-full border-t border-gray-600 p-1 dark:border-gray-400'>
 					<span className='text-sm text-gray-700 dark:text-gray-300'>
 						Cool site logo by{" "}
@@ -131,7 +138,7 @@ const Login = () => {
 						</a>
 					</span>
 				</div>
-			</div>
+			</div> */}
 		</>
 	);
 };
