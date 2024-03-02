@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { toast } from "react-toastify";
+import ImageWrapper from "HOC/ImageWrapper";
 
 const TokenTutorial = ({ showModal, setShowModal }) => {
 	const handleCopyClick = async () => {
@@ -38,22 +39,33 @@ const TokenTutorial = ({ showModal, setShowModal }) => {
 				{/* Full-screen container to center the panel */}
 				<div className='fixed inset-0 flex w-screen items-center justify-center p-4'>
 					{/* The actual dialog panel  */}
-					<Dialog.Panel className='mx-auto rounded bg-white p-3'>
-						<ol className='list-inside list-decimal'>
-							<li>Login to your Kolex account from the official website</li>
-							<li>
-								Open Developer Console (usually F12 key) and navigate to the Console tab.
-							</li>
-							<li>
-								Paste{" "}
-								<span className='cursor-pointer underline' onClick={handleCopyClick}>
-									this
-								</span>{" "}
-								code in the console and hit enter.
-							</li>
-							<li>Right click on the output and hit &quot;Copy object&quot;.</li>
-							<li>Paste the text in the field below.</li>
-						</ol>
+					<Dialog.Panel className='mx-3 rounded bg-white p-3'>
+						<div className='inline-flex w-full flex-col md:flex-row'>
+							<ol className='list-inside list-decimal md:w-1/2'>
+								<li>Login to your Kolex account from the official website</li>
+								<li>
+									Open Developer Console (usually F12) and navigate to the Console tab.
+								</li>
+								<li>
+									Paste{" "}
+									<span className='cursor-pointer underline' onClick={handleCopyClick}>
+										this
+									</span>{" "}
+									code in the console and hit enter.
+								</li>
+								<li>Right click on the output and hit &quot;Copy object&quot;.</li>
+								<li>Paste the text in the field below.</li>
+							</ol>
+							<div className='relative md:w-1/2'>
+								<ImageWrapper
+									src={"https://i.imgur.com/6y8Mf4I.png"}
+									fill
+									alt={"Example"}
+									width={500}
+									height={500}
+								/>
+							</div>
+						</div>
 						<p className='mt-4'>
 							<span className='font-bold text-red-400 underline'>NEVER</span> paste
 							anything in the console if you don&apos;t know or trust the person sending
