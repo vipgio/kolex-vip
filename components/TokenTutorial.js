@@ -53,6 +53,10 @@ const TokenTutorial = ({ showModal, setShowModal }) => {
 									</span>{" "}
 									code in the console and hit enter.
 								</li>
+								<p>
+									(If you see the warning about pasting codes into console, type
+									&quot;allow pasting&quot; and try again.)
+								</p>
 								<li>Right click on the output and hit &quot;Copy object&quot;.</li>
 								<li>Paste the text in the field below.</li>
 							</ol>
