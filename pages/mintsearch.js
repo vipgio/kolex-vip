@@ -10,7 +10,7 @@ import LoadingSpin from "@/components/LoadingSpin";
 import RefreshButton from "@/components/RefreshButton";
 
 const Searcher = () => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [cards, setCards] = useState([]);
 	const [owned, setOwned] = useState([]);
@@ -233,6 +233,7 @@ const Searcher = () => {
 						selectedCollection={selectedCollection}
 						owned={owned}
 						fetchData={fetchData}
+						categoryId={categoryId}
 					/>
 				)}
 			</div>
