@@ -23,7 +23,16 @@ const coreNames = [
 	"Pinnacle",
 	"Signature Series",
 ];
-const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022", "2023"];
+const seasons = [
+	"Founders Edition",
+	"2018",
+	"2019",
+	"2020",
+	"2021",
+	"2022",
+	"2023",
+	"2024",
+];
 
 const SetSelector = React.memo(
 	({ setSelectedCollection }) => {
