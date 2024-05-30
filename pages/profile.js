@@ -91,7 +91,7 @@ const Profile = () => {
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border border-gray-700 dark:border-gray-300'>
 						<Image
-							src={`https://cdn.epics.gg${user?.user.avatar}` || ""}
+							src={`https://cdn.kolex.gg${user?.user.avatar}` || ""}
 							alt={user?.user.username || "loading"}
 							className='h-full w-full object-cover'
 							height={500}

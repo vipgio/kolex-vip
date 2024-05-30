@@ -13,10 +13,7 @@ const Meta = ({
 			<meta name='description' content={description} />
 			<meta name='robots' content={robots} />
 			<meta charSet='utf-8' />
-			<meta
-				property='og:image'
-				content='https://cdn.discordapp.com/attachments/996874399863033856/1045693106529513522/midjourney3crop.png'
-			/>
+			<meta property='og:image' content='https://i.imgur.com/JzHKUOD.png' />
 			<link rel='icon' href='/favicon.ico' />
 			<title>{title}</title>
 		</Head>

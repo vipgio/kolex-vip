@@ -40,7 +40,7 @@ const PackModal = React.memo(
 										<div className='relative flex'>
 											<div className='w-4/12 pt-1 sm:w-1/5'>
 												<ImageWrapper
-													src={`https://cdn.epics.gg${
+													src={`https://cdn.kolex.gg${
 														pack.images.filter((images) => images.name === "image")[0].url
 													}`}
 													width={200}

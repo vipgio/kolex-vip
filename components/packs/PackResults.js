@@ -10,7 +10,7 @@ const PackResults = React.memo(
 			<div className='relative m-2 flex border-t border-gray-700 p-2 dark:border-gray-300'>
 				<div className='w-4/12 pt-1 sm:w-1/5'>
 					<ImageWrapper
-						src={`https://cdn.epics.gg${
+						src={`https://cdn.kolex.gg${
 							pack.images.filter((images) => images.name === "image")[0].url
 						}`}
 						width={200}

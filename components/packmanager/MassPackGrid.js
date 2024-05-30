@@ -13,7 +13,7 @@ const MassPackGrid = ({ packTemplate }) => {
 				<div className='relative aspect-auto w-28 overflow-hidden'>
 					<ImageWrapper
 						className='h-full w-full object-cover'
-						src={`https://cdn.epics.gg${packTemplate.image}` || ""}
+						src={`https://cdn.kolex.gg${packTemplate.image}` || ""}
 						width={200}
 						height={300}
 						alt={packTemplate.name || "loading"}
