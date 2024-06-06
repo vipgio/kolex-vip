@@ -19,6 +19,25 @@ const Login = () => {
 	const [codeEnabled, setCodeEnabled] = useState(false);
 	const [showTutorial, setShowTutorial] = useState(false);
 
+	const handleCopyClick = async () => {
+		try {
+			await navigator.clipboard.writeText(
+				`const sessionData = localStorage.getItem("session");const parsedData = JSON.parse(sessionData);const { ["braze"]: _, ...rest } = parsedData;console.log(rest);`
+			);
+			toast.success(`Code copied!`, {
+				toastId: "copy",
+				autoClose: 2000,
+				hideProgressBar: false,
+			});
+		} catch (err) {
+			console.log(err);
+			toast.error(`Failed to copy the code :(`, { toastId: "failed" });
+			toast.error(err.response.data.error, {
+				toastId: err.response.data.errorCode,
+			});
+		}
+	};
+
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
@@ -49,9 +68,7 @@ const Login = () => {
 						},
 					},
 				};
-				const whitelist = await axios.get(
-					`/api/whitelist?username=${data.data.user.username}`
-				);
+				const whitelist = await axios.get(`/api/whitelist?username=${data.data.user.username}`);
 
 				if (whitelist.data.info?.banned) {
 					toast.error("I don't like you, fuck off", {
@@ -111,13 +128,16 @@ const Login = () => {
 			/>
 			<div className='mt-11 flex h-1/4 w-full flex-col items-center justify-center text-primary-500'>
 				<p className='text-center'>
-					Kolex recently added a security feature (captcha) which prevents third party
-					tools from logging in from third party tools. <br />
-					If you paid for anything and are not happy, please contact me on Discord and
-					I&apos;ll refund you. <br />
+					Kolex recently added a security feature (captcha) which prevents third party tools from logging in
+					from third party tools. <br />
+					If you paid for anything and are not happy, please contact me on Discord and I&apos;ll refund you.{" "}
+					<br />
 					I&apos;m trying to work with Kolex to get this fixed.
 					<br />
 					So until they fix it, you can use your JWT to use the site.
+					<div className='cursor-pointer underline' onClick={handleCopyClick}>
+						Click to copy the code if you already know how it works
+					</div>{" "}
 				</p>
 				<button className='simple-button mt-1' onClick={() => setShowTutorial(true)}>
 					HOW
@@ -128,11 +148,7 @@ const Login = () => {
 				className='absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold text-gray-700 transition-colors dark:text-gray-300'
 				title='Source Code'
 			>
-				<a
-					href='https://github.com/vipgio/kolex-vip'
-					target='_blank'
-					rel='noopener noreferrer'
-				>
+				<a href='https://github.com/vipgio/kolex-vip' target='_blank' rel='noopener noreferrer'>
 					<FaGithub className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 				<a
