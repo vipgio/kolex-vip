@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import Image from "next/future/image";
+import ImageWrapper from "HOC/ImageWrapper";
 import Link from "next/link";
 import { useAxios } from "hooks/useAxios";
 import { UserContext } from "context/UserContext";
@@ -22,13 +22,9 @@ const Profile = () => {
 			userId: user.user.id,
 			categoryId: categoryId,
 		});
-		const general = result.achievements.filter(
-			(quest) => quest.progress.claimAvailable === true
-		);
+		const general = result.achievements.filter((quest) => quest.progress.claimAvailable === true);
 		const daily = result.daily.filter((quest) => quest.progress.claimAvailable === true);
-		const weekly = result.weekly.filter(
-			(quest) => quest.progress.claimAvailable === true
-		);
+		const weekly = result.weekly.filter((quest) => quest.progress.claimAvailable === true);
 
 		setAchievements([...general, ...daily, ...weekly]);
 		setLoading(false);
@@ -46,13 +42,10 @@ const Profile = () => {
 					? toast.update(questId, {
 							render: `Claimed ${counter}x Achievements!`,
 					  })
-					: toast.success(
-							`Claimed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`,
-							{
-								toastId: questId,
-								position: "top-right",
-							}
-					  );
+					: toast.success(`Claimed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`, {
+							toastId: questId,
+							position: "top-right",
+					  });
 			}
 			if (error) {
 				console.log(error);
@@ -90,14 +83,13 @@ const Profile = () => {
 				/>
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border border-gray-700 dark:border-gray-300'>
-						<Image
+						<ImageWrapper
 							src={`https://cdn.kolex.gg${user?.user.avatar}` || ""}
 							alt={user?.user.username || "loading"}
 							className='h-full w-full object-cover'
 							height={500}
 							width={500}
 							priority='true'
-							unoptimized={true}
 						/>
 					</div>
 					<div
@@ -129,9 +121,7 @@ const Profile = () => {
 											</span>
 										),
 										<Link href={features[option].link} key={option}>
-											<a className='my-outline rounded hover:text-orange-500'>
-												{features[option].name}
-											</a>
+											<a className='my-outline rounded hover:text-orange-500'>{features[option].name}</a>
 										</Link>,
 									])
 								) : (
@@ -155,53 +145,36 @@ const Profile = () => {
 									{user.info.ends === 1 ? "day" : "days"}
 								</div>
 							) : null}
-							{user.user.totalDeposited >= 0 ? (
-								<TotalDeposit total={user.user.totalDeposited} />
-							) : null}
+							{user.user.totalDeposited >= 0 ? <TotalDeposit total={user.user.totalDeposited} /> : null}
 							<div>
 								Account created:{" "}
-								<span className='font-semibold text-primary-500'>
-									{user.user.created.split("T")[0]}
-								</span>
+								<span className='font-semibold text-primary-500'>{user.user.created.split("T")[0]}</span>
 							</div>
 
 							<div>{user.user.banned ? "Banned lol" : "Not banned (yet)"}</div>
 
 							<div>
-								User ID:{" "}
-								<span className='font-semibold text-primary-500'>{user.user.id}</span>
+								User ID: <span className='font-semibold text-primary-500'>{user.user.id}</span>
 							</div>
 
 							{user.user.ethAddress && (
 								<div>
 									ETH Wallet:{" "}
-									<span className='break-all font-semibold text-primary-500'>
-										{user.user.ethAddress}
-									</span>
+									<span className='break-all font-semibold text-primary-500'>{user.user.ethAddress}</span>
 								</div>
 							)}
 
 							{user.user.kycCompleted ? (
 								<div className='flex'>
 									<span>KYC completed</span>
-									<svg
-										xmlns='http://www.w3.org/2000/svg'
-										width='24'
-										height='24'
-										className='fill-primary-500'
-									>
+									<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' className='fill-primary-500'>
 										<path d='m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z'></path>
 									</svg>
 								</div>
 							) : (
 								<div className='flex'>
 									<span>KYC not completed</span>
-									<svg
-										xmlns='http://www.w3.org/2000/svg'
-										width='24'
-										height='24'
-										style={{ fill: "#dc2626" }}
-									>
+									<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' style={{ fill: "#dc2626" }}>
 										<path d='m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z'></path>
 									</svg>
 								</div>

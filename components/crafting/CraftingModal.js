@@ -69,9 +69,7 @@ const CraftingModal = React.memo(
 					const item = templates.data?.find((o) => o.id === card.cardTemplateId);
 					return {
 						...card,
-						title: item
-							? item.title
-							: "Something, but kolex is buggy so can't find the card",
+						title: item ? item.title : "Something, but kolex is buggy so can't find the card",
 					};
 				});
 				setCraftResult((prev) => [...prev, ...cards]);
@@ -92,9 +90,7 @@ const CraftingModal = React.memo(
 						silvercoins: plan.silvercoinCost,
 						requirements: dataToShow.map((req) => ({
 							requirementId: req.id,
-							entityIds: req.items
-								.slice(i * req.count, (i + 1) * req.count)
-								.map((item) => item.id),
+							entityIds: req.items.slice(i * req.count, (i + 1) * req.count).map((item) => item.id),
 						})),
 					};
 					const { data } = await axios.post(
@@ -142,59 +138,62 @@ const CraftingModal = React.memo(
 						},
 					});
 					let foundAny = false;
-					data.data.cardTemplatesByCollection[0].cardTemplates.map(async (template) => {
-						if (isApiSubscribed) {
-							if (template.userCount) {
-								totalCards.current += template.userCount;
-								foundAny = true;
-							}
-							if (template.userCount) {
-								try {
-									const { data: cards } = await http(
-										`${API}/crafting/user-cards/${template.id}?categoryId=${categoryId}`,
-										{
-											method: "GET",
-											headers: {
-												"Content-Type": "application/json",
-												"x-user-jwt": user.jwt,
-											},
-										}
-									);
-									console.log(cards);
-									cards.data.cards.map((item) => {
-										setOwnedCards((prev) => {
-											const oldItems = prev.filter((o) => o.id === reqId)[0];
-											return [
-												...prev.filter((o) => o.id !== reqId),
-												{
-													...oldItems,
-													items: sortBy(
-														[
-															...oldItems.items,
-															{
-																templateId: item.cardTemplateId,
-																mintBatch: item.mintBatch,
-																mintNumber: item.mintNumber,
-																id: item.id,
-															},
-														],
-														["mintBatch", "mintNumber"]
-													).reverse(),
+
+					for (const collection of data.data.cardTemplatesByCollection) {
+						collection.cardTemplates.map(async (template) => {
+							if (isApiSubscribed) {
+								if (template.userCount) {
+									totalCards.current += template.userCount;
+									foundAny = true;
+								}
+								if (template.userCount) {
+									try {
+										const { data: cards } = await http(
+											`${API}/crafting/user-cards/${template.id}?categoryId=${categoryId}`,
+											{
+												method: "GET",
+												headers: {
+													"Content-Type": "application/json",
+													"x-user-jwt": user.jwt,
 												},
-											];
+											}
+										);
+										// console.log(cards);
+										cards.data.cards.map((item) => {
+											setOwnedCards((prev) => {
+												const oldItems = prev.filter((o) => o.id === reqId)[0];
+												return [
+													...prev.filter((o) => o.id !== reqId),
+													{
+														...oldItems,
+														items: sortBy(
+															[
+																...oldItems.items,
+																{
+																	templateId: item.cardTemplateId,
+																	mintBatch: item.mintBatch,
+																	mintNumber: item.mintNumber,
+																	id: item.id,
+																},
+															],
+															["mintBatch", "mintNumber"]
+														).reverse(),
+													},
+												];
+											});
 										});
-									});
-								} catch (err) {
-									if (err.code !== "ERR_CANCELED") {
-										console.log(err);
-										toast.error(err.response.data.error, {
-											toastId: err.response.data.errorCode,
-										});
+									} catch (err) {
+										if (err.code !== "ERR_CANCELED") {
+											console.log(err);
+											toast.error(err.response.data.error, {
+												toastId: err.response.data.errorCode,
+											});
+										}
 									}
 								}
 							}
-						}
-					});
+						});
+					}
 					if (!foundAny) setLoading(false);
 				};
 				for await (const item of plan.requirements) {
@@ -221,8 +220,7 @@ const CraftingModal = React.memo(
 							.reverse()
 							.filter(
 								// don't show the best set
-								(item, index, self) =>
-									index !== self.findIndex((t) => t.templateId === item.templateId)
+								(item, index, self) => index !== self.findIndex((t) => t.templateId === item.templateId)
 							)
 							.slice()
 							.reverse(),
@@ -263,8 +261,8 @@ const CraftingModal = React.memo(
 						<div className='h-fit max-h-96 overflow-auto rounded p-2 text-gray-800 dark:text-gray-300'>
 							{dataToShow.map((requirement) => (
 								<div key={requirement.id} className='text-gray-800 dark:text-gray-300'>
-									You own {requirement.items.length} available items from{" "}
-									{requirement.count} {requirement.name} items needed for this craft.
+									You own {requirement.items.length} available items from {requirement.count}{" "}
+									{requirement.name} items needed for this craft.
 								</div>
 							))}
 							<>
@@ -345,14 +343,10 @@ const CraftingModal = React.memo(
 															{" - "}
 															<span
 																className={`${
-																	best.mintBatch === "A" && best.mintNumber < 200
-																		? "text-red-500"
-																		: ""
+																	best.mintBatch === "A" && best.mintNumber < 200 ? "text-red-500" : ""
 																}`}
 																title={
-																	best.mintBatch === "A" && best.mintNumber < 200
-																		? "SUB 200, BE CAREFUL"
-																		: ""
+																	best.mintBatch === "A" && best.mintNumber < 200 ? "SUB 200, BE CAREFUL" : ""
 																}
 															>
 																{best.mintBatch}
@@ -364,11 +358,7 @@ const CraftingModal = React.memo(
 										</div>
 									)}
 
-									<button
-										className='button ml-auto mt-auto'
-										onClick={doCraft}
-										disabled={craftCount === 0}
-									>
+									<button className='button ml-auto mt-auto' onClick={doCraft} disabled={craftCount === 0}>
 										Craft
 									</button>
 								</div>

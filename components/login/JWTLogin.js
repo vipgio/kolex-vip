@@ -2,7 +2,6 @@ import LoadingSpin from "../LoadingSpin";
 import Tooltip from "../Tooltip";
 
 const JWTLogin = ({ jwt, setJwt, loading, onSubmit }) => {
-	const parseData = () => {};
 	return (
 		<>
 			<span className='pb-2 text-xl font-semibold text-gray-700 dark:text-gray-300'>

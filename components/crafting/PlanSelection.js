@@ -11,15 +11,15 @@ const PlanSelection = ({ plan }) => {
 				className='max-w-xs rounded border border-gray-800 transition-transform hover:scale-105 hover:cursor-pointer dark:border-gray-200'
 				onClick={() => setShowModal(true)}
 			>
-				<div className='inline-flex w-full max-w-xs justify-center p-1'>
+				<div className='relative inline-flex w-full max-w-xs justify-center p-1'>
 					<ImageWrapper
 						src={`${CDN}${
-							plan.theme.images.find((img) => img.name === "prize").url ||
-							plan.theme.treatment.images[0].url
+							plan.theme.images.find((img) => img.name === "prize").url || plan.theme.treatment.images[0].url
 						}`}
 						width={200}
 						height={300}
 						alt={plan.name}
+						className={"w-auto"}
 					/>
 				</div>
 				<div className='border-y border-gray-700 px-1 text-center text-lg font-semibold text-gray-800 dark:border-gray-300 dark:text-gray-200'>
@@ -38,9 +38,7 @@ const PlanSelection = ({ plan }) => {
 					</div>
 				</div>
 			</div>
-			{showModal && (
-				<CraftingModal plan={plan} showModal={showModal} setShowModal={setShowModal} />
-			)}
+			{showModal && <CraftingModal plan={plan} showModal={showModal} setShowModal={setShowModal} />}
 		</div>
 	);
 };

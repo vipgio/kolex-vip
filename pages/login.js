@@ -126,7 +126,7 @@ const Login = () => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='mt-11 flex h-1/4 w-full flex-col items-center justify-center text-primary-500'>
+			<div className='mt-16 flex h-1/4 w-full flex-col items-center justify-center text-primary-500 lg:mt-11'>
 				<p className='text-center'>
 					Kolex recently added a security feature (captcha) which prevents third party tools from logging in
 					from third party tools. <br />
@@ -135,9 +135,9 @@ const Login = () => {
 					I&apos;m trying to work with Kolex to get this fixed.
 					<br />
 					So until they fix it, you can use your JWT to use the site.
-					<div className='cursor-pointer underline' onClick={handleCopyClick}>
+					<span className='block cursor-pointer underline' onClick={handleCopyClick}>
 						Click to copy the code if you already know how it works
-					</div>{" "}
+					</span>{" "}
 				</p>
 				<button className='simple-button mt-1' onClick={() => setShowTutorial(true)}>
 					HOW
