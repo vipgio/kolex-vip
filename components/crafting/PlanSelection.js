@@ -5,11 +5,17 @@ import CraftingModal from "./CraftingModal";
 
 const PlanSelection = ({ plan }) => {
 	const [showModal, setShowModal] = useState(false);
+	const comingSoon = new Date(plan.start) > new Date();
 	return (
-		<div>
+		<>
 			<div
-				className='max-w-xs rounded border border-gray-800 transition-transform hover:scale-105 hover:cursor-pointer dark:border-gray-200'
-				onClick={() => setShowModal(true)}
+				className={`max-w-xs rounded border border-gray-800 transition-transform ${
+					comingSoon ? "cursor-not-allowed" : "hover:scale-105 hover:cursor-pointer"
+				} dark:border-gray-200`}
+				onClick={() => (comingSoon ? null : setShowModal(true))}
+				title={
+					comingSoon ? `Coming soon: ${new Date(plan.start).toLocaleString("en-GB", { timeZone: "UTC" })}` : ""
+				}
 			>
 				<div className='relative inline-flex w-full max-w-xs justify-center p-1'>
 					<ImageWrapper
@@ -19,7 +25,7 @@ const PlanSelection = ({ plan }) => {
 						width={200}
 						height={300}
 						alt={plan.name}
-						className={"w-auto"}
+						className={`w-auto ${comingSoon ? "blur-[2px]" : ""}`}
 					/>
 				</div>
 				<div className='border-y border-gray-700 px-1 text-center text-lg font-semibold text-gray-800 dark:border-gray-300 dark:text-gray-200'>
@@ -39,7 +45,7 @@ const PlanSelection = ({ plan }) => {
 				</div>
 			</div>
 			{showModal && <CraftingModal plan={plan} showModal={showModal} setShowModal={setShowModal} />}
-		</div>
+		</>
 	);
 };
 export default PlanSelection;
