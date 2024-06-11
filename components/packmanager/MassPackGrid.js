@@ -28,11 +28,7 @@ const MassPackGrid = ({ packTemplate }) => {
 			</div>
 			{showModal && (
 				<div className='fixed z-50'>
-					<MassPackModal
-						packTemplate={packTemplate}
-						showModal={showModal}
-						setShowModal={setShowModal}
-					/>
+					<MassPackModal packTemplate={packTemplate} showModal={showModal} setShowModal={setShowModal} />
 				</div>
 			)}
 		</>
