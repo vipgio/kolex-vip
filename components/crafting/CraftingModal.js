@@ -145,7 +145,7 @@ const CraftingModal = React.memo(
 							continue;
 							// ignore the duplicate collection for now
 						}
-						collection.cardTemplates.map(async (template) => {
+						for (const template of collection.cardTemplates) {
 							if (isApiSubscribed) {
 								if (template.userCount) {
 									totalCards.current += template.userCount;
@@ -195,13 +195,15 @@ const CraftingModal = React.memo(
 									}
 								}
 							}
-						});
+						}
 					}
 					// if (!foundAny) setLoading(false);
 				};
-				for await (const item of plan.requirements) {
+
+				for (const item of plan.requirements) {
 					await getCounts(item.id);
 				}
+
 				setLoading(false);
 			};
 			setup();
@@ -219,7 +221,7 @@ const CraftingModal = React.memo(
 			dupeOnly === "dupe"
 				? ownedCards.map((req) => ({
 						...req,
-						items: req.items
+						items: uniqBy(req.items, "id")
 							.slice()
 							.reverse()
 							.filter(
@@ -229,14 +231,14 @@ const CraftingModal = React.memo(
 							.slice()
 							.reverse(),
 				  }))
-				: ownedCards;
+				: uniqBy(ownedCards, "id");
 
-		useEffect(() => {
-			if (ownedCards[0]) {
-				const owned = ownedCards.reduce((total, req) => total + req.items.length, 0);
-				if (owned === totalCards.current && owned > 0) setLoading(false);
-			}
-		}, [ownedCards]);
+		// useEffect(() => {
+		// 	if (ownedCards[0]) {
+		// 		const owned = ownedCards.reduce((total, req) => total + req.items.length, 0);
+		// if (owned === totalCards.current && owned > 0) setLoading(false);
+		// 	}
+		// }, [ownedCards]);
 
 		return (
 			<>
