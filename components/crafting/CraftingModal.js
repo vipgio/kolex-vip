@@ -3,6 +3,7 @@ import axios from "axios";
 import axiosRateLimit from "axios-rate-limit";
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
+import uniqBy from "lodash/uniqBy";
 import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "context/UserContext";
 import CraftResultModal from "./CraftResultModal";
@@ -140,13 +141,15 @@ const CraftingModal = React.memo(
 					let foundAny = false;
 
 					for (const collection of data.data.cardTemplatesByCollection) {
+						if (collection.collection.id === 11518) {
+							continue;
+							// ignore the duplicate collection for now
+						}
 						collection.cardTemplates.map(async (template) => {
 							if (isApiSubscribed) {
 								if (template.userCount) {
 									totalCards.current += template.userCount;
-									foundAny = true;
-								}
-								if (template.userCount) {
+									// foundAny = true;
 									try {
 										const { data: cards } = await http(
 											`${API}/crafting/user-cards/${template.id}?categoryId=${categoryId}`,
@@ -194,11 +197,12 @@ const CraftingModal = React.memo(
 							}
 						});
 					}
-					if (!foundAny) setLoading(false);
+					// if (!foundAny) setLoading(false);
 				};
 				for await (const item of plan.requirements) {
-					getCounts(item.id);
+					await getCounts(item.id);
 				}
+				setLoading(false);
 			};
 			setup();
 			return () => {
@@ -229,10 +233,7 @@ const CraftingModal = React.memo(
 
 		useEffect(() => {
 			if (ownedCards[0]) {
-				let owned = 0;
-				ownedCards.forEach((req) => {
-					owned += req.items.length;
-				});
+				const owned = ownedCards.reduce((total, req) => total + req.items.length, 0);
 				if (owned === totalCards.current && owned > 0) setLoading(false);
 			}
 		}, [ownedCards]);
@@ -267,7 +268,7 @@ const CraftingModal = React.memo(
 							))}
 							<>
 								Total crafts possible:{" "}
-								<span className='text-orange-500'>
+								<span className='text-orange-500' onClick={() => console.log(ownedCards)}>
 									{Math.min(
 										...dataToShow.map((requirement) =>
 											Math.floor(requirement.items.length / requirement.count)
