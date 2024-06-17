@@ -5,10 +5,10 @@ import Meta from "@/components/Meta";
 import CircList from "@/components/CircList";
 import LoadingSpin from "@/components/LoadingSpin";
 import { useAxios } from "hooks/useAxios";
+import RefreshButton from "@/components/RefreshButton";
 
 const Circulation = () => {
-	const { getCardCirc, getStickerCirc, loading, setLoading, categoryId } =
-		useContext(UserContext);
+	const { getCardCirc, getStickerCirc, loading, setLoading, categoryId } = useContext(UserContext);
 	const [collection, setCollection] = useState({
 		info: {},
 		items: { cards: [], stickers: [] },
@@ -54,6 +54,8 @@ const Circulation = () => {
 
 	const displayCirc = async () => {
 		setLoading(true);
+		setCardPrices([]);
+		setStickerPrices([]);
 		try {
 			setCollection({
 				info: {},
@@ -83,9 +85,11 @@ const Circulation = () => {
 		}
 	};
 
+	const refreshData = async () => {
+		displayCirc();
+	};
+
 	useEffect(() => {
-		setCardPrices([]);
-		setStickerPrices([]);
 		selectedCollection && displayCirc();
 	}, [selectedCollection]);
 
@@ -100,8 +104,7 @@ const Circulation = () => {
 							<span onClick={() => console.log(cardPrices)}>
 								{" "}
 								{selectedCollection.collection.properties.seasons[0]} -{" "}
-								{selectedCollection.collection.properties.tiers[0]} -{" "}
-								{selectedCollection.collection.name}
+								{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
 							</span>
 						)}
 					</div>
@@ -109,18 +112,25 @@ const Circulation = () => {
 				</div>
 				{collection.info?.length > 0 && (
 					<div className='mt-3 text-xl font-bold text-gray-300'>
-						{collection.info[0].collection.properties.seasons[0]}{" "}
-						{collection.info[0].collection.description}
+						{collection.info[0].collection.properties.seasons[0]} {collection.info[0].collection.description}
 					</div>
 				)}
-				{loading ? <LoadingSpin /> : null}
-				{collection.items.cards.length + collection.items.stickers.length > 0 &&
-					!loading && (
-						<CircList
-							data={[...collection.items.cards, ...collection.items.stickers]}
-							prices={[...cardPrices, ...stickerPrices]}
-						/>
-					)}
+				{loading ? (
+					<LoadingSpin />
+				) : (
+					<div className='mb-2 flex'>
+						<span className='mx-auto'>
+							<RefreshButton loading={loading} title='Refresh Circulation' func={refreshData} />
+						</span>
+					</div>
+				)}
+
+				{collection.items.cards.length + collection.items.stickers.length > 0 && !loading && (
+					<CircList
+						data={[...collection.items.cards, ...collection.items.stickers]}
+						prices={[...cardPrices, ...stickerPrices]}
+					/>
+				)}
 			</div>
 		</>
 	);

@@ -10,9 +10,7 @@ const PackResults = React.memo(
 			<div className='relative m-2 flex border-t border-gray-700 p-2 dark:border-gray-300'>
 				<div className='w-4/12 pt-1 sm:w-1/5'>
 					<ImageWrapper
-						src={`https://cdn.kolex.gg${
-							pack.images.filter((images) => images.name === "image")[0].url
-						}`}
+						src={`https://cdn.kolex.gg${pack.images.filter((images) => images.name === "image")[0].url}`}
 						width={200}
 						height={200}
 						alt={pack.name}
@@ -24,58 +22,50 @@ const PackResults = React.memo(
 					</div>
 					<div>{pack.description}</div>
 					<div>
-						Number of items in pack:{" "}
-						<span className='font-semibold text-primary-500'>{pack.entityCount}</span>
+						Number of items in pack: <span className='font-semibold text-primary-500'>{pack.entityCount}</span>
 					</div>
 					{pack.purchaseStart && (
 						<div>
 							Release date:{" "}
-							<span className='font-semibold text-primary-500'>
-								{pack.purchaseStart.split("T")[0]}
-							</span>
+							<span className='font-semibold text-primary-500'>{pack.purchaseStart.split("T")[0]}</span>
 						</div>
 					)}
 					{pack.marketStart && (
 						<div>
-							Market start:{" "}
-							<span className='font-semibold text-primary-500'>{pack.marketStart}</span>
+							Market start: <span className='font-semibold text-primary-500'>{pack.marketStart}</span>
 						</div>
 					)}
 					<div>
 						Total Minted:{" "}
-						<span className='font-semibold text-primary-500'>{pack.mintCount}</span>
+						<span className='font-semibold text-primary-500'>{pack.mintCount.toLocaleString()}</span>
 					</div>
 					<div>
 						Inventory Count:{" "}
-						<span className='font-semibold text-primary-500'>{pack.inventoryCount}</span>
+						<span className='font-semibold text-primary-500'>{pack.inventoryCount.toLocaleString()}</span>
 					</div>
 					<div>
 						Total Opened:{" "}
-						<span className='font-semibold text-primary-500'>{pack.openedCount}</span>
+						<span className='font-semibold text-primary-500'>{pack.openedCount.toLocaleString()}</span>
 					</div>
 					<div>
 						Packs Unopened:{" "}
 						<span className='font-semibold text-orange-500'>
-							{pack.mintCount - pack.openedCount}
+							{(pack.mintCount - pack.openedCount).toLocaleString()}
 						</span>
 						{pack.inventoryCount > 0 ? (
 							<span className='ml-1'>
-								({pack.mintCount - pack.openedCount - pack.inventoryCount} available)
+								({(pack.mintCount - pack.openedCount - pack.inventoryCount).toLocaleString()} available)
 							</span>
 						) : null}
 					</div>
 					<div>
-						Season:{" "}
-						<span className='font-semibold text-primary-500'>
-							{pack.properties.seasons[0]}
-						</span>
+						Season: <span className='font-semibold text-primary-500'>{pack.properties.seasons[0]}</span>
 					</div>
 					{pack.cost && (
 						<div>
 							Price:{" "}
 							<span className='font-semibold text-primary-500'>
-								{Number(pack.cost).toLocaleString()}{" "}
-								{pack.costType[0].toUpperCase() + pack.costType.slice(1)}
+								{Number(pack.cost).toLocaleString()} {pack.costType[0].toUpperCase() + pack.costType.slice(1)}
 							</span>
 						</div>
 					)}

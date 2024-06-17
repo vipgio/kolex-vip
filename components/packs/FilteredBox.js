@@ -13,7 +13,10 @@ const FilteredBox = ({ pack }) => {
 
 	return (
 		<>
-			<div className='flex rounded border border-gray-500 pr-1'>
+			<div
+				className='flex cursor-pointer rounded border border-gray-500 pr-1 transition-all hover:scale-105'
+				onClick={openModal}
+			>
 				<div className='m-1 flex h-24 w-1/3 items-center justify-center'>
 					<ImageWrapper
 						src={`${CDN}${pack.images.find((img) => img.name === "image").url}`}
@@ -23,12 +26,7 @@ const FilteredBox = ({ pack }) => {
 					/>
 				</div>
 				<div className='m-1 w-2/3 text-gray-700 dark:text-gray-300'>
-					<div
-						className='cursor-pointer text-lg font-semibold hover:underline'
-						onClick={openModal}
-					>
-						{pack.name}
-					</div>
+					<div className='text-lg font-semibold'>{pack.name}</div>
 					<div>Season: {pack.properties.seasons[0]}</div>
 					<div>
 						{" "}
@@ -36,9 +34,7 @@ const FilteredBox = ({ pack }) => {
 						{pack.costType[0].toUpperCase() + pack.costType.slice(1)}
 					</div>
 				</div>
-				{showModal ? (
-					<PackModal pack={pack} isOpen={showModal} setIsOpen={setShowModal} />
-				) : null}
+				{showModal ? <PackModal pack={pack} isOpen={showModal} setIsOpen={setShowModal} /> : null}
 			</div>
 		</>
 	);

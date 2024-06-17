@@ -16,6 +16,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	const [minOffer, setMinOffer] = useState(0);
 	const [offerEnabled, setOfferEnabled] = useState(false);
 	const [openedCards, setOpenedCards] = useState([]);
+	const [openedPacksCount, setOpenedPacksCount] = useState([0, selected.length]);
 
 	const updateLocal = () => {
 		const localPacks = JSON.parse(localStorage.getItem("userPacks"));
@@ -101,6 +102,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					} else {
 						setOpenedCards((prev) => [...prev, ...data.data.stickers]);
 					}
+					setOpenedPacksCount((prev) => [prev[0] + 1, prev[1]]);
 					updateLocal();
 				}
 			} catch (err) {
@@ -117,8 +119,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 		<>
 			{selected.length > 0 && (
 				<div className='mt-3 flex items-center justify-center text-xl font-semibold text-gray-700 dark:text-gray-300'>
-					x{selected.length} {selected.length > 1 ? "Packs" : "Pack"} selected from{" "}
-					{packTemplate.name}
+					x{selected.length} {selected.length > 1 ? "Packs" : "Pack"} selected from {packTemplate.name}
 				</div>
 			)}
 			<div className='mt-4'>
@@ -179,11 +180,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							step={0.01}
 						/>
 
-						<button
-							onClick={list}
-							className='submit-button mt-2'
-							disabled={loading || selected.length === 0}
-						>
+						<button onClick={list} className='submit-button mt-2' disabled={loading || selected.length === 0}>
 							{loading ? <LoadingSpin /> : "List"}
 						</button>
 					</form>
@@ -191,26 +188,23 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 			) : (
 				<>
 					<div className='flex flex-col items-center justify-center'>
-						<button
-							className='submit-button mt-6'
-							onClick={open}
-							disabled={loading || selected.length === 0}
-						>
+						<button className='submit-button mt-6' onClick={open} disabled={loading || selected.length === 0}>
 							{loading ? <LoadingSpin /> : "Open selected Packs"}
 						</button>
+						<div className='mt-1 text-gray-300' onClick={() => console.log(selected)}>
+							{openedPacksCount[0]} / {openedPacksCount[1]} Packs opened
+						</div>
 					</div>
 					<div className='m-2 flex flex-1 flex-col overflow-auto'>
 						{openedCards.length > 0 && (
 							<div className='my-4 w-full overflow-auto border border-gray-500 px-2 text-gray-700 dark:text-gray-300'>
 								{sortBy(openedCards, ["mintBatch", "mintNumber"]).map((card) => (
 									<div className='flex' key={card.uuid}>
-										<span className='w-8 text-orange-400'>
+										<span className='mr-2 text-orange-400'>
 											{card.mintBatch}
 											{card.mintNumber}
 										</span>
-										<span className='ml-5'>
-											{card.title ? card.title : card.stickerTemplate.title}
-										</span>
+										<span>{card.title ? card.title : card.stickerTemplate.title}</span>
 									</div>
 								))}
 							</div>

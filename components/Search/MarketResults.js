@@ -59,6 +59,17 @@ const MarketResults = ({
 			}}
 			extraStyle='h-fit my-auto'
 			hasToast={true}
+			stopButton={
+				!finished.current && (
+					<button
+						className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
+						onClick={() => (finished.current = true)}
+						title='Stop the search'
+					>
+						Stop
+					</button>
+				)
+			}
 		>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>
@@ -67,9 +78,7 @@ const MarketResults = ({
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Mint</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Price</th>
-							<th className='hidden py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
-								Min Offer
-							</th>
+							<th className='hidden py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>Min Offer</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Point gain</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Seller</th>
 							<th className='py-1 px-2 sm:py-3 sm:px-6'>Link</th>
@@ -101,10 +110,7 @@ const MarketResults = ({
 								onChange={(e) => setHideBadDeals(e.target.checked)}
 								className='cursor-pointer accent-primary-600'
 							/>
-							<label
-								htmlFor='badDeals'
-								className='ml-1 cursor-pointer text-gray-700 dark:text-gray-300'
-							>
+							<label htmlFor='badDeals' className='ml-1 cursor-pointer text-gray-700 dark:text-gray-300'>
 								Hide bad deals
 							</label>
 							<Tooltip

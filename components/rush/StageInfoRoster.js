@@ -7,17 +7,15 @@ import { RushContext } from "context/RushContext";
 import LoadingSpin from "@/components/LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 
-const StageInfoRoster = ({ roster, thisCircuit, stage, locked, setLocked, loading }) => {
+const StageInfoRoster = ({ roster, circuit, stage, locked, setLocked, loading }) => {
 	const { postData } = useAxios();
 	const { selectedRoster } = useContext(RushContext);
 	const [progress, setProgress] = useState(roster.wins);
 	const [localLoading, setLocalLoading] = useState(false);
 
-	const currStage = thisCircuit.stages.find((s) => s.id === stage.id);
+	const currStage = circuit.stages.find((s) => s.id === stage.id);
 
-	const winsNeeded = currStage.rosters.find(
-		(team) => team.ut_pve_roster_id === roster.id
-	).wins;
+	const winsNeeded = currStage.rosters.find((team) => team.ut_pve_roster_id === roster.id).wins;
 
 	useEffect(() => {
 		setProgress(roster.wins);
@@ -29,16 +27,16 @@ const StageInfoRoster = ({ roster, thisCircuit, stage, locked, setLocked, loadin
 			if (result.game.user1.winner) {
 				setProgress((prev) => prev + 1);
 				toast.success(
-					`Won the game with a ${result.game.user1.winChance.toFixed(
-						3
-					)}% chance. You gained ${result.game.user1.points} points.`,
+					`Won the game with a ${result.game.user1.winChance.toFixed(3)}% chance. You gained ${
+						result.game.user1.points
+					} points.`,
 					{ toastId: result.game.id, autoClose: 7000 }
 				);
 			} else {
 				toast.warning(
-					`Lost the game with a ${result.game.user1.winChance.toFixed(
-						3
-					)}% chance. You lost ${result.game.user1.points} points.`,
+					`Lost the game with a ${result.game.user1.winChance.toFixed(3)}% chance. You lost ${
+						result.game.user1.points
+					} points.`,
 					{ toastId: result.game.id, autoClose: 7000 }
 				);
 			}
@@ -68,7 +66,7 @@ const StageInfoRoster = ({ roster, thisCircuit, stage, locked, setLocked, loadin
 			rosterId: selectedRoster.id,
 			enemyRosterId: roster.id,
 			bannedMapIds: [combinedMaps[0].mapId, combinedMaps[1].mapId],
-			id: thisCircuit.id,
+			id: circuit.id,
 			stageId: currStage.id,
 		};
 		await playGame(payload);
@@ -85,7 +83,7 @@ const StageInfoRoster = ({ roster, thisCircuit, stage, locked, setLocked, loadin
 			<div className='m-2 flex rounded border border-gray-500 p-2'>
 				<span className='flex w-2/5 items-center sm:w-2/6'>{roster.name}</span>
 				<span className='w-1/5 xs:mr-2 sm:mr-0 sm:w-1/6'>Rating: {roster.rating}</span>
-				<span className='hidden w-1/5 sm:block sm:w-1/6'>Level: {roster.level}</span>
+				<span className='hidden w-1/5 items-center sm:inline-flex sm:w-1/6'>Level: {roster.level}</span>
 				<span className='flex w-1/5 items-center sm:w-1/6'>
 					Wins:{" "}
 					<span className='flex items-center'>
@@ -105,11 +103,7 @@ const StageInfoRoster = ({ roster, thisCircuit, stage, locked, setLocked, loadin
 						disabled={locked || loading || localLoading}
 						className='disabled:cursor-not-allowed disabled:opacity-50'
 						title={
-							locked
-								? "Locked due to rush limits"
-								: loading || localLoading
-								? "In progress..."
-								: "Play a game"
+							locked ? "Locked due to rush limits" : loading || localLoading ? "In progress..." : "Play a game"
 						}
 					>
 						{loading || localLoading ? (

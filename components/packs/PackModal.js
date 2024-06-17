@@ -49,18 +49,13 @@ const PackModal = React.memo(
 												/>
 											</div>
 											<div className='mx-2 w-8/12 space-y-1 text-gray-800 dark:text-gray-200 sm:w-4/5'>
-												<div
-													className='mb-2 text-lg font-bold'
-													onClick={() => console.log(pack)}
-												>
+												<div className='mb-2 text-lg font-bold' onClick={() => console.log(pack)}>
 													{pack.name}
 												</div>
 												<div>{pack.description}</div>
 												<div>
 													Number of items in pack:{" "}
-													<span className='font-semibold text-primary-500'>
-														{pack.entityCount}
-													</span>
+													<span className='font-semibold text-primary-500'>{pack.entityCount}</span>
 												</div>
 												{pack.purchaseStart && (
 													<div>
@@ -73,46 +68,40 @@ const PackModal = React.memo(
 												{pack.marketStart && (
 													<div>
 														Market start:{" "}
-														<span className='font-semibold text-primary-500'>
-															{pack.marketStart}
-														</span>
+														<span className='font-semibold text-primary-500'>{pack.marketStart}</span>
 													</div>
 												)}
 												<div>
 													Total Minted:{" "}
 													<span className='font-semibold text-primary-500'>
-														{pack.mintCount}
+														{pack.mintCount.toLocaleString()}
 													</span>
 												</div>
 												<div>
 													Inventory Count:{" "}
 													<span className='font-semibold text-primary-500'>
-														{pack.inventoryCount}
+														{pack.inventoryCount.toLocaleString()}
 													</span>
 												</div>
 												<div>
 													Total Opened:{" "}
-													<span className='text-500 font-semibold'>
-														{pack.openedCount}
-													</span>
+													<span className='text-500 font-semibold'>{pack.openedCount.toLocaleString()}</span>
 												</div>
 												<div>
 													Packs Unopened:{" "}
 													<span className='font-semibold text-orange-500'>
-														{pack.mintCount - pack.openedCount}
+														{(pack.mintCount - pack.openedCount).toLocaleString()}
 													</span>
 													{pack.inventoryCount > 0 ? (
 														<span className='ml-1'>
-															({pack.mintCount - pack.openedCount - pack.inventoryCount}{" "}
+															({(pack.mintCount - pack.openedCount - pack.inventoryCount).toLocaleString()}{" "}
 															available)
 														</span>
 													) : null}
 												</div>
 												<div>
 													Season:{" "}
-													<span className='font-semibold text-primary-500'>
-														{pack.properties.seasons[0]}
-													</span>
+													<span className='font-semibold text-primary-500'>{pack.properties.seasons[0]}</span>
 												</div>
 												{pack.cost && (
 													<div>
@@ -124,10 +113,7 @@ const PackModal = React.memo(
 													</div>
 												)}
 												<div>
-													Pack ID:{" "}
-													<span className='font-semibold text-primary-500'>
-														{pack.id}
-													</span>
+													Pack ID: <span className='font-semibold text-primary-500'>{pack.id}</span>
 												</div>
 												<div className='flex'>
 													Link to market:
@@ -179,21 +165,14 @@ const PackModal = React.memo(
 														</svg>
 													</a>
 												</div>
-												<button
-													onClick={() => setShowOdds((prev) => !prev)}
-													className='simple-button'
-												>
+												<button onClick={() => setShowOdds((prev) => !prev)} className='simple-button'>
 													{showOdds ? "Hide odds" : "Show odds"}
 												</button>
 												{showOdds && <PackOdds odds={pack.treatmentsChance} />}
 											</div>
 										</div>
 										<div className='mt-4 flex'>
-											<button
-												type='button'
-												className='button ml-auto'
-												onClick={closeModal}
-											>
+											<button type='button' className='button ml-auto' onClick={closeModal}>
 												Close
 											</button>
 										</div>

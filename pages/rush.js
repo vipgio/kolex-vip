@@ -10,9 +10,10 @@ import Circuits from "@/components/rush/Circuits";
 import LoadingSpin from "@/components/LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 import RefreshButton from "@/components/RefreshButton";
+import { API } from "@/config/config";
 
 const Rush = () => {
-	const { fetchData } = useAxios();
+	const { fetchData, postData } = useAxios();
 	const { user } = useContext(UserContext);
 	const { maps, setMaps, selectedRoster, setSelectedRoster } = useContext(RushContext);
 	const [rosters, setRosters] = useState([]);
@@ -80,29 +81,17 @@ const Rush = () => {
 					/>
 				</div>
 
-				<RefreshButton
-					title='Refresh Data'
-					style='ml-auto mr-2 mt-3'
-					func={fetchInfo}
-					loading={loading}
-				/>
+				<RefreshButton title='Refresh Data' style='ml-auto mr-2 mt-3' func={fetchInfo} loading={loading} />
 			</div>
-			<div>
-				{maps && selectedRoster && <RosterDetail roster={selectedRoster} maps={maps} />}
-			</div>
+			<div>{maps && selectedRoster && <RosterDetail roster={selectedRoster} maps={maps} />}</div>
 			<div className='mx-2 mt-6'>
-				<div className='mt-5 mb-1 text-lg font-bold text-gray-700 dark:text-gray-300'>
-					Active Circuits:
-				</div>
+				<div className='mt-5 mb-1 text-lg font-bold text-gray-700 dark:text-gray-300'>Active Circuits:</div>
 				{loading ? (
 					<LoadingSpin />
 				) : !circuits ? (
 					<div className='text-gray-700 dark:text-gray-300'>No active circuits</div>
 				) : (
-					<Circuits
-						circuits={circuits}
-						isRosterSelected={selectedRoster?.id ? true : false}
-					/>
+					<Circuits circuits={circuits} isRosterSelected={selectedRoster?.id ? true : false} />
 				)}
 			</div>
 		</>

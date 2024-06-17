@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Image from "next/future/image";
 import { toast } from "react-toastify";
 import { BiCheck } from "react-icons/bi";
 import { useAxios } from "hooks/useAxios";
+import ImageWrapper from "HOC/ImageWrapper";
 import { CDN } from "@/config/config";
 import LoadingSpin from "../LoadingSpin";
 import StageInfo from "./StageInfo";
@@ -45,17 +45,11 @@ const Circuits = ({ circuits, isRosterSelected }) => {
 				<LoadingSpin />
 			) : (
 				circuitInfo.map((circuit) => (
-					<div
-						key={circuit.id}
-						className={`mb-10 h-fit rounded border text-gray-700 dark:text-gray-300`}
-					>
+					<div key={circuit.id} className={`mb-10 h-fit rounded border text-gray-700 dark:text-gray-300`}>
 						{showStageModal && (
 							<StageInfo
-								selectedCircuit={selectedCircuit}
 								stage={selectedStage}
-								thisCircuit={circuitInfo.find(
-									(circuit) => circuit.id === selectedCircuit.id
-								)}
+								circuit={circuitInfo.find((circuit) => circuit.id === selectedCircuit.id)}
 								setCircuitInfo={setCircuitInfo}
 								showModal={showStageModal}
 								setShowModal={setShowStageModal}
@@ -85,18 +79,20 @@ const Circuits = ({ circuits, isRosterSelected }) => {
 												title={stage.name}
 											>
 												<div className='relative mr-2 h-12 w-12'>
-													<Image
+													<ImageWrapper
 														src={`${CDN}${stage.images[0].url}`}
 														alt={stage.name}
 														width={50}
 														height={50}
-														unoptimized={true}
-														className='h-full w-full object-contain'
+														className='absolute top-0 left-0 h-full w-full object-contain'
 													/>
 												</div>
 												<span>{stage.name}</span>
 												{stage.completed && (
-													<BiCheck size={20} className='stroke-1 text-green-500' />
+													<BiCheck
+														size={20}
+														className={`stroke-1 text-green-500 ${!stage.isClaimed && "animate-pulse"}`}
+													/>
 												)}
 											</span>
 										</div>

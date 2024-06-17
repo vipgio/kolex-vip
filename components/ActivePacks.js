@@ -18,8 +18,7 @@ const ActivePacks = ({ user, categoryId }) => {
 			const { result } = await fetchData(`/api/packs?page=${page}`);
 			if (result.length > 0 && isApiSubscribed) {
 				const active = result.filter(
-					(pack) =>
-						new Date(pack.purchaseEnd) - now > 0 && pack.categoryId === Number(categoryId)
+					(pack) => new Date(pack.purchaseEnd) - now > 0 && pack.categoryId === Number(categoryId)
 				);
 				setActivePacks((prev) => [...prev, ...active]);
 				getStorePacks(++page);
@@ -67,15 +66,10 @@ const ActivePacks = ({ user, categoryId }) => {
 				) : activePacks.length > 0 ? (
 					<div className='grid grid-cols-1 gap-2 p-1.5 xs:grid-cols-2 sm:grid-cols-4'>
 						{uniqBy(activePacks, "id").map((pack) => (
-							<div
-								key={pack.id}
-								className='flex w-full rounded border border-gray-500 pr-1'
-							>
+							<div key={pack.id} className='flex w-full rounded border border-gray-500 pr-1'>
 								<div className='mr-1 flex h-24 w-1/4 items-center justify-center'>
 									<ImageWrapper
-										src={`${CDN}${
-											pack.images.find((img) => img.name === "pack-store").url
-										}`}
+										src={`${CDN}${pack.images.find((img) => img.name === "pack-store").url}`}
 										width={50}
 										height={75}
 										alt={pack.name}
@@ -85,7 +79,7 @@ const ActivePacks = ({ user, categoryId }) => {
 									<div>{pack.name}</div>
 									<div>
 										Packs left:{" "}
-										<span className='text-primary-500'>{pack.inventoryCount}</span>
+										<span className='text-primary-500'>{pack.inventoryCount.toLocaleString()}</span>
 									</div>
 								</div>
 							</div>

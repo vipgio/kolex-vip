@@ -14,7 +14,7 @@ const PlanSelection = ({ plan }) => {
 				} dark:border-gray-200`}
 				onClick={() => (comingSoon ? null : setShowModal(true))}
 				title={
-					comingSoon ? `Coming soon: ${new Date(plan.start).toLocaleString("en-GB", { timeZone: "UTC" })}` : ""
+					comingSoon ? `Coming Soon: ${new Date(plan.start).toLocaleString("en-GB", { timeZone: "UTC" })}` : ""
 				}
 			>
 				<div className='relative inline-flex w-full max-w-xs justify-center p-1'>
