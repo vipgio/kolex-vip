@@ -5,7 +5,7 @@ import uniqBy from "lodash/uniqBy";
 import { UserContext } from "context/UserContext";
 import SetSelector from "HOC/SetSelector";
 import Meta from "components/Meta";
-import CardGallery from "@/components/Search/CardGallery";
+import CardGallery from "@/components/mintsearch/CardGallery";
 import LoadingSpin from "@/components/LoadingSpin";
 import RefreshButton from "@/components/RefreshButton";
 
@@ -73,9 +73,7 @@ const Searcher = () => {
 							mintBatch: item.mintBatch,
 							mintNumber: item.mintNumber,
 							rating: item.rating,
-							templateId: item.cardTemplateId
-								? item.cardTemplateId
-								: item.stickerTemplateId,
+							templateId: item.cardTemplateId ? item.cardTemplateId : item.stickerTemplateId,
 							id: item.id,
 							type: item.cardTemplateId ? "card" : "sticker",
 						};
@@ -122,8 +120,7 @@ const Searcher = () => {
 						<span>
 							{" "}
 							{selectedCollection.collection.properties.seasons[0]} -{" "}
-							{selectedCollection.collection.properties.tiers[0]} -{" "}
-							{selectedCollection.collection.name}
+							{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
 						</span>
 					)}
 				</div>
@@ -139,9 +136,7 @@ const Searcher = () => {
 							id='sigs'
 							className='ml-1 mt-1 accent-primary-500 hover:cursor-pointer'
 							checked={filter.sigsOnly}
-							onChange={(e) =>
-								setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))
-							}
+							onChange={(e) => setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))}
 						/>
 					</div>
 					<div className='flex items-center'>
@@ -154,9 +149,7 @@ const Searcher = () => {
 							id='upgrade'
 							className='ml-1 mr-1 mt-1 accent-primary-500 hover:cursor-pointer sm:mr-0'
 							checked={filter.upgradesOnly}
-							onChange={(e) =>
-								setFilter((prev) => ({ ...prev, upgradesOnly: e.target.checked }))
-							}
+							onChange={(e) => setFilter((prev) => ({ ...prev, upgradesOnly: e.target.checked }))}
 						/>
 					</div>
 				</div>
