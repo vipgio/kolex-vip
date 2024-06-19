@@ -1,6 +1,6 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import pick from "lodash/pick";
-import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import Meta from "components/Meta";
 import Toggle from "@/components/packs/Toggle";
 import Filters from "@/components/packs/Filters";
@@ -8,7 +8,8 @@ import DirectSearch from "@/components/packs/DirectSearch";
 import FilteredBox from "@/components/packs/FilteredBox";
 
 const PackSearch = () => {
-	const { getPacks, loading, setLoading, categoryId } = useContext(UserContext);
+	const { fetchData } = useAxios();
+	const [loading, setLoading] = useState(false);
 	const [packs, setPacks] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [results, setResults] = useState(null);
@@ -34,38 +35,47 @@ const PackSearch = () => {
 		/^\s*$/.test(searchQuery) && setSearchQuery("");
 	}, [searchQuery]);
 
+	const getPacks = async (page) => {
+		const { result, error } = await fetchData(`/api/packs?page=${page}`);
+		if (error) console.error(error);
+		if (result?.length > 0) {
+			return result;
+		} else {
+			setLoading(false);
+		}
+	};
+
 	const getAllPacks = async (page) => {
-		getPacks(page, categoryId).then((res) => {
-			if (res.data.success)
-				if (res.data.data.length > 0) {
-					setPacks((prev) => [
-						...prev,
-						...res.data.data.map((item) =>
-							pick(item, [
-								"id",
-								"name",
-								"description",
-								"entityCount",
-								"inventoryCount",
-								"cost",
-								"costType",
-								"images",
-								"properties",
-								"purchaseStart",
-								"marketStart",
-								"treatmentsChance",
-								"mintCount",
-								"openedCount",
-								"images",
-								"acquireType",
-							])
-						),
-					]);
-					getAllPacks(++page);
-				} else {
-					setLoading(false);
-				}
-		});
+		const packs = await getPacks(page);
+		if (packs)
+			if (packs.length > 0) {
+				setPacks((prev) => [
+					...prev,
+					...packs.map((item) =>
+						pick(item, [
+							"id",
+							"name",
+							"description",
+							"entityCount",
+							"inventoryCount",
+							"cost",
+							"costType",
+							"images",
+							"properties",
+							"purchaseStart",
+							"marketStart",
+							"treatmentsChance",
+							"mintCount",
+							"openedCount",
+							"images",
+							"acquireType",
+						])
+					),
+				]);
+				getAllPacks(++page);
+			} else {
+				setLoading(false);
+			}
 	};
 
 	const refreshPacks = () => {

@@ -1,12 +1,9 @@
-import axios from "axios";
-import axiosRateLimit from "axios-rate-limit";
-const http = axiosRateLimit(axios.create(), { maxRequests: 1, perMilliseconds: 7000 });
-
-const { API } = require("@/config/config");
+import http from "@/utils/httpClient";
+import { API } from "@/config/config";
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { rosterId, enemyRosterId, bannedMapIds, stageId, id } = req.body.data;
+	const { rosterId, enemyRosterId, bannedMapIds, stageId, id } = req.body;
 	if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
 	try {

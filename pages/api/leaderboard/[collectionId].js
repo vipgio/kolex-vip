@@ -1,7 +1,5 @@
-import axios from "axios";
-import axiosRateLimit from "axios-rate-limit";
-const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
-const { API } = require("@/config/config");
+import http from "@/utils/httpClient";
+import { API } from "@/config/config";
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
@@ -9,16 +7,13 @@ export default async function handler(req, res) {
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 	try {
 		const getCollectionInfo = async (jwt, collectionId, page, categoryId = 1) => {
-			return http(
-				`${API}/leaderboards/collections/${collectionId}?categoryId=${categoryId}&page=${page}`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						"x-user-jwt": jwt,
-					},
-				}
-			);
+			return http(`${API}/leaderboards/collections/${collectionId}?categoryId=${categoryId}&page=${page}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"x-user-jwt": jwt,
+				},
+			});
 		};
 		const { data } = await getCollectionInfo(jwt, collectionId, page, categoryId);
 		res.status(200).json(data);

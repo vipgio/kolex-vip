@@ -44,11 +44,12 @@ const ListedRow = React.memo(
 
 		const fetchFloor = async () => {
 			setLoading(true);
-			const { result, error } = await fetchData(
-				`/api/market/card/${item.templateId}?page=1&type=card`
-			);
+			console.log("fetching floor price");
+			const { result, error } = await fetchData(`/api/market/card/${item.templateId}?page=1&type=card`);
 			if (result) {
-				setFloor(() => result.market[0][0].price);
+				if (result.market && result.market[0] && result.market[0][0]) {
+					setFloor(() => result.market[0][0].price);
+				}
 			}
 			if (error) {
 				console.log(error);
@@ -89,9 +90,7 @@ const ListedRow = React.memo(
 			<>
 				{item.type === "card" ? (
 					<td
-						className={`py-1 px-2 sm:py-3 sm:px-6 ${
-							item.signatureImage ? "text-yellow-500" : ""
-						}`}
+						className={`py-1 px-2 sm:py-3 sm:px-6 ${item.signatureImage ? "text-yellow-500" : ""}`}
 						title={item.signatureImage && "Signed"}
 					>
 						<div className='flex items-center justify-center'>

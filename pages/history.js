@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
 import uniq from "lodash/uniq";
 import chunk from "lodash/chunk";
-import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
+import { templateLimit } from "@/config/config";
 import Meta from "components/Meta";
 import Tooltip from "components/Tooltip";
 import CardHistory from "components/CardHistory";
@@ -13,7 +13,8 @@ import ExportButton from "@/components/history/ExportButton";
 import "react-toastify/dist/ReactToastify.css";
 
 const History = () => {
-	const { user, loading, setLoading } = useContext(UserContext);
+	const [loading, setLoading] = useState(false);
+	const { fetchData } = useAxios();
 	const [cardId, setCardId] = useState("");
 	const [history, setHistory] = useState([]);
 	const [templates, setTemplates] = useState([]);
@@ -55,18 +56,14 @@ const History = () => {
 			const templateIds = [];
 			await Promise.all(
 				inputList.map(async (cardId) => {
-					try {
-						const { data } = await axios.get(`/api/cards/${cardId}`, {
-							headers: {
-								jwt: user.jwt,
-							},
-						});
-						templateIds.push(data.data.cardTemplateId);
-						setHistory((prev) => [...prev, data.data]);
-						// setLoading(false);
-					} catch (err) {
+					const { result, error } = await fetchData(`/api/cards/${cardId}`);
+					if (result) {
+						templateIds.push(result.cardTemplateId);
+						setHistory((prev) => [...prev, result]);
+					}
+					if (error) {
 						setLoading(false);
-						toast.error(`${err.response.data.error} ${cardId}`, {
+						toast.error(`${error.response.data.error} ${cardId}`, {
 							toastId: cardId,
 						});
 					}
@@ -74,18 +71,21 @@ const History = () => {
 			);
 
 			if (templateIds.length > 0) {
-				const templatesChunk = chunk(templateIds, 40);
+				const templatesChunk = chunk(uniq(templateIds), templateLimit);
 				for (const [index, templateId] of templatesChunk.entries()) {
-					const { data } = await axios.get(`/api/cards/templates`, {
-						params: {
-							cardIds: templateId.toString(),
-						},
-						headers: {
-							jwt: user.jwt,
-						},
+					const { result, error } = await fetchData(`/api/cards/templates`, {
+						cardIds: uniq(templateId).toString(),
 					});
-					setTemplates((prev) => [...prev, data.data]);
-					index === Math.floor(templateIds.length / 40) && setLoading(false);
+					if (result) {
+						setTemplates((prev) => [...prev, result]);
+						index === Math.floor(uniq(templateIds).length / templateLimit) && setLoading(false);
+					}
+					if (error) {
+						setLoading(false);
+						toast.error(`${error.response.data.error}`, {
+							toastId: "template error",
+						});
+					}
 				}
 			}
 		} else {
@@ -114,10 +114,7 @@ const History = () => {
 				<Toggle compactMode={compactMode} setCompactMode={setCompactMode} />
 				<div className='flex h-full w-full items-start justify-center pt-3'>
 					<form className='flex flex-col items-center space-y-2' onSubmit={handleSubmit}>
-						<label
-							htmlFor='card-id'
-							className='flex items-center text-gray-700 dark:text-gray-300'
-						>
+						<label htmlFor='card-id' className='flex items-center text-gray-700 dark:text-gray-300'>
 							Enter card IDs
 							<Tooltip
 								text='Enter a list of card IDs, separated with commas, to see their history. You can use any tool to find the card Id or use the scanner in the app.'
@@ -134,16 +131,12 @@ const History = () => {
 							disabled={loading}
 							autoComplete='off'
 							required={true}
-							className={`input-field w-80 ${
-								loading ? "cursor-not-allowed opacity-50" : ""
-							}`}
+							className={`input-field w-80 ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 						/>
 						<button
 							type='submit'
 							disabled={loading}
-							className={`submit-button ${
-								loading ? "cursor-not-allowed opacity-50" : ""
-							}`}
+							className={`submit-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 						>
 							{loading ? <LoadingSpin /> : "Get history"}
 						</button>

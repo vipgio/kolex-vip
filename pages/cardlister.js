@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
-import axios from "axios";
 import pick from "lodash/pick";
 import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import SetSelector from "HOC/SetSelector";
 import Meta from "@/components/Meta";
 import LoadingSpin from "@/components/LoadingSpin";
@@ -11,7 +11,8 @@ import Tooltip from "@/components/Tooltip";
 import RefreshButton from "@/components/RefreshButton";
 
 const Cardlister = () => {
-	const { user, categoryId } = useContext(UserContext);
+	const { user } = useContext(UserContext);
+	const { fetchData } = useAxios();
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [templates, setTemplates] = useState([]);
 	const [showListedModal, setShowListedModal] = useState(false);
@@ -26,34 +27,16 @@ const Cardlister = () => {
 		setTemplates([]);
 		try {
 			const { data: templates } = await getCollection(selectedCollection.collection.id);
-			const { data: cards } = await getCardIds(
-				user.user.id,
-				selectedCollection.collection.id
-			);
-			const { data: owned } = await getOwned(
-				user.user.id,
-				selectedCollection.collection.id
-			);
+			const cards = await getCardIds(user.user.id, selectedCollection.collection.id);
+			const owned = await getOwned(user.user.id, selectedCollection.collection.id);
 			if (templates) {
 				const countedTemplates = templates.map((card) => {
 					const cardCount = cards.find((o) => o.cardTemplateId === card.id);
 					const stickerCount = cards.find((o) => o.stickerTemplateId === card.id);
 					const count = cardCount || stickerCount;
 					return {
-						...pick(card, [
-							"id",
-							"title",
-							"images",
-							"inCirculation",
-							"cardType",
-							"treatmentId",
-							"uuid",
-						]),
-						count: count
-							? count.cardIds
-								? count.cardIds.length
-								: count.stickerIds.length
-							: 0,
+						...pick(card, ["id", "title", "images", "inCirculation", "cardType", "treatmentId", "uuid"]),
+						count: count ? (count.cardIds ? count.cardIds.length : count.stickerIds.length) : 0,
 						type: card.cardType ? "card" : "sticker",
 						listedAny: [...owned.cards, ...owned.stickers].some(
 							(own) => own.cardTemplateId === card.id && own.status === "market"
@@ -80,36 +63,28 @@ const Cardlister = () => {
 	};
 
 	const getCollection = async (collectionId) => {
-		const { data: cards } = await axios.get(`/api/collections/cards/${collectionId}`, {
-			headers: {
-				jwt: user.jwt,
-			},
-		});
-		const { data: stickers } = await axios.get(
-			`/api/collections/stickers/${collectionId}`,
-			{
-				headers: {
-					jwt: user.jwt,
-				},
-			}
-		);
+		const { result: cards, errorCards } = await fetchData(`/api/collections/cards/${collectionId}`);
+		const { result: stickers, errorStickers } = await fetchData(`/api/collections/stickers/${collectionId}`);
+		if (errorCards || errorStickers) {
+			console.error(errorCards || errorStickers);
+			return;
+		}
 		const result = {
-			success: cards.success && stickers.success,
-			data: [...cards.data, ...stickers.data],
+			success: cards && stickers,
+			data: [...cards, ...stickers],
 		};
 		return result;
 	};
 
 	const getCardIds = async (userId, collectionId) => {
-		const { data } = await axios.get(`/api/collections/users/${userId}/cardids`, {
-			params: {
-				collectionId: collectionId,
-			},
-			headers: {
-				jwt: user.jwt,
-			},
+		const { result, error } = await fetchData(`/api/collections/users/${userId}/cardids`, {
+			collectionId: collectionId,
 		});
-		return data;
+		if (error) {
+			console.error(error);
+			return;
+		}
+		return result;
 	};
 
 	const getAllMarket = async (cards, firstPage, type) => {
@@ -118,23 +93,21 @@ const Cardlister = () => {
 		if (cards.length > 0) {
 			try {
 				const data = await getMarketInfo(cards, page, type);
-				if (data.success && data.data.templates.length > 0) {
+				if (data && data.templates.length > 0) {
 					setTemplates((prev) =>
 						prev.map((temp) => {
-							const index = data.data.templates.findIndex(
-								(o) => o.entityTemplateId === temp.id
-							);
+							const index = data.templates.findIndex((o) => o.entityTemplateId === temp.id);
 							if (index !== -1) {
 								return {
 									...temp,
-									floor: data.data.templates[index]?.lowestPrice,
+									floor: data.templates[index]?.lowestPrice,
 								};
 							} else {
 								return temp;
 							}
 						})
 					);
-					if (data.data.templates.length > 0) getAllMarket(cards, ++page, type);
+					if (data.templates.length > 0) getAllMarket(cards, ++page, type);
 					setLoading(false);
 					return data;
 				}
@@ -147,36 +120,29 @@ const Cardlister = () => {
 	};
 
 	const getMarketInfo = async (templates, page, type) => {
-		try {
-			const { data } = await axios.get(`/api/market/templates`, {
-				params: {
-					type: type,
-					page: page,
-					price: "asc",
-					collectionIds: selectedCollection.collection.id,
-					categoryId: categoryId,
-				},
-				headers: {
-					jwt: user.jwt,
-				},
-			});
-			return data;
-		} catch (err) {
-			console.log(err);
+		const { result, error } = await fetchData(`/api/market/templates`, {
+			type: type,
+			page: page,
+			price: "asc",
+			collectionIds: selectedCollection.collection.id,
+		});
+		if (error) {
+			console.error(error);
+			return;
 		}
+		return result;
 	};
 
 	const getOwned = async (userId, collectionId) => {
-		const { data } = await axios.get(`/api/users/scan`, {
-			params: {
-				collectionId: collectionId,
-				userId: userId,
-			},
-			headers: {
-				jwt: user.jwt,
-			},
+		const { result, error } = await fetchData(`/api/users/scan`, {
+			collectionId: collectionId,
+			userId: userId,
 		});
-		return data;
+		if (error) {
+			console.error(error);
+			return;
+		}
+		return result;
 	};
 
 	return (
@@ -190,8 +156,7 @@ const Cardlister = () => {
 							<span>
 								{" "}
 								{selectedCollection.collection.properties.seasons[0]} -{" "}
-								{selectedCollection.collection.properties.tiers[0]} -{" "}
-								{selectedCollection.collection.name}
+								{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
 							</span>
 						)}
 					</div>
@@ -222,9 +187,7 @@ const Cardlister = () => {
 				</div>
 			)}
 			{templates.length > 0 && <CardGallery templates={templates} user={user} />}
-			{showListedModal && (
-				<ListedModal showModal={showListedModal} setShowModal={setShowListedModal} />
-			)}
+			{showListedModal && <ListedModal showModal={showListedModal} setShowModal={setShowListedModal} />}
 		</>
 	);
 };

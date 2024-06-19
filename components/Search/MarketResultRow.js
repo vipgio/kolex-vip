@@ -20,9 +20,9 @@ const MarketResultRow = ({ item, allowed }) => {
 
 		if (info?.success) {
 			toast.success(
-				`Purchased ${item[item.type].mintBatch}${item[item.type].mintNumber} ${
-					item.title
-				} for ${item.price}!\n`,
+				`Purchased ${item[item.type].mintBatch}${item[item.type].mintNumber} ${item.title} for ${
+					item.price
+				}!\n`,
 				{ toastId: item.marketId, autoClose: 3000, position: "top-left" }
 			);
 		} else {
@@ -48,9 +48,7 @@ const MarketResultRow = ({ item, allowed }) => {
 		<tr className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'>
 			{item.card ? (
 				<td
-					className={`py-1 px-2 sm:py-3 sm:px-6 ${
-						item.card.signatureImage ? "text-yellow-500" : ""
-					}`}
+					className={`py-1 px-2 sm:py-3 sm:px-6 ${item.card.signatureImage ? "text-yellow-500" : ""}`}
 					title={item.card.signatureImage && "Signed"}
 				>
 					<div className='flex items-center justify-center'>
@@ -70,9 +68,7 @@ const MarketResultRow = ({ item, allowed }) => {
 			<td className='hidden h-full min-w-[10rem] items-end py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
 				{item.minOffer ? `$${item.minOffer}` : "-"}
 			</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
-				{item.delta > 0 ? `+${item.delta}` : 0}
-			</td>
+			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.delta > 0 ? `+${item.delta}` : 0}</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
 					target='_blank'
@@ -102,24 +98,17 @@ const MarketResultRow = ({ item, allowed }) => {
 								isOpen={showHistory}
 								setIsOpen={setShowHistory}
 								type='card'
+								method='uuid'
 							/>
 						) : item.type === "sticker" ? (
-							<HistoryModal
-								data={item}
-								isOpen={showHistory}
-								setIsOpen={setShowHistory}
-								type='sticker'
-							/>
+							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} type='sticker' />
 						) : (
 							<button onClick={openModal}>
 								<FaHistory />
 							</button>
 						)
 					) : (
-						<FaLock
-							className='cursor-not-allowed'
-							title='You need history access for this feature'
-						/>
+						<FaLock className='cursor-not-allowed' title='You need history access for this feature' />
 					)}
 				</div>
 			</td>

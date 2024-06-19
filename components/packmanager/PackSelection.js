@@ -1,13 +1,7 @@
-import Image from "next/future/image";
+import ImageWrapper from "HOC/ImageWrapper";
 import Tooltip from "../Tooltip";
-const PackSelection = ({
-	packTemplate,
-	marketInfo,
-	selected,
-	setSelected,
-	CDN,
-	setPage,
-}) => {
+
+const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, setPage }) => {
 	const handleSelect = (id) => {
 		if (selected.includes(id)) {
 			setSelected(selected.filter((item) => item !== id));
@@ -17,15 +11,14 @@ const PackSelection = ({
 	};
 	return (
 		<>
-			<div className='m-2 flex '>
-				<Image
-					src={`${CDN}${packTemplate.image}`}
+			<div className='m-2 flex'>
+				<ImageWrapper
+					src={`${CDN}${packTemplate.image}` || ""}
 					width={100}
 					height={150}
 					quality={100}
 					alt={packTemplate.name}
-					style={{ objectFit: "contain" }}
-					unoptimized={true}
+					className='object-contain'
 				/>
 				<div className='ml-2 text-gray-800 dark:text-gray-300'>
 					<div>{packTemplate.description}</div>
@@ -33,18 +26,11 @@ const PackSelection = ({
 					{/* <div>Pack Template ID: {packTemplate.id}</div> */}
 					{marketInfo.market && ( //wait for market info to load
 						<>
-							{marketInfo.market[0] &&
-							marketInfo.market[0][0] &&
-							marketInfo.market[0][0].price > 0 ? ( //if price is bigger than 0, show price
+							{marketInfo.market[0] && marketInfo.market[0][0] && marketInfo.market[0][0].price > 0 ? ( //if price is bigger than 0, show price
 								<>
 									<div className='flex'>
-										Market floor:{" "}
-										<span className='ml-1 text-orange-400'>
-											{marketInfo.market[0][0].price}
-										</span>
-										<span className='ml-1 text-gray-800 hover:no-underline dark:text-gray-300'>
-											USD
-										</span>
+										Market floor: <span className='ml-1 text-orange-400'>{marketInfo.market[0][0].price}</span>
+										<span className='ml-1 text-gray-800 hover:no-underline dark:text-gray-300'>USD</span>
 										<a
 											href={`https://kolex.gg/market/pack/${packTemplate.id}`}
 											className='ml-1 flex items-center'
@@ -125,9 +111,7 @@ const PackSelection = ({
 								max={packTemplate.packs.length}
 								className='ml-2 rounded-md border border-gray-800 p-1 text-black focus:outline-orange-400'
 								onChange={(e) =>
-									setSelected(
-										packTemplate.packs.slice(0, e.target.value).map((pack) => pack.id)
-									)
+									setSelected(packTemplate.packs.slice(0, e.target.value).map((pack) => pack.id))
 								}
 								value={selected.length}
 								onFocus={(e) => e.target.select()}
@@ -151,10 +135,7 @@ const PackSelection = ({
 					{packTemplate.packs
 						.sort((a, b) => a.id - b.id)
 						.map((pack) => (
-							<div
-								className='flex items-center text-gray-800 dark:text-gray-300'
-								key={pack.id}
-							>
+							<div className='flex items-center text-gray-800 dark:text-gray-300' key={pack.id}>
 								<label htmlFor={pack.id} className='cursor-pointer'>
 									<span>Mint Date: </span>
 									<span>{pack.created} - </span>

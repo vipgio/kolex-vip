@@ -11,9 +11,7 @@ const MintResultRow = ({ item, allowed }) => {
 	return (
 		<tr className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'>
 			<td
-				className={`py-1 px-2 sm:py-3 sm:px-6 ${
-					item.signatureImage ? "text-yellow-500" : ""
-				}`}
+				className={`py-1 px-2 sm:py-3 sm:px-6 ${item.signatureImage ? "text-yellow-500" : ""}`}
 				title={item.signatureImage && "Signed"}
 			>
 				<div className='flex items-center justify-center'>
@@ -25,9 +23,7 @@ const MintResultRow = ({ item, allowed }) => {
 
 			<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.id}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
-				{item.delta > 0 ? `+${item.delta}` : 0}
-			</td>
+			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.delta > 0 ? `+${item.delta}` : 0}</td>
 
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
@@ -58,24 +54,17 @@ const MintResultRow = ({ item, allowed }) => {
 								isOpen={showHistory}
 								setIsOpen={setShowHistory}
 								type='card'
+								method='uuid'
 							/>
 						) : item.type === "sticker" ? (
-							<HistoryModal
-								data={item}
-								isOpen={showHistory}
-								setIsOpen={setShowHistory}
-								type='sticker'
-							/>
+							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} type='sticker' />
 						) : (
 							<button onClick={openModal}>
 								<FaHistory />
 							</button>
 						)
 					) : (
-						<FaLock
-							className='cursor-not-allowed'
-							title='You need history access for this feature'
-						/>
+						<FaLock className='cursor-not-allowed' title='You need history access for this feature' />
 					)}
 				</div>
 			</td>

@@ -1,7 +1,5 @@
-import axios from "axios";
-import axiosRateLimit from "axios-rate-limit";
-const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
-const { API } = require("@/config/config");
+import http from "@/utils/httpClient";
+import { API } from "@/config/config";
 
 export default async function handler(req, res) {
 	if (req.method !== "PATCH" && req.method !== "DELETE")
@@ -12,7 +10,7 @@ export default async function handler(req, res) {
 
 	try {
 		if (req.method === "PATCH") {
-			const { price, minOffer } = req.body.data;
+			const { price, minOffer } = req.body;
 			const marketEdit = async (jwt, marketId, price, minOffer) => {
 				return http(`${API}/market/listed/${marketId}`, {
 					method: "PATCH",

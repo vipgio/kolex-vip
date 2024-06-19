@@ -1,14 +1,13 @@
-import { useContext, useState, useEffect } from "react";
-import { UserContext } from "context/UserContext";
+import { useState, useEffect } from "react";
 import SetSelector from "HOC/SetSelector";
+import { useAxios } from "hooks/useAxios";
 import Meta from "@/components/Meta";
 import CircList from "@/components/CircList";
 import LoadingSpin from "@/components/LoadingSpin";
-import { useAxios } from "hooks/useAxios";
 import RefreshButton from "@/components/RefreshButton";
 
 const Circulation = () => {
-	const { getCardCirc, getStickerCirc, loading, setLoading, categoryId } = useContext(UserContext);
+	const [loading, setLoading] = useState(false);
 	const [collection, setCollection] = useState({
 		info: {},
 		items: { cards: [], stickers: [] },
@@ -25,7 +24,6 @@ const Circulation = () => {
 				type: "card",
 				page: page,
 				price: "asc",
-				categoryId: categoryId,
 			});
 			if (result?.templates.length > 0) {
 				setCardPrices((prev) => [...prev, ...result.templates]);
@@ -43,13 +41,28 @@ const Circulation = () => {
 				type: "sticker",
 				page: page,
 				price: "asc",
-				categoryId: categoryId,
 			});
 			setStickerPrices((prev) => [...prev, ...result.templates]);
 			result && result.templates.length > 0 && (await getStickerPrices(++page));
 		} catch (err) {
 			console.log(err);
 		}
+	};
+
+	const getCardsCirc = async (collectionId) => {
+		const { result, error } = await fetchData(`/api/collections/cards/${collectionId}`);
+		if (error) {
+			console.error(error);
+		}
+		return result;
+	};
+
+	const getStickersCirc = async (collectionId) => {
+		const { result, error } = await fetchData(`/api/collections/stickers/${collectionId}`);
+		if (error) {
+			console.error(error);
+		}
+		return result;
 	};
 
 	const displayCirc = async () => {
@@ -62,16 +75,16 @@ const Circulation = () => {
 				items: { cards: [], stickers: [] },
 			});
 
-			const { data: cards } = await getCardCirc(selectedCollection.collection.id);
-			cards.data.length > 0 && (await getCardPrices(1));
+			const cards = await getCardsCirc(selectedCollection.collection.id);
+			cards.length > 0 && (await getCardPrices(1));
 
-			const { data: stickers } = await getStickerCirc(selectedCollection.collection.id);
-			stickers.data.length > 0 && (await getStickerPrices(1));
+			const stickers = await getStickersCirc(selectedCollection.collection.id);
+			stickers.length > 0 && (await getStickerPrices(1));
 
-			if (cards.success && stickers.success) {
+			if (cards && stickers) {
 				const items = {
-					cards: cards.data.map((card) => getObj(card, "card")),
-					stickers: stickers.data.map((sticker) => getObj(sticker, "sticker")),
+					cards: cards.map((card) => getObj(card, "card")),
+					stickers: stickers.map((sticker) => getObj(sticker, "sticker")),
 				};
 				setCollection((collection) => ({
 					...collection,
@@ -80,7 +93,7 @@ const Circulation = () => {
 			}
 			setLoading(false);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 			setLoading(false);
 		}
 	};
@@ -120,7 +133,12 @@ const Circulation = () => {
 				) : (
 					<div className='mb-2 flex'>
 						<span className='mx-auto'>
-							<RefreshButton loading={loading} title='Refresh Circulation' func={refreshData} />
+							<RefreshButton
+								loading={loading}
+								title='Refresh Circulation'
+								func={refreshData}
+								disabled={!selectedCollection}
+							/>
 						</span>
 					</div>
 				)}

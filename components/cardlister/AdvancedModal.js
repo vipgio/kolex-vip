@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import sortBy from "lodash/sortBy";
+import { useAxios } from "hooks/useAxios";
 import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
 import ItemBox from "./ItemBox";
 import "react-toastify/dist/ReactToastify.css";
 import BigModal from "../BigModal";
 
-const AdvancedModal = ({
-	selectedTemplates,
-	showModal,
-	setShowModal,
-	user,
-	templates,
-}) => {
+const AdvancedModal = ({ selectedTemplates, showModal, setShowModal, user, templates }) => {
+	const { fetchData, postData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [cardDetails, setCardDetails] = useState([]);
 	const [insertFloor, setInsertFloor] = useState(0);
@@ -25,15 +20,15 @@ const AdvancedModal = ({
 		const controller = new AbortController();
 		setCardDetails([]);
 		selectedTemplates.map(async (template) => {
-			const fetchData = async () => {
+			const fetchInitialData = async () => {
 				const data = await getCardTemplates(
 					user.user.id,
 					template.id,
 					template.cardType ? "card" : "sticker",
 					controller
 				);
-				if (data.success) {
-					const strippedCards = data.data
+				if (data) {
+					const strippedCards = data
 						.map((item) => {
 							return {
 								cardTemplateId: item.cardTemplateId,
@@ -57,9 +52,9 @@ const AdvancedModal = ({
 			};
 			if (isApiSubscribed) {
 				try {
-					fetchData();
+					fetchInitialData();
 				} catch (err) {
-					console.log(err);
+					console.error(err);
 				}
 			}
 		});
@@ -74,40 +69,25 @@ const AdvancedModal = ({
 		for await (const template of Object.entries(listingDetails)) {
 			let counter = 0;
 			for await (const item of template[1]) {
-				try {
-					const { data } = await axios.post(
-						`/api/market/list/${item.id}`,
-						{
-							data: {
-								price: item.price,
-								type: item.type,
-							},
-						},
-						{
-							headers: {
-								jwt: user.jwt,
-							},
-						}
-					);
-					if (data.success) {
-						const title = templates.find((o) => o.id === Number(template[0])).title;
-						counter++;
-						toast.isActive(template[0])
-							? toast.update(template[0], {
-									render: `Listed ${counter}x ${title} on the market for $${template[1][0].price}!`,
-							  })
-							: toast.success(
-									`Listed ${counter}x ${title} on the market for $${template[1][0].price}!`,
-									{
-										toastId: template[0],
-									}
-							  );
-					}
-				} catch (err) {
-					console.log(err);
+				const { result, error } = await postData(`/api/market/list/${item.id}`, {
+					price: item.price,
+					type: item.type,
+				});
+				if (result) {
+					const title = templates.find((o) => o.id === Number(template[0])).title;
+					counter++;
+					toast.isActive(template[0])
+						? toast.update(template[0], {
+								render: `Listed ${counter}x ${title} on the market for $${template[1][0].price}!`,
+						  })
+						: toast.success(`Listed ${counter}x ${title} on the market for $${template[1][0].price}!`, {
+								toastId: template[0],
+						  });
+				} else {
+					console.error(error);
 					toast.error(`Failed to list item with id: ${item.id}`, { toastId: item.id });
-					toast.error(err.response.data.error, {
-						toastId: err.response.data.errorCode,
+					toast.error(error.response.data.error, {
+						toastId: error.response.data.errorCode,
 					});
 				}
 			}
@@ -116,17 +96,19 @@ const AdvancedModal = ({
 	};
 
 	const getCardTemplates = async (userId, templateId, type, controller) => {
-		const { data } = await axios.get(`/api/collections/users/${userId}/card-templates`, {
-			signal: controller.signal,
-			params: {
+		const { result, error } = await fetchData(
+			`/api/collections/users/${userId}/card-templates`,
+			{
 				templateId: templateId,
 				type: type,
 			},
-			headers: {
-				jwt: user.jwt,
-			},
-		});
-		return data;
+			controller
+		);
+		if (error) {
+			console.error(error);
+			return;
+		}
+		return result;
 	};
 
 	return (
@@ -152,10 +134,7 @@ const AdvancedModal = ({
 			</div>
 			<div className='flex border-t border-gray-400 p-3 dark:border-gray-200'>
 				<div className='ml-1 flex items-center'>
-					<button
-						onClick={() => setInsertFloor((prev) => prev + 1)}
-						className='simple-button font-semibold'
-					>
+					<button onClick={() => setInsertFloor((prev) => prev + 1)} className='simple-button font-semibold'>
 						Floor
 					</button>
 					<Tooltip

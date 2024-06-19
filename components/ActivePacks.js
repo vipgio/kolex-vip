@@ -26,7 +26,7 @@ const ActivePacks = ({ user, categoryId }) => {
 				setLoading(false);
 			}
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 
@@ -73,6 +73,7 @@ const ActivePacks = ({ user, categoryId }) => {
 										width={50}
 										height={75}
 										alt={pack.name}
+										className='h-full w-auto object-contain'
 									/>
 								</div>
 								<div className='mt-2 flex w-3/4 flex-col'>

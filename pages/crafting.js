@@ -1,7 +1,6 @@
-import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import Meta from "@/components/Meta";
 import PlanSelection from "@/components/crafting/PlanSelection";
 import LoadingSpin from "@/components/LoadingSpin";
@@ -10,38 +9,26 @@ import "react-toastify/dist/ReactToastify.css";
 const Crafting = () => {
 	const [plans, setPlans] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const { user, categoryId } = useContext(UserContext);
+	const { fetchData, postData } = useAxios();
 
 	const getPlans = async () => {
-		const { data } = await axios.get(`/api/crafting/plans`, {
-			params: {
-				categoryId: categoryId,
-			},
-			headers: {
-				jwt: user.jwt,
-			},
-		});
-		return data;
+		const { result, error } = await fetchData(`/api/crafting/plans`);
+		if (result) return result;
+		if (error) throw new Error(error);
 	};
 
 	const getUserSlots = async () => {
-		const { data } = await axios.get(`/api/crafting/user-slots`, {
-			params: {
-				categoryId: categoryId,
-			},
-			headers: {
-				jwt: user.jwt,
-			},
-		});
-		return data;
+		const { result, error } = await fetchData(`/api/crafting/user-slots`);
+		if (result) return result;
+		if (error) throw new Error(error);
 	};
 
 	const getData = async () => {
 		try {
 			const data = await getPlans();
-			setPlans(data.data.plans);
+			setPlans(data.plans);
 			const slots = await getUserSlots();
-			const usedSlots = slots.data.slots.filter((slot) => slot.used);
+			const usedSlots = slots.slots.filter((slot) => slot.used);
 			if (usedSlots.length > 0) {
 				await clearSlots(usedSlots);
 			} else {
@@ -61,30 +48,20 @@ const Crafting = () => {
 
 	const clearSlots = async (slots) => {
 		slots.map(async (slot) => {
-			try {
-				const { data } = await axios.post(
-					`/api/crafting/open-instant`,
-					{
-						slotId: slot.id,
-					},
-					{
-						headers: {
-							jwt: user.jwt,
-						},
-					}
-				);
-				if (data.success) {
-					toast.success("All slots cleared!", {
-						toastId: "cleared",
-					});
-				}
-				setLoading(false);
-			} catch (err) {
-				toast.error(err.response.data.error, {
-					toastId: err.response.data.errorCode,
+			const { result, error } = await postData(`/api/crafting/open-instant`, { slotId: slot.id });
+
+			if (result) {
+				toast.success("All slots cleared!", {
+					toastId: "cleared",
 				});
-				setLoading(false);
 			}
+			if (error) {
+				console.log(error);
+				toast.error(error.response.data.error, {
+					toastId: error.response.data.errorCode,
+				});
+			}
+			setLoading(false);
 		});
 	};
 
@@ -114,9 +91,7 @@ const Crafting = () => {
 							))}
 					</div>
 				) : (
-					<div className='flex justify-center text-gray-700 dark:text-gray-300 '>
-						No craft plans available
-					</div>
+					<div className='flex justify-center text-gray-700 dark:text-gray-300 '>No craft plans available</div>
 				)}
 			</div>
 		</>

@@ -1,35 +1,33 @@
-import { useState, useContext, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { HiOutlineArrowCircleRight, HiOutlineArrowCircleLeft } from "react-icons/hi";
-
-import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import { CDN } from "@/config/config";
 import PackSelection from "./PackSelection";
 import ModalPage2 from "./ModalPage2";
 import BigModal from "../BigModal";
 
 const MassPackModal = ({ packTemplate, showModal, setShowModal }) => {
-	const { user } = useContext(UserContext);
+	const { fetchData } = useAxios();
 	const [page, setPage] = useState(1);
 	const [selected, setSelected] = useState([]);
 	const [action, setAction] = useState("list");
 	const [marketInfo, setMarketInfo] = useState({});
-	//set marketInfo equal to getmarketInfo function value
+
 	useEffect(() => {
 		const fetchData = async () => {
-			const { data } = await getMarketInfo(packTemplate.id);
+			const data = await getMarketInfo(packTemplate.id);
 			setMarketInfo(data);
 		};
 		fetchData();
 	}, []);
 
 	const getMarketInfo = async (packId) => {
-		const { data } = await axios.get(`/api/market/pack/${packId}`, {
-			headers: {
-				jwt: user.jwt,
-			},
-		});
-		return data;
+		const { result, error } = await fetchData(`/api/market/pack/${packId}`);
+		if (error) {
+			console.error(error);
+			return;
+		}
+		return result;
 	};
 
 	return (

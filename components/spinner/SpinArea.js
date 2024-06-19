@@ -1,8 +1,6 @@
 import { useEffect, useState, useRef, useContext } from "react";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
-import { API } from "@/config/config";
 import { UserContext } from "context/UserContext";
 import { useAxios } from "hooks/useAxios";
 import SpinResult from "./SpinResult";
@@ -11,7 +9,6 @@ import Recap from "./Recap";
 import "react-toastify/dist/ReactToastify.css";
 
 const SpinArea = ({ info }) => {
-	const { user, categoryId } = useContext(UserContext);
 	const intervalRef = useRef();
 	const spinCount = useRef(0);
 	const inProgress = useRef(false);
@@ -39,22 +36,11 @@ const SpinArea = ({ info }) => {
 
 	const spin = async (id) => {
 		inProgress.current = true;
-		try {
-			const { data } = await axios.post(
-				`${API}/spinner/spin?categoryId=${categoryId}`,
-				{
-					spinnerId: id,
-				},
-				{
-					headers: {
-						"x-user-jwt": user.jwt,
-					},
-				}
-			);
-			if (data.success) return data.data;
-		} catch (err) {
-			console.log(err);
-		}
+		const { result, error } = await postData("/api/spinner/spin", {
+			spinnerId: id,
+		});
+		if (result) return result;
+		if (error) console.log(error);
 	};
 
 	const doSpin = async () => {
@@ -64,24 +50,24 @@ const SpinArea = ({ info }) => {
 				try {
 					await buySpin();
 					const spinResult = await spin(info.id);
-					spinCount.current++;
-					if (spinResult.cards.length > 0) {
-						const { result: templates, error } = await fetchData("/api/cards/templates", {
-							cardIds: spinResult.cards.map((card) => card.cardTemplateId).toString(),
-						});
-						const title = templates && templates[0] && templates[0].title;
-						setSpinRes((prev) => [
-							{
-								...spinResult,
-								time: new Date(),
-								title: title
-									? title
-									: "Something, but there was a problem so can't find the card",
-							},
-							...prev,
-						]);
-					} else {
-						setSpinRes((prev) => [{ ...spinResult, time: new Date() }, ...prev]);
+					if (spinResult) {
+						spinCount.current++;
+						if (spinResult.cards.length > 0) {
+							const { result: templates, error } = await fetchData("/api/cards/templates", {
+								cardIds: spinResult.cards.map((card) => card.cardTemplateId).toString(),
+							});
+							const title = templates && templates[0] && templates[0].title;
+							setSpinRes((prev) => [
+								{
+									...spinResult,
+									time: new Date(),
+									title: title ? title : "Something, but there was a problem so can't find the card",
+								},
+								...prev,
+							]);
+						} else {
+							setSpinRes((prev) => [{ ...spinResult, time: new Date() }, ...prev]);
+						}
 					}
 					await getFunds();
 					inProgress.current = false;
@@ -123,11 +109,7 @@ const SpinArea = ({ info }) => {
 
 	const handleLimit = (e) => {
 		const value = e.target.value;
-		value > 10000
-			? setSpinLimit(10000)
-			: value < 1
-			? setSpinLimit(1)
-			: setSpinLimit(value);
+		value > 10000 ? setSpinLimit(10000) : value < 1 ? setSpinLimit(1) : setSpinLimit(value);
 	};
 
 	return (
@@ -195,18 +177,12 @@ const SpinArea = ({ info }) => {
 				</div>
 
 				<div className='max-h-full min-h-[24rem] divide-y divide-gray-500 overflow-auto sm:divide-y-0'>
-					{info.id &&
-						spinRes.map((res) => (
-							<SpinResult result={res} spinnerInfo={info} key={res.time} />
-						))}
+					{info.id && spinRes.map((res) => <SpinResult result={res} spinnerInfo={info} key={res.time} />)}
 				</div>
 				<div className='mt-auto flex max-h-96 items-center border-t border-gray-500 pt-2 text-gray-800 dark:text-gray-200'>
 					<div>
 						Used the spinner
-						<span className='text-primary-500 dark:text-primary-300'>
-							{" "}
-							{spinRes.length}{" "}
-						</span>
+						<span className='text-primary-500 dark:text-primary-300'> {spinRes.length} </span>
 						{spinRes.length === 1 ? "time" : "times"}
 					</div>
 					{spinRes.length > 0 && (
@@ -218,12 +194,7 @@ const SpinArea = ({ info }) => {
 						</button>
 					)}
 					{showRecap ? (
-						<Recap
-							spins={spinRes}
-							items={info.items}
-							isOpen={showRecap}
-							setIsOpen={setShowRecap}
-						/>
+						<Recap spins={spinRes} items={info.items} isOpen={showRecap} setIsOpen={setShowRecap} />
 					) : null}
 					<div className='ml-auto'>
 						<button

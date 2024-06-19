@@ -26,6 +26,5 @@ yarn-error.log*
 
 /pages/test.js
 /pages/calc.js
-/pages/api/mock
 
 /.vscode

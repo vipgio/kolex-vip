@@ -19,9 +19,7 @@ const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 			onClick={() => console.log(item)}
 		>
 			<td
-				className={`py-1 px-2 sm:py-3 sm:px-6 ${
-					item.signatureImage ? "text-yellow-400" : ""
-				}`}
+				className={`py-1 px-2 sm:py-3 sm:px-6 ${item.signatureImage ? "text-yellow-400" : ""}`}
 				title={item.signatureImage ? "Signed" : undefined}
 			>
 				<span className='flex items-center justify-center'>
@@ -32,9 +30,7 @@ const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 			</td>
 			<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.inCirculation}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
-				{item.status === "market" ? "Yes" : "No"}
-			</td>
+			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.status === "market" ? "Yes" : "No"}</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>{(item.rating * 10).toFixed(2)}</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.id}</td>
 			{!singleUserSearch && <td className='py-1 px-2 sm:py-3 sm:px-6'>{item.owner}</td>}
@@ -50,18 +46,14 @@ const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 				<span className='relative flex h-8 items-center justify-center'>
 					{user.info.allowed.includes("history") ? (
 						item.type === "sticker" ? (
-							<HistoryModal
-								data={item}
-								isOpen={showHistory}
-								setIsOpen={setShowHistory}
-								type='sticker'
-							/>
+							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} type='sticker' />
 						) : item.type === "card" ? (
 							<HistoryModal
 								data={item}
 								isOpen={showHistory}
 								setIsOpen={setShowHistory}
 								type='card'
+								method='uuid'
 							/>
 						) : (
 							<button onClick={openModal}>
@@ -69,10 +61,7 @@ const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 							</button>
 						)
 					) : (
-						<FaLock
-							className='cursor-not-allowed'
-							title='You need the "history" access for this feature'
-						/>
+						<FaLock className='cursor-not-allowed' title='You need the "history" access for this feature' />
 					)}
 				</span>
 			</td>

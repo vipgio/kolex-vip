@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
@@ -7,12 +6,14 @@ import uniqBy from "lodash/uniqBy";
 import min from "lodash/min";
 import max from "lodash/max";
 import { maxPrice, minPrice } from "@/config/config";
+import { useAxios } from "hooks/useAxios";
 import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
 import BigModal from "../BigModal";
 import "react-toastify/dist/ReactToastify.css";
 
 const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
+	const { fetchData, postData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [selectedCards, setSelectedCards] = useState([]);
 	const [cardDetails, setCardDetails] = useState([]);
@@ -56,15 +57,15 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 		setCardDetails([]);
 		setLoading(true);
 		for (const template of selectedTemplates) {
-			const fetchData = async () => {
+			const fetchInitialData = async () => {
 				const data = await getCardTemplates(
 					user.user.id,
 					template.id,
 					template.cardType ? "card" : "sticker",
 					controller
 				);
-				if (data.success) {
-					const strippedCards = data.data
+				if (data) {
+					const strippedCards = data
 						.map((item) => {
 							return {
 								entityTemplateId: template.id,
@@ -89,7 +90,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 			};
 			if (isApiSubscribed) {
 				try {
-					fetchData();
+					fetchInitialData();
 				} catch (err) {
 					console.log(err);
 				}
@@ -107,43 +108,27 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 		setLoading(true);
 		let counter = 0;
 		for await (const item of selectedCards) {
-			try {
-				const { data } = await axios.post(
-					`/api/market/list/${item.id}`,
-					{
-						data: {
-							price: price,
-							type: item.type,
-						},
-					},
-					{
-						headers: {
-							jwt: user.jwt,
-						},
-					}
-				);
-				if (data.success) {
-					counter++;
-					toast.isActive("success")
-						? toast.update("success", {
-								render: `Listed ${counter}x ${
-									counter === 1 ? "item" : "items"
-								} on the market for $${price}!`,
-						  })
-						: toast.success(
-								`Listed ${counter}x ${
-									counter === 1 ? "item" : "items"
-								} on the market for $${price}!`,
-								{
-									toastId: "success",
-								}
-						  );
-				}
-			} catch (err) {
-				console.log(err);
+			const { result, error } = await postData(`/api/market/list/${item.id}`, {
+				price: price,
+				type: item.type,
+			});
+			if (result) {
+				counter++;
+				toast.isActive("success")
+					? toast.update("success", {
+							render: `Listed ${counter}x ${counter === 1 ? "item" : "items"} on the market for $${price}!`,
+					  })
+					: toast.success(
+							`Listed ${counter}x ${counter === 1 ? "item" : "items"} on the market for $${price}!`,
+							{
+								toastId: "success",
+							}
+					  );
+			} else {
+				console.error(error);
 				toast.error(`Failed to list item with id: ${item.id}`, { toastId: item.id });
-				toast.error(err.response.data.error, {
-					toastId: err.response.data.errorCode,
+				toast.error(error.response.data.error, {
+					toastId: error.response.data.errorCode,
 				});
 			}
 		}
@@ -152,17 +137,19 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 	};
 
 	const getCardTemplates = async (userId, templateId, type, controller) => {
-		const { data } = await axios.get(`/api/collections/users/${userId}/card-templates`, {
-			signal: controller.signal,
-			params: {
+		const { result, error } = await fetchData(
+			`/api/collections/users/${userId}/card-templates`,
+			{
 				templateId: templateId,
 				type: type,
 			},
-			headers: {
-				jwt: user.jwt,
-			},
-		});
-		return data;
+			controller
+		);
+		if (error) {
+			console.error(error);
+			return;
+		}
+		return result;
 	};
 
 	return (
@@ -180,9 +167,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 						cardDetails.map((item) => (
 							<div key={item.id} className='flex'>
 								<span className='ml-1'>{item.title}</span>
-								<span className='ml-auto mr-1 self-center text-orange-500'>
-									x{item.cards?.length}
-								</span>
+								<span className='ml-auto mr-1 self-center text-orange-500'>x{item.cards?.length}</span>
 							</div>
 						))}
 				</div>
@@ -252,9 +237,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 					<div className='flex flex-col p-1 text-gray-900 dark:text-gray-200'>
 						<div>
 							<span className='text-orange-500'>B) </span>
-							{selectedTemplates.length === 1
-								? "Enter the Number of items:"
-								: "Enter the number of sets:"}
+							{selectedTemplates.length === 1 ? "Enter the Number of items:" : "Enter the number of sets:"}
 						</div>
 						<div className='flex flex-col'>
 							<div className='flex items-center'>
@@ -272,9 +255,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 									onChange={(e) => {
 										setFilters(defaultFilters);
 										setSelectedCards([
-											...cardDetails
-												.map((template) => template.cards.slice(0, e.target.value))
-												.flat(),
+											...cardDetails.map((template) => template.cards.slice(0, e.target.value)).flat(),
 										]);
 									}}
 								/>
@@ -309,13 +290,9 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 			<div className='ml-1 p-1 text-gray-900 dark:text-gray-200'>
 				<div>
 					Floor range:{" "}
-					<span>
-						${min(selectedTemplates.map((item) => Number(item.floor)).filter((o) => o))}
-					</span>
+					<span>${min(selectedTemplates.map((item) => Number(item.floor)).filter((o) => o))}</span>
 					{" - "}
-					<span>
-						${max(selectedTemplates.map((item) => Number(item.floor)).filter((o) => o))}
-					</span>
+					<span>${max(selectedTemplates.map((item) => Number(item.floor)).filter((o) => o))}</span>
 				</div>
 			</div>
 
@@ -324,11 +301,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 
 				<div className='ml-auto mt-2 self-center sm:mt-0 sm:mb-0'>
 					<button
-						disabled={
-							cardDetails.length !== selectedTemplates.length ||
-							!price ||
-							!selectedCards.length
-						}
+						disabled={cardDetails.length !== selectedTemplates.length || !price || !selectedCards.length}
 						onClick={listAll}
 						className='button sm:mb-0'
 					>

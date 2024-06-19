@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
-import axios from "axios";
 import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 import SetSelector from "HOC/SetSelector";
 import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import Meta from "components/Meta";
 import UserSearch from "components/UserSearch";
 import ScanResult from "components/scanner/ScanResults";
@@ -13,6 +13,7 @@ import LoadingSpin from "@/components/LoadingSpin";
 
 const Scanner = () => {
 	const { user } = useContext(UserContext);
+	const { fetchData } = useAxios();
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const [scanResults, setScanResults] = useState([]);
@@ -25,53 +26,45 @@ const Scanner = () => {
 
 	const handleScan = async () => {
 		const scanUser = async (userId, collectionId) => {
-			const { data } = await axios.get(`/api/users/scan`, {
-				params: {
-					collectionId: collectionId,
-					userId: userId,
-				},
-				headers: {
-					jwt: user.jwt,
-				},
+			const { result, error } = await fetchData(`/api/users/scan`, {
+				collectionId: collectionId,
+				userId: userId,
 			});
-			return data;
+
+			if (error) {
+				console.error(error);
+			}
+			return result;
 		};
 
 		const getCollection = async (collectionId) => {
-			const { data } = await axios.get(`/api/collections/cards/${collectionId}`, {
-				headers: {
-					jwt: user.jwt,
-				},
-			});
-			return data;
+			const { result, error } = await fetchData(`/api/collections/cards/${collectionId}`);
+			if (error) {
+				console.error(error);
+			}
+			return result;
 		};
 
 		setLoading(true);
 		setScanResults([]);
 
-		const { data: templates } = await getCollection(selectedCollection.collection.id);
+		const templates = await getCollection(selectedCollection.collection.id);
 		setCollectionTemplates(templates);
 
-		const { data: own } = await scanUser(user.user.id, selectedCollection.collection.id);
+		const own = await scanUser(user.user.id, selectedCollection.collection.id);
 		if (selectedUsers.some((usr) => usr.id === user.user.id))
 			setScanResults(
-				[...own.cards, ...own.stickers].map((item) =>
-					pickObj(item, selectedCollection, user.user)
-				)
+				[...own.cards, ...own.stickers].map((item) => pickObj(item, selectedCollection, user.user))
 			);
 
 		// for (const selectedUser of selectedUsers) {
 		selectedUsers.forEach(async (selectedUser) => {
 			if (selectedUser.username !== user.user.username) {
-				const { data } = await scanUser(
-					selectedUser.id,
-					selectedCollection.collection.id
-				);
+				const data = await scanUser(selectedUser.id, selectedCollection.collection.id);
+				console.log(data);
 				setScanResults((prev) => [
 					...prev,
-					...[...data.cards, ...data.stickers].map((item) =>
-						pickObj(item, selectedCollection, selectedUser)
-					),
+					...[...data.cards, ...data.stickers].map((item) => pickObj(item, selectedCollection, selectedUser)),
 				]);
 			}
 		});
@@ -80,9 +73,7 @@ const Scanner = () => {
 			setOwnedItems(
 				//pick the best set
 				sortBy(
-					[...own.cards, ...own.stickers].map((item) =>
-						pickObj(item, selectedCollection, user.user.username)
-					),
+					[...own.cards, ...own.stickers].map((item) => pickObj(item, selectedCollection, user.user.username)),
 					["mintBatch", "mintNumber"]
 				)
 			);
@@ -109,9 +100,7 @@ const Scanner = () => {
 													className='ml-1 mr-1 cursor-pointer text-red-500'
 													title='Clear selection'
 													onClick={() => {
-														setSelectedUsers((prev) =>
-															prev.filter((oldUser) => oldUser.id !== user.id)
-														);
+														setSelectedUsers((prev) => prev.filter((oldUser) => oldUser.id !== user.id));
 														setScanResults({});
 													}}
 												>
@@ -132,10 +121,7 @@ const Scanner = () => {
 								)}
 							</div>
 						</div>
-						<UserSearch
-							setSelectedUsers={setSelectedUsers}
-							selectedUsers={selectedUsers}
-						/>
+						<UserSearch setSelectedUsers={setSelectedUsers} selectedUsers={selectedUsers} />
 					</div>
 				</div>
 
@@ -147,8 +133,7 @@ const Scanner = () => {
 								<span>
 									{" "}
 									{selectedCollection.collection.properties.seasons[0]} -{" "}
-									{selectedCollection.collection.properties.tiers[0]} -{" "}
-									{selectedCollection.collection.name}
+									{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
 								</span>
 							)}
 						</div>

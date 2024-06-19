@@ -1,7 +1,5 @@
-import axios from "axios";
-import axiosRateLimit from "axios-rate-limit";
-const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
-const { API } = require("@/config/config");
+import http from "@/utils/httpClient";
+import { API } from "@/config/config";
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
@@ -10,16 +8,13 @@ export default async function handler(req, res) {
 
 	try {
 		const openSlot = async (jwt, slotId, categoryId = 1) => {
-			return http(
-				`${API}/crafting/slots/${slotId}/open-instant?categoryId=${categoryId}`,
-				{
-					method: "POST",
-					headers: {
-						"x-user-jwt": jwt,
-					},
-					data: { craftingcoins: null },
-				}
-			);
+			return http(`${API}/crafting/slots/${slotId}/open-instant?categoryId=${categoryId}`, {
+				method: "POST",
+				headers: {
+					"x-user-jwt": jwt,
+				},
+				data: { craftingcoins: null },
+			});
 		};
 		const { data } = await openSlot(jwt, slotId, categoryId);
 		res.status(200).json(data);

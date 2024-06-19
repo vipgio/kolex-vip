@@ -1,17 +1,18 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
 import sortBy from "lodash/sortBy";
 import remove from "lodash/remove";
 import findIndex from "lodash/findIndex";
+import uniq from "lodash/uniq";
 import { maxPrice, minPrice } from "@/config/config";
-import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import CoolButton from "./CoolButton";
-import "react-toastify/dist/ReactToastify.css";
 import LoadingSpin from "../LoadingSpin";
+import "react-toastify/dist/ReactToastify.css";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
-	const { user, setLoading, loading } = useContext(UserContext);
+	const { fetchData, postData } = useAxios();
+	const [loading, setLoading] = useState(false);
 	const [price, setPrice] = useState(0);
 	const [minOffer, setMinOffer] = useState(0);
 	const [offerEnabled, setOfferEnabled] = useState(false);
@@ -32,41 +33,33 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 		setLoading(true);
 		let counter = 0;
 		for (const packId of selected) {
-			try {
-				const payload = {
-					data: {
-						price: price,
-						minOffer: offerEnabled ? minOffer.toString() : null,
-						type: "pack",
-					},
-				};
-				const headers = {
-					headers: {
-						jwt: user.jwt,
-					},
-				};
-				const { data } = await axios.post(`/api/market/list/${packId}`, payload, headers);
-				if (data.success) {
-					updateLocal();
-					counter++;
-					toast.isActive("success")
-						? toast.update("success", {
-								render: `Listed ${counter}x ${packTemplate.name} ${
-									counter === 1 ? "pack" : "packs"
-								} on the market for $${price}!`,
-						  })
-						: toast.success(
-								`Listed ${counter}x ${packTemplate.name} ${
-									counter === 1 ? "pack" : "packs"
-								} on the market for $${price}!`,
-								{
-									toastId: "success",
-								}
-						  );
-				}
-			} catch (err) {
-				toast.error(err.response.data.error, {
-					toastId: err.response.data.errorCode,
+			const payload = {
+				price: price,
+				minOffer: offerEnabled ? minOffer.toString() : null,
+				type: "pack",
+			};
+			const { result, error } = await postData(`/api/market/list/${packId}`, payload);
+			if (result) {
+				updateLocal();
+				counter++;
+				toast.isActive("success")
+					? toast.update("success", {
+							render: `Listed ${counter}x ${packTemplate.name} ${
+								counter === 1 ? "pack" : "packs"
+							} on the market for $${price}!`,
+					  })
+					: toast.success(
+							`Listed ${counter}x ${packTemplate.name} ${
+								counter === 1 ? "pack" : "packs"
+							} on the market for $${price}!`,
+							{
+								toastId: "success",
+							}
+					  );
+			}
+			if (error) {
+				toast.error(error.response.data.error, {
+					toastId: error.response.data.errorCode,
 				});
 				setLoading(false);
 			}
@@ -77,38 +70,26 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	const open = async () => {
 		setLoading(true);
 		for (const packId of selected) {
-			try {
-				const headers = {
-					headers: {
-						jwt: user.jwt,
-					},
-				};
-				const { data } = await axios.post(`/api/pack/open/${packId}`, null, headers);
-				if (data.success) {
-					if (data.data.cards.length > 0) {
-						const { data: templates } = await axios.get(`/api/cards/templates`, {
-							params: {
-								cardIds: data.data.cards.map((card) => card.cardTemplateId).toString(),
-							},
-							headers: {
-								jwt: user.jwt,
-							},
-						});
-						const cards = data.data.cards.map((card) => ({
-							...card,
-							title: templates.data.find((o) => o.id === card.cardTemplateId).title,
-						}));
-						setOpenedCards((prev) => [...prev, ...cards, ...data.data.stickers]);
-					} else {
-						setOpenedCards((prev) => [...prev, ...data.data.stickers]);
-					}
-					setOpenedPacksCount((prev) => [prev[0] + 1, prev[1]]);
-					updateLocal();
+			const { result, error } = await postData(`/api/pack/open/${packId}`);
+			if (result) {
+				if (result.cards.length > 0) {
+					const { result: templates, error } = await fetchData(`/api/cards/templates`, {
+						cardIds: uniq(result.cards.map((card) => card.cardTemplateId)).toString(),
+					});
+					const cards = result.cards.map((card) => ({
+						...card,
+						title: templates.find((o) => o.id === card.cardTemplateId).title,
+					}));
+					setOpenedCards((prev) => [...prev, ...cards, ...result.stickers]);
+				} else {
+					setOpenedCards((prev) => [...prev, ...result.stickers]);
 				}
-			} catch (err) {
-				console.log(err);
-				toast.error(err.response.data.error, {
-					toastId: err.response.data.errorCode,
+				setOpenedPacksCount((prev) => [prev[0] + 1, prev[1]]);
+				updateLocal();
+			}
+			if (error) {
+				toast.error(error.response.data.error, {
+					toastId: error.response.data.errorCode,
 				});
 			}
 		}

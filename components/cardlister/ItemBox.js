@@ -42,7 +42,7 @@ const ItemBox = React.memo(
 					</div>
 					<div className='flex flex-col'>
 						<div className='flex items-center'>
-							<span className='mr-2'>Floor price:</span>
+							<span className='mr-1'>Floor price:</span>
 							<span>{template.floor ? `$${template.floor}` : "-"}</span>
 						</div>
 						<div>

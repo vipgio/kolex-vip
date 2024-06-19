@@ -1,14 +1,14 @@
-const RefreshButton = ({ loading, func, style, title }) => {
+const RefreshButton = ({ loading, func, style, title, disabled }) => {
 	return (
 		<button
 			title={title}
-			className={`${style} my-outline flex flex-col items-center rounded-md bg-red-400 p-1 font-semibold text-gray-200 hover:bg-red-500 focus-visible:ring-offset-2 active:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50`}
-			disabled={loading}
+			className={`${style} my-outline flex flex-col items-center rounded-md bg-red-400 p-1 font-semibold text-gray-200 focus-visible:ring-offset-2 enabled:hover:bg-red-500 enabled:active:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50`}
+			disabled={loading || disabled}
 		>
 			{/* Refresh packs */}
 			<svg
 				xmlns='http://www.w3.org/2000/svg'
-				className={`h-6 w-6 cursor-pointer ${loading && "animate-spin-ac"}`}
+				className={`h-6 w-6 enabled:cursor-pointer ${loading && "animate-spin-ac"}`}
 				fill='none'
 				viewBox='0 0 24 24'
 				stroke='currentColor'

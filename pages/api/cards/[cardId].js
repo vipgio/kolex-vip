@@ -1,12 +1,11 @@
-import axios from "axios";
-import axiosRateLimit from "axios-rate-limit";
-const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
-const { API } = require("@/config/config");
+import http from "@/utils/httpClient";
+import { API } from "@/config/config";
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
 	const { cardId } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
+
 	try {
 		const getCardInfo = async (jwt, cardId) => {
 			return http(`${API}/cards/${cardId}`, {
@@ -20,6 +19,7 @@ export default async function handler(req, res) {
 		const { data } = await getCardInfo(jwt, cardId);
 		res.status(200).json(data);
 	} catch (err) {
+		console.log(err);
 		res.status(err.response.status).json(err.response.data);
 	}
 }

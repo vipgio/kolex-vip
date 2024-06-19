@@ -30,22 +30,22 @@ const ListedModal = ({ showModal, setShowModal }) => {
 					if (item.type === "card") return item.card.cardTemplateId;
 				})
 			).toString();
-			const { result: templates } = await fetchData(`/api/cards/templates`, {
+
+			const { result: templates, error } = await fetchData(`/api/cards/templates`, {
 				cardIds: templateList,
 			});
-			const { result: floorData } = await fetchData(`/api/market/templates`, {
-				templateIds: templateList,
-				type: "card",
-				page: 1,
-				price: "asc",
-			});
+			if (error) console.error(error);
+			// const { result: floorData, error } = await fetchData(`/api/market/templates`, {
+			// 	templateIds: templateList,
+			// 	type: "card",
+			// 	page: 1,
+			// 	price: "asc",
+			// });
 			setListed((prev) => [
 				...prev,
 				...data.market.map((item) => {
 					const template = templates.find((res) => res.id === item.card.cardTemplateId);
-					const floor = floorData.templates.find(
-						(res) => res.entityTemplateId === item.card.cardTemplateId
-					);
+					// const floor = floorData.templates.find((res) => res.entityTemplateId === item.card.cardTemplateId);
 					const obj = {
 						marketId: item.marketId,
 						templateId: item.card.cardTemplateId,
@@ -58,7 +58,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 						signatureImage: item.card.signatureImage,
 						circulation: template ? template.inCirculation : null,
 						title: template ? template.title : null,
-						floor: floor ? floor.lowestPrice : null,
+						// floor: floor ? floor.lowestPrice : null,
 					};
 					return obj;
 				}),
@@ -74,14 +74,11 @@ const ListedModal = ({ showModal, setShowModal }) => {
 	};
 
 	const getListed = async (page) => {
-		const { result, error } = await fetchData(
-			`/api/market/listed/users/${user.user.id}`,
-			{
-				page: page,
-			}
-		);
+		const { result, error } = await fetchData(`/api/market/listed/users/${user.user.id}`, {
+			page: page,
+		});
 		if (result) return result;
-		if (error) console.log(error);
+		if (error) console.error(error);
 	};
 
 	useEffect(() => {
@@ -129,13 +126,11 @@ const ListedModal = ({ showModal, setShowModal }) => {
 						className='dropdown mx-2 my-1 transition-opacity disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
 						onChange={(e) => setSortMethod(e.target.value)}
 					>
-						{/* <option disabled selected value>
-							Select an option
-						</option> */}
 						<option value='mint'>Mint</option>
 						<option value='price'>Price</option>
 						<option value='floor'>Floor</option>
 						<option value='circulation'>Circulation</option>
+						<option value='date'>Date Listed</option>
 					</select>
 				</div>
 				<button
@@ -146,12 +141,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 				</button>
 			</div>
 			<div className='overflow-auto'>
-				<ListedTable
-					setListed={setListed}
-					listed={listed}
-					sortMethod={sortMethod}
-					insertFloor={insertFloor}
-				/>
+				<ListedTable setListed={setListed} listed={listed} sortMethod={sortMethod} insertFloor={insertFloor} />
 			</div>
 		</BigModal>
 	);

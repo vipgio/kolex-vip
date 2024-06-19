@@ -1,16 +1,18 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import axios from "axios";
+import http from "@/utils/httpClient";
 import { UserContext } from "context/UserContext";
 
 const useAxios = () => {
 	const { user, categoryId } = useContext(UserContext);
 
-	const fetchData = async (endpoint, params) => {
+	const fetchData = async (endpoint, params, controller) => {
 		let result, error;
 		try {
-			const { data } = await axios.get(endpoint, {
+			const { data } = await http.get(endpoint, {
 				params: { ...params, categoryId: categoryId },
 				headers: { jwt: user.jwt },
+				signal: controller && controller.signal,
 			});
 			if (data.success) {
 				result = data.data;
@@ -18,22 +20,23 @@ const useAxios = () => {
 		} catch (err) {
 			error = err;
 		}
+		if (error) {
+			console.error(error);
+		}
 		return { result, error };
 	};
 
 	const postData = async (endpoint, payload, controller) => {
 		let result, error, info;
 		try {
-			const { data } = await axios.post(
-				endpoint,
-				{
-					data: payload,
-					signal: controller?.signal,
-				},
-				{
-					headers: { jwt: user.jwt },
-				}
-			);
+			const config = {
+				headers: { jwt: user.jwt },
+			};
+			if (controller) {
+				config.signal = controller.signal;
+			}
+
+			const { data } = await axios.post(endpoint, payload, config);
 			info = data;
 			if (data.success) {
 				result = data.data;
@@ -80,9 +83,6 @@ const useAxios = () => {
 		return { result, error };
 	};
 
-	useEffect(() => {
-		fetchData();
-	});
 	return { fetchData, postData, patchData, deleteData };
 };
 export { useAxios };

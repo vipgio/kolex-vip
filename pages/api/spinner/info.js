@@ -1,11 +1,7 @@
-import axios from "axios";
-import axiosRateLimit from "axios-rate-limit";
-const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
-const { API } = require("@/config/config");
+import http from "@/utils/httpClient";
+import { API } from "@/config/config";
 
 export default async function handler(req, res) {
-	console.log(req.headers);
-	console.log(req.query);
 	const { jwt } = req.headers;
 	const { categoryId } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });

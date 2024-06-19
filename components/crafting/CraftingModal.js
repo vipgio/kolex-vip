@@ -1,27 +1,29 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
-import axios from "axios";
-import axiosRateLimit from "axios-rate-limit";
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
+import uniq from "lodash/uniq";
 import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import CraftResultModal from "./CraftResultModal";
 import BigModal from "../BigModal";
 import "react-toastify/dist/ReactToastify.css";
 
-const http = axiosRateLimit(axios.create(), { maxRequests: 120, perMilliseconds: 60000 });
-const { API } = require("@/config/config");
+import http from "@/utils/httpClient";
+import { API } from "@/config/config";
 
 const CraftingModal = React.memo(
 	({ showModal, setShowModal, plan }) => {
 		const { user, categoryId } = useContext(UserContext);
+		const { fetchData, postData } = useAxios();
 		const totalCards = useRef(0);
 		const [loading, setLoading] = useState(true);
 		const [dupeOnly, setDupeOnly] = useState("dupe");
 		const [craftResult, setCraftResult] = useState([]);
 		const [showResult, setShowResult] = useState(false);
 		const [craftCount, setCraftCount] = useState(0);
+		const [checkedCollectionsCount, setCheckedCollectionsCount] = useState([0, 0]);
 		const [ownedCards, setOwnedCards] = useState(() =>
 			plan.requirements.map((requirement) => ({
 				id: requirement.id,
@@ -46,38 +48,34 @@ const CraftingModal = React.memo(
 		};
 
 		const openSlot = async (id) => {
-			const { data } = await axios.post(
-				`/api/crafting/open-instant`,
-				{
-					slotId: id,
-				},
-				{
-					headers: {
-						jwt: user.jwt,
-					},
-				}
-			);
-			if (data.success) {
-				const { data: templates } = await axios.get(`/api/cards/templates`, {
-					params: {
-						cardIds: data.data.cards.map((card) => card.cardTemplateId).toString(),
-					},
-					headers: {
-						jwt: user.jwt,
-					},
-				});
-				const cards = data.data.cards.map((card) => {
-					const item = templates.data?.find((o) => o.id === card.cardTemplateId);
-					return {
-						...card,
-						title: item ? item.title : "Something, but kolex is buggy so can't find the card",
-					};
-				});
-				setCraftResult((prev) => [...prev, ...cards]);
-			} else {
+			const { result, error } = await postData(`/api/crafting/open-instant`, {
+				slotId: id,
+			});
+			if (error) {
+				console.error(error);
 				toast.error(`There was an error with your request. Opening the slot: ${id}`, {
 					toastId: "error",
 				});
+			}
+			if (result) {
+				const { result: templates, error: templateError } = await await fetchData(`/api/cards/templates`, {
+					cardIds: uniq(result.cards.map((card) => card.cardTemplateId)).toString(),
+				});
+				console.log(templates);
+				if (templateError) {
+					console.error(templateError);
+					toast.error(templateError.response.data.error, {
+						toastId: templateError.response.data.errorCode,
+					});
+				}
+				const cards = result.cards.map((card) => {
+					const item = templates?.find((o) => o.id === card.cardTemplateId);
+					return {
+						...card,
+						title: item ? item.title : "Something, but there was a problem so can't find the card",
+					};
+				});
+				setCraftResult((prev) => [...prev, ...cards]);
 			}
 		};
 
@@ -86,37 +84,22 @@ const CraftingModal = React.memo(
 			setLoading(true);
 			setShowResult(true);
 			for (let i = 0; i < craftCount; i++) {
-				try {
-					const payload = {
-						silvercoins: plan.silvercoinCost,
-						requirements: dataToShow.map((req) => ({
-							requirementId: req.id,
-							entityIds: req.items.slice(i * req.count, (i + 1) * req.count).map((item) => item.id),
-						})),
-					};
-					const { data } = await axios.post(
-						`/api/crafting/${plan.id}`,
-						{
-							data: payload,
-						},
-						{
-							headers: {
-								jwt: user.jwt,
-							},
-						}
-					);
-					if (data.success) {
-						// open the full slot
-						await openSlot(data.data.slots.filter((slot) => slot.used)[0].id);
-					} else {
-						toast.error(`There was an error with your request. Crafting: ${plan.id}`, {
-							toastId: "error",
-						});
-					}
-				} catch (err) {
-					console.log(err);
-					toast.error(err.response.data.error, {
-						toastId: err.response.data.errorCode,
+				const payload = {
+					silvercoins: plan.silvercoinCost,
+					requirements: dataToShow.map((req) => ({
+						requirementId: req.id,
+						entityIds: req.items.slice(i * req.count, (i + 1) * req.count).map((item) => item.id),
+					})),
+				};
+				const { result, error } = await postData(`/api/crafting/${plan.id}`, payload);
+				if (result) {
+					// open the full slot
+					await openSlot(result.slots.filter((slot) => slot.used)[0].id);
+				}
+				if (error) {
+					console.error(error);
+					toast.error(error.response.data.error, {
+						toastId: error.response.data.errorCode,
 					});
 				}
 			}
@@ -128,22 +111,32 @@ const CraftingModal = React.memo(
 			const controller = new AbortController();
 			const setup = async () => {
 				const getCounts = async (reqId) => {
-					const { data } = await axios.get(`/api/crafting/user-counts`, {
-						signal: controller.signal,
-						params: {
+					const { result, error } = await fetchData(
+						`/api/crafting/user-counts`,
+						{
 							planId: plan.id,
 							reqId: reqId,
 						},
-						headers: {
-							jwt: user.jwt,
-						},
+						controller
+					);
+					if (error) {
+						console.error(error);
+						toast.error(error.response.data.error, {
+							toastId: error.response.data.errorCode,
+						});
+						// return;
+					}
+					result.cardTemplatesByCollection.map((collection) => {
+						if (collection.collection.id === 11518) return; // ignore the duplicate core collection for now
+						setCheckedCollectionsCount((prev) => [
+							prev[0],
+							prev[1] + collection.cardTemplates.filter((o) => o.userCount).length,
+						]);
 					});
-					let foundAny = false;
-
-					for (const collection of data.data.cardTemplatesByCollection) {
+					for (const collection of result.cardTemplatesByCollection) {
 						if (collection.collection.id === 11518) {
 							continue;
-							// ignore the duplicate collection for now
+							// ignore the duplicate core collection for now
 						}
 						for (const template of collection.cardTemplates) {
 							if (isApiSubscribed) {
@@ -161,7 +154,7 @@ const CraftingModal = React.memo(
 												},
 											}
 										);
-										// console.log(cards);
+										setCheckedCollectionsCount((prev) => [prev[0] + 1, prev[1]]);
 										cards.data.cards.map((item) => {
 											setOwnedCards((prev) => {
 												const oldItems = prev.filter((o) => o.id === reqId)[0];
@@ -186,12 +179,10 @@ const CraftingModal = React.memo(
 											});
 										});
 									} catch (err) {
-										if (err.code !== "ERR_CANCELED") {
-											console.log(err);
-											toast.error(err.response.data.error, {
-												toastId: err.response.data.errorCode,
-											});
-										}
+										console.error(err);
+										toast.error(err.response.data.error, {
+											toastId: err.response.data.errorCode,
+										});
 									}
 								}
 							}
@@ -200,9 +191,10 @@ const CraftingModal = React.memo(
 					// if (!foundAny) setLoading(false);
 				};
 
-				for (const item of plan.requirements) {
-					await getCounts(item.id);
-				}
+				// for (const item of plan.requirements) {
+				// 	await getCounts(item.id);
+				// }
+				await Promise.all(plan.requirements.map((item) => getCounts(item.id)));
 
 				setLoading(false);
 			};
@@ -261,7 +253,10 @@ const CraftingModal = React.memo(
 						setShowModal={setShowModal}
 						extraStyle='h-fit my-auto'
 					>
-						<div className='h-fit max-h-96 overflow-auto rounded p-2 text-gray-800 dark:text-gray-300'>
+						<div className='mt-1 text-center text-sm text-gray-300'>
+							Checked {checkedCollectionsCount[0]} of {checkedCollectionsCount[1]} templates
+						</div>
+						<div className='h-fit max-h-96 overflow-auto rounded px-2 pb-2 text-gray-800 dark:text-gray-300'>
 							{dataToShow.map((requirement) => (
 								<div key={requirement.id} className='text-gray-800 dark:text-gray-300'>
 									You own {requirement.items.length} available items from {requirement.count}{" "}

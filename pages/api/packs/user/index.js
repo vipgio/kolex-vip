@@ -3,12 +3,12 @@ import { API } from "@/config/config";
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
-	const { userId, categoryId } = req.query;
+	const { page, categoryId } = req.query;
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
 	try {
-		const userAchievements = async (jwt, userId, categoryId) => {
-			return http(`${API}/achievements/${userId}/user?categoryId=${categoryId}`, {
+		const getUserPacks = async (jwt, page, categoryId) => {
+			return http(`${API}/packs/user?page=${page}&categoryId=${categoryId}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 				},
 			});
 		};
-		const { data } = await userAchievements(jwt, userId, categoryId);
+		const { data } = await getUserPacks(jwt, page, categoryId);
 		res.status(200).json(data);
 	} catch (err) {
 		console.log(err);

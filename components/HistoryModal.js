@@ -2,36 +2,40 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { FaHistory } from "react-icons/fa";
 import isEqual from "lodash/isEqual";
-import LoadingSpin from "./LoadingSpin";
 import { useAxios } from "hooks/useAxios";
+import LoadingSpin from "./LoadingSpin";
 
 const HistoryModal = React.memo(
-	({ data, isOpen, setIsOpen, type = "card" }) => {
+	({ data, isOpen, setIsOpen, type = "card", method = "id" }) => {
 		const { fetchData } = useAxios();
 		const [history, setHistory] = useState({});
 
 		useEffect(() => {
 			if (isOpen) {
-				const getCardHistory = async (cardId) => {
+				const getCardHistory = async (cardId, uuid) => {
+					const url = method === "id" ? `/api/cards/${cardId}` : `/api/uuid/card?uuid=${uuid}`;
 					try {
-						const { result } = await fetchData(`/api/cards/${cardId}`);
+						const { result } = await fetchData(url);
 						result && setHistory(result);
 					} catch (err) {
-						console.log(err);
+						console.error(err);
 					}
 				};
+
 				const getStickerHistory = async (uuid) => {
 					try {
-						const { result } = await fetchData(`/api/uuid/sticker`, {
-							uuid: uuid,
-						});
+						const { result } = await fetchData(`/api/uuid/sticker?uuid=${uuid}`);
 						result && setHistory(result);
 					} catch (err) {
-						console.log(err);
+						console.error(err);
 					}
 				};
+
 				type === "sticker" && getStickerHistory(data.uuid);
-				type === "card" && getCardHistory(data.id ? data.id : data.card.id);
+				if (type === "card") {
+					method === "id" && getCardHistory(data.id ? data.id : data.card.id);
+					method === "uuid" && getCardHistory(null, data.uuid);
+				}
 			}
 		}, [isOpen]);
 
@@ -107,10 +111,7 @@ const HistoryModal = React.memo(
 																<Fragment key={`${event.created}`}>
 																	{event.type === "mint" && (
 																		<div>
-																			<p>
-																				Minted on{" "}
-																				{event.created.replace("T", " ").split(".")[0]}
-																			</p>
+																			<p>Minted on {event.created.replace("T", " ").split(".")[0]}</p>
 																		</div>
 																	)}
 
@@ -207,9 +208,7 @@ const HistoryModal = React.memo(
 																					{event.sender.username}{" "}
 																				</span>
 																				for <span>{event.value} </span>
-																				<span>
-																					{event.costType === "usd" ? "USD. " : "coins. "}
-																				</span>
+																				<span>{event.costType === "usd" ? "USD. " : "coins. "}</span>
 																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
@@ -262,9 +261,7 @@ const HistoryModal = React.memo(
 																					{event.receiver.username}{" "}
 																				</span>
 																				upgraded the card to level{" "}
-																				<span className='font-medium text-red-400'>
-																					{event.value}{" "}
-																				</span>
+																				<span className='font-medium text-red-400'>{event.value} </span>
 																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>

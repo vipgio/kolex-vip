@@ -44,7 +44,11 @@ const PlanSelection = ({ plan }) => {
 					</div>
 				</div>
 			</div>
-			{showModal && <CraftingModal plan={plan} showModal={showModal} setShowModal={setShowModal} />}
+			{showModal && (
+				<div className='fixed top-0 left-0 z-30'>
+					<CraftingModal plan={plan} showModal={showModal} setShowModal={setShowModal} />
+				</div>
+			)}
 		</>
 	);
 };

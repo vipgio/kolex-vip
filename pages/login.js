@@ -4,14 +4,14 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaGithub, FaDiscord } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
 import KolexLogin from "@/components/login/KolexLogin";
-import ESLLogin from "@/components/login/ESLLogin";
 import "react-toastify/dist/ReactToastify.css";
 import JWTLogin from "@/components/login/JWTLogin";
 import TokenTutorial from "@/components/TokenTutorial";
 import Link from "next/link";
 
 const Login = () => {
-	const { setUser, loading, setLoading } = useContext(UserContext);
+	const { setUser } = useContext(UserContext);
+	const [loading, setLoading] = useState(false);
 	// const [email, setEmail] = useState("");
 	// const [password, setPassword] = useState("");
 	// const [code, setCode] = useState("");
@@ -48,16 +48,6 @@ const Login = () => {
 				},
 			});
 
-			// 	// const { data } = await axios.post("/api/login", { email, password, code });
-			// 	// https://kolex.gg/api/v1/auth/refresh-jwt
-			// 	// const test = await axios.post("/api/users/refresh", {
-			// 	// 	headers: {
-			// 	// 		jwt: jwt,
-			// 	// 	},
-			// 	// 	data: {
-			// 	// 		jwt: jwt,
-			// 	// 	},
-			// 	// });
 			if (data.success) {
 				data = {
 					data: {

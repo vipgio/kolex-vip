@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
 import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
 import Meta from "components/Meta";
 import MassPackGrid from "@/components/packmanager/MassPackGrid";
 import RefreshButton from "@/components/RefreshButton";
@@ -12,40 +13,48 @@ import PurchasePage from "@/components/packmanager/PurchasePage";
 import { IoSearchOutline } from "react-icons/io5";
 
 const Packmanager = () => {
-	const { userPacks, setLoading, loading, user, categoryId } = useContext(UserContext);
+	const { user } = useContext(UserContext);
+	const { fetchData } = useAxios();
+	const [loading, setLoading] = useState(false);
 	const [showListedModal, setShowListedModal] = useState(false);
 	const [packs, setPacks] = useState([]);
 	const [manageMode, setManageMode] = useState(true);
 	const [searchQuery, setSearchQuery] = useState("");
 
 	let templates = [];
-	const getAllPacks = async (page) => {
-		userPacks(page, categoryId).then((res) => {
-			if (res.data.success)
-				if (res.data.data.packs.length > 0) {
-					res.data.data.packs.forEach((pack) => {
-						const index = findIndex(templates, { id: pack.packTemplate.id });
 
-						index !== -1 // if the pack template is already in the array
-							? templates[index].packs.push({
-									id: pack.id,
-									created: pack.created.split("T")[0],
-							  }) // add the pack to the array
-							: templates.push({
-									name: pack.packTemplate.name,
-									id: pack.packTemplate.id,
-									description: pack.packTemplate.description,
-									releaseTime: pack.packTemplate.releaseTime?.split("T")[0],
-									image: pack.packTemplate.images.filter((image) => image.name === "image")[0].url,
-									packs: [{ id: pack.id, created: pack.created.split("T")[0] }],
-							  }); // add the pack template to the array
-					});
-					getAllPacks(++page);
-				} else {
-					setPacks(uniq(templates));
-					setLoading(false);
-				}
-		});
+	const getUserPacks = async (page) => {
+		const { result, error } = await fetchData(`/api/packs/user?page=${page}`);
+		if (error) console.error(error);
+		if (result) return result;
+	};
+
+	const getAllPacks = async (page) => {
+		const myPacks = await getUserPacks(page);
+		if (myPacks) {
+			if (myPacks.packs.length > 0) {
+				myPacks.packs.forEach((pack) => {
+					const index = findIndex(templates, { id: pack.packTemplate.id });
+					index !== -1 // if the pack template is already in the array
+						? templates[index].packs.push({
+								id: pack.id,
+								created: pack.created.split("T")[0],
+						  }) // add the pack to the array
+						: templates.push({
+								name: pack.packTemplate.name,
+								id: pack.packTemplate.id,
+								description: pack.packTemplate.description,
+								releaseTime: pack.packTemplate.releaseTime?.split("T")[0],
+								image: pack.packTemplate.images.filter((image) => image.name === "image")[0].url,
+								packs: [{ id: pack.id, created: pack.created.split("T")[0] }],
+						  }); // add the pack template to the array
+				});
+				getAllPacks(++page);
+			} else {
+				setPacks(uniq(templates));
+				setLoading(false);
+			}
+		}
 	};
 
 	const refreshPacks = () => {

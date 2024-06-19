@@ -1,14 +1,13 @@
 import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import countBy from "lodash/countBy";
+import fixDecimal from "utils/NumberUtils";
 
 const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 	const counted = Object.entries(countBy(spins, "id"));
 	const totalSpent =
 		counted.reduce(
-			(acc, cur) =>
-				acc +
-				items.find((item) => item.id === Number(cur[0])).properties.silvercoins * cur[1],
+			(acc, cur) => acc + items.find((item) => item.id === Number(cur[0])).properties.silvercoins * cur[1],
 			0
 		) -
 		spins.length * 1000;
@@ -62,11 +61,7 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 														<div>
 															{items.find((item) => item.id === Number(id)).name}:{" "}
 															<span className='font-semibold'>{count}</span> (
-															<span
-																className={`${
-																	chanceDiff >= 0 ? "text-green-400" : "text-red-400"
-																}`}
-															>
+															<span className={`${chanceDiff >= 0 ? "text-green-400" : "text-red-400"}`}>
 																{((count / spins.length) * 100).toFixed(2)}%
 															</span>
 															)
@@ -74,8 +69,22 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 													</Fragment>
 												);
 											})}
-										<div className='mt-3 font-semibold'>
-											Silver: {totalSpent.toLocaleString()} Silvercoins
+										<div className='mt-3 font-semibold'>Silver: {totalSpent.toLocaleString()} Silvercoins</div>
+										<div className='text-xs'>
+											Silver you should have spent based on the odds:{" "}
+											<span className='text-sm'>
+												{fixDecimal(
+													(
+														(items.reduce(
+															(prev, curr) => prev + (Number(curr.chance) / 100) * curr.properties.silvercoins,
+															0
+														) -
+															1000) *
+														spins.length
+													).toFixed(0)
+												).toLocaleString()}{" "}
+											</span>
+											Silvercoins
 										</div>
 									</div>
 									<div className='mt-4'>
