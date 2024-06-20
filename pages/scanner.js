@@ -176,7 +176,6 @@ const Scanner = () => {
 export default Scanner;
 
 const pickObj = (item, selectedCollection, owner) => {
-	console.log(item);
 	return {
 		templateId: item.cardTemplateId ? item.cardTemplateId : item.stickerTemplateId,
 		id: item.id,

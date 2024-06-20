@@ -31,6 +31,7 @@ const MintResultRow = ({ item, allowed }) => {
 					href={`https://kolex.gg/user/${item.owner.username}`}
 					rel='noopener noreferrer'
 					className='hover:text-primary-500 hover:underline hover:underline-offset-2'
+					title={item.owner.id}
 				>
 					{item.owner.username}
 				</a>
