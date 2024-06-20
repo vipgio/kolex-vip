@@ -1,6 +1,5 @@
 import { RushContext } from "context/RushContext";
 import ImageWrapper from "HOC/ImageWrapper";
-import Image from "next/future/image";
 import { useContext } from "react";
 
 const RosterDetail = () => {
@@ -8,11 +7,7 @@ const RosterDetail = () => {
 	const mapBonus = maps
 		.map((map) => ({
 			map: map.name,
-			bonus: Number(
-				(
-					selectedRoster.stats.maps.find((stat) => stat.mapId === map.id).weight * 100
-				).toFixed(2)
-			),
+			bonus: Number((selectedRoster.stats.maps.find((stat) => stat.mapId === map.id).weight * 100).toFixed(2)),
 		}))
 		.sort((a, b) => a.bonus - b.bonus);
 	return (
@@ -39,13 +34,7 @@ const RosterDetail = () => {
 							<div key={item.map}>
 								{item.map}:{" "}
 								<span
-									className={`${
-										item.bonus < 0
-											? "text-red-500"
-											: item.bonus > 0
-											? "text-green-500"
-											: ""
-									}`}
+									className={`${item.bonus < 0 ? "text-red-500" : item.bonus > 0 ? "text-green-500" : ""}`}
 								>
 									{item.bonus}
 								</span>
@@ -55,21 +44,13 @@ const RosterDetail = () => {
 					<div className='flex flex-col p-1 lg:p-2'>
 						<span>
 							Country bonus:{" "}
-							<span
-								className={`${
-									selectedRoster.stats.countryChemistry > 0 ? "text-green-500" : ""
-								}`}
-							>
+							<span className={`${selectedRoster.stats.countryChemistry > 0 ? "text-green-500" : ""}`}>
 								{(selectedRoster.stats.countryChemistry * 100).toFixed(2)}
 							</span>
 						</span>
 						<span>
 							Team bonus:{" "}
-							<span
-								className={`${
-									selectedRoster.stats.teamChemistry > 0 ? "text-green-500" : ""
-								}`}
-							>
+							<span className={`${selectedRoster.stats.teamChemistry > 0 ? "text-green-500" : ""}`}>
 								{(selectedRoster.stats.teamChemistry * 100).toFixed(2)}
 							</span>
 						</span>
