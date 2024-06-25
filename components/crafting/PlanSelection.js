@@ -5,7 +5,8 @@ import CraftingModal from "./CraftingModal";
 
 const PlanSelection = ({ plan }) => {
 	const [showModal, setShowModal] = useState(false);
-	const comingSoon = new Date(plan.start) > new Date();
+	const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+	const comingSoon = new Date(plan.start) > new Date() && !isLocal;
 	return (
 		<>
 			<div

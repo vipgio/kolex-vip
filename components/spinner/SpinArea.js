@@ -1,7 +1,6 @@
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
-import { UserContext } from "context/UserContext";
 import { useAxios } from "hooks/useAxios";
 import SpinResult from "./SpinResult";
 import Tooltip from "../Tooltip";
@@ -19,6 +18,9 @@ const SpinArea = ({ info }) => {
 	const [spinLimit, setSpinLimit] = useState(defMax);
 	const [showRecap, setShowRecap] = useState(false);
 	const [funds, setFunds] = useState({ silvercoins: 0 });
+
+	//check if it's local or production
+	const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 	const getFunds = async () => {
 		const { result } = await fetchData("/api/users/funds");
@@ -88,9 +90,10 @@ const SpinArea = ({ info }) => {
 	const startSpin = () => {
 		setSpinActive(true);
 		doSpin();
+		const interval = isLocal ? 4 * 1000 : 7 * 1000;
 		const id = setInterval(() => {
 			doSpin();
-		}, 7 * 1000);
+		}, interval);
 		intervalRef.current = id;
 	};
 
