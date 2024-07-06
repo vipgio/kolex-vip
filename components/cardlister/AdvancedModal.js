@@ -119,6 +119,7 @@ const AdvancedModal = ({ selectedTemplates, showModal, setShowModal, user, templ
 			loading={cardDetails.length < selectedTemplates.length}
 			extraStyle='h-fit my-auto'
 			hasToast={true}
+			escapeClose={false}
 		>
 			<div className='relative grid overflow-auto p-2 sm:grid-cols-2'>
 				{cardDetails.map((template) => (

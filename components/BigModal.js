@@ -15,6 +15,7 @@ const BigModal = ({
 	extraStyle,
 	hasToast,
 	toastLimit,
+	escapeClose = true,
 }) => {
 	const [leave, setLeave] = useState(showModal);
 
@@ -36,7 +37,7 @@ const BigModal = ({
 
 	useEffect(() => {
 		const listener = (e) => {
-			if (e.key === "Escape") {
+			if (e.key === "Escape" && escapeClose) {
 				close();
 			}
 		};
@@ -85,7 +86,7 @@ const BigModal = ({
 							{loading ? <LoadingSpin /> : header}
 						</h1>
 						<button
-							className='focus:ring-primary-300 active:bg-primary-300 ml-auto h-12 w-12 p-1 text-gray-900 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'
+							className='ml-auto h-12 w-12 p-1 text-gray-900 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-300 active:bg-primary-300 active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'
 							onClick={close}
 						>
 							<svg
@@ -95,11 +96,7 @@ const BigModal = ({
 								stroke='currentColor'
 								strokeWidth={2}
 							>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									d='M6 18L18 6M6 6l12 12'
-								/>
+								<path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
 							</svg>
 						</button>
 					</div>

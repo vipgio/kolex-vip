@@ -1,6 +1,12 @@
 import http from "@/utils/httpClient";
 import { API } from "@/config/config";
 
+export const config = {
+	api: {
+		responseLimit: "8mb",
+	},
+};
+
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
 	const { userId, collectionId, categoryId } = req.query;
@@ -21,8 +27,3 @@ export default async function handler(req, res) {
 		res.status(err.response.status).json(err.response.data);
 	}
 }
-export const config = {
-	api: {
-		responseLimit: false,
-	},
-};

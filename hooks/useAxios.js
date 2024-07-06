@@ -50,15 +50,10 @@ const useAxios = () => {
 	const patchData = async (endpoint, payload) => {
 		let result, error;
 		try {
-			const { data } = await axios.patch(
-				endpoint,
-				{
-					data: payload,
-				},
-				{
-					headers: { jwt: user.jwt },
-				}
-			);
+			const config = {
+				headers: { jwt: user.jwt },
+			};
+			const { data } = await axios.patch(endpoint, payload, config);
 			if (data.success) {
 				result = data;
 			}

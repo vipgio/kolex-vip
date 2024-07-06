@@ -25,6 +25,9 @@ const Scanner = () => {
 	const isSelfScan = singleUserSearch && user.user.id === selectedUsers[0].id;
 
 	const handleScan = async () => {
+		setLoading(true);
+		setScanResults([]);
+
 		const scanUser = async (userId, collectionId) => {
 			const { result, error } = await fetchData(`/api/users/scan`, {
 				collectionId: collectionId,
@@ -45,9 +48,6 @@ const Scanner = () => {
 			return result;
 		};
 
-		setLoading(true);
-		setScanResults([]);
-
 		const templates = await getCollection(selectedCollection.collection.id);
 		setCollectionTemplates(templates);
 
@@ -58,16 +58,20 @@ const Scanner = () => {
 			);
 
 		// for (const selectedUser of selectedUsers) {
-		selectedUsers.forEach(async (selectedUser) => {
-			if (selectedUser.username !== user.user.username) {
-				const data = await scanUser(selectedUser.id, selectedCollection.collection.id);
-				console.log(data);
-				setScanResults((prev) => [
-					...prev,
-					...[...data.cards, ...data.stickers].map((item) => pickObj(item, selectedCollection, selectedUser)),
-				]);
-			}
-		});
+		// make it a promise all
+		await Promise.all(
+			selectedUsers.map(async (selectedUser) => {
+				if (selectedUser.username !== user.user.username) {
+					const data = await scanUser(selectedUser.id, selectedCollection.collection.id);
+					setScanResults((prev) => [
+						...prev,
+						...[...data.cards, ...data.stickers].map((item) =>
+							pickObj(item, selectedCollection, selectedUser)
+						),
+					]);
+				}
+			})
+		);
 
 		own && //if scanning someone else
 			setOwnedItems(

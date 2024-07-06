@@ -252,17 +252,20 @@ const CraftingModal = React.memo(
 						showModal={showModal}
 						setShowModal={setShowModal}
 						extraStyle='h-fit my-auto'
+						escapeClose={showResult ? false : true}
 					>
 						<div className='mt-1 text-center text-sm text-gray-300'>
 							Checked {checkedCollectionsCount[0]} of {checkedCollectionsCount[1]} templates
 						</div>
 						<div className='h-fit max-h-96 overflow-auto rounded px-2 pb-2 text-gray-800 dark:text-gray-300'>
-							{dataToShow.map((requirement) => (
-								<div key={requirement.id} className='text-gray-800 dark:text-gray-300'>
-									You own {requirement.items.length} available items from {requirement.count}{" "}
-									{requirement.name} items needed for this craft.
-								</div>
-							))}
+							{dataToShow
+								.sort((a, b) => b.id - a.id)
+								.map((requirement) => (
+									<div key={requirement.id} className='text-gray-800 dark:text-gray-300'>
+										You own {requirement.items.length} available items from {requirement.count}{" "}
+										{requirement.name} items needed for this craft.
+									</div>
+								))}
 							<>
 								Total crafts possible:{" "}
 								<span className='text-orange-500' onClick={() => console.log(ownedCards)}>
