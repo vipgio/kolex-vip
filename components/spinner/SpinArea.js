@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
+import { API } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 import SpinResult from "./SpinResult";
 import Tooltip from "../Tooltip";
@@ -23,7 +24,7 @@ const SpinArea = ({ info }) => {
 	const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 	const getFunds = async () => {
-		const { result } = await fetchData("/api/users/funds");
+		const { result } = await fetchData(`${API}/user/funds`, null, null, true);
 		result && setFunds(result);
 	};
 
@@ -38,9 +39,14 @@ const SpinArea = ({ info }) => {
 
 	const spin = async (id) => {
 		inProgress.current = true;
-		const { result, error } = await postData("/api/spinner/spin", {
-			spinnerId: id,
-		});
+		const { result, error } = await postData(
+			`${API}/spinner/spin`,
+			{
+				spinnerId: id,
+			},
+			null,
+			true
+		);
 		if (result) return result;
 		if (error) console.log(error);
 	};

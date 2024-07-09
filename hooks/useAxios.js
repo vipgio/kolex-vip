@@ -6,13 +6,25 @@ import { UserContext } from "context/UserContext";
 const useAxios = () => {
 	const { user, categoryId } = useContext(UserContext);
 
-	const fetchData = async (endpoint, params, controller) => {
+	const fetchData = async (endpoint, params, controller, direct = false) => {
 		let result, error;
+		const config = direct
+			? {
+					headers: {
+						"Content-Type": "application/json",
+						"x-user-jwt": user.jwt,
+					},
+			  }
+			: {
+					headers: { jwt: user.jwt },
+			  };
+		if (controller) {
+			config.signal = controller.signal;
+		}
 		try {
 			const { data } = await http.get(endpoint, {
-				params: { ...params, categoryId: categoryId },
-				headers: { jwt: user.jwt },
-				signal: controller && controller.signal,
+				params: params,
+				...config,
 			});
 			if (data.success) {
 				result = data.data;
@@ -26,12 +38,19 @@ const useAxios = () => {
 		return { result, error };
 	};
 
-	const postData = async (endpoint, payload, controller) => {
+	const postData = async (endpoint, payload, controller, direct = false) => {
 		let result, error, info;
 		try {
-			const config = {
-				headers: { jwt: user.jwt },
-			};
+			const config = direct
+				? {
+						headers: {
+							"Content-Type": "application/json",
+							"x-user-jwt": user.jwt,
+						},
+				  }
+				: {
+						headers: { jwt: user.jwt },
+				  };
 			if (controller) {
 				config.signal = controller.signal;
 			}
