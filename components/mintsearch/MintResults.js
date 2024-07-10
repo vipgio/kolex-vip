@@ -16,8 +16,9 @@ const MintResults = ({
 	finished,
 	filter,
 	selectedCollection,
+	usersChecked,
 }) => {
-	const { user, categoryId } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	const suffix = filter.sigsOnly
 		? "Signatures"
@@ -40,6 +41,11 @@ const MintResults = ({
 						)}
 					</span>
 				</>
+			}
+			counter={
+				<div className='text-center text-sm'>
+					Checked <span className='text-orange-400'>{usersChecked}</span> Accounts
+				</div>
 			}
 			showModal={showModal}
 			setShowModal={setShowModal}
@@ -79,12 +85,7 @@ const MintResults = ({
 							]),
 							(o) => o.id
 						).map((item) => (
-							<MintResultRow
-								item={item}
-								allowed={user.info.allowed.includes("history")}
-								key={item.id}
-								categoryId={categoryId}
-							/>
+							<MintResultRow item={item} allowed={user.info.allowed.includes("history")} key={item.id} />
 						))}
 					</tbody>
 				</table>

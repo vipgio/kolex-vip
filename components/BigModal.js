@@ -16,6 +16,7 @@ const BigModal = ({
 	hasToast,
 	toastLimit,
 	escapeClose = true,
+	counter,
 }) => {
 	const [leave, setLeave] = useState(showModal);
 
@@ -76,14 +77,21 @@ const BigModal = ({
 						extraStyle ? extraStyle : "my-8"
 					}`}
 				>
-					<div className='relative flex h-12 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800'>
+					<div className='relative flex h-14 w-full items-center border-b border-b-white/10 bg-gray-300 dark:bg-gray-800'>
 						{stopButton ? (
 							<div className='mr-auto w-12'>{stopButton}</div>
 						) : (
 							<div className='mr-auto w-12'></div>
 						)}
-						<h1 className='mx-auto py-2 text-lg font-semibold text-gray-800 dark:text-gray-200 xs:text-2xl sm:text-3xl'>
-							{loading ? <LoadingSpin /> : header}
+						<h1 className='mx-auto py-2 text-center text-lg font-semibold text-gray-800 dark:text-gray-200 xs:text-2xl sm:text-3xl'>
+							{loading ? (
+								<div className='inline-flex flex-col items-center'>
+									<LoadingSpin />
+								</div>
+							) : (
+								header
+							)}
+							{counter && counter}
 						</h1>
 						<button
 							className='ml-auto h-12 w-12 p-1 text-gray-900 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-300 active:bg-primary-300 active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'

@@ -17,6 +17,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [needOnly, setNeedOnly] = useState(false);
+	const [usersChecked, setUsersChecked] = useState(0);
 	const finished = useRef(false);
 
 	const totalExpected = selectedCards.length * (filter.max - filter.min + 1);
@@ -36,6 +37,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 		setLoading(true);
 		finished.current = false;
 		setResults([]);
+		setUsersChecked(0);
 		getAllLeaderboard(1);
 	};
 
@@ -69,6 +71,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 								categoryId
 							);
 							if (data.success) {
+								setUsersChecked((prev) => prev + 1);
 								if (!filter.sigsOnly && !filter.upgradesOnly) {
 									const foundCards = data.data.cards
 										.filter(
@@ -378,6 +381,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 					finished={finished}
 					filter={filter}
 					selectedCollection={selectedCollection}
+					usersChecked={usersChecked}
 				/>
 			)}
 		</>
