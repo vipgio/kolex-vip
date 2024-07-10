@@ -13,7 +13,7 @@ import PurchasePage from "@/components/packmanager/PurchasePage";
 import { IoSearchOutline } from "react-icons/io5";
 
 const Packmanager = () => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [showListedModal, setShowListedModal] = useState(false);
@@ -23,14 +23,14 @@ const Packmanager = () => {
 
 	let templates = [];
 
-	const getUserPacks = async (page) => {
-		const { result, error } = await fetchData(`/api/packs/user?page=${page}`);
+	const getUserPacks = async (page, categoryId) => {
+		const { result, error } = await fetchData(`/api/packs/user?page=${page}&categoryId=${categoryId}`);
 		if (error) console.error(error);
 		if (result) return result;
 	};
 
 	const getAllPacks = async (page) => {
-		const myPacks = await getUserPacks(page);
+		const myPacks = await getUserPacks(page, categoryId);
 		if (myPacks) {
 			if (myPacks.packs.length > 0) {
 				myPacks.packs.forEach((pack) => {
