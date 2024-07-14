@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Tooltip from "../Tooltip";
 
 const Filters = ({ filters, setFilters, loading, onSubmit }) => {
-	const costTypes = ["usd", "silvercoins", "epicoins"];
+	const costTypes = ["usd", "silvercoins", "coronas", "epicoins"];
 
 	const onChange = (dates) => {
 		const [start, end] = dates;
@@ -77,9 +77,7 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 														filters.costType === type ? "font-medium" : "font-normal"
 													}`}
 												>
-													{type.length <= 4
-														? type.toUpperCase()
-														: type[0].toUpperCase() + type.slice(1)}
+													{type.length <= 4 ? type.toUpperCase() : type[0].toUpperCase() + type.slice(1)}
 												</span>
 												{filters.costType === type ? (
 													<span className='absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600'>

@@ -28,3 +28,4 @@ yarn-error.log*
 /pages/calc.js
 
 /.vscode
+/components/spinner/spinsLocal.js

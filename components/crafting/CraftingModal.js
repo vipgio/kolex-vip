@@ -252,7 +252,7 @@ const CraftingModal = React.memo(
 						showModal={showModal}
 						setShowModal={setShowModal}
 						extraStyle='h-fit my-auto'
-						escapeClose={showResult ? false : true}
+						escapeClose={false}
 					>
 						<div className='mt-1 text-center text-sm text-gray-300'>
 							Checked {checkedCollectionsCount[0]} of {checkedCollectionsCount[1]} templates

@@ -4,28 +4,33 @@ import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
 import { API } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 import SpinResult from "./SpinResult";
-import Tooltip from "../Tooltip";
 import Recap from "./Recap";
 import "react-toastify/dist/ReactToastify.css";
+import SpinLimit from "./SpinLimit";
 
 const SpinArea = ({ info }) => {
+	const { fetchData, postData } = useAxios();
 	const intervalRef = useRef();
 	const spinCount = useRef(0);
 	const inProgress = useRef(false);
-	const { fetchData, postData } = useAxios();
+	const fundRef = useRef(0); //reference to funds because state doesn't update immediately
+	const defMax = 500; //default max spins
 	const [spinRes, setSpinRes] = useState([]);
 	const [spinActive, setSpinActive] = useState(false);
-	const defMax = 1000;
 	const [spinLimit, setSpinLimit] = useState(defMax);
 	const [showRecap, setShowRecap] = useState(false);
 	const [funds, setFunds] = useState({ silvercoins: 0 });
+	const [fundsLimit, setFundsLimit] = useState({ silvercoins: 0 });
 
 	//check if it's local or production
 	const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 	const getFunds = async () => {
 		const { result } = await fetchData(`${API}/user/funds`, null, null, true);
-		result && setFunds(result);
+		if (result) {
+			setFunds(result);
+			fundRef.current = result.silvercoins;
+		}
 	};
 
 	const buySpin = async () => {
@@ -52,7 +57,8 @@ const SpinArea = ({ info }) => {
 	};
 
 	const doSpin = async () => {
-		if (spinCount.current < spinLimit) {
+		// console.log(spinCount.current, spinLimit, fundRef.current, Number(fundsLimit));
+		if (spinCount.current < spinLimit && fundRef.current >= Number(fundsLimit)) {
 			if (inProgress.current === false) {
 				inProgress.current = true;
 				try {
@@ -110,7 +116,15 @@ const SpinArea = ({ info }) => {
 	};
 
 	useEffect(() => {
-		getFunds();
+		const initialFetch = async () => {
+			const { result } = await fetchData(`${API}/user/funds`, null, null, true);
+			if (result) {
+				setFunds(result);
+				fundRef.current = result.silvercoins;
+				setFundsLimit(result.silvercoins);
+			}
+		};
+		initialFetch();
 		return () => {
 			stopSpin();
 		};
@@ -139,7 +153,7 @@ const SpinArea = ({ info }) => {
 					<div className='ml-1 mr-auto text-center text-lg font-semibold text-gray-700 dark:text-slate-200'>
 						Silver: {funds.silvercoins.toLocaleString()}
 					</div>
-					<div className='flex items-center text-gray-700 dark:text-gray-300'>
+					{/* <div className='flex items-center text-gray-700 dark:text-gray-300'>
 						<span className='sm:hidden'>
 							<Tooltip
 								direction='right'
@@ -164,7 +178,18 @@ const SpinArea = ({ info }) => {
 							onChange={handleLimit}
 							className='input-field mr-3 ml-1 w-24'
 						/>
-					</div>
+					</div> */}
+					<SpinLimit
+						spinActive={spinActive}
+						info={info}
+						spinLimit={spinLimit}
+						setSpinLimit={setSpinLimit}
+						defMax={defMax}
+						funds={funds}
+						fundsLimit={fundsLimit}
+						setFundsLimit={setFundsLimit}
+						fundsRef={fundRef}
+					/>
 					{spinActive ? (
 						<button
 							onClick={stopSpin}

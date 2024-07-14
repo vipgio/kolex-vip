@@ -1,11 +1,13 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
+import { useAxios } from "hooks/useAxios";
+import { UserContext } from "context/UserContext";
 import Meta from "@/components/Meta";
 import Filters from "@/components/transactions/Filters";
-import { useAxios } from "hooks/useAxios";
 import TransactionResults from "@/components/transactions/TransactionResults";
 
 const Transactions = () => {
 	const { fetchData } = useAxios();
+	const { categoryId } = useContext(UserContext);
 	const defaultFilters = {
 		costType: "",
 		min: "",
@@ -26,6 +28,7 @@ const Transactions = () => {
 		try {
 			const { result } = await fetchData(`/api/users/transactions`, {
 				page: pageNumber,
+				categoryId: categoryId,
 			});
 			if (result.transactions.length === 50 && !finished.current) {
 				setResults((prev) => [
@@ -38,10 +41,7 @@ const Transactions = () => {
 						);
 					}),
 				]);
-				if (
-					result.transactions[0]?.created?.split("T")[0] <
-					filters.startDate?.toISOString()?.split("T")[0]
-				) {
+				if (result.transactions[0]?.created?.split("T")[0] < filters.startDate?.toISOString()?.split("T")[0]) {
 					finished.current = true;
 					setLoading(false);
 				} else return await getTransactions(pageNumber + 1);
@@ -85,9 +85,7 @@ const Transactions = () => {
 					Checking page {pageCounter} of your transactions...
 				</div>
 			) : null}
-			{results.length > 0 ? (
-				<TransactionResults results={results} filters={filters} />
-			) : null}
+			{results.length > 0 ? <TransactionResults results={results} filters={filters} /> : null}
 		</>
 	);
 };

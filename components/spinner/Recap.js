@@ -1,10 +1,17 @@
-import React, { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import countBy from "lodash/countBy";
 import fixDecimal from "utils/NumberUtils";
 
 const Recap = ({ spins, items, isOpen, setIsOpen }) => {
-	const counted = Object.entries(countBy(spins, "id"));
+	const [showMints, setShowMints] = useState(false);
+	const counted = Object.entries(countBy(spins, "id")).map(([id, count]) => {
+		const mints = spins
+			.filter((spinItems) => spinItems.id == id && spinItems.cards.length > 0)
+			.map((item) => item.cards[0].mintNumber)
+			.sort((a, b) => a - b);
+		return (mints.length > 0 && [id, count, mints]) || [id, count];
+	});
 	const totalSpent =
 		counted.reduce(
 			(acc, cur) => acc + items.find((item) => item.id === Number(cur[0])).properties.silvercoins * cur[1],
@@ -49,10 +56,11 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 									>
 										Spins Recap: {spins.length} spins
 									</Dialog.Title>
+
 									<div className='my-2 text-gray-700 dark:text-gray-300'>
 										{counted
 											.sort((a, b) => b[1] - a[1])
-											.map(([id, count]) => {
+											.map(([id, count, mints]) => {
 												const chanceDiff =
 													(count / spins.length) * 100 - //my %
 													items.find((item) => item.id === Number(id)).chance; //spinner odds
@@ -65,11 +73,25 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 																{((count / spins.length) * 100).toFixed(2)}%
 															</span>
 															)
+															{mints &&
+																(showMints ? (
+																	<span className='ml-1 text-xs'>
+																		{mints &&
+																			mints.map((mint, i) => [
+																				i > 0 && <span key={i}>, </span>,
+																				<span key={mint + i}>{mint}</span>,
+																			])}
+																	</span>
+																) : (
+																	<span>{` (...)`}</span>
+																))}
 														</div>
 													</Fragment>
 												);
 											})}
+
 										<div className='mt-3 font-semibold'>Silver: {totalSpent.toLocaleString()} Silvercoins</div>
+
 										<div className='text-xs'>
 											Silver you should have spent based on the odds:{" "}
 											<span className='text-sm'>
@@ -87,9 +109,12 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 											Silvercoins
 										</div>
 									</div>
-									<div className='mt-4'>
+									<div className='mt-4 flex justify-between'>
 										<button type='button' className='button' onClick={closeModal}>
 											Close
+										</button>
+										<button type='button' className='button' onClick={() => setShowMints((prev) => !prev)}>
+											{showMints ? "Hide" : "Show"} Mints
 										</button>
 									</div>
 								</Dialog.Panel>
