@@ -57,7 +57,7 @@ const SpinArea = ({ info }) => {
 	};
 
 	const doSpin = async () => {
-		// console.log(spinCount.current, spinLimit, fundRef.current, Number(fundsLimit));
+		console.log(spinCount.current, spinLimit, fundRef.current, Number(fundsLimit));
 		if (spinCount.current < spinLimit && fundRef.current >= Number(fundsLimit)) {
 			if (inProgress.current === false) {
 				inProgress.current = true;
@@ -121,7 +121,6 @@ const SpinArea = ({ info }) => {
 			if (result) {
 				setFunds(result);
 				fundRef.current = result.silvercoins;
-				setFundsLimit(result.silvercoins);
 			}
 		};
 		initialFetch();
@@ -188,7 +187,6 @@ const SpinArea = ({ info }) => {
 						funds={funds}
 						fundsLimit={fundsLimit}
 						setFundsLimit={setFundsLimit}
-						fundsRef={fundRef}
 					/>
 					{spinActive ? (
 						<button

@@ -1,17 +1,19 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { FaGithub, FaDiscord } from "react-icons/fa";
+import { FaGithub, FaMoon, FaSun, FaDiscord } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
 import KolexLogin from "@/components/login/KolexLogin";
 import "react-toastify/dist/ReactToastify.css";
 import JWTLogin from "@/components/login/JWTLogin";
 import TokenTutorial from "@/components/TokenTutorial";
 import Link from "next/link";
+import { ThemeContext } from "context/ThemeContext";
 
 const Login = () => {
 	const { setUser } = useContext(UserContext);
 	const [loading, setLoading] = useState(false);
+	const { theme, setTheme } = useContext(ThemeContext);
 	// const [email, setEmail] = useState("");
 	// const [password, setPassword] = useState("");
 	// const [code, setCode] = useState("");
@@ -120,8 +122,6 @@ const Login = () => {
 				<p className='text-center'>
 					Kolex recently added a security feature (captcha) which prevents third party tools from logging in
 					from third party tools. <br />
-					If you paid for anything and are not happy, please contact me on Discord and I&apos;ll refund you.{" "}
-					<br />
 					I&apos;m trying to work with Kolex to get this fixed.
 					<br />
 					So until they fix it, you can use your JWT to use the site.
@@ -134,11 +134,13 @@ const Login = () => {
 				</button>
 			</div>
 
-			<div
-				className='absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold text-gray-700 transition-colors dark:text-gray-300'
-				title='Source Code'
-			>
-				<a href='https://github.com/vipgio/kolex-vip' target='_blank' rel='noopener noreferrer'>
+			<div className='absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold text-gray-700 transition-colors dark:text-gray-300'>
+				<a
+					href='https://github.com/vipgio/kolex-vip'
+					target='_blank'
+					rel='noopener noreferrer'
+					title='Source Code'
+				>
 					<FaGithub className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 				<a
@@ -151,8 +153,28 @@ const Login = () => {
 				>
 					<FaDiscord className='h-full w-full hover:text-gray-600 dark:hover:text-gray-200' />
 				</a>
+				<button
+					className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
+					onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+				>
+					<div className='relative h-10 w-10 rounded-full' title='Change theme'>
+						<FaSun
+							className={`absolute top-0.5 h-7 w-7 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
+								theme === "dark" ? "" : "animate-fadeOut opacity-0"
+							}`}
+						/>
+						<FaMoon
+							className={`absolute top-0.5 h-7 w-7 animate-fadeIn cursor-pointer p-1 text-gray-700 transition-transform  ${
+								theme === "dark" ? "animate-fadeOut opacity-0" : ""
+							}`}
+						/>
+					</div>
+				</button>
 				<Link href='/features'>
-					<a className='my-outline mr-2 rounded bg-gray-100 p-1.5 text-primary-500 transition-colors hover:bg-gray-200  focus-visible:ring-offset-1 active:bg-gray-300 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'>
+					<a
+						title='Site Features'
+						className='my-outline mr-2 rounded bg-orange-500 p-2.5 text-gray-200 transition-colors hover:bg-orange-400 focus-visible:ring-offset-1  active:bg-orange-300 dark:bg-orange-500 dark:text-gray-100 dark:hover:bg-orange-600 dark:active:bg-orange-700'
+					>
 						Features
 					</a>
 				</Link>

@@ -35,6 +35,7 @@ const PurchasePage = () => {
 	};
 
 	const handleSubmit = (e) => {
+		setLoading(true);
 		e.preventDefault();
 		setListings([]);
 		setFilteredItems([]);
@@ -119,7 +120,7 @@ const PurchasePage = () => {
 							value={packId}
 							onChange={(e) => setPackId(e.target.value)}
 						/>
-						<button className='submit-button' type='submit' disabled={!packId}>
+						<button className='submit-button' type='submit' disabled={!packId || loading}>
 							{loading ? <LoadingSpin /> : "Get listings"}
 						</button>
 					</form>

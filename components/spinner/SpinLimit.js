@@ -29,6 +29,19 @@ const SpinLimit = ({
 		}
 	}, [limitTypeSpins]);
 
+	// useEffect(() => {
+	// 	console.log(
+	// 		"spinCount.current",
+	// 		spinCount.current,
+	// 		"spinLimit",
+	// 		spinLimit,
+	// 		"fundRef.current",
+	// 		fundRef.current,
+	// 		"fundsLimit",
+	// 		Number(fundsLimit)
+	// 	);
+	// });
+
 	return (
 		<>
 			<div className='mr-2 inline-flex items-center rounded-md align-middle'>
