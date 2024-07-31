@@ -84,6 +84,7 @@ const NewNavbar = () => {
 														: `cursor-pointer ${getHoverColorClasses(category.color)}`
 												}`}
 												onClick={() => (categoryId !== category.id ? changeCategory(category.id) : null)}
+												key={category.id}
 											>
 												{category.title}
 											</span>
