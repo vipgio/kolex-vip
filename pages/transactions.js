@@ -26,10 +26,7 @@ const Transactions = () => {
 	const getTransactions = async (pageNumber) => {
 		setPageCounter(pageNumber);
 		try {
-			const { result } = await fetchData(`/api/users/transactions`, {
-				page: pageNumber,
-				categoryId: categoryId,
-			});
+			const { result } = await fetchData(`/api/users/transactions`, { page: pageNumber });
 			if (result.transactions.length === 50 && !finished.current) {
 				setResults((prev) => [
 					...prev,

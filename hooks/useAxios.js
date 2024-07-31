@@ -23,7 +23,7 @@ const useAxios = () => {
 		}
 		try {
 			const { data } = await http.get(endpoint, {
-				params: params,
+				params: { ...params, categoryId },
 				...config,
 			});
 			if (data.success) {

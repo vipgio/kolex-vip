@@ -63,6 +63,7 @@ const MintResults = ({
 				)
 			}
 			extraStyle='h-fit my-auto'
+			escapeClose={false}
 		>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>

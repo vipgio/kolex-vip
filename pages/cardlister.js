@@ -38,9 +38,9 @@ const Cardlister = () => {
 						...pick(card, ["id", "title", "images", "inCirculation", "cardType", "treatmentId", "uuid"]),
 						count: count ? (count.cardIds ? count.cardIds.length : count.stickerIds.length) : 0,
 						type: card.cardType ? "card" : "sticker",
-						listedAny: [...owned.cards, ...owned.stickers].some(
+						listed: [...owned.cards, ...owned.stickers].filter(
 							(own) => own.cardTemplateId === card.id && own.status === "market"
-						),
+						).length,
 					};
 				});
 				setTemplates(countedTemplates);
@@ -167,6 +167,7 @@ const Cardlister = () => {
 						style='absolute top-14 right-2 mt-2'
 						func={getCards}
 						loading={loading}
+						disabled={loading || !selectedCollection}
 						title='Refresh Items'
 					/>
 

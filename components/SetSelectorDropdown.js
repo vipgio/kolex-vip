@@ -12,6 +12,20 @@ import LoadingSpin from "./LoadingSpin";
 // import "@szhsin/react-menu/dist/index.css";
 const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 	const [filter, setFilter] = useState("");
+	const [submenuPath, setSubmenuPath] = useState([]);
+
+	const handleSubmenuOpen = (path) => {
+		setSubmenuPath([...submenuPath, path]);
+	};
+
+	const handleSubmenuClose = () => {
+		setSubmenuPath(submenuPath.slice(0, -1));
+	};
+
+	const resetMenu = () => {
+		setSubmenuPath([]);
+	};
+
 	return (
 		<div tabIndex={-1}>
 			<Menu
@@ -41,9 +55,7 @@ const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 								<MenuGroup takeOverflow>
 									{seasonCollections.map(([tier, tierCollections], idx) => (
 										<Fragment key={`${season}-${tier}`}>
-											{idx !== 0 && (
-												<MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />
-											)}
+											{idx !== 0 && <MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />}
 											<SubMenu
 												label={tier}
 												onMenuChange={() => setFilter("")}
@@ -67,28 +79,20 @@ const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 													{tierCollections
 														.filter((col) =>
 															col.collection
-																? col.collection.name
-																		.toUpperCase()
-																		.includes(filter.trim().toUpperCase())
+																? col.collection.name.toUpperCase().includes(filter.trim().toUpperCase())
 																: true
 														)
 														.filter((col) =>
 															!col.collection
-																? col[0]
-																		.toUpperCase()
-																		.includes(filter.trim().toUpperCase())
+																? col[0].toUpperCase().includes(filter.trim().toUpperCase())
 																: true
 														)
 
 														.map((col, idx) => (
 															<Fragment
-																key={`${season}-${tier}-${
-																	col.collection ? col.collection.id : col[0]
-																}`}
+																key={`${season}-${tier}-${col.collection ? col.collection.id : col[0]}`}
 															>
-																{idx !== 0 && (
-																	<MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />
-																)}
+																{idx !== 0 && <MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />}
 
 																{col.collection ? ( // if collection is true, then it is a collection
 																	<MenuItem
@@ -137,21 +141,16 @@ export default SetSelectorDropdown;
 const menuClassName = ({ state }) =>
 	`box-border absolute z-50 text-sm dark:bg-gray-800 bg-white p-1.5 border border-gray-700 dark:border-gray-100 rounded-md shadow-lg select-none focus:outline-none min-w-[12rem] ${
 		state === "closed" && "hidden"
-	} ${state === "opening" && "animate-fadeIn"} ${
-		state === "closing" && "animate-fadeOut"
-	}`;
+	} ${state === "opening" && "animate-fadeIn"} ${state === "closing" && "animate-fadeOut"}`;
 
 const menuItemClassName = ({ hover, disabled, submenu }) =>
 	`rounded-md px-3 py-1 focus:outline-none text-black dark:text-gray-100 flex items-center ${
 		hover && "text-white bg-primary-500"
 	} ${disabled && "text-gray-400"} ${
-		submenu &&
-		"relative after:content-['❯'] after:absolute text-black dark:text-gray-100 after:right-1"
+		submenu && "relative after:content-['❯'] after:absolute text-black dark:text-gray-100 after:right-1"
 	}`;
 
-const Menu = (props) => (
-	<MenuInner {...props} className='relative' menuClassName={menuClassName} />
-);
+const Menu = (props) => <MenuInner {...props} className='relative' menuClassName={menuClassName} />;
 
 const MenuItem = (props) => <MenuItemInner {...props} className={menuItemClassName} />;
 

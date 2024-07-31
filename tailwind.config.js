@@ -2,11 +2,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const { createThemes } = require("tw-colors");
 module.exports = {
-	content: [
-		"./pages/*.{js,jsx,ts,tsx}",
-		"./components/**/*.{js,jsx,ts,tsx}",
-		"./HOC/*.{js,jsx,ts,tsx}",
-	],
+	content: ["./pages/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}", "./HOC/*.{js,jsx,ts,tsx}"],
 	darkMode: "class",
 	theme: {
 		extend: {
@@ -67,11 +63,25 @@ module.exports = {
 				"primary-700": "#c2410c",
 			},
 			skgaming: {
+				"primary-300": "#d8b4fe",
+				"primary-400": "#c084fc",
+				"primary-500": "#a855f7",
+				"primary-600": "#9333ea",
+				"primary-700": "#7e22ce",
+			},
+			kingsleague: {
 				"primary-300": "#67e8f9",
 				"primary-400": "#22d3ee",
 				"primary-500": "#06b6d4",
 				"primary-600": "#0891b2",
 				"primary-700": "#0e7490",
+			},
+			hiroquest: {
+				"primary-300": "#6ee7b7",
+				"primary-400": "#34d399",
+				"primary-500": "#10b981",
+				"primary-600": "#059669",
+				"primary-700": "#047857",
 			},
 		}),
 	],

@@ -1,7 +1,8 @@
-import { useContext, forwardRef, useState, useEffect } from "react";
+import { useContext, forwardRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Menu, Transition } from "@headlessui/react";
+import { categories } from "@/config/config";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
 import {
 	FaHistory,
@@ -22,10 +23,38 @@ const NewNavbar = () => {
 	const { user, categoryId, setCategoryId } = useContext(UserContext);
 	const { theme, setTheme } = useContext(ThemeContext);
 	const router = useRouter();
+
+	const getColorClasses = (color) => {
+		const classes = {
+			indigo: "dark:bg-indigo-600 bg-indigo-500",
+			rose: "dark:bg-rose-600 bg-rose-500",
+			emerald: "dark:bg-emerald-600 bg-emerald-500",
+			violet: "dark:bg-violet-600 bg-violet-500",
+			orange: "dark:bg-orange-600 bg-orange-500",
+			purple: "dark:bg-purple-600 bg-purple-500",
+			cyan: "dark:bg-cyan-600 bg-cyan-500",
+		};
+		return classes[color] || "";
+	};
+
+	const getHoverColorClasses = (color) => {
+		const classes = {
+			indigo: "dark:hover:bg-indigo-600 hover:bg-indigo-500",
+			rose: "dark:hover:bg-rose-600 hover:bg-rose-500",
+			emerald: "dark:hover:bg-emerald-600 hover:bg-emerald-500",
+			violet: "dark:hover:bg-violet-600 hover:bg-violet-500",
+			orange: "dark:hover:bg-orange-600 hover:bg-orange-500",
+			purple: "dark:hover:bg-purple-600 hover:bg-purple-500",
+			cyan: "dark:hover:bg-cyan-600 hover:bg-cyan-500",
+		};
+		return classes[color] || "";
+	};
+
 	const changeCategory = (id) => {
 		setCategoryId(id);
 		router.reload();
 	};
+
 	return (
 		user && (
 			<nav className='flex h-12 items-center justify-center rounded-b-md bg-primary-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500 dark:text-gray-300'>
@@ -46,47 +75,19 @@ const NewNavbar = () => {
 								leaveTo='transform opacity-0 scale-95'
 							>
 								<Menu.Items className='absolute left-0 mt-1 w-56 origin-top-left rounded-lg border border-gray-800 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200 dark:bg-gray-800'>
-									<div className='mb-1 grid h-8 w-full grid-cols-4 divide-x divide-gray-700 overflow-hidden rounded border border-gray-700 text-xs text-gray-700 dark:divide-gray-300 dark:border-gray-300 dark:text-gray-300'>
-										<span
-											className={`inline-flex items-center justify-center ${
-												categoryId === "1"
-													? "cursor-default bg-indigo-500 dark:bg-indigo-600"
-													: "cursor-pointer hover:bg-indigo-500 dark:hover:bg-indigo-600"
-											}`}
-											onClick={() => (categoryId !== "1" ? changeCategory("1") : null)}
-										>
-											CSGO
-										</span>
-										<span
-											className={`inline-flex items-center justify-center ${
-												categoryId === "2"
-													? "cursor-default bg-purple-500 dark:bg-purple-600"
-													: "cursor-pointer hover:bg-purple-500 dark:hover:bg-purple-600"
-											}`}
-											onClick={() => (categoryId !== "2" ? changeCategory("2") : null)}
-										>
-											Streamers
-										</span>
-										<span
-											className={`inline-flex items-center justify-center ${
-												categoryId === "4"
-													? "cursor-default bg-orange-500 dark:bg-orange-600"
-													: "cursor-pointer hover:bg-orange-500 dark:hover:bg-orange-600"
-											}`}
-											onClick={() => (categoryId !== "4" ? changeCategory("4") : null)}
-										>
-											PUBGM
-										</span>
-										<span
-											className={`inline-flex items-center justify-center ${
-												categoryId === "73"
-													? "cursor-default bg-cyan-500 dark:bg-cyan-600"
-													: "cursor-pointer hover:bg-cyan-500 dark:hover:bg-cyan-600"
-											}`}
-											onClick={() => (categoryId !== "73" ? changeCategory("73") : null)}
-										>
-											Kings
-										</span>
+									<div className='mb-1 grid h-16 w-full grid-cols-3 grid-rows-2 divide-x divide-y divide-gray-700 overflow-hidden rounded border border-gray-700 text-xs text-gray-700 dark:divide-gray-300 dark:border-gray-300 dark:text-gray-300'>
+										{categories.map((category) => (
+											<span
+												className={`inline-flex items-center justify-center ${
+													categoryId === category.id
+														? `cursor-default ${getColorClasses(category.color)}`
+														: `cursor-pointer ${getHoverColorClasses(category.color)}`
+												}`}
+												onClick={() => (categoryId !== category.id ? changeCategory(category.id) : null)}
+											>
+												{category.title}
+											</span>
+										))}
 									</div>
 									{pages.map((page) => (
 										<Menu.Items key={page.link}>

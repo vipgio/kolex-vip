@@ -18,10 +18,7 @@ const Profile = () => {
 
 	const getQuest = async () => {
 		setLoading(true);
-		const { result } = await fetchData(`/api/achievements`, {
-			userId: user.user.id,
-			categoryId: categoryId,
-		});
+		const { result } = await fetchData(`/api/achievements`, { userId: user.user.id });
 		const general = result.achievements.filter((quest) => quest.progress.claimAvailable === true);
 		const daily = result.daily.filter((quest) => quest.progress.claimAvailable === true);
 		const weekly = result.weekly.filter((quest) => quest.progress.claimAvailable === true);

@@ -7,6 +7,7 @@ import isEqual from "lodash/isEqual";
 import { useAxios } from "hooks/useAxios";
 import { UserContext } from "context/UserContext";
 import SetSelectorDropdown from "@/components/SetSelectorDropdown";
+import NewSetSelector from "@/components/NewSetSelector";
 
 const coreNames = [
 	"Common",
@@ -73,6 +74,7 @@ const SetSelector = React.memo(
 					]);
 				});
 			};
+			setCollections([]);
 			groupCollections();
 		}, []);
 
@@ -88,10 +90,14 @@ const SetSelector = React.memo(
 
 		return (
 			<div>
-				<SetSelectorDropdown
+				<NewSetSelector
 					collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
 					setSelectedCollection={setSelectedCollection}
 				/>
+				{/* <SetSelectorDropdown
+					collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
+					setSelectedCollection={setSelectedCollection}
+				/> */}
 			</div>
 		);
 	},

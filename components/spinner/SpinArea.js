@@ -57,7 +57,7 @@ const SpinArea = ({ info }) => {
 	};
 
 	const doSpin = async () => {
-		console.log(spinCount.current, spinLimit, fundRef.current, Number(fundsLimit));
+		// console.log(spinCount.current, spinLimit, fundRef.current, Number(fundsLimit));
 		if (spinCount.current < spinLimit && fundRef.current >= Number(fundsLimit)) {
 			if (inProgress.current === false) {
 				inProgress.current = true;

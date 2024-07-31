@@ -44,14 +44,28 @@ const UserContextProvider = (props) => {
 			localStorage.setItem("categoryId", categoryId);
 			setCategoryId(categoryId);
 			console.log("Category ID: ", categoryId);
-			if (categoryId == "1") {
-				document.documentElement.classList.add("theme-cs");
-			} else if (categoryId == "2") {
-				document.documentElement.classList.add("theme-streamers");
-			} else if (categoryId == "4") {
-				document.documentElement.classList.add("theme-pubg");
-			} else {
-				document.documentElement.classList.add("theme-skgaming");
+			switch (categoryId) {
+				case "1":
+					document.documentElement.classList.add("theme-cs");
+					break;
+				case "2":
+					document.documentElement.classList.add("theme-streamers");
+					break;
+				case "4":
+					document.documentElement.classList.add("theme-pubg");
+					break;
+				case "40":
+					document.documentElement.classList.add("theme-skgaming");
+					break;
+				case "73":
+					document.documentElement.classList.add("theme-kingsleague");
+					break;
+				case "106":
+					document.documentElement.classList.add("theme-hiroquest");
+					break;
+				default:
+					document.documentElement.classList.add("theme-cs");
+					break;
 			}
 		} else {
 			localStorage.removeItem("categoryId");

@@ -34,7 +34,6 @@ const ListedModal = ({ showModal, setShowModal }) => {
 				type: "pack",
 				page: 1,
 				price: "asc",
-				categoryId: categoryId,
 			});
 			setListed((prev) => [
 				...prev,
@@ -48,9 +47,8 @@ const ListedModal = ({ showModal, setShowModal }) => {
 						minted: item.pack.created.split("T")[0],
 						season: item.pack.packTemplate.properties.seasons[0],
 						title: item.pack.packTemplate.name,
-						floor: floorData.templates.filter(
-							(res) => res.entityTemplateId === item.pack.packTemplate.id
-						)[0].lowestPrice,
+						floor: floorData.templates.filter((res) => res.entityTemplateId === item.pack.packTemplate.id)[0]
+							.lowestPrice,
 					};
 					return obj;
 				}),
@@ -66,14 +64,10 @@ const ListedModal = ({ showModal, setShowModal }) => {
 	};
 
 	const getListed = async (page) => {
-		const { result, error } = await fetchData(
-			`/api/market/listed/users/${user.user.id}`,
-			{
-				page: page,
-				type: "pack",
-				categoryId: categoryId,
-			}
-		);
+		const { result, error } = await fetchData(`/api/market/listed/users/${user.user.id}`, {
+			page: page,
+			type: "pack",
+		});
 		if (result) return result;
 		if (error) console.log(error);
 	};
@@ -165,10 +159,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 							onChange={(e) => setUndercuts(e.target.checked)}
 							className='cursor-pointer'
 						/>
-						<label
-							htmlFor='undercut'
-							className='ml-1 cursor-pointer text-gray-700 dark:text-gray-300'
-						>
+						<label htmlFor='undercut' className='ml-1 cursor-pointer text-gray-700 dark:text-gray-300'>
 							Only show undercuts
 						</label>
 					</div>

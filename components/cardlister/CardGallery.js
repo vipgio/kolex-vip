@@ -55,7 +55,7 @@ const CardGallery = ({ templates, user }) => {
 						onClick={() =>
 							setSelectedTemplates(
 								templates
-									.filter((item) => item.count)
+									.filter((item) => item.count && item.listed !== item.count)
 									.filter(
 										(item) =>
 											item.count >= filters.minOwned &&
@@ -67,6 +67,23 @@ const CardGallery = ({ templates, user }) => {
 						className='simple-button m-1'
 					>
 						Select All
+					</button>
+					<button
+						onClick={() =>
+							setSelectedTemplates(
+								templates
+									.filter((item) => item.count && !item.listed && item.listed !== item.count)
+									.filter(
+										(item) =>
+											item.count >= filters.minOwned &&
+											!(item.floor > filters.maxFloor) &&
+											!(item.floor < filters.minFloor)
+									)
+							)
+						}
+						className='simple-button m-1'
+					>
+						All Not Listed
 					</button>
 					<button onClick={() => setSelectedTemplates([])} className='simple-button m-1'>
 						Deselect All
@@ -89,10 +106,7 @@ const CardGallery = ({ templates, user }) => {
 						</button>
 					</div>
 					<div className='mt-1 flex items-center sm:mt-2'>
-						<Tooltip
-							direction='left'
-							text='Pick mints or set count for all items at once'
-						/>
+						<Tooltip direction='left' text='Pick mints or set count for all items at once' />
 						<button
 							className='button mr-2 w-full sm:mb-0'
 							onClick={() => {
@@ -113,7 +127,7 @@ const CardGallery = ({ templates, user }) => {
 						? [(o) => -o.count, (o) => -o.floor]
 						: sortMethod === "floor"
 						? [(o) => -o.floor, (o) => -o.count]
-						: [(o) => o.listedAny, (o) => -o.floor, (o) => -o.count]
+						: [(o) => o.listed, (o) => -o.count, (o) => -o.floor]
 				)
 					.filter((item) => item.count)
 					.filter(
@@ -125,14 +139,15 @@ const CardGallery = ({ templates, user }) => {
 					.map((card) => (
 						<div
 							key={card.uuid}
+							title={card.count === card.listed ? "All items are already listed" : card.title}
 							className={`relative flex ${
-								card.count === 0 ? "cursor-not-allowed" : "cursor-pointer hover:scale-105"
+								card.count === 0 || card.listed === card.count
+									? "cursor-not-allowed"
+									: "cursor-pointer hover:scale-105"
 							} flex-col items-center rounded border border-gray-500 text-gray-700 shadow-md transition-all dark:text-gray-300`}
 							onClick={() => {
 								selectedTemplates.some((e) => e.id === card.id)
-									? setSelectedTemplates((prev) =>
-											prev.filter((item) => item.id !== card.id)
-									  )
+									? setSelectedTemplates((prev) => prev.filter((item) => item.id !== card.id))
 									: setSelectedTemplates((prev) => [...prev, card]);
 							}}
 						>
@@ -152,20 +167,21 @@ const CardGallery = ({ templates, user }) => {
 									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
 								)}
 							</div>
-							{card.listedAny && (
+							{card.listed > 0 && (
 								<div
-									className='absolute right-2 top-2 flex h-6 w-7 items-center justify-center rounded bg-green-500 text-gray-900 dark:text-gray-100'
-									title='Some items are already listed'
+									className='absolute right-2 top-2 flex items-center justify-center rounded bg-green-500 px-1 text-gray-900 dark:text-gray-100'
+									title={
+										card.listed < card.count ? `Some items are already listed` : "All items are already listed"
+									}
 								>
-									<AiOutlineShoppingCart size={18} />
+									{card.listed}x
+									<AiOutlineShoppingCart size={18} className='h-4 w-4' />
 								</div>
 							)}
 							<div className='mb-1 p-1 text-center text-sm'>{card.title}</div>
 							<div className='mt-auto flex w-full border-y border-gray-400'>
 								<span className='ml-1'>Floor:</span>
-								<span className='ml-auto mr-1'>
-									{card.floor ? "$" + card.floor : "-"}
-								</span>
+								<span className='ml-auto mr-1'>{card.floor ? "$" + card.floor : "-"}</span>
 							</div>
 							<div className='w-full text-center text-xs font-semibold text-primary-500'>
 								x
