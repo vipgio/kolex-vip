@@ -131,13 +131,13 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 						leaveTo='transform opacity-0 scale-95'
 					>
 						{selectedCol.length > 0 && (
-							<Listbox.Options className='absolute top-full left-2/3 z-30 max-h-96 w-1/3 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+							<Listbox.Options className='absolute top-full left-2/3 z-30 max-h-96 w-1/3 overflow-auto rounded-md bg-white pb-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 								{selectedCol.length > 0 &&
 									selectedSeason.length > 0 &&
 									collections
 										.find(([season, _]) => season === selectedSeason)?.[1]
 										.find(([col, _]) => col === selectedCol)?.[1]
-										.map((set, idx) =>
+										.map((set) =>
 											set.collection ? (
 												<Listbox.Option
 													key={set.collection.name}
@@ -151,19 +151,33 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 													<span className={`block truncate`}>{set.collection.name}</span>
 												</Listbox.Option>
 											) : (
-												set[1].map((subSet, subIdx) => (
+												<>
 													<Listbox.Option
-														key={subSet.collection.name}
-														value={subSet.collection.name}
+														key={set[0]}
+														value={set[0]}
 														className={({ active }) =>
-															`relative cursor-pointer select-none py-2 px-4 text-center ${
+															`relative select-none border-t border-gray-700 bg-gray-300 py-2 px-4 text-center text-xs ${
 																active ? "bg-amber-100 text-amber-900" : "text-gray-900"
-															} ${subIdx === 0 && idx !== 0 && "border-t border-gray-500"}`
+															}`
 														}
+														disabled
 													>
-														<span className={`block truncate`}>{subSet.collection.name}</span>
+														<span className={`block truncate`}>{set[0]}</span>
 													</Listbox.Option>
-												))
+													{set[1].map((subSet) => (
+														<Listbox.Option
+															key={subSet.collection.name}
+															value={subSet.collection.name}
+															className={({ active }) =>
+																`relative cursor-pointer select-none py-2 px-4 text-center ${
+																	active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+																}`
+															}
+														>
+															<span className={`block truncate`}>{subSet.collection.name}</span>
+														</Listbox.Option>
+													))}
+												</>
 											)
 										)}
 							</Listbox.Options>
