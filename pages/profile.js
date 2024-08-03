@@ -9,21 +9,35 @@ import TotalDeposit from "@/components/TotalDeposit";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingSpin from "@/components/LoadingSpin";
+import Changelog from "@/components/Changelog";
 
 const Profile = () => {
 	const { user, setUser, categoryId } = useContext(UserContext);
 	const [achievements, setAchievements] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [showChangelog, setShowChangelog] = useState(false);
 	const { fetchData, postData } = useAxios();
+
+	const getCategories = async () => {
+		const { result } = await fetchData(`/api/categories`);
+		return result;
+	};
 
 	const getQuest = async () => {
 		setLoading(true);
-		const { result } = await fetchData(`/api/achievements`, { userId: user.user.id });
-		const general = result.achievements.filter((quest) => quest.progress.claimAvailable === true);
-		const daily = result.daily.filter((quest) => quest.progress.claimAvailable === true);
-		const weekly = result.weekly.filter((quest) => quest.progress.claimAvailable === true);
+		const categories = await getCategories();
 
-		setAchievements([...general, ...daily, ...weekly]);
+		const fetchAchievements = categories.map(async (category) => {
+			const { result } = await fetchData(`/api/achievements`, {
+				userId: user.user.id,
+				categoryId: category.id,
+			});
+			const general = result.achievements.filter((quest) => quest.progress.claimAvailable === true) || [];
+			const daily = result.daily.filter((quest) => quest.progress.claimAvailable === true) || [];
+			const weekly = result.weekly.filter((quest) => quest.progress.claimAvailable === true) || [];
+			setAchievements([...general, ...daily, ...weekly]);
+		});
+		await Promise.all(fetchAchievements);
 		setLoading(false);
 	};
 
@@ -212,6 +226,7 @@ const Profile = () => {
 						</svg>
 					</div>
 				</button>
+				<Changelog showModal={showChangelog} setShowModal={setShowChangelog} />
 			</div>
 			<ActivePacks user={user} categoryId={categoryId} />
 		</>

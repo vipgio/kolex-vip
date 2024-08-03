@@ -6,7 +6,7 @@ import { UserContext } from "context/UserContext";
 const useAxios = () => {
 	const { user, categoryId } = useContext(UserContext);
 
-	const fetchData = async (endpoint, params, controller, direct = false) => {
+	const fetchData = async (endpoint, params, controller, direct = false, forceCategoryId = false) => {
 		let result, error;
 		const config = direct
 			? {
@@ -22,12 +22,22 @@ const useAxios = () => {
 			config.signal = controller.signal;
 		}
 		try {
-			const { data } = await http.get(endpoint, {
-				params: { ...params, categoryId },
-				...config,
-			});
-			if (data.success) {
-				result = data.data;
+			if (forceCategoryId) {
+				const { data } = await http.get(endpoint, {
+					params: { ...params, categoryId },
+					...config,
+				});
+				if (data.success) {
+					result = data.data;
+				}
+			} else {
+				const { data } = await http.get(endpoint, {
+					params,
+					...config,
+				});
+				if (data.success) {
+					result = data.data;
+				}
 			}
 		} catch (err) {
 			error = err;

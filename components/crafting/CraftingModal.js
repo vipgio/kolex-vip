@@ -331,31 +331,37 @@ const CraftingModal = React.memo(
 									<div>Crafting recipe mint range:</div>
 									{dataToShow.length > 0 && dataToShow[0].items.length > 0 && (
 										<div className='my-1 ml-1 mr-5 flex flex-col divide-y divide-gray-700 dark:divide-gray-500'>
-											{craftCount > 0 &&
-												dataToShow.map((req) => {
-													const best = req.items
-														.slice(0, craftCount * req.count)
-														.slice(-1)
-														.pop();
-													return (
-														<div key={req.id} className=''>
-															{req.name}: {req.items[0].mintBatch}
-															{req.items[0].mintNumber}
-															{" - "}
-															<span
-																className={`${
-																	best.mintBatch === "A" && best.mintNumber < 200 ? "text-red-500" : ""
-																}`}
-																title={
-																	best.mintBatch === "A" && best.mintNumber < 200 ? "SUB 200, BE CAREFUL" : ""
-																}
-															>
-																{best.mintBatch}
-																{best.mintNumber}
-															</span>
-														</div>
-													);
-												})}
+											{craftCount > 0 && (
+												<>
+													{dataToShow.map((req) => {
+														const best = req.items
+															.slice(0, craftCount * req.count)
+															.slice(-1)
+															.pop();
+														return (
+															<div key={req.id} className=''>
+																{req.name}: {req.items[0].mintBatch}
+																{req.items[0].mintNumber}
+																{" - "}
+																<span
+																	className={`${
+																		best.mintBatch === "A" && best.mintNumber < 200 ? "text-red-500" : ""
+																	}`}
+																	title={
+																		best.mintBatch === "A" && best.mintNumber < 200
+																			? "SUB 200, BE CAREFUL"
+																			: ""
+																	}
+																>
+																	{best.mintBatch}
+																	{best.mintNumber}
+																</span>
+															</div>
+														);
+													})}
+													<div>Silver Cost: {(plan.silvercoinCost * craftCount).toLocaleString()}</div>
+												</>
+											)}
 										</div>
 									)}
 

@@ -1,0 +1,9 @@
+{
+	"version": "2.7.8",
+	"date": "2024-08-03",
+	"changes": [
+		"Added this annoying thing (only shows up once)",
+		"Added achievements from all categories",
+		"Total craft silver cost is now displayed in the craft window"
+	]
+}
