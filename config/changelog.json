@@ -1,9 +1,9 @@
 {
-	"version": "2.7.8",
-	"date": "2024-08-03",
+	"version": "2.7.9",
+	"date": "2024-08-06",
 	"changes": [
-		"Added this annoying thing (only shows up once)",
-		"Added achievements from all categories",
-		"Total craft silver cost is now displayed in the craft window"
+		"Added circulation to cardlister items",
+		"Fixed sticker icon not showing on cardlister items",
+		"Fixed achievements not working properly"
 	]
 }

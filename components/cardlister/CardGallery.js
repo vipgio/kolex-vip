@@ -120,7 +120,7 @@ const CardGallery = ({ templates, user }) => {
 				</div>
 			</div>
 
-			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-5'>
+			<div className='m-2 grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5'>
 				{sortBy(
 					templates,
 					sortMethod === "owned"
@@ -183,7 +183,11 @@ const CardGallery = ({ templates, user }) => {
 								<span className='ml-1'>Floor:</span>
 								<span className='ml-auto mr-1'>{card.floor ? "$" + card.floor : "-"}</span>
 							</div>
-							<div className='w-full text-center text-xs font-semibold text-primary-500'>
+							<div className='flex w-full border-b border-gray-400'>
+								<span className='ml-1'>Circ:</span>
+								<span className='ml-auto mr-1'>{card.inCirculation}</span>
+							</div>
+							<div className='w-full text-center text-sm font-semibold text-primary-500'>
 								x
 								<span className='text-base' title='Owned count'>
 									{card.count}

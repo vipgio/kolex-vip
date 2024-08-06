@@ -39,7 +39,9 @@ const Cardlister = () => {
 						count: count ? (count.cardIds ? count.cardIds.length : count.stickerIds.length) : 0,
 						type: card.cardType ? "card" : "sticker",
 						listed: [...owned.cards, ...owned.stickers].filter(
-							(own) => own.cardTemplateId === card.id && own.status === "market"
+							(own) =>
+								(own.cardTemplateId === card.id || own.stickerTemplateId === card.id) &&
+								own.status === "market"
 						).length,
 					};
 				});

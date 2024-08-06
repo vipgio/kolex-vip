@@ -140,7 +140,7 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 										.map((set) =>
 											set.collection ? (
 												<Listbox.Option
-													key={set.collection.name}
+													key={set.collection.id}
 													value={set.collection.name}
 													className={({ active }) =>
 														`relative cursor-pointer select-none py-2 px-4 text-center ${
@@ -166,7 +166,7 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 													</Listbox.Option>
 													{set[1].map((subSet) => (
 														<Listbox.Option
-															key={subSet.collection.name}
+															key={subSet.collection.id}
 															value={subSet.collection.name}
 															className={({ active }) =>
 																`relative cursor-pointer select-none py-2 px-4 text-center ${

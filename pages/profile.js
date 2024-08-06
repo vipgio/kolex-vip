@@ -35,7 +35,7 @@ const Profile = () => {
 			const general = result.achievements.filter((quest) => quest.progress.claimAvailable === true) || [];
 			const daily = result.daily.filter((quest) => quest.progress.claimAvailable === true) || [];
 			const weekly = result.weekly.filter((quest) => quest.progress.claimAvailable === true) || [];
-			setAchievements([...general, ...daily, ...weekly]);
+			setAchievements((prev) => [...prev, ...general, ...daily, ...weekly]);
 		});
 		await Promise.all(fetchAchievements);
 		setLoading(false);
