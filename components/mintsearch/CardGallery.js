@@ -282,7 +282,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 	};
 
 	const getMarketInfo = async (cardId, page, type) => {
-		const { result, error } = await fetchData(`/api/market/card/${cardId}?page=${page}&type=${type}`);
+		const { result, error } = await fetchData(`/api/market/item/${cardId}?page=${page}&type=${type}`);
 		if (error) {
 			console.error(error);
 		}

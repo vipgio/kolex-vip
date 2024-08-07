@@ -3,10 +3,7 @@ const CircList = ({ data, prices }) => {
 	const minted =
 		data.reduce((cur, acc) => cur + (acc.minted || 0), 0) ||
 		data.reduce((cur, acc) => cur + (acc.mintCount || 0), 0);
-	const setValue = prices.reduce(
-		(cur, acc) => (acc.lowestPrice ? cur + Number(acc.lowestPrice) : cur),
-		0
-	);
+	const setValue = prices.reduce((cur, acc) => (acc.lowestPrice ? cur + Number(acc.lowestPrice) : cur), 0);
 
 	return (
 		<div className='relative mb-5 flex justify-center px-2'>
@@ -19,13 +16,15 @@ const CircList = ({ data, prices }) => {
 								{minted > 0 ? `(${((opened / minted) * 100).toFixed(2)}%)` : null}
 							</span>
 						</div>
-						{minted > 0 ? <div>Total Minted: {minted}</div> : null}
+						<>{minted > 0 ? <div>Total Minted: {minted}</div> : null}</>
 					</div>
 					<div className=''>
 						<div>
-							Set market total:{" "}
-							<span className='text-primary-500'> ${setValue.toFixed(2)}</span>
+							Set market total: <span className='text-primary-500'> ${setValue.toFixed(2)}</span>
 						</div>
+						<>
+							Total items: <span className='text-primary-500'> {data.length}</span>
+						</>
 					</div>
 				</div>
 				<div className='overflow-auto'>
@@ -50,15 +49,10 @@ const CircList = ({ data, prices }) => {
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.inCirculation}</td>
 
-										<td className='py-1 px-2 sm:py-3 sm:px-6'>
-											{item.minted || item.mintCount || "-"}
-										</td>
+										<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.minted || item.mintCount || "-"}</td>
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>
 											{prices.find((price) => price.entityTemplateId === item.id)
-												? `$${
-														prices.find((price) => price.entityTemplateId === item.id)
-															.lowestPrice
-												  }`
+												? `$${prices.find((price) => price.entityTemplateId === item.id).lowestPrice}`
 												: `-`}
 										</td>
 									</tr>

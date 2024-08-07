@@ -35,7 +35,16 @@ const Cardlister = () => {
 					const stickerCount = cards.find((o) => o.stickerTemplateId === card.id);
 					const count = cardCount || stickerCount;
 					return {
-						...pick(card, ["id", "title", "images", "inCirculation", "cardType", "treatmentId", "uuid"]),
+						...pick(card, [
+							"id",
+							"title",
+							"images",
+							"inCirculation",
+							"cardType",
+							"treatmentId",
+							"uuid",
+							"minted",
+						]),
 						count: count ? (count.cardIds ? count.cardIds.length : count.stickerIds.length) : 0,
 						type: card.cardType ? "card" : "sticker",
 						listed: [...owned.cards, ...owned.stickers].filter(
@@ -109,7 +118,7 @@ const Cardlister = () => {
 							}
 						})
 					);
-					if (data.templates.length > 0) getAllMarket(cards, ++page, type);
+					// if (data.templates.length > 0) getAllMarket(cards, ++page, type);
 					setLoading(false);
 					return data;
 				}

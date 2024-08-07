@@ -1,9 +1,5 @@
 {
-	"version": "2.7.9",
-	"date": "2024-08-06",
-	"changes": [
-		"Added circulation to cardlister items",
-		"Fixed sticker icon not showing on cardlister items",
-		"Fixed achievements not working properly"
-	]
+	"version": "2.7.10",
+	"date": "2024-08-07",
+	"changes": ["Added circulation to cardlister", "Added market and recent sales details to cardlister"]
 }

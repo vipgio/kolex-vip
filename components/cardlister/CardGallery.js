@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import sortBy from "lodash/sortBy";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { CDN, maxPrice, minPrice } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
+import { maxPrice, minPrice } from "@/config/config";
 import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
 import Tooltip from "../Tooltip";
 import FiltersModal from "./FiltersModal";
+import CardGalleryItem from "./CardGalleryItem";
 
 const CardGallery = ({ templates, user }) => {
 	const [selectedTemplates, setSelectedTemplates] = useState([]);
@@ -136,64 +135,13 @@ const CardGallery = ({ templates, user }) => {
 							!(item.floor > filters.maxFloor) &&
 							!(item.floor < filters.minFloor)
 					)
-					.map((card) => (
-						<div
-							key={card.uuid}
-							title={card.count === card.listed ? "All items are already listed" : card.title}
-							className={`relative flex ${
-								card.count === 0 || card.listed === card.count
-									? "cursor-not-allowed"
-									: "cursor-pointer hover:scale-105"
-							} flex-col items-center rounded border border-gray-500 text-gray-700 shadow-md transition-all dark:text-gray-300`}
-							onClick={() => {
-								selectedTemplates.some((e) => e.id === card.id)
-									? setSelectedTemplates((prev) => prev.filter((item) => item.id !== card.id))
-									: setSelectedTemplates((prev) => [...prev, card]);
-							}}
-						>
-							<div className='relative aspect-auto w-24 overflow-hidden rounded-md p-0.5 sm:w-36'>
-								<ImageWrapper
-									src={card.images?.size402 || `${CDN}${card.images[0].url}`}
-									width={200 * 1.5}
-									height={300 * 1.5}
-									alt={card.title}
-									className={`h-full w-full rounded-lg border-4 object-cover transition-colors ${
-										selectedTemplates.some((e) => e.id === card.id)
-											? "border-primary-500 grayscale-0"
-											: "border-transparent"
-									}`}
-								/>
-								{!selectedTemplates.some((e) => e.id === card.id) && (
-									<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
-								)}
-							</div>
-							{card.listed > 0 && (
-								<div
-									className='absolute right-2 top-2 flex items-center justify-center rounded bg-green-500 px-1 text-gray-900 dark:text-gray-100'
-									title={
-										card.listed < card.count ? `Some items are already listed` : "All items are already listed"
-									}
-								>
-									{card.listed}x
-									<AiOutlineShoppingCart size={18} className='h-4 w-4' />
-								</div>
-							)}
-							<div className='mb-1 p-1 text-center text-sm'>{card.title}</div>
-							<div className='mt-auto flex w-full border-y border-gray-400'>
-								<span className='ml-1'>Floor:</span>
-								<span className='ml-auto mr-1'>{card.floor ? "$" + card.floor : "-"}</span>
-							</div>
-							<div className='flex w-full border-b border-gray-400'>
-								<span className='ml-1'>Circ:</span>
-								<span className='ml-auto mr-1'>{card.inCirculation}</span>
-							</div>
-							<div className='w-full text-center text-sm font-semibold text-primary-500'>
-								x
-								<span className='text-base' title='Owned count'>
-									{card.count}
-								</span>
-							</div>
-						</div>
+					.map((item) => (
+						<CardGalleryItem
+							item={item}
+							selectedTemplates={selectedTemplates}
+							setSelectedTemplates={setSelectedTemplates}
+							key={item.uuid}
+						/>
 					))}
 			</div>
 

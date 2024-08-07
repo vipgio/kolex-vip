@@ -9,6 +9,7 @@ import LoadingSpin from "../LoadingSpin";
 
 const ListedRow = React.memo(
 	({ item, setListed, insertFloor }) => {
+		console.log(item);
 		const { patchData, deleteData, fetchData } = useAxios();
 		const [newPrice, setNewPrice] = useState(0);
 		const [floor, setFloor] = useState(item.floor);
@@ -44,8 +45,9 @@ const ListedRow = React.memo(
 
 		const fetchFloor = async () => {
 			setLoading(true);
-			console.log("fetching floor price");
-			const { result, error } = await fetchData(`/api/market/card/${item.templateId}?page=1&type=card`);
+			const { result, error } = await fetchData(
+				`/api/market/item/${item.templateId}?page=1&type=${item.type}`
+			);
 			if (result) {
 				if (result.market && result.market[0] && result.market[0][0]) {
 					setFloor(() => result.market[0][0].price);
