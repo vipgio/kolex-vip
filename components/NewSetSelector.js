@@ -13,18 +13,18 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 	}, [selectedSeason]);
 
 	useEffect(() => {
-		if (selectedSet.length > 0) {
+		if (selectedSet.id) {
 			const seasonArray = collections.find(([season, _]) => season === selectedSeason);
 			const collectionArray = seasonArray?.[1].find(([col, _]) => col === selectedCol);
 
 			if (collectionArray[1][0].collection) {
-				const targetSet = collectionArray?.[1].find((set) => set.collection.name === selectedSet);
+				const targetSet = collectionArray?.[1].find((set) => set.collection.id === selectedSet.id);
 				setSelectedCollection(targetSet);
 			} else {
 				const targetSet = collectionArray?.[1]
 					.map(([tier, set]) => set)
 					.flat()
-					.find((subSet) => subSet.collection.name === selectedSet);
+					.find((subSet) => subSet.collection.id === selectedSet.id);
 				setSelectedCollection(targetSet);
 			}
 		}
@@ -116,7 +116,7 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 
 				<Listbox value={selectedSet} onChange={(e) => setSelectedSet(e)} disabled={selectedCol.length === 0}>
 					<Listbox.Button className='relative my-1 h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-4 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 disabled:cursor-not-allowed sm:text-sm'>
-						<span className='block truncate'>{selectedSet.length === 0 ? "Set" : selectedSet}</span>
+						<span className='block truncate'>{selectedSet.length === 0 ? "Set" : selectedSet.name}</span>
 						<span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
 							<HiOutlineChevronUpDown className='h-5 w-5 text-gray-400' />
 						</span>
@@ -141,7 +141,7 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 											set.collection ? (
 												<Listbox.Option
 													key={set.collection.id}
-													value={set.collection.name}
+													value={set.collection}
 													className={({ active }) =>
 														`relative cursor-pointer select-none py-2 px-4 text-center ${
 															active ? "bg-amber-100 text-amber-900" : "text-gray-900"
@@ -167,7 +167,7 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 													{set[1].map((subSet) => (
 														<Listbox.Option
 															key={subSet.collection.id}
-															value={subSet.collection.name}
+															value={subSet.collection}
 															className={({ active }) =>
 																`relative cursor-pointer select-none py-2 px-4 text-center ${
 																	active ? "bg-amber-100 text-amber-900" : "text-gray-900"

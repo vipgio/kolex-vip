@@ -118,7 +118,7 @@ const Cardlister = () => {
 							}
 						})
 					);
-					// if (data.templates.length > 0) getAllMarket(cards, ++page, type);
+					if (data.templates.length > 0) getAllMarket(cards, ++page, type);
 					setLoading(false);
 					return data;
 				}
