@@ -60,7 +60,7 @@ const PriceDetails = ({ item, showModal, setShowModal }) => {
 											<div className='mt-3 divide-y'>
 												{prices.market?.[0]?.map((item) => (
 													<div key={item.marketId} className='inline-flex w-full justify-between px-1'>
-														<span>{`${item.card.mintBatch}${item.card.mintNumber}`}</span>
+														<span>{`${item[item.type].mintBatch}${item[item.type].mintNumber}`}</span>
 														<span>${item.price}</span>
 													</div>
 												))}
