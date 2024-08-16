@@ -11,7 +11,7 @@ const BigModal = ({
 	stopButton,
 	closingFunction,
 	children,
-	closeOnClick,
+	closeOnClick = true,
 	extraStyle,
 	hasToast,
 	toastLimit,

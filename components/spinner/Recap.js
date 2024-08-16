@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import countBy from "lodash/countBy";
 import fixDecimal from "utils/NumberUtils";
+// import { spins } from "./spinsLocal";
 
 const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 	const [showMints, setShowMints] = useState(false);
@@ -18,6 +19,14 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 			0
 		) -
 		spins.length * 1000;
+	const shouldHaveSpent = fixDecimal(
+		(
+			(items.reduce((prev, curr) => prev + (Number(curr.chance) / 100) * curr.properties.silvercoins, 0) -
+				1000) *
+			spins.length
+		).toFixed(0)
+	);
+	const diff = fixDecimal(-((totalSpent - shouldHaveSpent) / shouldHaveSpent) * 100).toFixed(2);
 
 	const closeModal = () => setIsOpen(false);
 
@@ -48,7 +57,7 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 								leaveFrom='opacity-100 scale-100'
 								leaveTo='opacity-0 scale-95'
 							>
-								<Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-xl bg-gray-200 p-4 text-left align-middle shadow-xl transition-all dark:bg-gray-700'>
+								<Dialog.Panel className='w-full max-w-lg transform overflow-hidden rounded-xl bg-gray-200 p-4 text-left align-middle shadow-xl transition-all dark:bg-gray-700'>
 									<Dialog.Title
 										as='h3'
 										className='text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
@@ -57,7 +66,7 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 										Spins Recap: {spins.length} spins
 									</Dialog.Title>
 
-									<div className='my-2 text-gray-700 dark:text-gray-300'>
+									<div className='my-1 max-h-[75vh] divide-y divide-gray-700/20 overflow-auto rounded border border-gray-700/20 p-1 text-gray-700 dark:divide-gray-300/20 dark:border-gray-300/20 dark:text-gray-300'>
 										{counted
 											.sort((a, b) => b[1] - a[1])
 											.map(([id, count, mints]) => {
@@ -75,13 +84,13 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 															)
 															{mints &&
 																(showMints ? (
-																	<span className='ml-1 text-xs'>
+																	<div className='py-1 px-0.5 text-xs'>
 																		{mints &&
 																			mints.map((mint, i) => [
 																				i > 0 && <span key={i}>, </span>,
 																				<span key={mint + i}>{mint}</span>,
 																			])}
-																	</span>
+																	</div>
 																) : (
 																	<span>{` (...)`}</span>
 																))}
@@ -89,24 +98,20 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 													</Fragment>
 												);
 											})}
+										<div>
+											<div className='mt-2 font-semibold'>
+												Silver: {totalSpent.toLocaleString()} Silvercoins
+											</div>
 
-										<div className='mt-3 font-semibold'>Silver: {totalSpent.toLocaleString()} Silvercoins</div>
-
-										<div className='text-xs'>
-											Silver you should have spent based on the odds:{" "}
-											<span className='text-sm'>
-												{fixDecimal(
-													(
-														(items.reduce(
-															(prev, curr) => prev + (Number(curr.chance) / 100) * curr.properties.silvercoins,
-															0
-														) -
-															1000) *
-														spins.length
-													).toFixed(0)
-												).toLocaleString()}{" "}
-											</span>
-											Silvercoins
+											<div className='text-xs'>
+												Silver you should have spent based on the odds:{" "}
+												<span className='text-sm'>{shouldHaveSpent.toLocaleString()} </span>
+												Silvercoins (
+												<span className={`${diff >= 0 ? "text-green-400" : "text-red-400"}`}>
+													{[diff > 0 && "+", diff.toLocaleString()]}%
+												</span>
+												)
+											</div>
 										</div>
 									</div>
 									<div className='mt-4 flex justify-between'>

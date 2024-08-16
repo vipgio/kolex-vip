@@ -152,32 +152,6 @@ const SpinArea = ({ info }) => {
 					<div className='ml-1 mr-auto text-center text-lg font-semibold text-gray-700 dark:text-slate-200'>
 						Silver: {funds.silvercoins.toLocaleString()}
 					</div>
-					{/* <div className='flex items-center text-gray-700 dark:text-gray-300'>
-						<span className='sm:hidden'>
-							<Tooltip
-								direction='right'
-								text={`Number of spins before it stops. Default is ${defMax.toLocaleString()} times.`}
-							/>
-						</span>
-						<span className='hidden sm:block'>
-							<Tooltip
-								direction='left'
-								text={`Number of spins before it stops. Default is ${defMax.toLocaleString()} times.`}
-							/>
-						</span>
-						<span>Spin limit:</span>
-						<input
-							type='number'
-							name='counter'
-							id='counter'
-							disabled={spinActive || !info.id}
-							min={1}
-							max={10000}
-							value={spinLimit}
-							onChange={handleLimit}
-							className='input-field mr-3 ml-1 w-24'
-						/>
-					</div> */}
 					<SpinLimit
 						spinActive={spinActive}
 						info={info}
@@ -200,7 +174,7 @@ const SpinArea = ({ info }) => {
 						<button
 							onClick={startSpin}
 							disabled={!info.id}
-							className='inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 hover:bg-green-600 enabled:active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
+							className='inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 enabled:hover:bg-green-600 enabled:active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
 						>
 							<FaPlay className='mr-1 hidden sm:block' />
 							Start Spinning

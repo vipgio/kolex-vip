@@ -11,9 +11,7 @@ const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 		<div
 			title={item.count === item.listed ? "All items are already listed" : item.title}
 			className={`relative flex ${
-				item.count === 0 || item.listed === item.count
-					? "cursor-not-allowed"
-					: "cursor-pointer hover:scale-105"
+				item.count === 0 ? "cursor-not-allowed" : "cursor-pointer hover:scale-105"
 			} flex-col items-center rounded border border-gray-500 text-gray-700 shadow-md transition-all dark:text-gray-300`}
 			onClick={() => {
 				selectedTemplates.some((e) => e.id === item.id)
@@ -39,7 +37,7 @@ const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 			</div>
 			{item.listed > 0 && (
 				<div
-					className='absolute right-2 top-2 flex items-center justify-center rounded bg-green-500 px-1 text-gray-900 dark:text-gray-100'
+					className='absolute right-2 top-2 z-20 flex items-center justify-center rounded bg-green-500 px-1 text-gray-900 dark:text-gray-100'
 					title={item.listed < item.count ? `Some items are already listed` : "All items are already listed"}
 				>
 					{item.listed}x
@@ -50,7 +48,7 @@ const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 			<div className='mt-auto flex w-full items-center border-y border-gray-400'>
 				<span className='ml-1'>Floor:</span>
 				<span
-					className='ml-auto mr-1.5 inline-flex h-3/4 w-4 items-center justify-center rounded bg-primary-500 text-center text-sm'
+					className='ml-auto mr-1.5 inline-flex h-3/4 w-4 items-center justify-center rounded bg-primary-500 text-center text-sm font-semibold'
 					title='Click for details'
 					onClick={(e) => {
 						e.stopPropagation();

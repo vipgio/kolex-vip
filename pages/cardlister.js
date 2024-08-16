@@ -182,7 +182,7 @@ const Cardlister = () => {
 						title='Refresh Items'
 					/>
 
-					<div className='flex items-center'>
+					{/* <div className='flex items-center'>
 						<Tooltip
 							direction='left'
 							text={`It will load ALL your items. If you have too many it's gonna take a while or you can stop loading the items by clicking on "Stop".`}
@@ -190,7 +190,7 @@ const Cardlister = () => {
 						<button className='button' onClick={() => setShowListedModal(true)}>
 							Manage Listings
 						</button>
-					</div>
+					</div> */}
 				</div>
 			</div>
 			{loading && (

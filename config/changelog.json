@@ -1,5 +1,9 @@
 {
-	"version": "2.7.10",
-	"date": "2024-08-07",
-	"changes": ["Added circulation to cardlister", "Added market and recent sales details to cardlister"]
+	"version": "2.7.11",
+	"date": "2024-08-16",
+	"changes": [
+		"Added listing manager to cardlister (it's huge)",
+		"Slightly changed the spinner recap design",
+		"Added a luck indicator number for spinner recap"
+	]
 }

@@ -3,6 +3,7 @@ import sortBy from "lodash/sortBy";
 import { maxPrice, minPrice } from "@/config/config";
 import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
+import Delister from "./delister/Delister";
 import Tooltip from "../Tooltip";
 import FiltersModal from "./FiltersModal";
 import CardGalleryItem from "./CardGalleryItem";
@@ -11,6 +12,7 @@ const CardGallery = ({ templates, user }) => {
 	const [selectedTemplates, setSelectedTemplates] = useState([]);
 	const [showAdvancedModal, setShowAdvancedModal] = useState(false);
 	const [showSimpleModal, setShowSimpleModal] = useState(false);
+	const [showDelister, setShowDelister] = useState(false);
 	const [showFiltersModal, setShowFiltersModal] = useState(false);
 	const [sortMethod, setSortMethod] = useState("listed");
 	const defaultFilters = { minOwned: 1, minFloor: minPrice, maxFloor: maxPrice };
@@ -45,60 +47,88 @@ const CardGallery = ({ templates, user }) => {
 					<option value='listed'>Listed</option>
 					<option value='owned'>Owned</option>
 					<option value='floor'>Floor</option>
+					<option value='circ'>Circulation</option>
 				</select>
 			</div>
 
 			<div className='ml-1 flex h-full'>
-				<div className='flex items-end'>
-					<button
-						onClick={() =>
-							setSelectedTemplates(
-								templates
-									.filter((item) => item.count && item.listed !== item.count)
-									.filter(
-										(item) =>
-											item.count >= filters.minOwned &&
-											!(item.floor > filters.maxFloor) &&
-											!(item.floor < filters.minFloor)
-									)
-							)
-						}
-						className='simple-button m-1'
-					>
-						Select All
-					</button>
-					<button
-						onClick={() =>
-							setSelectedTemplates(
-								templates
-									.filter((item) => item.count && !item.listed && item.listed !== item.count)
-									.filter(
-										(item) =>
-											item.count >= filters.minOwned &&
-											!(item.floor > filters.maxFloor) &&
-											!(item.floor < filters.minFloor)
-									)
-							)
-						}
-						className='simple-button m-1'
-					>
-						All Not Listed
-					</button>
-					<button onClick={() => setSelectedTemplates([])} className='simple-button m-1'>
-						Deselect All
-					</button>
-					<button onClick={() => setShowFiltersModal(true)} className='simple-button m-1'>
-						Filters
-					</button>
+				<div className='mb-1 flex flex-col'>
+					<div className='mt-1 ml-1 mb-2 flex items-center sm:mt-2'>
+						<button
+							className='button sm:mb-0'
+							onClick={() => setShowDelister(true)}
+							disabled={!selectedTemplates.length}
+						>
+							Manage
+						</button>
+						<Tooltip direction='right' text='Manage listings for the selected items' />
+					</div>
+					<div>
+						<button
+							onClick={() =>
+								setSelectedTemplates(
+									templates
+										.filter((item) => item.count)
+										.filter(
+											(item) =>
+												item.count >= filters.minOwned &&
+												!(item.floor > filters.maxFloor) &&
+												!(item.floor < filters.minFloor)
+										)
+								)
+							}
+							className='simple-button m-1'
+						>
+							Select All
+						</button>
+						<button
+							onClick={() =>
+								setSelectedTemplates(
+									templates
+										.filter((item) => item.count && !item.listed && item.listed !== item.count)
+										.filter(
+											(item) =>
+												item.count >= filters.minOwned &&
+												!(item.floor > filters.maxFloor) &&
+												!(item.floor < filters.minFloor)
+										)
+								)
+							}
+							className='simple-button m-1'
+						>
+							All Not Listed
+						</button>
+						<button
+							onClick={() =>
+								setSelectedTemplates(
+									templates
+										.filter((item) => item.count && item.listed)
+										.filter(
+											(item) =>
+												item.count >= filters.minOwned &&
+												!(item.floor > filters.maxFloor) &&
+												!(item.floor < filters.minFloor)
+										)
+								)
+							}
+							className='simple-button m-1'
+						>
+							All Listed
+						</button>
+						<button onClick={() => setSelectedTemplates([])} className='simple-button m-1'>
+							Deselect All
+						</button>
+						<button onClick={() => setShowFiltersModal(true)} className='button m-1 ml-10'>
+							Filters
+						</button>
+					</div>
 				</div>
-				<div className='ml-auto flex flex-col justify-end py-1 sm:block'>
+				<div className='ml-auto flex flex-col justify-end py-2.5 sm:block'>
 					<div className='mb-2 flex items-center'>
 						<Tooltip direction='left' text='Pick mints and price for each item' />
 						<button
 							className='button mr-2 sm:mb-0'
-							onClick={() => {
-								setShowAdvancedModal(true);
-							}}
+							onClick={() => setShowAdvancedModal(true)}
 							disabled={!selectedTemplates.length}
 						>
 							Advanced
@@ -108,9 +138,7 @@ const CardGallery = ({ templates, user }) => {
 						<Tooltip direction='left' text='Pick mints or set count for all items at once' />
 						<button
 							className='button mr-2 w-full sm:mb-0'
-							onClick={() => {
-								setShowSimpleModal(true);
-							}}
+							onClick={() => setShowSimpleModal(true)}
 							disabled={!selectedTemplates.length}
 						>
 							Simple
@@ -126,7 +154,9 @@ const CardGallery = ({ templates, user }) => {
 						? [(o) => -o.count, (o) => -o.floor]
 						: sortMethod === "floor"
 						? [(o) => -o.floor, (o) => -o.count]
-						: [(o) => o.listed, (o) => -o.count, (o) => -o.floor]
+						: sortMethod === "circ"
+						? [(o) => -o.inCirculation, (o) => -o.count]
+						: [(o) => o.listed, (o) => -o.count, (o) => -o.floor] //listed
 				)
 					.filter((item) => item.count)
 					.filter(
@@ -168,6 +198,15 @@ const CardGallery = ({ templates, user }) => {
 					showModal={showSimpleModal}
 					user={user}
 					setShowModal={setShowSimpleModal}
+					selectedTemplates={selectedTemplates}
+					templates={templates}
+				/>
+			)}
+			{showDelister && (
+				<Delister
+					showModal={showDelister}
+					user={user}
+					setShowModal={setShowDelister}
 					selectedTemplates={selectedTemplates}
 					templates={templates}
 				/>
