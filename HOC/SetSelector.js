@@ -4,6 +4,7 @@ import groupBy from "lodash/groupBy";
 import pickBy from "lodash/pickBy";
 import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
+import omit from "lodash/omit";
 import { useAxios } from "hooks/useAxios";
 import { UserContext } from "context/UserContext";
 import SetSelectorDropdown from "@/components/SetSelectorDropdown";
@@ -32,44 +33,97 @@ const SetSelector = React.memo(
 		const { fetchData } = useAxios();
 		const [collections, setCollections] = useState([]);
 
+		function updatePhysicalKey(section) {
+			// Update the physical key in the info object
+			if (!section.info) {
+				section.info = {};
+			}
+			section.info.physical = section.collections.some((collection) => collection.collection.physical);
+		}
+
 		useEffect(() => {
 			const groupCollections = async () => {
-				const data = await getCollections();
+				const data = (await getCollections()).map((item) => ({
+					...item,
+					collection: omit(item.collection, "images"),
+				}));
 				const grouped = groupBy(data, (col) => col.collection.properties.seasons[0]);
 				Object.entries(grouped).forEach(([season, seasonCollections]) => {
-					const coreGrouped = groupBy(
-						pickBy(seasonCollections, (col) => coreNames.includes(col.collection.properties.tiers[0])),
-						(col) => col.collection.properties.tiers[0]
-					);
+					const coreGrouped = {
+						collections: Object.entries(
+							groupBy(
+								pickBy(seasonCollections, (col) => coreNames.includes(col.collection.properties.tiers[0])),
+								(col) => col.collection?.properties.tiers[0]
+							)
+						).map(([tier, collections]) => {
+							const entry = {
+								tier,
+								collections: collections,
+								info: {
+									physical: false, // Initialize as false
+									locked: false,
+								},
+							};
 
-					const eventsGrouped = groupBy(
-						pickBy(seasonCollections, (col) => col.collection.properties.types[0] === "event_primary"),
-						(col) => col.collection.properties.tiers[0]
-					);
+							updatePhysicalKey(entry); // Update the entry with the correct physical key
 
-					const nonEventsGrouped = groupBy(
-						pickBy(
-							seasonCollections,
-							(col) =>
-								col.collection.properties.types[0] !== "event_primary" &&
-								!coreNames.includes(col.collection.properties.tiers[0])
-						),
-						(col) => col.collection.properties.tiers[0]
-					);
+							return entry;
+						}),
+					};
+
+					const eventsGrouped = {
+						collections: Object.entries(
+							groupBy(
+								pickBy(seasonCollections, (col) => col.collection.properties.types[0] === "event_primary"),
+								(col) => col.collection?.properties.tiers[0]
+							)
+						).map(([tier, collections]) => {
+							const entry = {
+								tier,
+								collections: collections,
+								info: {
+									physical: false, // Initialize as false
+									locked: false,
+								},
+							};
+
+							updatePhysicalKey(entry); // Update the entry with the correct physical key
+
+							return entry;
+						}),
+					};
+
+					const nonEventsGrouped = {
+						collections: Object.entries(
+							groupBy(
+								pickBy(
+									seasonCollections,
+									(col) =>
+										col.collection.properties.types[0] !== "event_primary" &&
+										!coreNames.includes(col.collection.properties.tiers[0])
+								),
+								(col) => col.collection.properties.tiers[0]
+							)
+						).reduce((acc, [key, value]) => {
+							const entry = {
+								collections: value,
+								info: {},
+							};
+							updatePhysicalKey(entry);
+							acc[key] = entry;
+							return acc;
+						}, {}),
+					};
+
 					setCollections((prev) => [
 						...prev,
 						[
 							season,
-							isEmpty(eventsGrouped)
-								? Object.entries({
-										Core: [...Object.entries(coreGrouped)],
-										...nonEventsGrouped,
-								  })
-								: Object.entries({
-										Events: [...Object.entries(eventsGrouped)],
-										Core: [...Object.entries(coreGrouped)],
-										...nonEventsGrouped,
-								  }),
+							Object.entries({
+								...(eventsGrouped.collections.length > 0 ? { Events: eventsGrouped } : {}), // Add the events groupings if they exist
+								Core: coreGrouped,
+								...(nonEventsGrouped.collections || nonEventsGrouped),
+							}), // Add the non-events groupings
 						],
 					]);
 				});

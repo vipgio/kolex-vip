@@ -114,7 +114,7 @@ const Circulation = () => {
 					<div className='px-4 pt-2 text-center font-semibold text-gray-700 dark:text-gray-300'>
 						Selected Collection:
 						{selectedCollection && (
-							<span onClick={() => console.log(cardPrices)}>
+							<span>
 								{" "}
 								{selectedCollection.collection.properties.seasons[0]} -{" "}
 								{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}

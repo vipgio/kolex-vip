@@ -7,7 +7,7 @@ const CircList = ({ data, prices }) => {
 
 	return (
 		<div className='relative mb-5 flex justify-center px-2'>
-			<div className='grid divide-y divide-primary-400 rounded border border-primary-400'>
+			<div className='grid divide-y divide-primary-400 overflow-hidden rounded border border-primary-400'>
 				<div className='flex justify-around p-1 text-center font-semibold text-gray-700 dark:text-gray-200'>
 					<div className=''>
 						<div>
@@ -37,14 +37,13 @@ const CircList = ({ data, prices }) => {
 								<th className='py-1 px-2 sm:px-6 sm:py-2'>Floor</th>
 							</tr>
 						</thead>
-						<tbody className='h-96'>
+						<tbody>
 							{data
 								.sort((a, b) => a.inCirculation - b.inCirculation)
 								.map((item) => (
 									<tr
 										className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'
 										key={item.id}
-										onClick={() => console.log(item)}
 									>
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.inCirculation}</td>

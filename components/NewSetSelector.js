@@ -17,12 +17,12 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 			const seasonArray = collections.find(([season, _]) => season === selectedSeason);
 			const collectionArray = seasonArray?.[1].find(([col, _]) => col === selectedCol);
 
-			if (collectionArray[1][0].collection) {
-				const targetSet = collectionArray?.[1].find((set) => set.collection.id === selectedSet.id);
+			if (collectionArray[1].collections[0].collection) {
+				const targetSet = collectionArray?.[1].collections.find((set) => set.collection.id === selectedSet.id);
 				setSelectedCollection(targetSet);
 			} else {
-				const targetSet = collectionArray?.[1]
-					.map(([tier, set]) => set)
+				const targetSet = collectionArray?.[1].collections
+					.map((tier) => tier.collections)
 					.flat()
 					.find((subSet) => subSet.collection.id === selectedSet.id);
 				setSelectedCollection(targetSet);
@@ -54,19 +54,23 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 						leaveTo='transform opacity-0 scale-95'
 					>
 						<Listbox.Options className='absolute top-full z-30 w-1/3 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
-							{collections.map(([season, _]) => (
-								<Listbox.Option
-									key={season}
-									value={season}
-									className={({ active }) =>
-										`relative cursor-pointer select-none py-2 px-4 text-center ${
-											active ? "bg-amber-100 text-amber-900" : "text-gray-900"
-										}`
-									}
-								>
-									<span className={`block truncate`}>{season}</span>
-								</Listbox.Option>
-							))}
+							{collections.map(
+								(
+									[season, _] // Show all seasons
+								) => (
+									<Listbox.Option
+										key={season}
+										value={season}
+										className={({ active }) =>
+											`relative cursor-pointer select-none py-2 px-4 text-center ${
+												active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+											}`
+										}
+									>
+										<span className={`block truncate`}>{season}</span>
+									</Listbox.Option>
+								)
+							)}
 						</Listbox.Options>
 					</Transition>
 				</Listbox>
@@ -91,11 +95,57 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 						leaveFrom='transform opacity-100 scale-100'
 						leaveTo='transform opacity-0 scale-95'
 					>
-						{selectedSeason.length > 0 && (
-							<Listbox.Options className='absolute top-full left-1/3 z-30 max-h-96 w-1/3 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+						{selectedSeason.length > 0 && ( // If a season is selected, show the collections
+							<Listbox.Options className='absolute top-full left-1/3 z-30 max-h-96 w-1/3 overflow-auto rounded-md bg-white py-0 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 								{collections
 									.find(([season, _]) => season === selectedSeason)?.[1]
-									.sort((a, b) => a[0].localeCompare(b[0]))
+									.filter(([_, subsets]) => !subsets.info?.physical).length > 0 && ( // If there are digital collections, show the header
+									<Listbox.Option
+										className={({ active }) =>
+											`relative select-none border-t border-gray-700 bg-gray-300 py-2 px-4 text-center text-xs ${
+												active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+											}`
+										}
+										disabled
+									>
+										Digitals
+									</Listbox.Option>
+								)}
+								{collections
+									.find(([season, _]) => season === selectedSeason)?.[1]
+									.filter(([_, subsets]) => !subsets.info?.physical)
+									.sort((a, b) => a[0].localeCompare(b[0])) // Sort the collections alphabetically
+									.map(([col, _]) => (
+										<Listbox.Option
+											key={col}
+											value={col}
+											className={({ active }) =>
+												`relative cursor-pointer select-none py-2 px-4 text-center ${
+													active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+												}`
+											}
+										>
+											<span className={`block truncate`}>{col}</span>
+										</Listbox.Option>
+									))}
+								{collections
+									.find(([season, _]) => season === selectedSeason)?.[1]
+									.filter(([_, subsets]) => subsets.info?.physical).length > 0 && ( // If there are physical collections, show the header
+									<Listbox.Option
+										className={({ active }) =>
+											`relative select-none border-t border-gray-700 bg-gray-300 py-2 px-4 text-center text-xs ${
+												active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+											}`
+										}
+										disabled
+									>
+										Hybrids
+									</Listbox.Option>
+								)}
+								{collections
+									.find(([season, _]) => season === selectedSeason)?.[1]
+									.filter(([_, subsets]) => subsets.info?.physical)
+									.sort((a, b) => a[0].localeCompare(b[0])) // Sort the collections alphabetically
 									.map(([col, _]) => (
 										<Listbox.Option
 											key={col}
@@ -130,14 +180,14 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 						leaveFrom='transform opacity-100 scale-100'
 						leaveTo='transform opacity-0 scale-95'
 					>
-						{selectedCol.length > 0 && (
+						{selectedCol.length > 0 && ( // If a collection is selected, show the sets
 							<Listbox.Options className='absolute top-full left-2/3 z-30 max-h-96 w-1/3 overflow-auto rounded-md bg-white pb-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 								{selectedCol.length > 0 &&
 									selectedSeason.length > 0 &&
 									collections
 										.find(([season, _]) => season === selectedSeason)?.[1]
 										.find(([col, _]) => col === selectedCol)?.[1]
-										.map((set) =>
+										.collections.map((set) =>
 											set.collection ? (
 												<Listbox.Option
 													key={set.collection.id}
@@ -153,8 +203,8 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 											) : (
 												<>
 													<Listbox.Option
-														key={set[0]}
-														value={set[0]}
+														key={set.tier}
+														value={set.tier}
 														className={({ active }) =>
 															`relative select-none border-t border-gray-700 bg-gray-300 py-2 px-4 text-center text-xs ${
 																active ? "bg-amber-100 text-amber-900" : "text-gray-900"
@@ -162,9 +212,9 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 														}
 														disabled
 													>
-														<span className={`block truncate`}>{set[0]}</span>
+														<span className={`block truncate`}>{set.tier}</span>
 													</Listbox.Option>
-													{set[1].map((subSet) => (
+													{set.collections.map((subSet) => (
 														<Listbox.Option
 															key={subSet.collection.id}
 															value={subSet.collection}
