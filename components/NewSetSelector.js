@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import SeasonSelect from "./setselector/SeasonSelect";
 import CollectionSelect from "./setselector/CollectionSelect";
-import SetSelector from "./setselector/SetSelector";
+import SetSelect from "./setselector/SetSelect";
 
 const NewSubSelector = ({ collections, setSelectedCollection }) => {
 	const [selectedSeason, setSelectedSeason] = useState("");
@@ -45,7 +45,7 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 					selectedSeason={selectedSeason}
 					collections={collections}
 				/>
-				<SetSelector
+				<SetSelect
 					selectedSet={selectedSet}
 					setSelectedSet={setSelectedSet}
 					selectedCol={selectedCol}

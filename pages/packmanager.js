@@ -4,7 +4,7 @@ import uniq from "lodash/uniq";
 import { UserContext } from "context/UserContext";
 import { useAxios } from "hooks/useAxios";
 import Meta from "components/Meta";
-import MassPackGrid from "@/components/packmanager/MassPackGrid";
+import PackGallery from "@/components/packmanager/PackGallery";
 import RefreshButton from "@/components/RefreshButton";
 import Tooltip from "@/components/Tooltip";
 import ListedModal from "@/components/packmanager/ListedModal";
@@ -99,15 +99,23 @@ const Packmanager = () => {
 						{manageMode ? (
 							<>
 								<div className='flex justify-between'>
-									<div className='relative mt-5 ml-4'>
-										<input
-											type='text'
-											placeholder='Search pack name'
-											className='input-field'
-											onChange={(e) => setSearchQuery(e.target.value.trimStart())}
-											value={searchQuery}
-										/>
-										<IoSearchOutline className='absolute top-2.5 right-1.5 text-gray-400' />
+									<div className='mt-5 ml-4 inline-flex'>
+										<div className='relative'>
+											<input
+												type='text'
+												placeholder='Search pack name'
+												className='input-field'
+												onChange={(e) => setSearchQuery(e.target.value.trimStart())}
+												value={searchQuery}
+											/>
+											<IoSearchOutline className='absolute top-2.5 right-1.5 text-gray-400' />
+										</div>
+										<span className='ml-4 font-semibold text-gray-700 dark:text-gray-300'>
+											Total packs:{" "}
+											{packs
+												.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
+												.reduce((acc, pack) => acc + pack.packs.length, 0)}
+										</span>
 									</div>
 									<div className='mt-5 mb-3 mr-4 flex items-center justify-end'>
 										<Tooltip
@@ -119,14 +127,9 @@ const Packmanager = () => {
 										</button>
 									</div>
 								</div>
-								<div className='mx-2 mt-2 grid grid-cols-2 gap-16 pb-8 sm:grid-cols-3'>
-									{packs
-										.sort((a, b) => b.id - a.id)
-										.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
-										.map((packTemplate) => (
-											<MassPackGrid key={packTemplate.id} packTemplate={packTemplate} />
-										))}
-								</div>
+
+								<PackGallery packs={packs} searchQuery={searchQuery} />
+
 								{showListedModal && (
 									<ListedModal showModal={showListedModal} setShowModal={setShowListedModal} />
 								)}

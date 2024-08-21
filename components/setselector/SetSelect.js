@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { HiOutlineChevronUpDown } from "react-icons/hi2";
-const SetSelector = ({ selectedCol, selectedSet, selectedSeason, collections, setSelectedSet }) => {
+const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setSelectedSet }) => {
 	return (
 		<Listbox value={selectedSet} onChange={(e) => setSelectedSet(e)} disabled={selectedCol.length === 0}>
 			<Listbox.Button className='relative my-1 h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-4 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 disabled:cursor-not-allowed sm:text-sm'>
@@ -31,7 +31,7 @@ const SetSelector = ({ selectedCol, selectedSet, selectedSeason, collections, se
 										key={set.collection.id}
 										value={set.collection}
 										className={({ active }) =>
-											`relative cursor-pointer select-none py-2 px-4 text-center ${
+											`relative cursor-pointer select-none p-2 text-center ${
 												active ? "bg-amber-100 text-amber-900" : "text-gray-900"
 											}`
 										}
@@ -44,7 +44,7 @@ const SetSelector = ({ selectedCol, selectedSet, selectedSeason, collections, se
 											key={set.tier}
 											value={set.tier}
 											className={({ active }) =>
-												`relative select-none border-t border-gray-700 bg-gray-300 py-2 px-4 text-center text-xs ${
+												`relative select-none border-t border-gray-700 bg-gray-300 p-2 text-center text-xs ${
 													active ? "bg-amber-100 text-amber-900" : "text-gray-900"
 												}`
 											}
@@ -59,7 +59,7 @@ const SetSelector = ({ selectedCol, selectedSet, selectedSeason, collections, se
 													key={subSet.collection.id}
 													value={subSet.collection}
 													className={({ active }) =>
-														`relative cursor-pointer select-none py-2 px-4 text-center ${
+														`relative cursor-pointer select-none p-2 text-center ${
 															active ? "bg-amber-100 text-amber-900" : "text-gray-900"
 														}`
 													}
@@ -76,4 +76,4 @@ const SetSelector = ({ selectedCol, selectedSet, selectedSeason, collections, se
 		</Listbox>
 	);
 };
-export default SetSelector;
+export default SetSelect;

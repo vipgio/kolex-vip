@@ -1,5 +1,5 @@
 {
-	"version": "2.7.12",
+	"version": "2.7.13",
 	"date": "2024-08-21",
-	"changes": ["Set selector now has a separator for digitals and hybrids"]
+	"changes": ["You can set how many columns you see in the Pack Manager now. (Mint search soon TM)"]
 }

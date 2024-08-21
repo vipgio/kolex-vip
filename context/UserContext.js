@@ -7,6 +7,7 @@ const UserContextProvider = (props) => {
 	const [user, setUser] = useState(null); // user object
 	const [initialLoading, setInitialLoading] = useState(true); // used to show loading screen on first load and redirect
 	const [categoryId, setCategoryId] = useState(null);
+	const [packGalleryColumns, setPackGalleryColumns] = useState(null);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -38,6 +39,19 @@ const UserContextProvider = (props) => {
 			setCategoryId("1");
 		}
 	}, []);
+
+	useEffect(() => {
+		const localPackGalleryColumns = localStorage.getItem("packGalleryColumns");
+		if (localPackGalleryColumns) {
+			setPackGalleryColumns(localPackGalleryColumns);
+		} else {
+			localStorage.setItem("packGalleryColumns", "4");
+			setPackGalleryColumns("4");
+		}
+	}, []);
+	useEffect(() => {
+		localStorage.setItem("packGalleryColumns", packGalleryColumns);
+	}, [packGalleryColumns]);
 
 	useEffect(() => {
 		if (categoryId) {
@@ -80,6 +94,8 @@ const UserContextProvider = (props) => {
 				initialLoading,
 				categoryId,
 				setCategoryId,
+				packGalleryColumns,
+				setPackGalleryColumns,
 			}}
 		>
 			{props.children}

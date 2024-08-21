@@ -32,7 +32,7 @@ const MassPackModal = ({ packTemplate, showModal, setShowModal }) => {
 
 	return (
 		<BigModal
-			header={packTemplate.name}
+			header={`${packTemplate.name} - ${packTemplate.id}`}
 			showModal={showModal}
 			setShowModal={setShowModal}
 			closeOnClick={true}

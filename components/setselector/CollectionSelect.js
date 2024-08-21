@@ -44,12 +44,12 @@ const CollectionSelect = ({ selectedCol, setSelectedCol, selectedSeason, collect
 									key={col}
 									value={col}
 									className={({ active }) =>
-										`relative cursor-pointer select-none py-2 px-4 text-center ${
+										`relative cursor-pointer select-none p-2 text-center ${
 											active ? "bg-amber-100 text-amber-900" : "text-gray-900"
 										}`
 									}
 								>
-									<span className={`block truncate`}>{col}</span>
+									<span className={`block text-ellipsis`}>{col}</span>
 								</Listbox.Option>
 							))}
 						{collections
