@@ -171,7 +171,7 @@ const Packmanager = () => {
 												Total value: $
 												{packs
 													.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
-													.reduce((acc, pack) => acc + Number(pack.floor), 0)
+													.reduce((acc, pack) => acc + Number(pack.floor) * pack.packs.length, 0)
 													.toFixed(2)}
 											</span>
 										</div>
