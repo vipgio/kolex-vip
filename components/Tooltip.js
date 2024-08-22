@@ -11,6 +11,10 @@ const Tooltip = ({ direction, text, color }) => {
 		case "right":
 			extra = "left-5 ml-5 after:-left-5 after:border-r-primary-400";
 			break;
+
+		case "top":
+			extra = "bottom-5 mb-5 after:-bottom-5 after:border-t-primary-400";
+			break;
 	}
 
 	switch (color) {
@@ -37,7 +41,7 @@ const Tooltip = ({ direction, text, color }) => {
 	return (
 		<div
 			className={`group relative block opacity-50 transition-opacity duration-300 hover:opacity-100 ${
-				direction === "right" ? "ml-2" : "mr-2"
+				direction === "right" ? "ml-2" : direction === "top" ? "mb-2" : "mr-2"
 			} ${customColor}`}
 		>
 			<BsQuestionCircle />

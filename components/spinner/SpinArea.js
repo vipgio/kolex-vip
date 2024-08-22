@@ -117,7 +117,7 @@ const SpinArea = ({ info }) => {
 
 	useEffect(() => {
 		const initialFetch = async () => {
-			const { result } = await fetchData(`${API}/user/funds`, null, null, true);
+			const { result } = await fetchData({endpoint: `${API}/user/funds`, direct: true});
 			if (result) {
 				setFunds(result);
 				fundRef.current = result.silvercoins;

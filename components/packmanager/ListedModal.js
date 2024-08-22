@@ -29,11 +29,15 @@ const ListedModal = ({ showModal, setShowModal }) => {
 					if (item.type === "pack") return item.pack.packTemplate.id;
 				})
 			).toString();
-			const { result: floorData } = await fetchData(`/api/market/templates`, {
-				templateIds: templateList,
-				type: "pack",
-				page: 1,
-				price: "asc",
+			const { result: floorData } = await fetchData({
+				endpoint: `/api/market/templates`,
+				params: {
+					templateIds: templateList,
+					type: "pack",
+					page: 1,
+					price: "asc",
+				},
+				forceCategoryId: true,
 			});
 			setListed((prev) => [
 				...prev,
@@ -64,9 +68,13 @@ const ListedModal = ({ showModal, setShowModal }) => {
 	};
 
 	const getListed = async (page) => {
-		const { result, error } = await fetchData(`/api/market/listed/users/${user.user.id}`, {
-			page: page,
-			type: "pack",
+		const { result, error } = await fetchData({
+			endpoint: `/api/market/listed/users/${user.user.id}`,
+			params: {
+				type: "pack",
+				page: page,
+			},
+			forceCategoryId: true,
 		});
 		if (result) return result;
 		if (error) console.log(error);
@@ -107,7 +115,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 				closingFunction={() => (finished.current = true)}
 				hasToast={true}
 			>
-				<div className='flex h-16 min-h-[4rem] justify-between border-gray-700 p-1 dark:border-gray-500'>
+				<div className='min-h-[4rem] flex h-16 justify-between border-gray-700 p-1 dark:border-gray-500'>
 					<div className='flex flex-1 items-center'>
 						<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
 							Sort by:{" "}

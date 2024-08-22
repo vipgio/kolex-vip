@@ -1,8 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
+import chunk from "lodash/chunk";
 import { UserContext } from "context/UserContext";
 import { useAxios } from "hooks/useAxios";
+import { templateLimit } from "@/config/config";
 import Meta from "components/Meta";
 import PackGallery from "@/components/packmanager/PackGallery";
 import RefreshButton from "@/components/RefreshButton";
@@ -13,7 +15,7 @@ import PurchasePage from "@/components/packmanager/PurchasePage";
 import { IoSearchOutline } from "react-icons/io5";
 
 const Packmanager = () => {
-	const { user, categoryId } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [showListedModal, setShowListedModal] = useState(false);
@@ -23,14 +25,17 @@ const Packmanager = () => {
 
 	let templates = [];
 
-	const getUserPacks = async (page, categoryId) => {
-		const { result, error } = await fetchData(`/api/packs/user?page=${page}&categoryId=${categoryId}`);
+	const getUserPacks = async (page) => {
+		const { result, error } = await fetchData({
+			endpoint: `/api/packs/user?page=${page}`,
+			forceCategoryId: true,
+		});
 		if (error) console.error(error);
 		if (result) return result;
 	};
 
 	const getAllPacks = async (page) => {
-		const myPacks = await getUserPacks(page, categoryId);
+		const myPacks = await getUserPacks(page);
 		if (myPacks) {
 			if (myPacks.packs.length > 0) {
 				myPacks.packs.forEach((pack) => {
@@ -46,23 +51,68 @@ const Packmanager = () => {
 								description: pack.packTemplate.description,
 								releaseTime: pack.packTemplate.releaseTime?.split("T")[0],
 								image: pack.packTemplate.images.filter((image) => image.name === "image")[0].url,
+								userLimit: pack.packTemplate.userLimit,
 								packs: [{ id: pack.id, created: pack.created.split("T")[0] }],
 						  }); // add the pack template to the array
 				});
 				getAllPacks(++page);
 			} else {
 				setPacks(uniq(templates));
+				await getMarketInfo();
 				setLoading(false);
 			}
 		}
 	};
 
-	const refreshPacks = () => {
+	const refreshPacks = async () => {
 		setLoading(true);
 		setSearchQuery("");
 		setPacks([]);
 		localStorage.removeItem("userPacks");
-		getAllPacks(1);
+		await getAllPacks(1);
+	};
+
+	const getMarketInfo = async () => {
+		const templateChunks = chunk(
+			packs.map((pack) => pack.id),
+			templateLimit
+		);
+
+		try {
+			const promises = templateChunks.map(async (chunk) => {
+				const { result, error } = await fetchData({
+					endpoint: `/api/market/templates`,
+					params: {
+						templateIds: uniq(chunk).toString(),
+						type: "pack",
+						page: 1,
+						price: "asc",
+					},
+					forceCategoryId: true,
+				});
+
+				if (error) {
+					console.error("API Error:", error);
+					return []; // Return an empty array or handle it as needed
+				}
+
+				return result.templates;
+			});
+
+			const results = await Promise.all(promises);
+			setPacks((prev) => {
+				return prev.map((pack) => {
+					const marketInfo = results.flat().find((template) => template.entityTemplateId === pack.id);
+					const floorPrice = marketInfo?.lowestPrice || 0;
+					return {
+						...pack,
+						floor: floorPrice,
+					};
+				});
+			});
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	useEffect(() => {
@@ -110,12 +160,21 @@ const Packmanager = () => {
 											/>
 											<IoSearchOutline className='absolute top-2.5 right-1.5 text-gray-400' />
 										</div>
-										<span className='ml-4 font-semibold text-gray-700 dark:text-gray-300'>
-											Total packs:{" "}
-											{packs
-												.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
-												.reduce((acc, pack) => acc + pack.packs.length, 0)}
-										</span>
+										<div className='-mt-2 ml-4 flex flex-col font-semibold text-gray-700 dark:text-gray-300'>
+											<span>
+												Total packs:{" "}
+												{packs
+													.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
+													.reduce((acc, pack) => acc + pack.packs.length, 0)}
+											</span>
+											<span>
+												Total value: $
+												{packs
+													.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
+													.reduce((acc, pack) => acc + Number(pack.floor), 0)
+													.toFixed(2)}
+											</span>
+										</div>
 									</div>
 									<div className='mt-5 mb-3 mr-4 flex items-center justify-end'>
 										<Tooltip

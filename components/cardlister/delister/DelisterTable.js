@@ -20,7 +20,7 @@ const DelisterTable = ({
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Circulation</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Price</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Floor</th>
-					<th className='py-1 px-2 sm:py-3 sm:px-6'>Listed at</th>
+					<th className='py-1 px-2 sm:py-3 sm:px-6'>List Date</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>New Price</th>
 					<th className='py-1 px-2 sm:py-3 sm:px-6'>Action</th>
 				</tr>

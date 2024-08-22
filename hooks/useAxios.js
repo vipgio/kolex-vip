@@ -8,36 +8,41 @@ const useAxios = () => {
 
 	const fetchData = async (endpoint, params, controller, direct = false, forceCategoryId = false) => {
 		let result, error;
-		const config = direct
-			? {
-					headers: {
+
+		if (typeof endpoint === "object" && endpoint !== null) {
+			// Destructure properties from the object into the existing variables
+			({
+				endpoint = endpoint, // Defaults to the existing variable if not present
+				params = params,
+				controller = controller,
+				direct = direct,
+				forceCategoryId = forceCategoryId,
+			} = endpoint);
+		}
+
+		const config = {
+			headers: direct //for calls directly to the kolex api instead of nextjs api
+				? {
 						"Content-Type": "application/json",
 						"x-user-jwt": user.jwt,
-					},
-			  }
-			: {
-					headers: { jwt: user.jwt },
-			  };
+				  }
+				: {
+						jwt: user.jwt,
+				  },
+		};
 		if (controller) {
 			config.signal = controller.signal;
 		}
 		try {
-			if (forceCategoryId) {
-				const { data } = await http.get(endpoint, {
-					params: { ...params, categoryId },
-					...config,
-				});
-				if (data.success) {
-					result = data.data;
-				}
-			} else {
-				const { data } = await http.get(endpoint, {
-					params,
-					...config,
-				});
-				if (data.success) {
-					result = data.data;
-				}
+			const requestParams = forceCategoryId ? { ...params, categoryId } : params;
+
+			const { data } = await http.get(endpoint, {
+				params: requestParams,
+				...config,
+			});
+
+			if (data.success) {
+				result = data.data;
 			}
 		} catch (err) {
 			error = err;

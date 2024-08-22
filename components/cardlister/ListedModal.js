@@ -35,12 +35,6 @@ const ListedModal = ({ showModal, setShowModal }) => {
 				cardIds: templateList,
 			});
 			if (error) console.error(error);
-			// const { result: floorData, error } = await fetchData(`/api/market/templates`, {
-			// 	templateIds: templateList,
-			// 	type: "card",
-			// 	page: 1,
-			// 	price: "asc",
-			// });
 			setListed((prev) => [
 				...prev,
 				...data.market.map((item) => {
@@ -74,8 +68,12 @@ const ListedModal = ({ showModal, setShowModal }) => {
 	};
 
 	const getListed = async (page) => {
-		const { result, error } = await fetchData(`/api/market/listed/users/${user.user.id}`, {
-			page: page,
+		const { result, error } = await fetchData({
+			endpoint: `/api/market/listed/users/${user.user.id}`,
+			params: {
+				page: page,
+			},
+			forceCategoryId: true,
 		});
 		if (result) return result;
 		if (error) console.error(error);
@@ -115,7 +113,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 			closingFunction={() => (finished.current = true)}
 			hasToast={true}
 		>
-			<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
+			<div className='min-h-[4rem] flex h-16 border border-gray-700 p-1 dark:border-gray-500'>
 				<div className='flex items-center'>
 					<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
 						Sort by:{" "}

@@ -18,6 +18,10 @@ const CardGallery = ({ templates, user }) => {
 	const defaultFilters = { minOwned: 1, minFloor: minPrice, maxFloor: maxPrice };
 	const [filters, setFilters] = useState(defaultFilters);
 
+	const totalValue = templates
+		.filter((item) => item.count)
+		.reduce((acc, cur) => acc + (cur.floor ? cur.floor * cur.count : 0), 0);
+
 	useEffect(() => {
 		setSelectedTemplates((prev) =>
 			prev
@@ -48,6 +52,7 @@ const CardGallery = ({ templates, user }) => {
 					<option value='owned'>Owned</option>
 					<option value='floor'>Floor</option>
 					<option value='circ'>Circulation</option>
+					<option value='value'>Value</option>
 				</select>
 			</div>
 
@@ -147,7 +152,16 @@ const CardGallery = ({ templates, user }) => {
 				</div>
 			</div>
 
-			<div className='m-2 grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5'>
+			{totalValue > 0 && (
+				<div className='ml-2 mt-1 flex items-center font-semibold text-gray-700 dark:text-gray-300'>
+					Total set value: ${totalValue.toFixed(2)}
+					<Tooltip
+						direction='right'
+						text='Total value of all items based on floor price, regardless of mint'
+					/>
+				</div>
+			)}
+			<div className='m-2 mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-6'>
 				{sortBy(
 					templates,
 					sortMethod === "owned"
@@ -156,6 +170,8 @@ const CardGallery = ({ templates, user }) => {
 						? [(o) => -o.floor, (o) => -o.count]
 						: sortMethod === "circ"
 						? [(o) => -o.inCirculation, (o) => -o.count]
+						: sortMethod === "value"
+						? [(o) => -o.floor * o.count, (o) => -o.count]
 						: [(o) => o.listed, (o) => -o.count, (o) => -o.floor] //listed
 				)
 					.filter((item) => item.count)

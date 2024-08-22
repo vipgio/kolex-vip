@@ -3,6 +3,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CDN } from "@/config/config";
 import ImageWrapper from "HOC/ImageWrapper";
 import PriceDetails from "./PriceDetails";
+import Tooltip from "../Tooltip";
 
 const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 	const [showDetails, setShowDetails] = useState(false);
@@ -64,6 +65,12 @@ const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 				<span className='ml-auto mr-1'>
 					{item.inCirculation}
 					{item.minted ? `/${item.minted}` : ``}
+				</span>
+			</div>
+			<div className='flex w-full border-b border-gray-400'>
+				<span className='ml-1'>Value:</span>
+				<span className='ml-auto mr-1'>
+					{item.floor * item.count ? "$" + (item.floor * item.count).toFixed(2) : "-"}
 				</span>
 			</div>
 			<div className='w-full text-center text-sm font-semibold text-primary-500'>

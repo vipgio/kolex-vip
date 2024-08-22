@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import isEqual from "lodash/isEqual";
+import { CDN } from "@/config/config";
 import ImageWrapper from "HOC/ImageWrapper";
 import PackOdds from "./PackOdds";
 
@@ -40,9 +41,7 @@ const PackModal = React.memo(
 										<div className='relative flex'>
 											<div className='w-4/12 pt-1 sm:w-1/5'>
 												<ImageWrapper
-													src={`https://cdn.kolex.gg${
-														pack.images.filter((images) => images.name === "image")[0].url
-													}`}
+													src={`${CDN}${pack.images.filter((images) => images.name === "image")[0].url}`}
 													width={200}
 													height={200}
 													alt={pack.name}

@@ -23,7 +23,6 @@ const RosterDetail = () => {
 								height={300}
 								alt={card.card.cardTemplateId || "loading"}
 							/>
-							{/* <img src='https://cdn.kolex.gg/card/render/5779/17990/size_600/36ebdc1b-37dd-4967-91e3-3c01da3d8608.svg?level=2' /> */}
 						</div>
 					))}
 				</div>

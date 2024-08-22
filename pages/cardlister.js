@@ -131,11 +131,15 @@ const Cardlister = () => {
 	};
 
 	const getMarketInfo = async (templates, page, type) => {
-		const { result, error } = await fetchData(`/api/market/templates`, {
-			type: type,
-			page: page,
-			price: "asc",
-			collectionIds: selectedCollection.collection.id,
+		const { result, error } = await fetchData({
+			endpoint: `/api/market/templates`,
+			params: {
+				collectionIds: selectedCollection.collection.id,
+				type: type,
+				page: page,
+				price: "asc",
+			},
+			forceCategoryId: true,
 		});
 		if (error) {
 			console.error(error);

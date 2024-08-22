@@ -29,7 +29,7 @@ const seasons = ["Founders Edition", "2018", "2019", "2020", "2021", "2022", "20
 
 const SetSelector = React.memo(
 	({ setSelectedCollection }) => {
-		const { user } = useContext(UserContext);
+		const { user, categoryId } = useContext(UserContext);
 		const { fetchData } = useAxios();
 		const [collections, setCollections] = useState([]);
 
@@ -121,7 +121,7 @@ const SetSelector = React.memo(
 							season,
 							Object.entries({
 								...(eventsGrouped.collections.length > 0 ? { Events: eventsGrouped } : {}), // Add the events groupings if they exist
-								Core: coreGrouped,
+								...(coreGrouped.collections.length > 0 ? { Core: coreGrouped } : {}), // Add the events groupings if they exist
 								...(nonEventsGrouped.collections || nonEventsGrouped),
 							}), // Add the non-events groupings
 						],
@@ -135,6 +135,7 @@ const SetSelector = React.memo(
 		const getCollections = async () => {
 			const { result, error } = await fetchData(`/api/collections/users/${user.user.id}/user-summary`, {
 				userId: user.user.id,
+				categoryId: categoryId,
 			});
 			if (error) {
 				console.error(error);

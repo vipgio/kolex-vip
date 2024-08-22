@@ -1,5 +1,10 @@
 {
-	"version": "2.7.13",
-	"date": "2024-08-21",
-	"changes": ["You can set how many columns you see in the Pack Manager now. (Mint search soon TM)"]
+	"version": "2.8.0",
+	"date": "2024-08-22",
+	"changes": [
+		"Added list view to pack search",
+		"Added total value for card lister",
+		"Added total value and sort options for pack manager",
+		"Fixed some bugs for categories other than CSGO"
+	]
 }

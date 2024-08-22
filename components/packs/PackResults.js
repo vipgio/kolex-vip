@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import isEqual from "lodash/isEqual";
+import { CDN } from "@/config/config";
 import ImageWrapper from "HOC/ImageWrapper";
 import PackOdds from "./PackOdds";
 
@@ -10,7 +11,7 @@ const PackResults = React.memo(
 			<div className='relative m-2 flex border-t border-gray-700 p-2 dark:border-gray-300'>
 				<div className='w-4/12 pt-1 sm:w-1/5'>
 					<ImageWrapper
-						src={`https://cdn.kolex.gg${pack.images.filter((images) => images.name === "image")[0].url}`}
+						src={`${CDN}${pack.images.filter((images) => images.name === "image")[0].url}`}
 						width={200}
 						height={200}
 						alt={pack.name}

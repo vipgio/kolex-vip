@@ -19,11 +19,15 @@ const Circulation = () => {
 
 	const getCardPrices = async (page) => {
 		try {
-			const { result } = await fetchData(`/api/market/templates`, {
-				collectionIds: selectedCollection.collection.id,
-				type: "card",
-				page: page,
-				price: "asc",
+			const { result } = await fetchData({
+				endpoint: `/api/market/templates`,
+				params: {
+					collectionIds: selectedCollection.collection.id,
+					type: "card",
+					page: page,
+					price: "asc",
+				},
+				forceCategoryId: true,
 			});
 			if (result?.templates.length > 0) {
 				setCardPrices((prev) => [...prev, ...result.templates]);
@@ -36,11 +40,15 @@ const Circulation = () => {
 
 	const getStickerPrices = async (page) => {
 		try {
-			const { result } = await fetchData(`/api/market/templates`, {
-				collectionIds: selectedCollection.collection.id,
-				type: "sticker",
-				page: page,
-				price: "asc",
+			const { result } = await fetchData({
+				endpoint: `/api/market/templates`,
+				params: {
+					collectionIds: selectedCollection.collection.id,
+					type: "sticker",
+					page: page,
+					price: "asc",
+				},
+				forceCategoryId: true,
 			});
 			setStickerPrices((prev) => [...prev, ...result.templates]);
 			result && result.templates.length > 0 && (await getStickerPrices(++page));

@@ -3,13 +3,17 @@ import pick from "lodash/pick";
 import { useAxios } from "hooks/useAxios";
 import Meta from "components/Meta";
 import Toggle from "@/components/packs/Toggle";
+import ListModeToggle from "@/components/packs/ListModeToggle";
 import Filters from "@/components/packs/Filters";
 import DirectSearch from "@/components/packs/DirectSearch";
 import FilteredBox from "@/components/packs/FilteredBox";
+import ImageModeGallery from "@/components/packs/ImageModeGallery";
+import ListModeTable from "@/components/packs/ListModeTable";
 
 const PackSearch = () => {
 	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);
+	const [listMode, setListMode] = useState(false);
 	const [packs, setPacks] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [results, setResults] = useState(null);
@@ -36,7 +40,7 @@ const PackSearch = () => {
 	}, [searchQuery]);
 
 	const getPacks = async (page) => {
-		const { result, error } = await fetchData(`/api/packs?page=${page}`);
+		const { result, error } = await fetchData({ endpoint: `/api/packs?page=${page}`, forceCategoryId: true });
 		if (error) console.error(error);
 		if (result?.length > 0) {
 			return result;
@@ -114,19 +118,16 @@ const PackSearch = () => {
 					</>
 				) : (
 					<>
+						<ListModeToggle listMode={listMode} setListMode={setListMode} loading={loading} />
+
 						<Filters filters={filters} setFilters={setFilters} packs={packs} />
 						{filters.seasons.length > 0 && filters.show && (
-							<div className='mt-4 grid grid-cols-1 gap-3 p-1.5 px-3 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
-								{packs
-									.filter(
-										(pack) =>
-											filters.seasons.includes(pack.properties.seasons[0]) &&
-											(filters.costTypes.length > 0 ? filters.costTypes.includes(pack.costType) : true)
-									)
-									.sort((a, b) => a.purchaseStart - b.purchaseStart)
-									.map((pack) => (
-										<FilteredBox pack={pack} key={pack.id} />
-									))}
+							<div className=''>
+								{listMode ? (
+									<ListModeTable packs={packs} filters={filters} />
+								) : (
+									<ImageModeGallery packs={packs} filters={filters} />
+								)}
 							</div>
 						)}
 					</>

@@ -1,6 +1,6 @@
 import Image from "next/future/image";
 
-const ImageWrapper = ({ src, alt, width, height, className, optimize }) => {
+const ImageWrapper = ({ src, alt, width, height, className = "", optimize }) => {
 	return (
 		<Image
 			src={src}

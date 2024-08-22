@@ -1,9 +1,11 @@
-import { useContext } from "react";
-import PackGalleryItem from "./PackGalleryItem";
+import { useContext, useState } from "react";
+import sortBy from "lodash/sortBy";
 import { UserContext } from "context/UserContext";
+import PackGalleryItem from "./PackGalleryItem";
 
 const MassPackGrid = ({ packs, searchQuery }) => {
 	const { packGalleryColumns, setPackGalleryColumns } = useContext(UserContext);
+	const [sortMethod, setSortMethod] = useState("newest");
 
 	const getGridColumnClass = (columns) => {
 		switch (columns) {
@@ -44,14 +46,35 @@ const MassPackGrid = ({ packs, searchQuery }) => {
 					<option value='8'>8</option>
 				</select>
 			</div>
+			<div className='m-4 mb-2 text-gray-700 dark:text-gray-300'>
+				<label htmlFor='columns'>Sort: </label>
+				<select
+					id='columns'
+					className='input-field mb-2 mr-3 w-28 sm:mb-0'
+					onChange={(e) => setSortMethod(() => e.target.value)}
+					defaultValue={sortMethod}
+				>
+					<option value='newest'>Newest</option>
+					<option value='floor'>Floor</option>
+					<option value='value'>Value</option>
+					<option value='owned'>Owned</option>
+				</select>
+			</div>
 			<div className={`mx-2 mt-2 grid grid-cols-2 gap-16 pb-8 ${getGridColumnClass(packGalleryColumns)}`}>
-				{packs
-					.sort((a, b) => b.id - a.id)
-					.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
-					.filter((pack) => pack.packs.length > 0)
-					.map((packTemplate) => (
-						<PackGalleryItem key={packTemplate.id} packTemplate={packTemplate} />
-					))}
+				{sortBy(
+					packs
+						.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
+						.filter((pack) => pack.packs.length > 0),
+					sortMethod === "owned"
+						? [(o) => -o.packs.length, (o) => -o.floor]
+						: sortMethod === "floor"
+						? [(o) => -o.floor, (o) => -o.packs.length]
+						: sortMethod === "value"
+						? [(o) => -o.floor * o.packs.length, (o) => -o.packs.length]
+						: [(o) => -o.id] //id newest
+				).map((packTemplate) => (
+					<PackGalleryItem key={packTemplate.id} packTemplate={packTemplate} />
+				))}
 			</div>
 		</>
 	);

@@ -8,6 +8,7 @@ import ActivePacks from "@/components/ActivePacks";
 import TotalDeposit from "@/components/TotalDeposit";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CDN } from "@/config/config";
 import LoadingSpin from "@/components/LoadingSpin";
 import Changelog from "@/components/Changelog";
 
@@ -95,7 +96,7 @@ const Profile = () => {
 				<div className='flex'>
 					<div className='m-2 mx-3 h-36 w-36 overflow-hidden rounded-full border border-gray-700 dark:border-gray-300'>
 						<ImageWrapper
-							src={`https://cdn.kolex.gg${user?.user.avatar}` || ""}
+							src={`${CDN}${user?.user.avatar}` || ""}
 							alt={user?.user.username || "loading"}
 							className='h-full w-full object-cover'
 							height={500}

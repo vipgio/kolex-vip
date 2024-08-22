@@ -75,11 +75,16 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 		let allData = [];
 		let count = 1;
 		while (count > 0 && !finished.current) {
-			const { result, error } = await fetchData(
-				`/api/market/listed/users/${user.user.id}?type=${type}&page=${page}&templateIds=${templateId}`,
-				{},
-				controller
-			);
+			const { result, error } = await fetchData({
+				endpoint: `/api/market/listed/users/${user.user.id}`,
+				params: {
+					type,
+					page,
+					templateIds: templateId,
+				},
+				controller,
+				forceCategoryId: true,
+			});
 			if (error) {
 				console.error(error);
 				return;
@@ -198,7 +203,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 		>
 			{cardDetails.length > 0 ? (
 				<>
-					<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
+					<div className='min-h-[4rem] flex h-16 border border-gray-700 p-1 dark:border-gray-500'>
 						<div className='flex items-center'>
 							<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
 								Sort by:{" "}
