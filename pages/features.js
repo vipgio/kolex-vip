@@ -13,11 +13,7 @@ const Features = ({ features }) => {
 			<div className='mt-5 flex justify-center'>
 				<Toggle action={show} setAction={setShow} />
 			</div>
-			{show === "features" ? (
-				<Details features={features} />
-			) : (
-				<Pricing features={features} />
-			)}
+			{show === "features" ? <Details features={features} /> : <Pricing features={features} />}
 		</>
 	);
 };
@@ -28,12 +24,12 @@ Features.getInitialProps = async () => {
 	const supabase = createClient(supabaseUrl, supabaseKey);
 	try {
 		const { data, error } = await supabase.from("kolexFeatures").select("*");
-		error && console.log(error);
+		error && console.error(error);
 		if (data) {
 			return { features: data.sort((a, b) => a.id - b.id) };
 		}
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 	}
 };
 

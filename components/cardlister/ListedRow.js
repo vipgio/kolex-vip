@@ -34,7 +34,7 @@ const ListedRow = React.memo(
 				});
 			}
 			if (error) {
-				console.log(error);
+				console.error(error);
 				toast.error(`${error.response.data.error}`, {
 					toastId: item.marketId,
 				});
@@ -53,7 +53,7 @@ const ListedRow = React.memo(
 				}
 			}
 			if (error) {
-				console.log(error);
+				console.error(error);
 				toast.error(`${error.response.data.error}`, {
 					toastId: item.marketId,
 				});

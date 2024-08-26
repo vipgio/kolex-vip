@@ -18,9 +18,7 @@ const PackResults = React.memo(
 					/>
 				</div>
 				<div className='mx-2 w-8/12 space-y-1 text-gray-800 dark:text-gray-200 sm:w-4/5'>
-					<div className='mb-2 text-lg font-bold' onClick={() => console.log(pack)}>
-						{pack.name}
-					</div>
+					<div className='mb-2 text-lg font-bold'>{pack.name}</div>
 					<div>{pack.description}</div>
 					<div>
 						Number of items in pack: <span className='font-semibold text-primary-500'>{pack.entityCount}</span>

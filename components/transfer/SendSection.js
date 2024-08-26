@@ -24,23 +24,18 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 		await handleUse();
 		const itemsChunked = chunk(items, 50);
 		for (const entities of itemsChunked) {
-			console.log({
-				userId: selectedUser.id,
-				entities: entities,
-			});
 			const { result, error } = await postData("/api/trade/create-offer", {
 				userId: selectedUser.id,
 				entities: entities,
 			});
 			if (result) {
 				setProgress((prev) => ({ ...prev, trades: prev.trades + 1 }));
-				console.log(result);
 				counter.current++;
 				toast.isActive("success")
 					? toast.update("success", {
-							render: `Sent ${counter.current} ${
-								counter.current === 1 ? "trade" : "trades"
-							} to ${selectedUser.username}!`,
+							render: `Sent ${counter.current} ${counter.current === 1 ? "trade" : "trades"} to ${
+								selectedUser.username
+							}!`,
 					  })
 					: toast.success(
 							`Sent ${counter.current} ${counter.current === 1 ? "trade" : "trades"} to ${
@@ -51,7 +46,7 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 							}
 					  );
 			} else {
-				console.log(error);
+				console.error(error);
 				toast.error(error.response.data.error);
 			}
 		}
@@ -94,7 +89,7 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 			setItems((prev) => [...prev, ...items]);
 		}
 		if (error) {
-			console.log(error);
+			console.error(error);
 			toast.error(error.response.data.error, {
 				toastId: error.response.data.errorCode,
 			});
@@ -117,9 +112,7 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 		counter.current = 0;
 		setProgress({ collections: 0, trades: 0 });
 		try {
-			const { result, error } = await fetchData(
-				`/api/collections/users/${user.user.id}/user-summary`
-			);
+			const { result, error } = await fetchData(`/api/collections/users/${user.user.id}/user-summary`);
 			const miniCollections = result.map((collection) => ({
 				id: collection.collection.id,
 				name: collection.collection.name,
@@ -128,7 +121,7 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 			setCollections(miniCollections);
 			await scanAllSets(miniCollections);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 			toast.error(err.response.data.error, {
 				toastId: err.response.data.errorCode,
 			});
@@ -179,8 +172,7 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 				</div>
 				{progress.trades > 0 && (
 					<div className='text-gray-700 dark:text-gray-300'>
-						{progress.trades} / {Math.ceil(items.length / 50)}{" "}
-						{items.length > 50 ? "Trades" : "Trade"} sent
+						{progress.trades} / {Math.ceil(items.length / 50)} {items.length > 50 ? "Trades" : "Trade"} sent
 					</div>
 				)}
 				<div className='mt-2 flex xs:mt-auto'>

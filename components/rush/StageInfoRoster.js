@@ -42,7 +42,7 @@ const StageInfoRoster = ({ roster, circuit, stage, locked, setLocked, loading })
 			}
 		}
 		if (error) {
-			console.log(error);
+			console.error(error);
 			toast.error(error.response.data.error, {
 				toastId: error.response.data.errorCode,
 			});

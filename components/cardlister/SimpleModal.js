@@ -92,7 +92,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 				try {
 					fetchInitialData();
 				} catch (err) {
-					console.log(err);
+					console.error(err);
 				}
 			}
 		}

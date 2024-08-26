@@ -68,7 +68,7 @@ const Cardlister = () => {
 				setLoading(false);
 			}
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 			setLoading(false);
 		}
 	};
@@ -123,7 +123,7 @@ const Cardlister = () => {
 					return data;
 				}
 			} catch (err) {
-				console.log(err);
+				console.error(err);
 			}
 		} else {
 			setLoading(false);

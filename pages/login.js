@@ -32,7 +32,7 @@ const Login = () => {
 				hideProgressBar: false,
 			});
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 			toast.error(`Failed to copy the code :(`, { toastId: "failed" });
 			toast.error(err.response.data.error, {
 				toastId: err.response.data.errorCode,
@@ -91,7 +91,7 @@ const Login = () => {
 				setLoading(false);
 			}
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 			if (!codeEnabled && err.response.data.errorCode === "2fa_invalid") {
 				setCodeEnabled(true);
 				toast.warning("Enter your 2FA code", {

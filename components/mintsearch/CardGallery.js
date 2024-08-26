@@ -177,7 +177,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 								}
 							}
 						} catch (err) {
-							console.log(err);
+							console.error(err);
 						}
 					}
 				}
@@ -189,7 +189,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 				}
 			}
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 
@@ -279,7 +279,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 			// 	setLoading(false);
 			// }
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 

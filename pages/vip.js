@@ -21,7 +21,7 @@ const Vip = () => {
 		if (result) {
 			return result;
 		} else {
-			console.log(error);
+			console.error(error);
 			toast.error(error.response.data.error, {
 				toastId: error.response.data.errorCode,
 			});
@@ -41,9 +41,7 @@ const Vip = () => {
 						{
 							...spinResult,
 							time: new Date(),
-							title: title
-								? title
-								: "Something, but kolex is buggy so can't find the card",
+							title: title ? title : "Something, but kolex is buggy so can't find the card",
 						},
 						...prev,
 					]);
@@ -52,7 +50,7 @@ const Vip = () => {
 				}
 			}
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 
@@ -139,9 +137,7 @@ const Vip = () => {
 					)}
 					<div className='max-h-96 min-h-[24rem] divide-y divide-gray-500 overflow-auto sm:divide-y-0'>
 						{spinnerInfo?.id &&
-							spinRes.map((res) => (
-								<SpinResult result={res} spinnerInfo={spinnerInfo} key={res.time} />
-							))}
+							spinRes.map((res) => <SpinResult result={res} spinnerInfo={spinnerInfo} key={res.time} />)}
 					</div>
 				</div>
 			</div>

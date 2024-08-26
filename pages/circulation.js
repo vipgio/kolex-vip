@@ -34,7 +34,7 @@ const Circulation = () => {
 				await getCardPrices(++page);
 			}
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 
@@ -53,7 +53,7 @@ const Circulation = () => {
 			setStickerPrices((prev) => [...prev, ...result.templates]);
 			result && result.templates.length > 0 && (await getStickerPrices(++page));
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 

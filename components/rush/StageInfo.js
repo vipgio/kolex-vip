@@ -114,7 +114,7 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 			return result.game.user1.winner;
 		}
 		if (error) {
-			console.log(error);
+			console.error(error);
 			toast.error(error.response.data.error, {
 				toastId: error.response.data.errorCode,
 			});
@@ -184,7 +184,7 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 			toast.success("Claimed the reward!");
 		}
 		if (error) {
-			console.log(error);
+			console.error(error);
 			toast.error(error.response.data.error, {
 				toastId: error.response.data.errorCode,
 			});

@@ -61,7 +61,6 @@ const CraftingModal = React.memo(
 				const { result: templates, error: templateError } = await await fetchData(`/api/cards/templates`, {
 					cardIds: uniq(result.cards.map((card) => card.cardTemplateId)).toString(),
 				});
-				console.log(templates);
 				if (templateError) {
 					console.error(templateError);
 					toast.error(templateError.response.data.error, {

@@ -180,7 +180,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 						<button className='submit-button mt-6' onClick={open} disabled={loading || selected.length === 0}>
 							{loading ? <LoadingSpin /> : "Open selected Packs"}
 						</button>
-						<div className='mt-1 text-gray-300' onClick={() => console.log(selected)}>
+						<div className='mt-1 text-gray-300'>
 							{openedPacksCount[0]} / {openedPacksCount[1]} Packs opened
 						</div>
 					</div>

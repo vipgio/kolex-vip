@@ -24,7 +24,7 @@ const PurchasePage = () => {
 
 		const { result, error } = await fetchData(`/api/market/pack/${packId}`, { page: currentPage });
 		if (error) {
-			console.log("Error fetching market listings", error);
+			console.error("Error fetching market listings", error);
 			return;
 		}
 		setListings((prev) => _.uniqBy([...prev, ...result.market], "marketId").flat());

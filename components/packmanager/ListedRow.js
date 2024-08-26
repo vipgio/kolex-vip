@@ -34,7 +34,7 @@ const ListedRow = ({ pack, setListed, insertFloor }) => {
 			});
 		}
 		if (error) {
-			console.log(error);
+			console.error(error);
 			toast.error(`${error.response.data.error}`, {
 				toastId: pack.marketId,
 				position: "top-left",
@@ -98,7 +98,7 @@ const ListedRow = ({ pack, setListed, insertFloor }) => {
 					) : (
 						<>
 							<button
-								className='text-primary-500 active:text-primary-400 ml-2 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-500'
+								className='ml-2 cursor-pointer text-primary-500 active:text-primary-400 disabled:cursor-not-allowed disabled:text-gray-500'
 								title='Update listing'
 								onClick={handleUpdate}
 								disabled={newPrice < minPrice}

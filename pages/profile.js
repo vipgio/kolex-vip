@@ -61,7 +61,7 @@ const Profile = () => {
 					  });
 			}
 			if (error) {
-				console.log(error);
+				console.error(error);
 				toast.error(`${error.response.data.error}`, {
 					toastId: questId,
 					position: "top-left",

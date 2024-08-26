@@ -121,7 +121,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 					  });
 			}
 			if (error) {
-				console.log(error);
+				console.error(error);
 				toast.error(`${error.response.data.error}`, {
 					toastId: item.marketId,
 				});
@@ -157,7 +157,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 					  );
 			}
 			if (error) {
-				console.log(error);
+				console.error(error);
 				toast.error(`${error.response.data.error}`, {
 					toastId: item.marketId,
 				});
@@ -169,7 +169,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 	const handleDelete = async (marketId) => {
 		const { result, error } = await deleteData(`/api/market/listed/${marketId}`);
 		if (error) {
-			console.log(error);
+			console.error(error);
 			toast.error(`${error.response.data.error}`, {
 				toastId: marketId,
 			});
@@ -183,7 +183,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 			minOffer: null,
 		});
 		if (error) {
-			console.log(error);
+			console.error(error);
 			toast.error(`${error.response.data.error}`, {
 				toastId: marketId,
 			});
@@ -203,7 +203,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 		>
 			{cardDetails.length > 0 ? (
 				<>
-					<div className='min-h-[4rem] flex h-16 border border-gray-700 p-1 dark:border-gray-500'>
+					<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
 						<div className='flex items-center'>
 							<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
 								Sort by:{" "}

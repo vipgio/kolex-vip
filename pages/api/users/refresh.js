@@ -6,7 +6,6 @@ export default async function handler(req, res) {
 	if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
 	try {
-		console.log(jwt);
 		const refreshToken = async (jwt) => {
 			return http(`${API}/auth/refresh-jwt`, {
 				method: "POST",
@@ -18,7 +17,7 @@ export default async function handler(req, res) {
 		const { data } = await refreshToken(jwt);
 		res.status(200).json(data);
 	} catch (err) {
-		console.log(err.response.data.error);
+		console.error(err.response.data.error);
 		res.status(err.response.status).json(err.response.data);
 	}
 }

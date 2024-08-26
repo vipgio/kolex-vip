@@ -32,7 +32,7 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 		}
 		if (error) {
 			setLoading(false);
-			console.log(error);
+			console.error(error);
 			const responseData = error.response?.data;
 			responseData
 				? toast.error(responseData.error, {
@@ -66,23 +66,22 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 				counter.current++;
 				toast.isActive("success")
 					? toast.update("success", {
-							render: `Accepted ${counter.current} ${
-								counter.current === 1 ? "trade" : "trades"
-							} from ${selectedUser.username}!`,
+							render: `Accepted ${counter.current} ${counter.current === 1 ? "trade" : "trades"} from ${
+								selectedUser.username
+							}!`,
 					  })
 					: toast.success(
-							`Accepted ${counter.current} ${
-								counter.current === 1 ? "trade" : "trades"
-							} from ${selectedUser.username}!`,
+							`Accepted ${counter.current} ${counter.current === 1 ? "trade" : "trades"} from ${
+								selectedUser.username
+							}!`,
 							{
 								toastId: "success",
 							}
 					  );
-				console.log(result);
 				setProgress((prev) => prev + 1);
 			}
 			if (error) {
-				console.log(error);
+				console.error(error);
 				const responseData = error.response?.data;
 				responseData
 					? toast.error(responseData.error, {
@@ -117,9 +116,7 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 		<>
 			<div className='mt-10 rounded-md border border-gray-700 p-3 dark:border-gray-300'>
 				<h1 className='text-xl font-semibold text-gray-700 dark:text-gray-300'>
-					{loading
-						? `Finding trades from ${selectedUser.username}`
-						: `Trades from ${selectedUser.username}`}
+					{loading ? `Finding trades from ${selectedUser.username}` : `Trades from ${selectedUser.username}`}
 				</h1>
 				<div>
 					{loading && (

@@ -77,7 +77,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 			forceCategoryId: true,
 		});
 		if (result) return result;
-		if (error) console.log(error);
+		if (error) console.error(error);
 	};
 
 	useEffect(() => {

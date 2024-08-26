@@ -35,19 +35,14 @@ const Delist = () => {
 					counter++;
 					toast.isActive("success")
 						? toast.update("success", {
-								render: `Removed ${counter}x ${
-									counter === 1 ? "item" : "items"
-								} from market.`,
+								render: `Removed ${counter}x ${counter === 1 ? "item" : "items"} from market.`,
 						  })
-						: toast.success(
-								`Removed ${counter}x ${counter === 1 ? "item" : "items"} from market.`,
-								{
-									toastId: "success",
-								}
-						  );
+						: toast.success(`Removed ${counter}x ${counter === 1 ? "item" : "items"} from market.`, {
+								toastId: "success",
+						  });
 				}
 			} catch (err) {
-				console.log(err);
+				console.error(err);
 				toast.error(`${err.response.data.error} ${id}`, {
 					toastId: id,
 				});
@@ -71,10 +66,7 @@ const Delist = () => {
 			/>
 			<div className='mt-5 border p-2'>
 				<form className='flex flex-col items-center space-y-2' onSubmit={handleSubmit}>
-					<label
-						htmlFor='card-id'
-						className='flex items-center text-gray-700 dark:text-gray-300'
-					>
+					<label htmlFor='card-id' className='flex items-center text-gray-700 dark:text-gray-300'>
 						Enter card IDs
 					</label>
 					<input
@@ -87,9 +79,7 @@ const Delist = () => {
 						disabled={loading}
 						autoComplete='off'
 						required={true}
-						className={`input-field w-80 ${
-							loading ? "cursor-not-allowed opacity-50" : ""
-						}`}
+						className={`input-field w-80 ${loading ? "cursor-not-allowed opacity-50" : ""}`}
 					/>
 					<button
 						type='submit'
