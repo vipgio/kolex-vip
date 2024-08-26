@@ -39,8 +39,8 @@ const Spinner = () => {
 				{/* <div>
 					Spin cost: {spinnerInfo.cost} {spinnerInfo.costType}
 				</div> */}
-				<div className='flex flex-col sm:flex-row'>
-					<div className='w-full rounded-md border border-gray-800 dark:border-gray-400 sm:w-96'>
+				<div className='relative flex h-[75vh] flex-col sm:flex-row'>
+					<div className='h-full w-full rounded-md border border-gray-800 dark:border-gray-400 sm:w-96'>
 						{loading ? (
 							<div className='h-full w-full animate-pulse bg-gray-300 dark:bg-gray-600'></div>
 						) : spinnerInfo.items ? (
@@ -63,10 +63,7 @@ const Spinner = () => {
 												<th
 													className='pr-1'
 													title={`1 in ${Number(
-														(100 / item.chance)
-															.toFixed(2)
-															.replace(/0+$/, "")
-															.replace(/\.$/, "")
+														(100 / item.chance).toFixed(2).replace(/0+$/, "").replace(/\.$/, "")
 													).toLocaleString()}`}
 												>
 													{item.chance}
@@ -76,9 +73,7 @@ const Spinner = () => {
 									<tr className='border-t-2 border-gray-500 bg-white hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-600'>
 										<td className='font-semibold'>Total</td>
 										<th>
-											{spinnerInfo.items
-												.reduce((prev, curr) => prev + Number(curr.chance), 0)
-												.toFixed(4)}
+											{spinnerInfo.items.reduce((prev, curr) => prev + Number(curr.chance), 0).toFixed(4)}
 										</th>
 									</tr>
 									<tr className='border-t border-gray-500 bg-white hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-600'>
@@ -86,9 +81,7 @@ const Spinner = () => {
 										<th>
 											{(
 												spinnerInfo.items.reduce(
-													(prev, curr) =>
-														prev +
-														(Number(curr.chance) / 100) * curr.properties.silvercoins,
+													(prev, curr) => prev + (Number(curr.chance) / 100) * curr.properties.silvercoins,
 													0
 												) * 100
 											).toLocaleString()}

@@ -133,7 +133,7 @@ const NewNavbar = () => {
 						</>
 					)}
 				</Menu>
-				<button className='ml-auto mr-2 h-6 w-6'>
+				<button className='ml-auto mr-2 h-6 w-6' tabIndex={-1}>
 					<a
 						href='https://github.com/vipgio/kolex-vip'
 						target='_blank'
@@ -149,8 +149,6 @@ const NewNavbar = () => {
 						target='_blank'
 						rel='noreferrer'
 						title='Contact me on Discord'
-						className='rounded-full focus:outline-primary-500 focus-visible:outline-offset-4 focus-visible:outline-primary-500'
-						// className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
 					>
 						<FaDiscord className='h-full w-full hover:text-gray-600 dark:hover:text-gray-200' />
 					</a>

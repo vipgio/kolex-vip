@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import sortBy from "lodash/sortBy";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
-import fixDecimal from "utils/NumberUtils";
+import { IoSearchOutline } from "react-icons/io5";
 import { useAxios } from "hooks/useAxios";
+import fixDecimal from "utils/NumberUtils";
 import http from "@/utils/httpClient";
 import { API } from "@/config/config";
 import MarketResults from "./MarketResults";
@@ -17,6 +18,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 	const [results, setResults] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [needOnly, setNeedOnly] = useState(false);
+	const [searchQuery, setSearchQuery] = useState("");
 	const [usersChecked, setUsersChecked] = useState(0);
 	const finished = useRef(false);
 
@@ -298,6 +300,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 							setSelectedCards(
 								cards
 									.filter((item) => (needOnly ? !owned.some((owned) => owned.templateId === item.id) : true))
+									.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
 									.map((template) => ({
 										title: template.title,
 										type: template.cardType ? "card" : "sticker",
@@ -351,9 +354,23 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 					</button>
 				</div>
 			</div>
+			<div className='ml-2 mt-1 flex w-fit items-center'>
+				<div className='relative'>
+					<input
+						type='text'
+						placeholder='Search item name'
+						className='input-field'
+						onChange={(e) => setSearchQuery(e.target.value.trimStart())}
+						value={searchQuery}
+					/>
+					<IoSearchOutline className='absolute top-2.5 right-1.5 text-gray-400' />
+				</div>
+				<div className='ml-2 text-gray-700 dark:text-gray-300'>Selected items: {selectedCards.length}</div>
+			</div>
 			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-5'>
 				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.id])
 					.filter((item) => (needOnly ? !owned.some((owned) => owned.templateId === item.id) : true))
+					.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
 					.map((item) => (
 						<Fragment key={item.uuid}>
 							<CardGalleryItem item={item} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />

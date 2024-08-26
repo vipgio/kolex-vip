@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import uniq from "lodash/uniq";
 import { useAxios } from "hooks/useAxios";
 import { UserContext } from "context/UserContext";
-import BigModal from "../BigModal";
+import BigModal from "@/components/BigModal";
 import ListedTable from "./ListedTable";
 import Toggle from "./Toggle";
 
@@ -115,7 +115,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 				closingFunction={() => (finished.current = true)}
 				hasToast={true}
 			>
-				<div className='min-h-[4rem] flex h-16 justify-between border-gray-700 p-1 dark:border-gray-500'>
+				<div className='flex h-16 min-h-[4rem] justify-between border-gray-700 p-1 dark:border-gray-500'>
 					<div className='flex flex-1 items-center'>
 						<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
 							Sort by:{" "}

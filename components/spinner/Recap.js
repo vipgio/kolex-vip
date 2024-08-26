@@ -61,7 +61,6 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 									<Dialog.Title
 										as='h3'
 										className='text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
-										onClick={() => console.log(spins, items)}
 									>
 										Spins Recap: {spins.length} spins
 									</Dialog.Title>

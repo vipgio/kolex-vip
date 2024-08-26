@@ -3,7 +3,7 @@ import uniq from "lodash/uniq";
 import { useAxios } from "hooks/useAxios";
 import { UserContext } from "context/UserContext";
 import ListedTable from "./ListedTable";
-import BigModal from "../BigModal";
+import BigModal from "@/components/BigModal";
 
 const ListedModal = ({ showModal, setShowModal }) => {
 	const { user } = useContext(UserContext);
@@ -113,7 +113,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 			closingFunction={() => (finished.current = true)}
 			hasToast={true}
 		>
-			<div className='min-h-[4rem] flex h-16 border border-gray-700 p-1 dark:border-gray-500'>
+			<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
 				<div className='flex items-center'>
 					<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
 						Sort by:{" "}

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { HiOutlineArrowCircleRight, HiOutlineArrowCircleLeft } from "react-icons/hi";
-import { useAxios } from "hooks/useAxios";
 import { CDN } from "@/config/config";
+import { useAxios } from "hooks/useAxios";
 import PackSelection from "./PackSelection";
 import ModalPage2 from "./ModalPage2";
-import BigModal from "../BigModal";
+import BigModal from "@/components/BigModal";
 
 const MassPackModal = ({ packTemplate, showModal, setShowModal }) => {
 	const { fetchData } = useAxios();

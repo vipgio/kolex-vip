@@ -9,7 +9,6 @@ import LoadingSpin from "../LoadingSpin";
 
 const ListedRow = React.memo(
 	({ item, setListed, insertFloor }) => {
-		console.log(item);
 		const { patchData, deleteData, fetchData } = useAxios();
 		const [newPrice, setNewPrice] = useState(0);
 		const [floor, setFloor] = useState(item.floor);

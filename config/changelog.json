@@ -1,10 +1,68 @@
 {
-	"version": "2.8.0",
-	"date": "2024-08-22",
-	"changes": [
-		"Added list view to pack search",
-		"Added total value for card lister",
-		"Added total value and sort options for pack manager",
-		"Fixed some bugs for categories other than CSGO"
+	"changelog": [
+		{
+			"version": "2.9.0",
+			"date": "2024-08-26",
+			"changes": [
+				"Added new limit type and style for spinner",
+				"Added search bar for mint search",
+				"Pack manager now saves packs from all categories locally",
+				"Added expiry time for login sessions",
+				"Changelog now shows all new changes instead of just the latest"
+			]
+		},
+		{
+			"version": "2.8.0",
+			"date": "2024-08-22",
+			"changes": [
+				"Added list view to pack search",
+				"Added total value for card lister",
+				"Added total value and sort options for pack manager",
+				"Fixed some bugs for categories other than CSGO"
+			]
+		},
+		{
+			"version": "2.7.12",
+			"date": "2024-08-21",
+			"changes": ["Set selector now has a separator for digitals and hybrids"]
+		},
+		{
+			"version": "2.7.13",
+			"date": "2024-08-21",
+			"changes": ["You can set how many columns you see in the Pack Manager now. (Mint search soon TM)"]
+		},
+		{
+			"version": "2.7.11",
+			"date": "2024-08-16",
+			"changes": [
+				"Added listing manager to cardlister (it's huge)",
+				"Slightly changed the spinner recap design",
+				"Added a luck indicator number for spinner recap"
+			]
+		},
+		{
+			"version": "2.7.10",
+			"date": "2024-08-07",
+			"changes": ["Added circulation to cardlister", "Added market and recent sales details to cardlister"]
+		},
+		{
+			"version": "2.7.9",
+			"date": "2024-08-06",
+			"changes": [
+				"Added circulation to cardlister items",
+				"Fixed sticker icon not showing on cardlister items",
+				"Fixed achievements not working properly"
+			]
+		},
+
+		{
+			"version": "2.7.8",
+			"date": "2024-08-03",
+			"changes": [
+				"Added this annoying thing (only shows up once)",
+				"Added achievements from all categories",
+				"Total craft silver cost is now displayed in the craft window"
+			]
+		}
 	]
 }

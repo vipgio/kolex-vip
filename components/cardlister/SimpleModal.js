@@ -9,7 +9,7 @@ import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
-import BigModal from "../BigModal";
+import BigModal from "@/components/BigModal";
 import "react-toastify/dist/ReactToastify.css";
 
 const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {

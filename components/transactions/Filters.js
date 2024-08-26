@@ -101,14 +101,6 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 					</button>
 				</div>
 			</form>
-
-			{/* <div>
-				<button onClick={() => console.log(filters)}>filters</button>
-			</div> */}
-
-			{/* <div>
-				<button onClick={() => setFilters(defaultFilters)}>RESET</button>
-			</div> */}
 		</>
 	);
 };

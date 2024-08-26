@@ -3,7 +3,7 @@ import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import { useContext, useState } from "react";
 import { FaSignature } from "react-icons/fa";
-import BigModal from "../BigModal";
+import BigModal from "@/components/BigModal";
 import ExportToCSV from "../ExportToCSV";
 import Tooltip from "../Tooltip";
 import MarketResultRow from "./MarketResultRow";

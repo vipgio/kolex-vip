@@ -20,11 +20,19 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	const [openedPacksCount, setOpenedPacksCount] = useState([0, selected.length]);
 
 	const updateLocal = () => {
-		const localPacks = JSON.parse(localStorage.getItem("userPacks"));
+		const allLocalPacks = JSON.parse(localStorage.getItem("userPacks"));
+		const localPacks = allLocalPacks.find(
+			(o) => o.categoryId === packTemplate.categoryId.toString()
+		).packTemplates;
 		remove(packTemplate.packs, (o) => selected.includes(o.id));
 		const idx = findIndex(localPacks, (o) => o.id === packTemplate.id);
 		localPacks[idx] = packTemplate;
-		localStorage.setItem("userPacks", JSON.stringify(localPacks));
+
+		const categoryPacks = { packTemplates: localPacks, categoryId: packTemplate.categoryId.toString() };
+		const newLocalPacks = allLocalPacks.filter((o) => o.categoryId !== packTemplate.categoryId.toString());
+		newLocalPacks.push(categoryPacks);
+		localStorage.setItem("userPacks", JSON.stringify(newLocalPacks));
+		// localPacks.push(categoryPacks); // Add the new category
 		setSelected([]);
 	};
 

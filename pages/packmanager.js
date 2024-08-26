@@ -2,9 +2,10 @@ import { useState, useContext, useEffect } from "react";
 import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
 import chunk from "lodash/chunk";
-import { UserContext } from "context/UserContext";
-import { useAxios } from "hooks/useAxios";
+import { IoSearchOutline } from "react-icons/io5";
 import { templateLimit } from "@/config/config";
+import { useAxios } from "hooks/useAxios";
+import { UserContext } from "context/UserContext";
 import Meta from "components/Meta";
 import PackGallery from "@/components/packmanager/PackGallery";
 import RefreshButton from "@/components/RefreshButton";
@@ -12,10 +13,9 @@ import Tooltip from "@/components/Tooltip";
 import ListedModal from "@/components/packmanager/ListedModal";
 import PurchaseToggle from "@/components/packmanager/PurchaseToggle";
 import PurchasePage from "@/components/packmanager/PurchasePage";
-import { IoSearchOutline } from "react-icons/io5";
 
 const Packmanager = () => {
-	const { user } = useContext(UserContext);
+	const { user, categoryId } = useContext(UserContext);
 	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [showListedModal, setShowListedModal] = useState(false);
@@ -52,6 +52,7 @@ const Packmanager = () => {
 								releaseTime: pack.packTemplate.releaseTime?.split("T")[0],
 								image: pack.packTemplate.images.filter((image) => image.name === "image")[0].url,
 								userLimit: pack.packTemplate.userLimit,
+								categoryId: pack.packTemplate.categoryId,
 								packs: [{ id: pack.id, created: pack.created.split("T")[0] }],
 						  }); // add the pack template to the array
 				});
@@ -68,13 +69,12 @@ const Packmanager = () => {
 		setLoading(true);
 		setSearchQuery("");
 		setPacks([]);
-		localStorage.removeItem("userPacks");
 		await getAllPacks(1);
 	};
 
 	const getMarketInfo = async () => {
 		const templateChunks = chunk(
-			packs.map((pack) => pack.id),
+			templates.map((pack) => pack.id),
 			templateLimit
 		);
 
@@ -116,17 +116,24 @@ const Packmanager = () => {
 	};
 
 	useEffect(() => {
-		const localPacks = JSON.parse(localStorage.getItem("userPacks"));
-		if (localPacks) {
-			setPacks(localPacks);
+		const localPacks = JSON.parse(localStorage.getItem("userPacks")) || []; // Get the user packs from the local storage or an empty array if it doesn't exist
+		localStorage.setItem("userPacks", JSON.stringify(localPacks.filter((packs) => packs.categoryId))); // Remove any item in the userPacks that doesn't have a categoryId
+		if (localPacks.find((packs) => packs.categoryId === categoryId)) {
+			// Check if the category is already in the local storage
+			setPacks(localPacks.find((packs) => packs.categoryId === categoryId).packTemplates); // Set the packs to the category
 		} else {
+			//remove any item in the userPacks that doesn't have a categoryId
 			setLoading(true);
 			user && getAllPacks(1);
 		}
 	}, [user, setLoading]);
 
 	useEffect(() => {
-		packs.length > 0 && localStorage.setItem("userPacks", JSON.stringify(packs));
+		let localPacks = JSON.parse(localStorage.getItem("userPacks")) || []; // Get the user packs from the local storage or an empty array if it doesn't exist
+		const categoryPacks = { packTemplates: packs, categoryId: categoryId }; // Create the new category
+		localPacks = localPacks.filter((packs) => packs.categoryId !== categoryId); // Remove the old category
+		localPacks.push(categoryPacks); // Add the new category
+		localStorage.setItem("userPacks", JSON.stringify(localPacks)); // Save the new category
 	}, [packs]);
 
 	return (

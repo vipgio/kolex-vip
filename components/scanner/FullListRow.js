@@ -16,7 +16,6 @@ const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 		<tr
 			className='border-b border-gray-200 transition-colors hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
 			key={item.id}
-			onClick={() => console.log(item)}
 		>
 			<td
 				className={`py-1 px-2 sm:py-3 sm:px-6 ${item.signatureImage ? "text-yellow-400" : ""}`}

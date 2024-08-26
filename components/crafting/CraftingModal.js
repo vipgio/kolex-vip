@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "context/UserContext";
 import { useAxios } from "hooks/useAxios";
 import CraftResultModal from "./CraftResultModal";
-import BigModal from "../BigModal";
+import BigModal from "@/components/BigModal";
 import "react-toastify/dist/ReactToastify.css";
 
 import http from "@/utils/httpClient";
@@ -268,7 +268,7 @@ const CraftingModal = React.memo(
 								))}
 							<>
 								Total crafts possible:{" "}
-								<span className='text-orange-500' onClick={() => console.log(ownedCards)}>
+								<span className='text-orange-500'>
 									{Math.min(
 										...dataToShow.map((requirement) =>
 											Math.floor(requirement.items.length / requirement.count)

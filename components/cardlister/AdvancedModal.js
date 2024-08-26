@@ -6,7 +6,7 @@ import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
 import ItemBox from "./ItemBox";
 import "react-toastify/dist/ReactToastify.css";
-import BigModal from "../BigModal";
+import BigModal from "@/components/BigModal";
 
 const AdvancedModal = ({ selectedTemplates, showModal, setShowModal, user, templates }) => {
 	const { fetchData, postData } = useAxios();

@@ -1,16 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import ImageWrapper from "HOC/ImageWrapper";
 import Link from "next/link";
-import { useAxios } from "hooks/useAxios";
+import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "context/UserContext";
+import { useAxios } from "hooks/useAxios";
+import ImageWrapper from "HOC/ImageWrapper";
 import Meta from "components/Meta";
 import ActivePacks from "@/components/ActivePacks";
 import TotalDeposit from "@/components/TotalDeposit";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { CDN } from "@/config/config";
 import LoadingSpin from "@/components/LoadingSpin";
 import Changelog from "@/components/Changelog";
+import TokenExpiry from "@/components/TokenExpiry";
+import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
 	const { user, setUser, categoryId } = useContext(UserContext);
@@ -191,6 +192,7 @@ const Profile = () => {
 									</svg>
 								</div>
 							)}
+							{<TokenExpiry expires={user.expires} />}
 							<div className='inline-flex items-center'>
 								Achievements available:{" "}
 								{loading ? (
