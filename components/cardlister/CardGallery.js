@@ -3,10 +3,10 @@ import sortBy from "lodash/sortBy";
 import { maxPrice, minPrice } from "@/config/config";
 import AdvancedModal from "./AdvancedModal";
 import SimpleModal from "./SimpleModal";
-import Delister from "./delister/Delister";
 import Tooltip from "../Tooltip";
 import FiltersModal from "./FiltersModal";
 import CardGalleryItem from "./CardGalleryItem";
+import Delister from "./delister/Delister";
 
 const CardGallery = ({ templates, user }) => {
 	const [selectedTemplates, setSelectedTemplates] = useState([]);

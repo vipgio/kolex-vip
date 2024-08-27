@@ -41,7 +41,7 @@ const UserContextProvider = (props) => {
 	}, []);
 
 	useEffect(() => {
-		const localPackGalleryColumns = localStorage.getItem("packGalleryColumns");
+		const localPackGalleryColumns = JSON.parse(localStorage.getItem("packGalleryColumns"));
 		if (localPackGalleryColumns) {
 			setPackGalleryColumns(localPackGalleryColumns);
 		} else {

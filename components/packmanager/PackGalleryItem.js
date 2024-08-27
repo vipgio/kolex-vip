@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CDN } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 import MassPackModal from "./MassPackModal";
 
 const PackGalleryItem = ({ packTemplate }) => {

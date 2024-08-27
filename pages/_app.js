@@ -1,11 +1,11 @@
 import { Analytics } from "@vercel/analytics/react";
 import "../globals.css";
-import UserContextProvider from "context/UserContext";
-import ThemeContextProvider from "context/ThemeContext";
-import RushContextProvider from "context/RushContext";
-import PrivateRoute from "HOC/PrivateRoutes";
-import PremiumRoutes from "HOC/PremiumRoutes";
-import Layout from "components/Layout";
+import UserContextProvider from "@/context/UserContext";
+import ThemeContextProvider from "@/context/ThemeContext";
+import RushContextProvider from "@/context/RushContext";
+import PrivateRoute from "@/HOC/PrivateRoutes";
+import PremiumRoutes from "@/HOC/PremiumRoutes";
+import Layout from "@/components/Layout";
 
 const App = ({ Component, pageProps }) => {
 	const protectedRoutes = [

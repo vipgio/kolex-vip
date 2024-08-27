@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { FaSignature, FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { AiOutlineReload } from "react-icons/ai";
 import { maxPrice, minPrice } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
 
 const ListedRow = React.memo(

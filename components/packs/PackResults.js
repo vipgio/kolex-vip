@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import isEqual from "lodash/isEqual";
 import { GoLinkExternal } from "react-icons/go";
 import { CDN, webApp } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 import PackOdds from "./PackOdds";
 
 const PackResults = React.memo(

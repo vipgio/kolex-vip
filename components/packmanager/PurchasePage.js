@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import _ from "lodash";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import PurchaseTable from "./PurchaseTable";
 import LoadingSpin from "../LoadingSpin";
 

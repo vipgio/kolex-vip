@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
+import "react-toastify/dist/ReactToastify.css";
 import { webApp } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import HistoryModal from "../HistoryModal";
 import LoadingSpin from "../LoadingSpin";
-import "react-toastify/dist/ReactToastify.css";
 
 const MarketResultRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);

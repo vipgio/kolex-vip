@@ -5,12 +5,12 @@ import isEqual from "lodash/isEqual";
 import uniqBy from "lodash/uniqBy";
 import min from "lodash/min";
 import max from "lodash/max";
+import "react-toastify/dist/ReactToastify.css";
 import { maxPrice, minPrice } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
 import BigModal from "@/components/BigModal";
-import "react-toastify/dist/ReactToastify.css";
 
 const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 	const { fetchData, postData } = useAxios();

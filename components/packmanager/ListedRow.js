@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { maxPrice, minPrice } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
-import fixDecimal from "utils/NumberUtils";
+import fixDecimal from "@/utils/NumberUtils";
 
 const ListedRow = ({ pack, setListed, insertFloor }) => {
 	const { patchData, deleteData } = useAxios();

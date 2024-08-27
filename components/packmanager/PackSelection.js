@@ -1,6 +1,6 @@
 import { GoLinkExternal } from "react-icons/go";
 import { webApp } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 import Tooltip from "../Tooltip";
 
 const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, setPage }) => {

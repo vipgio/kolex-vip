@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
-import SetSelector from "HOC/SetSelector";
-import { UserContext } from "context/UserContext";
-import { useAxios } from "hooks/useAxios";
-import Meta from "components/Meta";
-import UserSearch from "components/UserSearch";
-import ScanResult from "components/scanner/ScanResults";
-import Tooltip from "components/Tooltip";
 import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
+import SetSelector from "@/HOC/SetSelector";
+import Meta from "@/components/Meta";
+import UserSearch from "@/components/UserSearch";
+import ScanResult from "@/components/scanner/ScanResults";
+import Tooltip from "@/components/Tooltip";
 import LoadingSpin from "@/components/LoadingSpin";
 
 const Scanner = () => {

@@ -1,6 +1,6 @@
-import { RushContext } from "context/RushContext";
-import ImageWrapper from "HOC/ImageWrapper";
 import { useContext } from "react";
+import { RushContext } from "@/context/RushContext";
+import ImageWrapper from "@/HOC/ImageWrapper";
 
 const RosterDetail = () => {
 	const { maps, selectedRoster } = useContext(RushContext);

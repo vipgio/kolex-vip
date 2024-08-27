@@ -1,16 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useAxios } from "hooks/useAxios";
-import { UserContext } from "context/UserContext";
-import { RushContext } from "context/RushContext";
+import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
+import { RushContext } from "@/context/RushContext";
 import Meta from "@/components/Meta";
 import RushRostersDropdown from "@/components/rush/RushRostersDropdown";
 import RosterDetail from "@/components/rush/RosterDetail";
 import Circuits from "@/components/rush/Circuits";
 import LoadingSpin from "@/components/LoadingSpin";
-import "react-toastify/dist/ReactToastify.css";
 import RefreshButton from "@/components/RefreshButton";
-import { API } from "@/config/config";
 
 const Rush = () => {
 	const { fetchData, postData } = useAxios();

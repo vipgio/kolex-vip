@@ -4,11 +4,11 @@ import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import uniq from "lodash/uniq";
 import { toast, ToastContainer } from "react-toastify";
-import { UserContext } from "context/UserContext";
-import { useAxios } from "hooks/useAxios";
-import CraftResultModal from "./CraftResultModal";
-import BigModal from "@/components/BigModal";
 import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
+import BigModal from "@/components/BigModal";
+import CraftResultModal from "./CraftResultModal";
 
 import http from "@/utils/httpClient";
 import { API } from "@/config/config";

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import SetSelector from "HOC/SetSelector";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
+import SetSelector from "@/HOC/SetSelector";
 import Meta from "@/components/Meta";
 import CircList from "@/components/CircList";
 import LoadingSpin from "@/components/LoadingSpin";

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import uniqBy from "lodash/uniqBy";
-import { UserContext } from "context/UserContext";
+import { UserContext } from "@/context/UserContext";
 import TransactionResultsRow from "./TransactionResultsRow";
 import ExportToCSV from "../ExportToCSV";
 
@@ -20,10 +20,7 @@ const TransactionResults = ({ results, filters }) => {
 	return (
 		<>
 			<div className='mt-2 flex flex-col justify-start sm:flex-row'>
-				<label
-					htmlFor='filter'
-					className='font-semibold text-gray-700 dark:text-gray-300 sm:m-1'
-				>
+				<label htmlFor='filter' className='font-semibold text-gray-700 dark:text-gray-300 sm:m-1'>
 					Show:{" "}
 				</label>
 				<select
@@ -45,17 +42,13 @@ const TransactionResults = ({ results, filters }) => {
 						Total amount:
 						<span
 							className={
-								Number(
-									filteredResults.reduce((acc, cur) => acc + Number(cur.amount), 0)
-								) > 0
+								Number(filteredResults.reduce((acc, cur) => acc + Number(cur.amount), 0)) > 0
 									? "text-green-400"
 									: "text-red-400"
 							}
 						>
 							{" "}
-							{filteredResults
-								.reduce((acc, cur) => acc + Number(cur.amount), 0)
-								.toLocaleString()}{" "}
+							{filteredResults.reduce((acc, cur) => acc + Number(cur.amount), 0).toLocaleString()}{" "}
 						</span>
 						{results[0]?.costType.length <= 4
 							? results[0]?.costType.toUpperCase()
@@ -68,10 +61,9 @@ const TransactionResults = ({ results, filters }) => {
 						filename={`Transactions - ${filters.startDate
 							?.toISOString()
 							.split("T")[0]
-							.replaceAll("-", "/")}-${filters.endDate
-							?.toISOString()
-							.split("T")[0]
-							.replaceAll("-", "/")} - ${filters.costType}`}
+							.replaceAll("-", "/")}-${filters.endDate?.toISOString().split("T")[0].replaceAll("-", "/")} - ${
+							filters.costType
+						}`}
 						data={filteredResults}
 					/>
 				</div>
@@ -93,11 +85,7 @@ const TransactionResults = ({ results, filters }) => {
 					</thead>
 					<tbody>
 						{uniqBy(filteredResults, (o) => o.id).map((tr) => (
-							<TransactionResultsRow
-								item={tr}
-								allowed={user.info.allowed.includes("history")}
-								key={tr.id}
-							/>
+							<TransactionResultsRow item={tr} allowed={user.info.allowed.includes("history")} key={tr.id} />
 						))}
 					</tbody>
 				</table>

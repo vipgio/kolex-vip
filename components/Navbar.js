@@ -2,7 +2,6 @@ import { useContext, forwardRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Menu, Transition } from "@headlessui/react";
-import { categories } from "@/config/config";
 import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
 import {
 	FaHistory,
@@ -15,8 +14,9 @@ import {
 	FaPeopleArrows,
 } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
-import { UserContext } from "context/UserContext";
-import { ThemeContext } from "context/ThemeContext";
+import { categories } from "@/config/config";
+import { UserContext } from "@/context/UserContext";
+import { ThemeContext } from "@/context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
 
 const NewNavbar = () => {

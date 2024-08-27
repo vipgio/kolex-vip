@@ -2,13 +2,13 @@ import { useEffect, useState, useContext, useRef } from "react";
 import Bottleneck from "bottleneck";
 import { toast } from "react-toastify";
 import { FaLock } from "react-icons/fa";
-import { useAxios } from "hooks/useAxios";
-import { UserContext } from "context/UserContext";
-import { RushContext } from "context/RushContext";
+import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
+import { RushContext } from "@/context/RushContext";
 import BigModal from "@/components/BigModal";
 import Tooltip from "@/components/Tooltip";
 import StageInfoRoster from "./StageInfoRoster";
-import "react-toastify/dist/ReactToastify.css";
 import LoadingSpin from "../LoadingSpin";
 
 const limiter = new Bottleneck({

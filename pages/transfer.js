@@ -1,12 +1,12 @@
 import { useState, useContext, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-import { UserContext } from "context/UserContext";
+import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "@/context/UserContext";
 import Meta from "@/components/Meta";
 import UserSearch from "@/components/UserSearch";
 import Toggle from "@/components/transfer/Toggle";
 import ReceiveSection from "@/components/transfer/ReceiveSection";
 import SendSection from "@/components/transfer/SendSection";
-import "react-toastify/dist/ReactToastify.css";
 import ModeSelection from "@/components/transfer/ModeSelection";
 
 const AccountTransfer = () => {
@@ -50,11 +50,7 @@ const AccountTransfer = () => {
 			<div className='mt-10 p-2 text-2xl font-semibold text-gray-700 dark:text-gray-300'>
 				<span>
 					Transfers left:
-					<span
-						className={`${
-							user.info.transfers > 0 ? "text-green-500" : "text-red-500"
-						} ml-1`}
-					>
+					<span className={`${user.info.transfers > 0 ? "text-green-500" : "text-red-500"} ml-1`}>
 						{user.info.transfers}
 					</span>
 				</span>
@@ -63,9 +59,7 @@ const AccountTransfer = () => {
 				<div className='relative mt-2 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='overflow-hidden'>
 						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
-							<span>
-								Selected User: {selectedUsers.length > 0 && selectedUsers[0].username}
-							</span>
+							<span>Selected User: {selectedUsers.length > 0 && selectedUsers[0].username}</span>
 						</div>
 						<UserSearch
 							setSelectedUsers={setSelectedUsers}
@@ -88,27 +82,18 @@ const AccountTransfer = () => {
 					{/* accept received trades*/}
 					<button
 						className='button ml-auto'
-						disabled={
-							!selectedUsers.length > 0 || loading || selectedUsers[0].id === user.user.id
-						}
+						disabled={!selectedUsers.length > 0 || loading || selectedUsers[0].id === user.user.id}
 						onClick={handleStart}
 					>
 						Next
 					</button>
 				</div>
 				{showReceiveSection && (
-					<ReceiveSection
-						selectedUser={selectedUsers[0]}
-						loading={loading}
-						setLoading={setLoading}
-					/>
+					<ReceiveSection selectedUser={selectedUsers[0]} loading={loading} setLoading={setLoading} />
 				)}
 				{showSendSection && (
 					<div className='relative my-3 flex flex-col rounded-md border border-gray-700 dark:border-gray-300 xs:flex-row'>
-						<ModeSelection
-							transferMode={transferMode}
-							setTransferMode={setTransferMode}
-						/>
+						<ModeSelection transferMode={transferMode} setTransferMode={setTransferMode} />
 						<SendSection
 							transferMode={transferMode}
 							selectedUser={selectedUsers[0]}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import isEqual from "lodash/isEqual";
-import MintSelectorModal from "./MintSelectorModal";
 import { maxPrice, minPrice } from "@/config/config";
+import MintSelectorModal from "./MintSelectorModal";
 
 const ItemBox = React.memo(
 	({ template, insertFloor, setListingDetails }) => {

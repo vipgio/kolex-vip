@@ -3,17 +3,17 @@ import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { RxCheck, RxCross2 } from "react-icons/rx";
-import { UserContext } from "context/UserContext";
-import { useAxios } from "hooks/useAxios";
-import ImageWrapper from "HOC/ImageWrapper";
-import Meta from "components/Meta";
+import "react-toastify/dist/ReactToastify.css";
+import { CDN } from "@/config/config";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
+import ImageWrapper from "@/HOC/ImageWrapper";
+import Meta from "@/components/Meta";
 import ActivePacks from "@/components/ActivePacks";
 import TotalDeposit from "@/components/TotalDeposit";
-import { CDN } from "@/config/config";
 import LoadingSpin from "@/components/LoadingSpin";
 import Changelog from "@/components/Changelog";
 import TokenExpiry from "@/components/TokenExpiry";
-import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
 	const { user, setUser, categoryId } = useContext(UserContext);

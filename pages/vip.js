@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { useAxios } from "hooks/useAxios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaPlay, FaStop } from "react-icons/fa";
-import SpinResult from "@/components/spinner/SpinResult";
-import Meta from "@/components/Meta";
 import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
+import Meta from "@/components/Meta";
+import SpinResult from "@/components/spinner/SpinResult";
 
 const Vip = () => {
 	const intervalRef = useRef();

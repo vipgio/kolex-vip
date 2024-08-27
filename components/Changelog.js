@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import semver from "semver";
 import { Dialog, Transition } from "@headlessui/react";
 import changelogData from "@/config/changelog.json";
-import semver from "semver";
 
 const Changelog = ({ showModal, setShowModal }) => {
 	const router = useRouter();

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { FaSignature, FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { maxPrice, minPrice } from "@/config/config";
 import LoadingSpin from "@/components/LoadingSpin";
+
 const DelisterRow = ({ item, setListed, loading, setLoading, handleDelete, handleUpdate }) => {
 	const [newPrice, setNewPrice] = useState(0);
 

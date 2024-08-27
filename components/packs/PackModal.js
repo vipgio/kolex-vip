@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import isEqual from "lodash/isEqual";
 import { GoLinkExternal } from "react-icons/go";
 import { CDN, webApp } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 import PackOdds from "./PackOdds";
 
 const PackModal = React.memo(

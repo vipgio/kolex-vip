@@ -1,5 +1,5 @@
-import { ThemeContext } from "context/ThemeContext";
 import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 

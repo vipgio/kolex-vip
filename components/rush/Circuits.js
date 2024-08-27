@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { BiCheck } from "react-icons/bi";
-import { useAxios } from "hooks/useAxios";
-import ImageWrapper from "HOC/ImageWrapper";
 import { CDN } from "@/config/config";
+import { useAxios } from "@/hooks/useAxios";
+import ImageWrapper from "@/HOC/ImageWrapper";
 import LoadingSpin from "../LoadingSpin";
 import StageInfo from "./StageInfo";
 

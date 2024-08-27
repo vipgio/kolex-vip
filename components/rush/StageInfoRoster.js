@@ -2,10 +2,10 @@ import { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { BiCheck, BiPlayCircle } from "react-icons/bi";
 import { FaLock } from "react-icons/fa";
-import { useAxios } from "hooks/useAxios";
-import { RushContext } from "context/RushContext";
-import LoadingSpin from "@/components/LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
+import { RushContext } from "@/context/RushContext";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const StageInfoRoster = ({ roster, circuit, stage, locked, setLocked, loading }) => {
 	const { postData } = useAxios();
