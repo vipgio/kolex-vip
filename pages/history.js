@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import uniq from "lodash/uniq";
 import chunk from "lodash/chunk";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
+import "react-toastify/dist/ReactToastify.css";
 import { templateLimit } from "@/config/config";
-import Meta from "components/Meta";
-import Tooltip from "components/Tooltip";
-import CardHistory from "components/CardHistory";
+import Meta from "@/components/Meta";
+import Tooltip from "@/components/Tooltip";
+import CardHistory from "@/components/CardHistory";
 import LoadingSpin from "@/components/LoadingSpin";
 import Toggle from "@/components/history/Toggle";
 import ExportButton from "@/components/history/ExportButton";
-import "react-toastify/dist/ReactToastify.css";
 
 const History = () => {
 	const [loading, setLoading] = useState(false);

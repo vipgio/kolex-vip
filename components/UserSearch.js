@@ -2,8 +2,8 @@ import { useState, useCallback, useEffect } from "react";
 import debounce from "lodash/debounce";
 import uniqBy from "lodash/uniqBy";
 import { CDN } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
-import ImageWrapper from "HOC/ImageWrapper";
+import { useAxios } from "@/hooks/useAxios";
+import ImageWrapper from "@/HOC/ImageWrapper";
 
 const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = "username" }) => {
 	const { fetchData } = useAxios();

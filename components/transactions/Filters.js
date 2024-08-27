@@ -2,8 +2,8 @@ import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import DatePicker from "react-datepicker";
 import { HiCheck, HiOutlineChevronUpDown } from "react-icons/hi2";
-import LoadingSpin from "../LoadingSpin";
 import "react-datepicker/dist/react-datepicker.css";
+import LoadingSpin from "../LoadingSpin";
 import Tooltip from "../Tooltip";
 
 const Filters = ({ filters, setFilters, loading, onSubmit }) => {

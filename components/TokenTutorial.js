@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { toast } from "react-toastify";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 
 const TokenTutorial = ({ showModal, setShowModal }) => {
 	const handleCopyClick = async () => {

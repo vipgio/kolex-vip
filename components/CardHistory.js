@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import isEqual from "lodash/isEqual";
 import { historyEvents } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 const CardHistory = React.memo(
 	({ item, compactMode }) => {
 		const getDate = (event) => event.created.replace("T", " ").split(".")[0];

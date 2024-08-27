@@ -2,7 +2,7 @@ import { useContext } from "react";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import { FaSignature } from "react-icons/fa";
-import { UserContext } from "context/UserContext";
+import { UserContext } from "@/context/UserContext";
 import ExportToCSV from "../ExportToCSV";
 import MintResultRow from "./MintResultRow";
 import BigModal from "@/components/BigModal";

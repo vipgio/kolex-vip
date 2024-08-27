@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useAxios } from "hooks/useAxios";
 import { ToastContainer, toast } from "react-toastify";
 import uniq from "lodash/uniq";
+import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
 import Meta from "@/components/Meta";
 import LoadingSpin from "@/components/LoadingSpin";
-import "react-toastify/dist/ReactToastify.css";
 
 const Delist = () => {
 	const { deleteData } = useAxios();

@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { CDN } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 import CraftingModal from "./CraftingModal";
 
 const PlanSelection = ({ plan }) => {

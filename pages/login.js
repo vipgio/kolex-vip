@@ -1,14 +1,13 @@
 import { useContext, useState } from "react";
+import Link from "next/link";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaGithub, FaMoon, FaSun, FaDiscord } from "react-icons/fa";
-import { UserContext } from "context/UserContext";
-import KolexLogin from "@/components/login/KolexLogin";
 import "react-toastify/dist/ReactToastify.css";
+import { ThemeContext } from "@/context/ThemeContext";
+import { UserContext } from "@/context/UserContext";
 import JWTLogin from "@/components/login/JWTLogin";
 import TokenTutorial from "@/components/TokenTutorial";
-import Link from "next/link";
-import { ThemeContext } from "context/ThemeContext";
 
 const Login = () => {
 	const { setUser } = useContext(UserContext);

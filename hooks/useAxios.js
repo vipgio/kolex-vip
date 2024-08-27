@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import axios from "axios";
+import { UserContext } from "@/context/UserContext";
 import http from "@/utils/httpClient";
-import { UserContext } from "context/UserContext";
 
 const useAxios = () => {
 	const { user, categoryId } = useContext(UserContext);

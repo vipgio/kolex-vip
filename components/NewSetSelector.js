@@ -3,7 +3,7 @@ import SeasonSelect from "./setselector/SeasonSelect";
 import CollectionSelect from "./setselector/CollectionSelect";
 import SetSelect from "./setselector/SetSelect";
 
-const NewSubSelector = ({ collections, setSelectedCollection }) => {
+const NewSetSelector = ({ collections, setSelectedCollection }) => {
 	const [selectedSeason, setSelectedSeason] = useState("");
 	const [selectedCol, setSelectedCol] = useState("");
 	const [selectedSet, setSelectedSet] = useState("");
@@ -57,4 +57,4 @@ const NewSubSelector = ({ collections, setSelectedCollection }) => {
 	);
 };
 
-export default NewSubSelector;
+export default NewSetSelector;

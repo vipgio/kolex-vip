@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { HiOutlineArrowCircleRight, HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { CDN } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import PackSelection from "./PackSelection";
 import ModalPage2 from "./ModalPage2";
 import BigModal from "@/components/BigModal";

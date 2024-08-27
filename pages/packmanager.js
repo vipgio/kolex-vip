@@ -4,9 +4,9 @@ import uniq from "lodash/uniq";
 import chunk from "lodash/chunk";
 import { IoSearchOutline } from "react-icons/io5";
 import { templateLimit } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
-import { UserContext } from "context/UserContext";
-import Meta from "components/Meta";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
+import Meta from "@/components/Meta";
 import PackGallery from "@/components/packmanager/PackGallery";
 import RefreshButton from "@/components/RefreshButton";
 import Tooltip from "@/components/Tooltip";
@@ -129,6 +129,7 @@ const Packmanager = () => {
 	}, [user, setLoading]);
 
 	useEffect(() => {
+		if (packs.length === 0) return;
 		let localPacks = JSON.parse(localStorage.getItem("userPacks")) || []; // Get the user packs from the local storage or an empty array if it doesn't exist
 		const categoryPacks = { packTemplates: packs, categoryId: categoryId }; // Create the new category
 		localPacks = localPacks.filter((packs) => packs.categoryId !== categoryId); // Remove the old category
@@ -165,7 +166,7 @@ const Packmanager = () => {
 												onChange={(e) => setSearchQuery(e.target.value.trimStart())}
 												value={searchQuery}
 											/>
-											<IoSearchOutline className='absolute top-2.5 right-1.5 text-gray-400' />
+											<IoSearchOutline className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
 										</div>
 										<div className='-mt-2 ml-4 flex flex-col font-semibold text-gray-700 dark:text-gray-300'>
 											<span>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Meta from "../components/Meta";
+import Meta from "@/components/Meta";
 
 const NotFound = () => {
 	return (

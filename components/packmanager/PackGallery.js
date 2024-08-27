@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
 import sortBy from "lodash/sortBy";
-import { UserContext } from "context/UserContext";
+import { UserContext } from "@/context/UserContext";
 import PackGalleryItem from "./PackGalleryItem";
 
-const MassPackGrid = ({ packs, searchQuery }) => {
+const PackGallery = ({ packs, searchQuery }) => {
 	const { packGalleryColumns, setPackGalleryColumns } = useContext(UserContext);
 	const [sortMethod, setSortMethod] = useState("newest");
 
 	const getGridColumnClass = (columns) => {
+		columns = columns.toString();
 		switch (columns) {
 			case "2":
 				return "sm:grid-cols-2";
@@ -35,7 +36,7 @@ const MassPackGrid = ({ packs, searchQuery }) => {
 					id='columns'
 					className='input-field mb-2 mr-3 w-14 text-center sm:mb-0'
 					onChange={(e) => setPackGalleryColumns(() => e.target.value)}
-					defaultValue={packGalleryColumns}
+					value={packGalleryColumns}
 				>
 					<option value='2'>2</option>
 					<option value='3'>3</option>
@@ -79,4 +80,4 @@ const MassPackGrid = ({ packs, searchQuery }) => {
 		</>
 	);
 };
-export default MassPackGrid;
+export default PackGallery;

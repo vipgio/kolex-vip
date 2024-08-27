@@ -1,8 +1,8 @@
-import { UserContext } from "context/UserContext";
+import { useContext, useState } from "react";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-import { useContext, useState } from "react";
 import { FaSignature } from "react-icons/fa";
+import { UserContext } from "@/context/UserContext";
 import BigModal from "@/components/BigModal";
 import ExportToCSV from "../ExportToCSV";
 import Tooltip from "../Tooltip";

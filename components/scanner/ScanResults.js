@@ -7,18 +7,10 @@ import countBy from "lodash/countBy";
 import ExportToCSV from "@/components/ExportToCSV";
 import CompactList from "./CompactList";
 import FullList from "./FullList";
-import fixDecimal from "utils/NumberUtils";
+import fixDecimal from "@/utils/NumberUtils";
 
 const ScanResult = React.memo(
-	({
-		scanResults,
-		user,
-		collection,
-		templates,
-		ownedItems,
-		isSelfScan,
-		singleUserSearch,
-	}) => {
+	({ scanResults, user, collection, templates, ownedItems, isSelfScan, singleUserSearch }) => {
 		const userList = user
 			.map((usr) => usr["username"])
 			.join(", ")
@@ -39,19 +31,14 @@ const ScanResult = React.memo(
 						: result.title,
 				inCirculation:
 					result.type === "card"
-						? templates.find((template) => template.id === result.templateId)
-								.inCirculation
+						? templates.find((template) => template.id === result.templateId).inCirculation
 						: result.inCirculation,
 				type: result.type === "card" ? "card" : "sticker",
 				delta: !isSelfScan && fixDecimal((result.rating - ownedRating) * 10),
 				need: ownedRating === 0,
 			};
 		});
-		const sortedInc = sortBy(strippedResults, [
-			"mintBatch",
-			"mintNumber",
-			(o) => -o.signatureImage,
-		]);
+		const sortedInc = sortBy(strippedResults, ["mintBatch", "mintNumber", (o) => -o.signatureImage]);
 		const sorted = sortedInc.map((item, index, self) => {
 			const firstPosition = self.findIndex((o) => o.templateId === item.templateId);
 			if (firstPosition === index) {
@@ -61,9 +48,7 @@ const ScanResult = React.memo(
 					.find((o) => o.templateId === item.templateId);
 				return {
 					...item,
-					pointsToLose: nextPosition
-						? fixDecimal(item.rating - nextPosition.rating)
-						: item.rating,
+					pointsToLose: nextPosition ? fixDecimal(item.rating - nextPosition.rating) : item.rating,
 				};
 			} else {
 				//if it's a dupe
@@ -83,15 +68,13 @@ const ScanResult = React.memo(
 				: filterMethod === "dupes"
 				? sorted.filter(
 						// don't show the best set
-						(item, index, self) =>
-							index !== self.findIndex((o) => o.templateId === item.templateId)
+						(item, index, self) => index !== self.findIndex((o) => o.templateId === item.templateId)
 				  )
 				: filterMethod === "second"
 				? uniqBy(
 						sorted.filter(
 							// don't show the best set then show the remaining best one after
-							(item, index, self) =>
-								index !== self.findIndex((o) => o.templateId === item.templateId)
+							(item, index, self) => index !== self.findIndex((o) => o.templateId === item.templateId)
 						),
 						"templateId"
 				  )
@@ -113,10 +96,7 @@ const ScanResult = React.memo(
 				<div className='my-5'>
 					<div className='flex items-end pb-3'>
 						<div className='flex flex-col justify-start sm:flex-row'>
-							<label
-								htmlFor='filter'
-								className='my-1 text-gray-800 dark:text-gray-300 sm:m-2'
-							>
+							<label htmlFor='filter' className='my-1 text-gray-800 dark:text-gray-300 sm:m-2'>
 								Select a filter method:{" "}
 							</label>
 							<select id='filter' className='dropdown' onChange={handleFilter}>
@@ -132,11 +112,11 @@ const ScanResult = React.memo(
 							<div className='ml-auto'>
 								<ExportToCSV
 									type={filterMethod === "compact" ? "compact" : "full"}
-									filename={`${userList} - ${
-										collection.collection.properties.seasons[0]
-									} - ${collection.collection.properties.tiers[0]} - ${
-										collection.collection.name
-									} - ${filterMethod[0].toUpperCase() + filterMethod.slice(1)}`}
+									filename={`${userList} - ${collection.collection.properties.seasons[0]} - ${
+										collection.collection.properties.tiers[0]
+									} - ${collection.collection.name} - ${
+										filterMethod[0].toUpperCase() + filterMethod.slice(1)
+									}`}
 									data={filteredResults}
 								/>
 							</div>
@@ -144,9 +124,7 @@ const ScanResult = React.memo(
 					</div>
 
 					<>
-						{(filterMethod === "best" ||
-							filterMethod === "second" ||
-							filterMethod === "worst") &&
+						{(filterMethod === "best" || filterMethod === "second" || filterMethod === "worst") &&
 							filteredResults.length > 0 && (
 								<div className='mb-1 ml-1 font-semibold text-orange-400'>
 									Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}

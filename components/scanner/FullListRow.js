@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
-import { UserContext } from "context/UserContext";
-import HistoryModal from "components/HistoryModal";
+import { UserContext } from "@/context/UserContext";
+import HistoryModal from "@/components/HistoryModal";
 
 const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 	const { user } = useContext(UserContext);

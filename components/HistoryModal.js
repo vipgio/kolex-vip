@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { FaHistory } from "react-icons/fa";
 import isEqual from "lodash/isEqual";
-import Dialog from "HOC/Dialog";
-import { useAxios } from "hooks/useAxios";
 import { historyEvents } from "@/config/config";
+import { useAxios } from "@/hooks/useAxios";
+import Dialog from "@/HOC/Dialog";
 import LoadingSpin from "./LoadingSpin";
 
 const HistoryModal = React.memo(

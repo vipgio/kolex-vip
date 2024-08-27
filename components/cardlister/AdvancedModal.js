@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import sortBy from "lodash/sortBy";
-import { useAxios } from "hooks/useAxios";
+import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
 import ItemBox from "./ItemBox";
-import "react-toastify/dist/ReactToastify.css";
 import BigModal from "@/components/BigModal";
 
 const AdvancedModal = ({ selectedTemplates, showModal, setShowModal, user, templates }) => {

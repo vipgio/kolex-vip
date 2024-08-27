@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import countBy from "lodash/countBy";
-import fixDecimal from "utils/NumberUtils";
+import fixDecimal from "@/utils/NumberUtils";
 // import { spins } from "./spinsLocal";
 
 const Recap = ({ spins, items, isOpen, setIsOpen }) => {

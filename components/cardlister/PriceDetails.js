@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
 const PriceDetails = ({ item, showModal, setShowModal }) => {
 	const { fetchData } = useAxios();

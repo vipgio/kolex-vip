@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { maxPrice, minPrice } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "@/components/LoadingSpin";
 import Meta from "@/components/Meta";
-import "react-toastify/dist/ReactToastify.css";
 
 const Feed = () => {
 	const { postData } = useAxios();
@@ -67,10 +67,7 @@ const Feed = () => {
 							className='input-field'
 						/>
 
-						<label
-							htmlFor='price'
-							className='mr-1 ml-2 mt-2 text-gray-700 dark:text-gray-300 sm:mt-0'
-						>
+						<label htmlFor='price' className='mr-1 ml-2 mt-2 text-gray-700 dark:text-gray-300 sm:mt-0'>
 							Price:
 						</label>
 						<input

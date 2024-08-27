@@ -1,13 +1,12 @@
 import { useState, useContext, useEffect } from "react";
 import pick from "lodash/pick";
-import { UserContext } from "context/UserContext";
-import { useAxios } from "hooks/useAxios";
-import SetSelector from "HOC/SetSelector";
+import { UserContext } from "@/context/UserContext";
+import { useAxios } from "@/hooks/useAxios";
+import SetSelector from "@/HOC/SetSelector";
 import Meta from "@/components/Meta";
 import LoadingSpin from "@/components/LoadingSpin";
 import CardGallery from "@/components/cardlister/CardGallery";
 import ListedModal from "@/components/cardlister/ListedModal";
-import Tooltip from "@/components/Tooltip";
 import RefreshButton from "@/components/RefreshButton";
 
 const Cardlister = () => {

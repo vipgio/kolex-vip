@@ -1,15 +1,15 @@
 import { useRef, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { pick } from "lodash";
-import { useAxios } from "hooks/useAxios";
 import "react-toastify/dist/ReactToastify.css";
 import { minPrice } from "@/config/config";
-import fixDecimal from "@/utils/NumberUtils";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "@/components/LoadingSpin";
 import Tooltip from "@/components/Tooltip";
 import BigModal from "@/components/BigModal";
 import DelisterTable from "./DelisterTable";
 import Filters from "./Filters";
+import fixDecimal from "@/utils/NumberUtils";
 
 const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 	const { fetchData, deleteData, patchData } = useAxios();

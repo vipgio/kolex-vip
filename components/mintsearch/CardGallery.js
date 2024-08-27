@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect, Fragment } from "react";
 import sortBy from "lodash/sortBy";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
 import { IoSearchOutline } from "react-icons/io5";
-import { useAxios } from "hooks/useAxios";
-import fixDecimal from "utils/NumberUtils";
-import http from "@/utils/httpClient";
 import { API } from "@/config/config";
+import { useAxios } from "@/hooks/useAxios";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
 import CardGalleryItem from "./CardGalleryItem";
+import http from "@/utils/httpClient";
+import fixDecimal from "@/utils/NumberUtils";
 
 const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned, categoryId }) => {
 	const { fetchData } = useAxios();
@@ -363,7 +363,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 						onChange={(e) => setSearchQuery(e.target.value.trimStart())}
 						value={searchQuery}
 					/>
-					<IoSearchOutline className='absolute top-2.5 right-1.5 text-gray-400' />
+					<IoSearchOutline className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
 				</div>
 				<div className='ml-2 text-gray-700 dark:text-gray-300'>Selected items: {selectedCards.length}</div>
 			</div>

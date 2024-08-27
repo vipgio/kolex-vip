@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import uniq from "lodash/uniq";
-import { useAxios } from "hooks/useAxios";
-import { UserContext } from "context/UserContext";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
 import BigModal from "@/components/BigModal";
 import ListedTable from "./ListedTable";
 import Toggle from "./Toggle";

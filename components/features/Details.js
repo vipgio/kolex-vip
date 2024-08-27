@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaLock } from "react-icons/fa";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 const Details = ({ features }) => {
 	return (
 		<>

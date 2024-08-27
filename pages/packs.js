@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import pick from "lodash/pick";
-import { useAxios } from "hooks/useAxios";
-import Meta from "components/Meta";
+import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
+import Meta from "@/components/Meta";
 import Toggle from "@/components/packs/Toggle";
 import ListModeToggle from "@/components/packs/ListModeToggle";
 import Filters from "@/components/packs/Filters";
@@ -40,7 +42,13 @@ const PackSearch = () => {
 
 	const getPacks = async (page) => {
 		const { result, error } = await fetchData({ endpoint: `/api/packs?page=${page}`, forceCategoryId: true });
-		if (error) console.error(error);
+		if (error) {
+			setLoading(false);
+			toast.error(`${error.response?.data?.error ?? error.code}`, {
+				toastId: page,
+			});
+			console.error(error);
+		}
 		if (result?.length > 0) {
 			return result;
 		} else {
@@ -103,6 +111,17 @@ const PackSearch = () => {
 	return (
 		<>
 			<Meta title='Pack Search | Kolex VIP' />
+			<ToastContainer
+				position='top-right'
+				autoClose={3500}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
 			<div className='mt-10 flex flex-col justify-center'>
 				<Toggle filtersMode={filtersMode} setFiltersMode={setFiltersMode} loading={loading} />
 				{!filtersMode ? ( //old style

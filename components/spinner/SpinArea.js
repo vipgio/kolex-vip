@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import isEmpty from "lodash/isEmpty";
 import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
+import "react-toastify/dist/ReactToastify.css";
 import { API } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import SpinResult from "./SpinResult";
 import Recap from "./Recap";
 import SpinnerLimit from "./SpinnerLimit";
-import "react-toastify/dist/ReactToastify.css";
 import Tooltip from "../Tooltip";
 
 const SpinArea = ({ info }) => {
@@ -158,81 +159,83 @@ const SpinArea = ({ info }) => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='mt-3 flex h-full w-full flex-col rounded-md border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
-				<div className='flex w-full items-center justify-evenly border-b border-gray-500 pb-2'>
-					<div className='ml-1 mr-auto text-center text-lg font-semibold text-gray-700 dark:text-slate-200'>
-						{info.costType?.[0]?.toUpperCase() + info.costType?.slice(1)}:{" "}
-						{funds[info?.costType]?.toLocaleString()}
+			{!isEmpty(info) && (
+				<div className='mt-3 flex h-full w-full flex-col rounded-md border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
+					<div className='flex w-full items-center justify-evenly border-b border-gray-500 pb-2'>
+						<div className='ml-1 mr-auto text-center text-lg font-semibold text-gray-700 dark:text-slate-200'>
+							{info.costType?.[0]?.toUpperCase() + info.costType?.slice(1)}:{" "}
+							{funds[info?.costType]?.toLocaleString()}
+						</div>
+						<div className='flex items-center'>
+							<>
+								<Tooltip
+									text='Make sure to reset the spin history if you change the limit after spinning.'
+									direction='left'
+								/>
+								<SpinnerLimit
+									info={info}
+									funds={funds}
+									limit={limit}
+									setLimit={setLimit}
+									spinActive={spinActive}
+								/>
+							</>
+						</div>
+						{spinActive ? (
+							<button
+								onClick={stopSpin}
+								className='inline-flex items-center rounded-md bg-red-500 p-2 font-semibold text-gray-700 hover:bg-red-600 active:bg-red-700 dark:text-gray-200'
+							>
+								<FaStop className='mr-1 hidden sm:block' />
+								Stop Spinning
+							</button>
+						) : (
+							<button
+								onClick={startSpin}
+								disabled={!info.id || !limit.isSet}
+								className='inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 enabled:hover:bg-green-600 enabled:active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
+							>
+								<FaPlay className='mr-1 hidden sm:block' />
+								Start Spinning
+							</button>
+						)}
 					</div>
-					<div className='flex items-center'>
-						<>
-							<Tooltip
-								text='Make sure to reset the spin history if you change the limit after spinning.'
-								direction='left'
-							/>
-							<SpinnerLimit
-								info={info}
-								funds={funds}
-								limit={limit}
-								setLimit={setLimit}
-								spinActive={spinActive}
-							/>
-						</>
-					</div>
-					{spinActive ? (
-						<button
-							onClick={stopSpin}
-							className='inline-flex items-center rounded-md bg-red-500 p-2 font-semibold text-gray-700 hover:bg-red-600 active:bg-red-700 dark:text-gray-200'
-						>
-							<FaStop className='mr-1 hidden sm:block' />
-							Stop Spinning
-						</button>
-					) : (
-						<button
-							onClick={startSpin}
-							disabled={!info.id || !limit.isSet}
-							className='inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 enabled:hover:bg-green-600 enabled:active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
-						>
-							<FaPlay className='mr-1 hidden sm:block' />
-							Start Spinning
-						</button>
-					)}
-				</div>
 
-				<div className='flex h-full flex-col gap-1 divide-y divide-gray-500 overflow-auto pb-1 sm:divide-y-0'>
-					{info.id && spinRes.map((res) => <SpinResult result={res} spinnerInfo={info} key={res.time} />)}
-				</div>
-				<div className='mt-auto flex max-h-96 items-center border-t border-gray-500 pt-2 text-gray-800 dark:text-gray-200'>
-					<div>
-						Used the spinner
-						<span className='text-primary-500 dark:text-primary-300'> {spinRes.length} </span>
-						{spinRes.length === 1 ? "time" : "times"}
+					<div className='flex h-full flex-col gap-1 divide-y divide-gray-500 overflow-auto pb-1 sm:divide-y-0'>
+						{info.id && spinRes.map((res) => <SpinResult result={res} spinnerInfo={info} key={res.time} />)}
 					</div>
-					{spinRes.length > 0 && (
-						<button
-							onClick={() => setShowRecap(true)}
-							className='ml-2 inline-flex cursor-pointer items-center rounded-md border border-gray-800 bg-gray-100 px-1 py-0.5 text-center text-gray-700 shadow-lg transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-200 dark:text-gray-800 dark:hover:text-gray-800'
-						>
-							Recap
-						</button>
-					)}
-					{showRecap ? (
-						<Recap spins={spinRes} items={info.items} isOpen={showRecap} setIsOpen={setShowRecap} />
-					) : null}
-					<div className='ml-auto'>
-						<button
-							className='flex items-center rounded-md bg-red-500 p-2 enabled:hover:bg-red-600 enabled:active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
-							onClick={() => {
-								setSpinRes([]);
-							}}
-							title={spinRes.length === 0 ? "No spins to clear" : "Clear spins"}
-							disabled={spinRes.length === 0}
-						>
-							<FaRegTrashAlt />
-						</button>
+					<div className='mt-auto flex max-h-96 items-center border-t border-gray-500 pt-2 text-gray-800 dark:text-gray-200'>
+						<div>
+							Used the spinner
+							<span className='text-primary-500 dark:text-primary-300'> {spinRes.length} </span>
+							{spinRes.length === 1 ? "time" : "times"}
+						</div>
+						{spinRes.length > 0 && (
+							<button
+								onClick={() => setShowRecap(true)}
+								className='ml-2 inline-flex cursor-pointer items-center rounded-md border border-gray-800 bg-gray-100 px-1 py-0.5 text-center text-gray-700 shadow-lg transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-200 dark:text-gray-800 dark:hover:text-gray-800'
+							>
+								Recap
+							</button>
+						)}
+						{showRecap ? (
+							<Recap spins={spinRes} items={info.items} isOpen={showRecap} setIsOpen={setShowRecap} />
+						) : null}
+						<div className='ml-auto'>
+							<button
+								className='flex items-center rounded-md bg-red-500 p-2 enabled:hover:bg-red-600 enabled:active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
+								onClick={() => {
+									setSpinRes([]);
+								}}
+								title={spinRes.length === 0 ? "No spins to clear" : "Clear spins"}
+								disabled={spinRes.length === 0}
+							>
+								<FaRegTrashAlt />
+							</button>
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</>
 	);
 };

@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CDN } from "@/config/config";
-import ImageWrapper from "HOC/ImageWrapper";
+import ImageWrapper from "@/HOC/ImageWrapper";
 import PriceDetails from "./PriceDetails";
-import Tooltip from "../Tooltip";
 
 const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 	const [showDetails, setShowDetails] = useState(false);

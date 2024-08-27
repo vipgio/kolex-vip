@@ -4,11 +4,11 @@ import sortBy from "lodash/sortBy";
 import remove from "lodash/remove";
 import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
+import "react-toastify/dist/ReactToastify.css";
 import { maxPrice, minPrice } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import CoolButton from "./CoolButton";
 import LoadingSpin from "../LoadingSpin";
-import "react-toastify/dist/ReactToastify.css";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { fetchData, postData } = useAxios();

@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { webApp } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
 
 const PurchaseRow = ({ item, loading, setLoading }) => {

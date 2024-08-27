@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import uniqBy from "lodash/uniqBy";
 import { CDN } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
-import ImageWrapper from "HOC/ImageWrapper";
+import { useAxios } from "@/hooks/useAxios";
+import ImageWrapper from "@/HOC/ImageWrapper";
 import LoadingSpin from "./LoadingSpin";
 import RefreshButton from "./RefreshButton";
 

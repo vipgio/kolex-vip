@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { toast } from "react-toastify";
-import { useAxios } from "hooks/useAxios";
-import { UserContext } from "context/UserContext";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
 import LoadingSpin from "../LoadingSpin";
 import "react-toastify/dist/ReactToastify.css";
 

@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, useContext } from "react";
-import { useAxios } from "hooks/useAxios";
-import { UserContext } from "context/UserContext";
+import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
 import Meta from "@/components/Meta";
 import Filters from "@/components/transactions/Filters";
 import TransactionResults from "@/components/transactions/TransactionResults";

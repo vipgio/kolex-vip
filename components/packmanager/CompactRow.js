@@ -4,7 +4,7 @@ import minBy from "lodash/minBy";
 import maxBy from "lodash/maxBy";
 import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { maxPrice, minPrice } from "@/config/config";
-import { useAxios } from "hooks/useAxios";
+import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
 
 const CompactRow = ({ packs, setListed, insertFloor }) => {

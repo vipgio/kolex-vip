@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { useAxios } from "hooks/useAxios";
+import "react-toastify/dist/ReactToastify.css";
+import { useAxios } from "@/hooks/useAxios";
 import Meta from "@/components/Meta";
 import PlanSelection from "@/components/crafting/PlanSelection";
 import LoadingSpin from "@/components/LoadingSpin";
-import "react-toastify/dist/ReactToastify.css";
 
 const Crafting = () => {
 	const [plans, setPlans] = useState([]);
