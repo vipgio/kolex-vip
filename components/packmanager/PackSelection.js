@@ -1,3 +1,5 @@
+import { GoLinkExternal } from "react-icons/go";
+import { webApp } from "@/config/config";
 import ImageWrapper from "HOC/ImageWrapper";
 import Tooltip from "../Tooltip";
 
@@ -32,25 +34,12 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 										Market floor: <span className='ml-1 text-orange-400'>{marketInfo.market[0][0].price}</span>
 										<span className='ml-1 text-gray-800 hover:no-underline dark:text-gray-300'>USD</span>
 										<a
-											href={`https://kolex.gg/market/pack/${packTemplate.id}`}
+											href={`${webApp}/market/pack/${packTemplate.id}`}
 											className='ml-1 flex items-center'
 											target='_blank'
 											rel='noreferrer'
 										>
-											<svg
-												xmlns='http://www.w3.org/2000/svg'
-												className='h-4 w-4'
-												fill='none'
-												viewBox='0 0 24 24'
-												stroke='currentColor'
-												strokeWidth={1}
-											>
-												<path
-													strokeLinecap='round'
-													strokeLinejoin='round'
-													d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-												/>
-											</svg>
+											<GoLinkExternal />
 										</a>
 									</div>
 								</>
@@ -58,7 +47,7 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 								<div className='flex'>
 									Market floor:{" "}
 									<a
-										href={`https://kolex.gg/market/pack/${packTemplate.id}`}
+										href={`${webApp}/market/pack/${packTemplate.id}`}
 										className='ml-1 flex items-center text-orange-400 hover:underline'
 										target='_blank'
 										rel='noreferrer'

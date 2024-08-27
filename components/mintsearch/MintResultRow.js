@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
+import { webApp } from "@/config/config";
 import HistoryModal from "../HistoryModal";
 
 const MintResultRow = ({ item, allowed }) => {
@@ -28,7 +29,7 @@ const MintResultRow = ({ item, allowed }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
 					target='_blank'
-					href={`https://kolex.gg/user/${item.owner.username}`}
+					href={`${webApp}/user/${item.owner.username}`}
 					rel='noopener noreferrer'
 					className='hover:text-primary-500 hover:underline hover:underline-offset-2'
 					title={item.owner.id}
@@ -38,7 +39,7 @@ const MintResultRow = ({ item, allowed }) => {
 			</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<a
-					href={`https://kolex.gg/${item.type}/${item.templateUUID}/${item.uuid}`}
+					href={`${webApp}/${item.type}/${item.templateUUID}/${item.uuid}`}
 					target='_blank'
 					rel='noopener noreferrer'
 					className='text-primary-500 underline'

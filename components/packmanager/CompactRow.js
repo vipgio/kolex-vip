@@ -66,7 +66,7 @@ const CompactRow = ({ packs, setListed, insertFloor }) => {
 				setListed((prev) => [
 					...prev.filter((prv) => prv.marketId !== pack.marketId),
 					{
-						...prev.filter((prv) => prv.marketId === pack.marketId)[0],
+						...prev.find((prv) => prv.marketId === pack.marketId),
 						price: newPrice,
 					},
 				]);

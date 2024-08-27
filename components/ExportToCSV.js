@@ -1,16 +1,8 @@
 import { CSVLink } from "react-csv";
+import { webApp } from "@/config/config";
 const ExportToCSV = ({ data, filename, type }) => {
 	const headers = {
-		mint: [
-			"Mint Batch",
-			"Mint Number",
-			"Title",
-			"Owner",
-			"ID",
-			"Signed",
-			"Points",
-			"Point gain",
-		],
+		mint: ["Mint Batch", "Mint Number", "Title", "Owner", "ID", "Signed", "Points", "Point gain"],
 		market: [
 			"Mint Batch",
 			"Mint Number",
@@ -71,7 +63,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.delta,
 					item.minOffer ? item.minOffer : "-",
 					item.price,
-					`https://kolex.gg/market/${item.type}/${
+					`${webApp}/market/${item.type}/${
 						item.card ? item.card.cardTemplateId : item.sticker.stickerTemplateId
 					}/${item.marketId}`,
 			  ])
@@ -115,12 +107,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 	return (
 		<div>
 			<button className='inline-flex cursor-pointer items-center justify-center rounded-md border border-transparent border-gray-200 bg-gray-800 text-center font-medium text-primary-500 shadow-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 active:shadow-lg enabled:hover:bg-gray-700 enabled:hover:text-primary-600 enabled:active:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-100 dark:enabled:hover:bg-gray-300 dark:enabled:active:bg-gray-400'>
-				<CSVLink
-					data={csvData}
-					filename={filename}
-					className='px-3 py-2 focus:outline-none'
-					tabIndex={-1}
-				>
+				<CSVLink data={csvData} filename={filename} className='px-3 py-2 focus:outline-none' tabIndex={-1}>
 					Export
 				</CSVLink>
 			</button>

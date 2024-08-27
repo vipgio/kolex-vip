@@ -1,17 +1,17 @@
 import React, { Fragment } from "react";
 import isEqual from "lodash/isEqual";
+import { historyEvents } from "@/config/config";
 import ImageWrapper from "HOC/ImageWrapper";
 const CardHistory = React.memo(
 	({ item, compactMode }) => {
+		const getDate = (event) => event.created.replace("T", " ").split(".")[0];
 		return (
 			<>
 				<div className='m-5 flex basis-11/12 items-start rounded border border-gray-700 p-2 dark:border-gray-300 lg:basis-[calc(50%_-_40px)]'>
 					{item.images.size402 && !compactMode && (
 						<div className='mr-2 min-w-fit'>
 							<ImageWrapper
-								src={
-									item.images.size402 ? item.images.size402 : item.template.images.size402
-								}
+								src={item.images.size402 ? item.images.size402 : item.template.images.size402}
 								alt={item.id}
 								width={50 * 1.5}
 								height={75 * 1.5}
@@ -35,191 +35,16 @@ const CardHistory = React.memo(
 								.reverse()
 								.map((event) => (
 									<Fragment key={`${item.id}-${event.created}`}>
-										{event.type === "mint" && (
-											<div>Minted on {event.created.replace("T", " ").split(".")[0]}</div>
-										)}
-
-										{event.type === "pack" && (
+										{event.type === "mint" && <div>Minted on {getDate(event)}</div>}
+										{event.type in historyEvents && (
 											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												opened from a pack.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "spinner" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												received the item from the spinner.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "craft" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												received the item from a craft.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "qr-claim" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												acquired from a QR code redemption.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "achievement" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												received the item from an achievement.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "trade" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												received the item from{" "}
-												<span className='font-medium text-red-400'>
-													{event.sender.username}{" "}
-												</span>
-												in a trade.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "market" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												purchased the item from{" "}
-												<span className='font-medium text-red-400'>
-													{event.sender.username}{" "}
-												</span>
-												for <span>{event.value} </span>
-												<span>{event.costType === "usd" ? "USD. " : "coins. "}</span>
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "imx-locked" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver
-														? event.receiver.username
-														: event.sender.username}{" "}
-												</span>
-												transferred the item to Immutable.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "imx-unlocked" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver
-														? event.receiver.username
-														: event.sender?.username}{" "}
-												</span>
-												transferred the item to Kolex.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "imx-market" && (
-											<div>
-												{event.receiver ? (
-													<>
-														<span className='font-medium text-green-600 dark:text-green-400'>
-															{event.receiver ? event.receiver.username : "null"}{" "}
-														</span>
-														purchased the item from Immutable
-														{event.value > 0 ? (
-															<>
-																{" "}
-																for
-																<span className='ml-1 font-semibold text-red-500'>
-																	{event.value}
-																</span>
-																ETH.{" "}
-															</>
-														) : (
-															"."
-														)}
-													</>
-												) : (
-													<>
-														<span className='font-medium text-green-600 dark:text-green-400'>
-															{event.sender ? event.sender.username : "null"}{" "}
-														</span>
-														sold the item on Immutable
-														{event.value > 0 ? (
-															<>
-																{" "}
-																for
-																<span className='ml-1 font-semibold text-red-500'>
-																	{event.value}
-																</span>
-																ETH.{" "}
-															</>
-														) : (
-															"."
-														)}
-													</>
-												)}
-											</div>
-										)}
-										{event.type === "eth-owner-update" && (
-											<div>
-												Ethereum item ownership updated.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "eth-locked" && (
-											<div>
-												Ethereum token trading disabled.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
-										{event.type === "level-upgrade" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												upgraded the card to level{" "}
-												<span className='font-medium text-red-400'>{event.value} </span>
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
+												<p>
+													<span className='font-medium text-green-600 dark:text-green-400'>
+														{event.receiver?.username || event.sender?.username || "null"}{" "}
+													</span>
+													{historyEvents[event.type](event)}{" "}
+													<span className='block text-gray-500'>{getDate(event)}</span>
+												</p>
 											</div>
 										)}
 									</Fragment>

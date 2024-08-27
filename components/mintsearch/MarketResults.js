@@ -70,6 +70,7 @@ const MarketResults = ({
 					</button>
 				)
 			}
+			escapeClose={false}
 		>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>

@@ -6,7 +6,6 @@ import Toggle from "@/components/packs/Toggle";
 import ListModeToggle from "@/components/packs/ListModeToggle";
 import Filters from "@/components/packs/Filters";
 import DirectSearch from "@/components/packs/DirectSearch";
-import FilteredBox from "@/components/packs/FilteredBox";
 import ImageModeGallery from "@/components/packs/ImageModeGallery";
 import ListModeTable from "@/components/packs/ListModeTable";
 

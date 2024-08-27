@@ -13,7 +13,7 @@ const DelisterRow = ({ item, setListed, loading, setLoading, handleDelete, handl
 			setListed((prev) => [
 				...prev.filter((prv) => prv.marketId !== item.marketId),
 				{
-					...prev.filter((prv) => prv.marketId === item.marketId)[0],
+					...prev.find((prv) => prv.marketId === item.marketId),
 					price: newPrice,
 				},
 			]);

@@ -6,6 +6,7 @@ const TokenExpiry = ({ expires }) => {
 	const expiry = new Date(expires).getTime() * 1000;
 	const diff = expiry - now;
 	useEffect(() => {
+		setTimeLeft(diff);
 		const interval = setInterval(() => {
 			const now = new Date().getTime();
 			const diff = expiry - now;

@@ -221,7 +221,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 		try {
 			const data = await getMarketInfo(item.id, page, item.type);
 			if (data && data.count > 0) {
-				const ownedItem = owned.filter((own) => own.templateId === item.id)[0];
+				const ownedItem = owned.find((own) => own.templateId === item.id);
 				const ownedRating = ownedItem ? ownedItem?.rating : 0;
 				let accepted = [];
 				if (item.type === "card") {

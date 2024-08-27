@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import isEqual from "lodash/isEqual";
-import { CDN } from "@/config/config";
+import { GoLinkExternal } from "react-icons/go";
+import { CDN, webApp } from "@/config/config";
 import ImageWrapper from "HOC/ImageWrapper";
 import PackOdds from "./PackOdds";
 
@@ -11,7 +12,7 @@ const PackResults = React.memo(
 			<div className='relative m-2 flex border-t border-gray-700 p-2 dark:border-gray-300'>
 				<div className='w-4/12 pt-1 sm:w-1/5'>
 					<ImageWrapper
-						src={`${CDN}${pack.images.filter((images) => images.name === "image")[0].url}`}
+						src={`${CDN}${pack.images.find((images) => images.name === "image").url}`}
 						width={200}
 						height={200}
 						alt={pack.name}
@@ -74,51 +75,25 @@ const PackResults = React.memo(
 					<div className='flex'>
 						Link to market:
 						<a
-							href={`https://kolex.gg/market/pack/${pack.id}`}
+							href={`${webApp}/market/pack/${pack.id}`}
 							className='ml-1 flex items-center text-primary-500 hover:underline'
 							target='_blank'
 							rel='noreferrer'
 						>
 							Here
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								className='h-4 w-4'
-								fill='none'
-								viewBox='0 0 24 24'
-								stroke='currentColor'
-								strokeWidth={1}
-							>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-								/>
-							</svg>
+							<GoLinkExternal size={14} />
 						</a>
 					</div>
 					<div className='mb-1 flex'>
 						Link to drop page:
 						<a
-							href={`https://kolex.gg/drops/${pack.id}`}
+							href={`${webApp}/drops/${pack.id}`}
 							className='ml-1 flex items-center text-primary-500 hover:underline'
 							target='_blank'
 							rel='noreferrer'
 						>
 							Here
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								className='h-4 w-4'
-								fill='none'
-								viewBox='0 0 24 24'
-								stroke='currentColor'
-								strokeWidth={1}
-							>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-								/>
-							</svg>
+							<GoLinkExternal size={14} />
 						</a>
 					</div>
 					<button onClick={() => setShowOdds((prev) => !prev)} className='simple-button'>

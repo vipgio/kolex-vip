@@ -50,7 +50,7 @@ const Packmanager = () => {
 								id: pack.packTemplate.id,
 								description: pack.packTemplate.description,
 								releaseTime: pack.packTemplate.releaseTime?.split("T")[0],
-								image: pack.packTemplate.images.filter((image) => image.name === "image")[0].url,
+								image: pack.packTemplate.images.find((image) => image.name === "image").url,
 								userLimit: pack.packTemplate.userLimit,
 								categoryId: pack.packTemplate.categoryId,
 								packs: [{ id: pack.id, created: pack.created.split("T")[0] }],

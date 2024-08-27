@@ -6,6 +6,8 @@ export const API = staging ? "https://api-staging1.epics.gg/api/v1" : "https://a
 
 export const CDN = "https://cdn.kolex.gg";
 
+export const webApp = "https://kolex.gg";
+
 export const templateLimit = 40;
 
 export const minPrice = 0.1;
@@ -19,3 +21,59 @@ export const categories = [
 	{ id: "73", name: "kingsleague", title: "Kings", color: "cyan" },
 	{ id: "106", name: "hiroquest", title: "HiROQUEST", color: "emerald" },
 ];
+
+export const historyEvents = {
+	pack: () => "opened from a pack.",
+	spinner: () => "received the item from the spinner.",
+	craft: () => "received the item from a craft.",
+	achievement: () => "received the item from an achievement.",
+	"qr-claim": () => "acquired from a QR code redemption.",
+	"imx-locked": () => "transferred the item to Immutable.",
+	"imx-unlocked": () => "transferred the item to Kolex.",
+	"eth-owner-update": () => "Ethereum item ownership updated.",
+	"eth-locked": () => "Ethereum token trading disabled.",
+	trade: (event) => (
+		<>
+			received the item from{" "}
+			<span className='font-medium text-red-400'>{event.sender.username || "null"} </span>
+			in a trade.
+		</>
+	),
+	market: (event) => (
+		<>
+			purchased the item from{" "}
+			<span className='font-medium text-red-400'>{event.sender.username || "null"}</span> for{" "}
+			<span>{event.value}</span> {event.costType === "usd" ? "USD" : "coins"}.
+		</>
+	),
+	"imx-market": (event) => (
+		<>
+			{event.receiver ? (
+				<>
+					purchased the item from Immutable for
+					{event.value > 0 && (
+						<>
+							<span className='ml-1 font-semibold text-red-500'>{event.value}</span>
+							ETH.
+						</>
+					)}
+				</>
+			) : (
+				<>
+					sold the item on Immutable for
+					{event.value > 0 && (
+						<>
+							<span className='ml-1 font-semibold text-red-500'>{event.value}</span>
+							ETH.
+						</>
+					)}
+				</>
+			)}
+		</>
+	),
+	"level-upgrade": (event) => (
+		<>
+			upgraded the card to level <span className='font-medium text-red-400'>{event.value}</span>.
+		</>
+	),
+};

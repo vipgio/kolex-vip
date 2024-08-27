@@ -93,7 +93,7 @@ const CraftingModal = React.memo(
 				const { result, error } = await postData(`/api/crafting/${plan.id}`, payload);
 				if (result) {
 					// open the full slot
-					await openSlot(result.slots.filter((slot) => slot.used)[0].id);
+					await openSlot(result.slots.find((slot) => slot.used).id);
 				}
 				if (error) {
 					console.error(error);
@@ -156,7 +156,7 @@ const CraftingModal = React.memo(
 										setCheckedCollectionsCount((prev) => [prev[0] + 1, prev[1]]);
 										cards.data.cards.map((item) => {
 											setOwnedCards((prev) => {
-												const oldItems = prev.filter((o) => o.id === reqId)[0];
+												const oldItems = prev.find((o) => o.id === reqId);
 												return [
 													...prev.filter((o) => o.id !== reqId),
 													{

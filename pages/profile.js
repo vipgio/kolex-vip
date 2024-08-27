@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
+import { AiOutlinePoweroff } from "react-icons/ai";
+import { RxCheck, RxCross2 } from "react-icons/rx";
 import { UserContext } from "context/UserContext";
 import { useAxios } from "hooks/useAxios";
 import ImageWrapper from "HOC/ImageWrapper";
@@ -111,10 +113,7 @@ const Profile = () => {
 						title='Logout'
 					>
 						<div className='rounded bg-red-400 fill-current p-0.5 text-gray-100 hover:bg-red-500 active:bg-red-600'>
-							<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'>
-								<path d='M12 21c4.411 0 8-3.589 8-8 0-3.35-2.072-6.221-5-7.411v2.223A6 6 0 0 1 18 13c0 3.309-2.691 6-6 6s-6-2.691-6-6a5.999 5.999 0 0 1 3-5.188V5.589C6.072 6.779 4 9.65 4 13c0 4.411 3.589 8 8 8z'></path>
-								<path d='M11 2h2v10h-2z'></path>
-							</svg>
+							<AiOutlinePoweroff size={24} />
 						</div>
 					</div>
 				</div>
@@ -178,18 +177,14 @@ const Profile = () => {
 							)}
 
 							{user.user.kycCompleted ? (
-								<div className='flex'>
+								<div className='flex items-center'>
 									<span>KYC completed</span>
-									<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' className='fill-primary-500'>
-										<path d='m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z'></path>
-									</svg>
+									<RxCheck className='text-primary-500' size={20} />
 								</div>
 							) : (
-								<div className='flex'>
+								<div className='flex items-center'>
 									<span>KYC not completed</span>
-									<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' style={{ fill: "#dc2626" }}>
-										<path d='m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z'></path>
-									</svg>
+									<RxCross2 className='text-red-600' size={20} />
 								</div>
 							)}
 							{<TokenExpiry expires={user.expires} />}
@@ -223,10 +218,7 @@ const Profile = () => {
 					title='Logout'
 				>
 					<div className='rounded bg-red-400 fill-current p-0.5 text-gray-100 hover:bg-red-500 active:bg-red-600'>
-						<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'>
-							<path d='M12 21c4.411 0 8-3.589 8-8 0-3.35-2.072-6.221-5-7.411v2.223A6 6 0 0 1 18 13c0 3.309-2.691 6-6 6s-6-2.691-6-6a5.999 5.999 0 0 1 3-5.188V5.589C6.072 6.779 4 9.65 4 13c0 4.411 3.589 8 8 8z'></path>
-							<path d='M11 2h2v10h-2z'></path>
-						</svg>
+						<AiOutlinePoweroff size={24} />
 					</div>
 				</button>
 				<Changelog showModal={showChangelog} setShowModal={setShowChangelog} />

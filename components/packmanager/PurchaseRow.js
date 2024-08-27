@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { webApp } from "@/config/config";
 import { useAxios } from "hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
 
@@ -39,7 +40,7 @@ const PurchaseRow = ({ item, loading, setLoading }) => {
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>
 					<a
 						target='_blank'
-						href={`https://kolex.gg/user/${item.user.username}`}
+						href={`${webApp}/user/${item.user.username}`}
 						rel='noopener noreferrer'
 						className='underline hover:text-primary-500'
 					>
