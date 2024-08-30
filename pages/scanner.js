@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 import "react-toastify/dist/ReactToastify.css";
 import { useAxios } from "@/hooks/useAxios";
@@ -12,11 +11,11 @@ import Tooltip from "@/components/Tooltip";
 import LoadingSpin from "@/components/LoadingSpin";
 
 const Scanner = () => {
-	const { user } = useContext(UserContext);
 	const { fetchData } = useAxios();
+	const { user } = useContext(UserContext);
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [selectedUsers, setSelectedUsers] = useState([]);
-	const [scanResults, setScanResults] = useState([]);
+	const [scanResults, setScanResults] = useState(null);
 	const [collectionTemplates, setCollectionTemplates] = useState({});
 	const [ownedItems, setOwnedItems] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -26,7 +25,7 @@ const Scanner = () => {
 
 	const handleScan = async () => {
 		setLoading(true);
-		setScanResults([]);
+		setScanResults(null);
 
 		const scanUser = async (userId, collectionId) => {
 			const { result, error } = await fetchData(`/api/users/scan`, {
@@ -105,7 +104,7 @@ const Scanner = () => {
 													title='Clear selection'
 													onClick={() => {
 														setSelectedUsers((prev) => prev.filter((oldUser) => oldUser.id !== user.id));
-														setScanResults({});
+														setScanResults((prev) => prev.filter((items) => items.owner !== user.username));
 													}}
 												>
 													x
@@ -155,24 +154,30 @@ const Scanner = () => {
 					</button>
 					<div className='text-gray-700 dark:text-gray-300'>
 						<Tooltip
-							text={"If there are too many of the same card, they won't be shown here."}
+							text={"If there are too many of the same item, they won't be shown here."}
 							direction='right'
 						/>
 					</div>
 				</div>
-				{!isEmpty(scanResults) && (
-					<div>
-						<ScanResult
-							scanResults={scanResults}
-							templates={collectionTemplates}
-							user={selectedUsers}
-							collection={selectedCollection}
-							ownedItems={ownedItems}
-							isSelfScan={isSelfScan}
-							singleUserSearch={singleUserSearch}
-						/>
-					</div>
-				)}
+				{scanResults ? (
+					scanResults.length > 0 ? (
+						<div>
+							<ScanResult
+								scanResults={scanResults}
+								templates={collectionTemplates}
+								user={selectedUsers}
+								collection={selectedCollection}
+								ownedItems={ownedItems}
+								isSelfScan={isSelfScan}
+								singleUserSearch={singleUserSearch}
+							/>
+						</div>
+					) : (
+						<div className='mt-3 w-full text-center font-semibold text-gray-700 dark:text-gray-300'>
+							No items found
+						</div>
+					)
+				) : null}
 			</div>
 		</>
 	);

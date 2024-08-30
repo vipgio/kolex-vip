@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import semver from "semver";
-import { Dialog, Transition } from "@headlessui/react";
 import changelogData from "@/config/changelog.json";
+import Dialog from "@/HOC/Dialog";
 
 const Changelog = ({ showModal, setShowModal }) => {
 	const router = useRouter();
@@ -45,70 +45,30 @@ const Changelog = ({ showModal, setShowModal }) => {
 	}, [router.asPath]);
 
 	return (
-		<Transition appear show={showModal} as={Fragment}>
-			<Dialog as='div' className='relative z-30' onClose={() => setShowModal(false)}>
-				<Transition.Child
-					as={Fragment}
-					enter='ease-out duration-300'
-					enterFrom='opacity-0'
-					enterTo='opacity-100'
-					leave='ease-in duration-200'
-					leaveFrom='opacity-100'
-					leaveTo='opacity-0'
-				>
-					<div className='fixed inset-0 bg-black/80' />
-				</Transition.Child>
+		<Dialog
+			isOpen={showModal}
+			setIsOpen={setShowModal}
+			title={`Changelog: ${newChanges[0]?.date}`}
+			closeButton={true}
+		>
+			<div className='flex max-h-96 flex-col gap-4 divide-y divide-gray-500 overflow-auto rounded border border-gray-500 p-1 px-2'>
+				{newChanges
+					.sort((a, b) => semver.rcompare(a.version, b.version))
+					.map((release) => (
+						<div key={release.version} className=''>
+							<span className='font-semibold text-gray-800 dark:text-gray-200'>{release.version}</span>
 
-				<div className='fixed inset-0 overflow-y-auto'>
-					<div className='flex min-h-full items-center justify-center p-4 text-center'>
-						<Transition.Child
-							as={Fragment}
-							enter='ease-out duration-300'
-							enterFrom='opacity-0 scale-95'
-							enterTo='opacity-100 scale-100'
-							leave='ease-in duration-200'
-							leaveFrom='opacity-100 scale-100'
-							leaveTo='opacity-0 scale-95'
-						>
-							<Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-xl bg-gray-200 p-4 text-left align-middle shadow-xl transition-all dark:bg-gray-700'>
-								<Dialog.Title
-									as='h3'
-									className='mb-4 text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
-								>
-									Changelog: {newChanges[0]?.date}
-								</Dialog.Title>
-								<Dialog.Panel>
-									<div className='flex max-h-96 flex-col gap-4 divide-y divide-gray-500 overflow-auto rounded border border-gray-500 p-1 px-2'>
-										{newChanges
-											.sort((a, b) => semver.rcompare(a.version, b.version))
-											.map((release) => (
-												<div key={release.version} className=''>
-													<span className='font-semibold text-gray-800 dark:text-gray-200'>
-														{release.version}
-													</span>
-
-													<ul className='list-inside list-disc pl-3 marker:text-primary-500'>
-														{release.changes.map((change) => (
-															<li key={change} className='text-gray-800 dark:text-gray-200'>
-																{change}
-															</li>
-														))}
-													</ul>
-												</div>
-											))}
-									</div>
-									<div className='mt-6'>
-										<button type='button' className='button' onClick={() => setShowModal(false)}>
-											Close
-										</button>
-									</div>
-								</Dialog.Panel>
-							</Dialog.Panel>
-						</Transition.Child>
-					</div>
-				</div>
-			</Dialog>
-		</Transition>
+							<ul className='list-inside list-disc pl-3 marker:text-primary-500'>
+								{release.changes.map((change) => (
+									<li key={change} className='text-gray-800 dark:text-gray-200'>
+										{change}
+									</li>
+								))}
+							</ul>
+						</div>
+					))}
+			</div>
+		</Dialog>
 	);
 };
 export default Changelog;

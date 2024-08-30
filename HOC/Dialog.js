@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
-const Dialog = ({ title, children, isOpen, setIsOpen, closeFunction = null }) => {
+const Dialog = ({ title, children, isOpen, setIsOpen, closeFunction = null, closeButton = false }) => {
 	const closeModal = () => setIsOpen(false);
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
@@ -31,12 +31,19 @@ const Dialog = ({ title, children, isOpen, setIsOpen, closeFunction = null }) =>
 							<HeadlessDialog.Panel className='w-full max-w-lg transform overflow-hidden rounded-xl bg-gray-200 p-4 text-left align-middle shadow-xl transition-all dark:bg-gray-700'>
 								<HeadlessDialog.Title
 									as='h3'
-									className='text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
+									className='inline-flex w-full text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
 								>
 									{title}
 								</HeadlessDialog.Title>
 								<HeadlessDialog.Panel className='mt-2 text-gray-700 dark:text-gray-300'>
 									{children}
+									{closeButton && (
+										<div className='mt-5 flex w-full'>
+											<button type='button' className='button ml-auto' onClick={closeModal}>
+												Close
+											</button>
+										</div>
+									)}
 								</HeadlessDialog.Panel>
 							</HeadlessDialog.Panel>
 						</Transition.Child>

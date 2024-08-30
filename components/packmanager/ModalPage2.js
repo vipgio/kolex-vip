@@ -9,6 +9,7 @@ import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import CoolButton from "./CoolButton";
 import LoadingSpin from "../LoadingSpin";
+import fixDecimal from "@/utils/NumberUtils";
 
 const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) => {
 	const { fetchData, postData } = useAxios();
@@ -162,7 +163,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							onChange={(e) => setMinOffer(e.target.value)} // remove leading zeros and non-numeric characters
 							onBlur={(e) => {
 								if (Number(e.target.value) >= Number(price)) {
-									setMinOffer((price * 100 - 0.01 * 100) / 100);
+									setMinOffer(fixDecimal((price * 100 - 0.01 * 100) / 100));
 								}
 							}}
 							onFocus={(e) => e.target.select()}

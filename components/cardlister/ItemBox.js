@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import isEqual from "lodash/isEqual";
 import { maxPrice, minPrice } from "@/config/config";
 import MintSelectorModal from "./MintSelectorModal";
+import fixDecimal from "@/utils/NumberUtils";
 
 const ItemBox = React.memo(
 	({ template, insertFloor, setListingDetails }) => {
@@ -24,9 +25,11 @@ const ItemBox = React.memo(
 		useEffect(() => {
 			if (insertFloor && template.floor)
 				setPrice(
-					(template.floor * 100 - 0.01 * 100) / 100 >= minPrice
-						? ((template.floor * 100 - 0.01 * 100) / 100).toString()
-						: template.floor.toString()
+					fixDecimal(
+						(template.floor * 100 - 0.01 * 100) / 100 >= minPrice
+							? ((template.floor * 100 - 0.01 * 100) / 100).toString()
+							: template.floor.toString()
+					)
 				);
 		}, [insertFloor]);
 

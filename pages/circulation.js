@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
+import uniqBy from "lodash/uniqBy";
 import { useAxios } from "@/hooks/useAxios";
 import SetSelector from "@/HOC/SetSelector";
 import Meta from "@/components/Meta";
-import CircList from "@/components/CircList";
+import CircList from "@/components/circulation/CircList";
 import LoadingSpin from "@/components/LoadingSpin";
 import RefreshButton from "@/components/RefreshButton";
 
 const Circulation = () => {
+	const { fetchData } = useAxios();
 	const [loading, setLoading] = useState(false);
 	const [collection, setCollection] = useState({
 		info: {},
@@ -15,7 +17,28 @@ const Circulation = () => {
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [cardPrices, setCardPrices] = useState([]);
 	const [stickerPrices, setStickerPrices] = useState([]);
-	const { fetchData } = useAxios();
+	const [packs, setPacks] = useState([]);
+
+	const getPacks = async () => {
+		try {
+			const chunkSize = 10;
+			const templateIds = [...collection.items.cards, ...collection.items.stickers].map(
+				(item) => item.templateId
+			);
+			for (let i = 0; i < templateIds.length; i += chunkSize) {
+				const chunk = templateIds.slice(i, i + chunkSize);
+				const { result } = await fetchData({
+					endpoint: `/api/packs/contains`,
+					params: {
+						templateIds: chunk.toString(),
+					},
+				});
+				setPacks((prev) => uniqBy([...prev, ...result], "id"));
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
 	const getCardPrices = async (page) => {
 		try {
@@ -98,6 +121,7 @@ const Circulation = () => {
 					...collection,
 					items: items,
 				}));
+				await getPacks(1);
 			}
 			setLoading(false);
 		} catch (err) {
@@ -150,6 +174,7 @@ const Circulation = () => {
 						</span>
 					</div>
 				)}
+				{/* <button onClick={() => console.log(packs)}>Packs</button> */}
 
 				{collection.items.cards.length + collection.items.stickers.length > 0 && !loading && (
 					<CircList
@@ -165,7 +190,7 @@ export default Circulation;
 
 const getObj = (item, type) => {
 	return {
-		id: item.id,
+		templateId: item.id,
 		inCirculation: item.inCirculation,
 		title: item.title,
 		minted: item.minted,

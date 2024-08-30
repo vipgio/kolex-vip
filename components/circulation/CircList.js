@@ -43,15 +43,15 @@ const CircList = ({ data, prices }) => {
 								.map((item) => (
 									<tr
 										className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'
-										key={item.id}
+										key={item.templateId}
 									>
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.inCirculation}</td>
 
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.minted || item.mintCount || "-"}</td>
 										<td className='py-1 px-2 sm:py-3 sm:px-6'>
-											{prices.find((price) => price.entityTemplateId === item.id)
-												? `$${prices.find((price) => price.entityTemplateId === item.id).lowestPrice}`
+											{prices.find((price) => price.entityTemplateId === item.templateId)
+												? `$${prices.find((price) => price.entityTemplateId === item.templateId).lowestPrice}`
 												: `-`}
 										</td>
 									</tr>

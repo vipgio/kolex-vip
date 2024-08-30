@@ -6,6 +6,7 @@ import { AiOutlineReload } from "react-icons/ai";
 import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
+import fixDecimal from "@/utils/NumberUtils";
 
 const ListedRow = React.memo(
 	({ item, setListed, insertFloor }) => {
@@ -18,7 +19,7 @@ const ListedRow = React.memo(
 			if (insertFloor && floor) {
 				setNewPrice(
 					(floor * 100 - 0.01 * 100) / 100 >= minPrice
-						? ((floor * 100 - 0.01 * 100) / 100).toString()
+						? fixDecimal((floor * 100 - 0.01 * 100) / 100).toString()
 						: floor.toString()
 				);
 			}
