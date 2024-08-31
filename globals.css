@@ -39,6 +39,12 @@ body {
 	@apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500;
 }
 
+.loader {
+	background: radial-gradient(farthest-side, #e5e7eb 100%, #0000) top/4px 4px no-repeat,
+		conic-gradient(#0000 25%, #e5e7eb);
+	-webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 4px), #000 0);
+}
+
 ::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;
