@@ -30,7 +30,7 @@ const PackGallery = ({ packs, searchQuery }) => {
 	};
 	return (
 		<>
-			<div className='mx-4 text-gray-700 dark:text-gray-300'>
+			<div className='text-gray-custom mx-4'>
 				<label htmlFor='columns'>Columns: </label>
 				<select
 					id='columns'
@@ -47,7 +47,7 @@ const PackGallery = ({ packs, searchQuery }) => {
 					<option value='8'>8</option>
 				</select>
 			</div>
-			<div className='m-4 mb-2 text-gray-700 dark:text-gray-300'>
+			<div className='text-gray-custom m-4 mb-2'>
 				<label htmlFor='columns'>Sort: </label>
 				<select
 					id='columns'

@@ -91,7 +91,7 @@ const Crafting = () => {
 							))}
 					</div>
 				) : (
-					<div className='flex justify-center text-gray-700 dark:text-gray-300 '>No craft plans available</div>
+					<div className='text-gray-custom flex justify-center'>No craft plans available</div>
 				)}
 			</div>
 		</>

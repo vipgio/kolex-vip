@@ -65,7 +65,10 @@ const PackResults = React.memo(
 						<div>
 							Price:{" "}
 							<span className='font-semibold text-primary-500'>
-								{Number(pack.cost).toLocaleString()} {pack.costType[0].toUpperCase() + pack.costType.slice(1)}
+								{Number(pack.cost).toLocaleString()}{" "}
+								{pack.costType === "usd"
+									? pack.costType.toUpperCase()
+									: pack.costType[0].toUpperCase() + pack.costType.slice(1)}
 							</span>
 						</div>
 					)}

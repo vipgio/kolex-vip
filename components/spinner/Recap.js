@@ -33,7 +33,7 @@ const Recap = ({ spins, items, isOpen, setIsOpen }) => {
 
 	return (
 		<Dialog isOpen={isOpen} setIsOpen={setIsOpen} title={`Spins Recap: ${spins.length} spins`}>
-			<div className='my-1 max-h-[75vh] divide-y divide-gray-700/20 overflow-auto rounded border border-gray-700/20 p-1 text-gray-700 dark:divide-gray-300/20 dark:border-gray-300/20 dark:text-gray-300'>
+			<div className='text-gray-custom my-1 max-h-[75vh] divide-y divide-gray-700/20 overflow-auto rounded border border-gray-700/20 p-1 dark:divide-gray-300/20 dark:border-gray-300/20'>
 				{counted
 					.sort((a, b) => b[1] - a[1])
 					.map(([id, count, mints]) => {

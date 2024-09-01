@@ -11,7 +11,7 @@ const PurchaseToggle = ({ manageMode, setManageMode }) => {
 				>
 					<span className='inline-block h-4 w-4 transform rounded-full bg-white transition ui-checked:translate-x-6 ui-not-checked:translate-x-1' />
 				</Switch>
-				<Switch.Label className='cursor-pointer pt-2 text-gray-700 dark:text-gray-300'>
+				<Switch.Label className='text-gray-custom cursor-pointer pt-2'>
 					{manageMode ? <div>Manage your packs</div> : <div>Purchase market packs</div>}
 				</Switch.Label>
 			</Switch.Group>

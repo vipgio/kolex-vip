@@ -78,7 +78,7 @@ const Transactions = () => {
 				onSubmit={onSubmit}
 			/>
 			{loading ? (
-				<div className='mt-1 ml-1 w-full text-center text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom mt-1 ml-1 w-full text-center'>
 					Checking page {pageCounter} of your transactions...
 				</div>
 			) : null}

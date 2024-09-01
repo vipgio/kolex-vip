@@ -93,10 +93,10 @@ const ScanResult = React.memo(
 
 		return (
 			<>
-				<div className='my-5'>
+				<div className='my-5 overflow-hidden'>
 					<div className='flex items-end pb-3'>
 						<div className='flex flex-col justify-start sm:flex-row'>
-							<label htmlFor='filter' className='my-1 text-gray-800 dark:text-gray-300 sm:m-2'>
+							<label htmlFor='filter' className='text-gray-custom my-1 sm:m-2'>
 								Select a filter method:{" "}
 							</label>
 							<select id='filter' className='dropdown' onChange={handleFilter}>
@@ -130,7 +130,7 @@ const ScanResult = React.memo(
 									Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}
 								</div>
 							)}
-						<div className='mb-1 flex flex-col justify-center rounded-md border border-gray-300'>
+						<div className='mb-1 flex flex-col justify-center overflow-hidden rounded-md border border-gray-300'>
 							{filterMethod !== "compact" ? (
 								<FullList
 									results={filteredResults}

@@ -1,8 +1,8 @@
 const SpinResult = ({ result, spinnerInfo }) => {
 	return (
-		<div>
+		<div className='text-gray-custom'>
 			{result.cards.length > 0 ? (
-				<div className='text-gray-700 dark:text-gray-300'>
+				<div className=''>
 					You won{" "}
 					<span className='text-red-400'>
 						{result.cards[0].mintBatch}
@@ -10,16 +10,16 @@ const SpinResult = ({ result, spinnerInfo }) => {
 					</span>
 					<span className='text-primary-500 dark:text-primary-300'>{result.title} </span>
 					at
-					<span className='ml-1 text-gray-700 dark:text-gray-300'>{result.time.toLocaleString()}</span>
+					<span className='ml-1 '>{result.time.toLocaleString()}</span>
 				</div>
 			) : (
 				spinnerInfo.items
 					.filter((item) => item.id === result.id)
 					.map((reward) => (
-						<div className='text-gray-700 dark:text-gray-300' key={`${result.time}-${reward.name}`}>
+						<div key={`${result.time}-${reward.name}`}>
 							You won <span className='text-primary-500 dark:text-primary-300'>{reward.name} </span>
 							at
-							<span className='ml-1 text-gray-700 dark:text-gray-300'>{result.time.toLocaleString()}</span>
+							<span className='ml-1'>{result.time.toLocaleString()}</span>
 						</div>
 					))
 			)}

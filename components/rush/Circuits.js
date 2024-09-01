@@ -45,7 +45,7 @@ const Circuits = ({ circuits, isRosterSelected }) => {
 				<LoadingSpin />
 			) : (
 				circuitInfo.map((circuit) => (
-					<div key={circuit.id} className={`mb-10 h-fit rounded border text-gray-700 dark:text-gray-300`}>
+					<div key={circuit.id} className={`text-gray-custom mb-10 h-fit rounded border`}>
 						{showStageModal && (
 							<StageInfo
 								stage={selectedStage}

@@ -43,7 +43,7 @@ const ActivePacks = ({ user, categoryId }) => {
 
 	return (
 		<div
-			className={`mx-2 mb-5 flex flex-col text-gray-700 dark:text-gray-300 sm:mx-0 ${
+			className={`text-gray-custom mx-2 mb-5 flex flex-col sm:mx-0 ${
 				user.user.username === "Fynngin" ? "font-comic" : ""
 			}`}
 		>

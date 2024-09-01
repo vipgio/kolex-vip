@@ -8,7 +8,7 @@ const FiltersModal = ({ isOpen, setIsOpen, filters, setFilters, defaultFilters }
 		<div className='fixed z-50'>
 			<Dialog isOpen={isOpen} setIsOpen={setIsOpen} title={"Filters"}>
 				<>
-					<div className='border-y border-gray-500 p-2 text-gray-700 dark:text-gray-300'>
+					<div className='text-gray-custom border-y border-gray-500 p-2'>
 						<div className='mb-1'>
 							<label htmlFor='minOwned'>Min Owned: </label>
 							<input

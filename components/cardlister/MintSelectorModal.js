@@ -60,7 +60,7 @@ const MintSelectorModal = React.memo(
 								.slice(0)
 								.reverse()
 								.map((card) => (
-									<div key={card.id} className='flex w-full px-1 text-gray-700 dark:text-gray-300'>
+									<div key={card.id} className='text-gray-custom flex w-full px-1'>
 										<label
 											htmlFor={card.id}
 											className={`${card.signatureImage ? "text-yellow-400" : ""} hover:cursor-pointer`}
@@ -80,7 +80,7 @@ const MintSelectorModal = React.memo(
 									</div>
 								))}
 						</div>
-						<div className='flex w-2/3 flex-col text-gray-700 dark:text-gray-300'>
+						<div className='text-gray-custom flex w-2/3 flex-col'>
 							<div className='h-1/2 p-1'>
 								A) Choose a mint range
 								<div className='flex flex-col'>

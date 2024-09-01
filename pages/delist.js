@@ -66,7 +66,7 @@ const Delist = () => {
 			/>
 			<div className='mt-5 border p-2'>
 				<form className='flex flex-col items-center space-y-2' onSubmit={handleSubmit}>
-					<label htmlFor='card-id' className='flex items-center text-gray-700 dark:text-gray-300'>
+					<label htmlFor='card-id' className='text-gray-custom flex items-center'>
 						Enter card IDs
 					</label>
 					<input

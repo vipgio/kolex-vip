@@ -52,7 +52,7 @@ const HistoryModal = React.memo(
 					<button
 						type='button'
 						onClick={openModal}
-						className='flex h-5 w-5 items-center justify-center rounded-full text-sm font-medium text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:text-gray-300'
+						className='text-gray-custom flex h-5 w-5 items-center justify-center rounded-full text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
 					>
 						<FaHistory />
 					</button>
@@ -77,7 +77,7 @@ const HistoryModal = React.memo(
 					{history.history ? (
 						<>
 							<div className='mt-2 rounded border border-gray-400 p-1'>
-								<div className='relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain text-gray-700 dark:text-gray-300'>
+								<div className='text-gray-custom relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain'>
 									{history.history
 										.slice()
 										.reverse()

@@ -54,7 +54,7 @@ const Feed = () => {
 			<div className='mt-10 flex flex-col items-center justify-center'>
 				<form onSubmit={buyItem} className='flex flex-col items-center justify-center'>
 					<div className='flex flex-col items-center sm:flex-row'>
-						<label htmlFor='marketId' className='mr-1 text-gray-700 dark:text-gray-300'>
+						<label htmlFor='marketId' className='text-gray-custom mr-1'>
 							Market ID:
 						</label>
 						<input
@@ -67,7 +67,7 @@ const Feed = () => {
 							className='input-field'
 						/>
 
-						<label htmlFor='price' className='mr-1 ml-2 mt-2 text-gray-700 dark:text-gray-300 sm:mt-0'>
+						<label htmlFor='price' className='text-gray-custom mr-1 ml-2 mt-2 sm:mt-0'>
 							Price:
 						</label>
 						<input

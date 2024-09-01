@@ -12,7 +12,7 @@ const RushRostersDropdown = ({ items, loading }) => {
 		<div className='absolute top-0 z-20 w-72'>
 			<Listbox value={selectedRoster?.name ? selectedRoster.name : defaultName} onChange={setSelectedRoster}>
 				<div className='relative -top-2'>
-					<Listbox.Label className='text-gray-700 dark:text-gray-300'>Roster:</Listbox.Label>
+					<Listbox.Label className='text-gray-custom'>Roster:</Listbox.Label>
 					<Listbox.Button className='relative w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
 						<span className='block truncate'>
 							{selectedRoster?.name ? (

@@ -151,7 +151,7 @@ const PurchasePage = () => {
 									step={0.01}
 									max={10000}
 								/>
-								<span className='ml-auto mr-2 text-gray-700 dark:text-gray-300'>
+								<span className='text-gray-custom ml-auto mr-2'>
 									{filteredItems.length} Items - Total price:{" "}
 									<span className='font-semibold underline'>
 										${filteredItems.reduce((sum, item) => sum + Number(item.price), 0).toFixed(2)}

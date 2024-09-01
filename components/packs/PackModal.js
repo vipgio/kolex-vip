@@ -68,7 +68,9 @@ const PackModal = React.memo(
 								Price:{" "}
 								<span className='font-semibold text-primary-500'>
 									{Number(pack.cost).toLocaleString()}{" "}
-									{pack.costType[0].toUpperCase() + pack.costType.slice(1)}
+									{pack.costType === "usd"
+										? pack.costType.toUpperCase()
+										: pack.costType[0].toUpperCase() + pack.costType.slice(1)}
 								</span>
 							</div>
 						)}
@@ -99,10 +101,14 @@ const PackModal = React.memo(
 								<GoLinkExternal size={14} />
 							</a>
 						</div>
-						<button onClick={() => setShowOdds((prev) => !prev)} className='simple-button'>
-							{showOdds ? "Hide odds" : "Show odds"}
-						</button>
-						{showOdds && <PackOdds odds={pack.treatmentsChance} />}
+						{pack.treatmentsChance?.length > 0 && (
+							<>
+								<button onClick={() => setShowOdds((prev) => !prev)} className='simple-button'>
+									{showOdds ? "Hide odds" : "Show odds"}
+								</button>
+								{showOdds && <PackOdds odds={pack.treatmentsChance} />}
+							</>
+						)}
 					</div>
 				</div>
 			</Dialog>

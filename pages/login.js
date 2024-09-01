@@ -132,14 +132,14 @@ const Login = () => {
 				</button>
 			</div>
 
-			<div className='absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold text-gray-700 transition-colors dark:text-gray-300'>
+			<div className='text-gray-custom absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold transition-colors'>
 				<a
 					href='https://github.com/vipgio/kolex-vip'
 					target='_blank'
 					rel='noopener noreferrer'
 					title='Source Code'
 				>
-					<FaGithub className='h-6 w-6 text-gray-700 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
+					<FaGithub className='text-gray-custom h-6 w-6 hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 				<a
 					href='https://discordapp.com/users/473436055958192128'
@@ -191,7 +191,7 @@ const Login = () => {
 				onSubmit={onSubmit}
 			/>
 			<div className='absolute bottom-0 h-8 w-full border-t border-gray-600 p-1 dark:border-gray-400'>
-				<span className='text-sm text-gray-700 dark:text-gray-300'>
+				<span className='text-gray-custom text-sm'>
 					Cool site logo by{" "}
 					<a
 						href='https://discordapp.com/users/341825527104929792'

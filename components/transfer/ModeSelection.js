@@ -18,9 +18,7 @@ const plans = [
 const ModeSelection = ({ transferMode, setTransferMode }) => {
 	return (
 		<div className='w-full border-b border-gray-500 px-3 pb-3 pt-2 xs:border-r'>
-			<p className='mb-2 text-xl font-semibold text-gray-700 dark:text-gray-300'>
-				Select the transfer method
-			</p>
+			<p className='text-gray-custom mb-2 text-xl font-semibold'>Select the transfer method</p>
 			<div className='w-full max-w-md'>
 				<RadioGroup value={transferMode} onChange={setTransferMode}>
 					<RadioGroup.Label className='sr-only'>Server size</RadioGroup.Label>
@@ -29,7 +27,7 @@ const ModeSelection = ({ transferMode, setTransferMode }) => {
 							<RadioGroup.Option
 								key={plan.name}
 								value={plan}
-								className='ui-checked:bg-primary-500/80 relative flex cursor-pointer rounded-lg px-3 py-2 shadow-md focus:outline-none ui-checked:text-gray-900 ui-not-checked:bg-gray-900 dark:ui-checked:text-gray-100 dark:ui-not-checked:bg-gray-100'
+								className='relative flex cursor-pointer rounded-lg px-3 py-2 shadow-md focus:outline-none ui-checked:bg-primary-500/80 ui-checked:text-gray-900 ui-not-checked:bg-gray-900 dark:ui-checked:text-gray-100 dark:ui-not-checked:bg-gray-100'
 							>
 								{({ checked }) => (
 									<>
@@ -46,9 +44,7 @@ const ModeSelection = ({ transferMode, setTransferMode }) => {
 													</RadioGroup.Label>
 													<RadioGroup.Description
 														as='span'
-														className={`inline ${
-															checked ? "text-sky-100" : "text-gray-500"
-														}`}
+														className={`inline ${checked ? "text-sky-100" : "text-gray-500"}`}
 													>
 														<span>{plan.description}</span>
 													</RadioGroup.Description>
@@ -75,13 +71,7 @@ function CheckIcon(props) {
 	return (
 		<svg viewBox='0 0 24 24' fill='none' {...props}>
 			<circle cx={12} cy={12} r={12} fill='#fff' opacity='0.3' />
-			<path
-				d='M7 13l3 3 7-7'
-				stroke='#fff'
-				strokeWidth={1.5}
-				strokeLinecap='round'
-				strokeLinejoin='round'
-			/>
+			<path d='M7 13l3 3 7-7' stroke='#fff' strokeWidth={1.5} strokeLinecap='round' strokeLinejoin='round' />
 		</svg>
 	);
 }

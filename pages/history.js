@@ -114,10 +114,10 @@ const History = () => {
 				<Toggle compactMode={compactMode} setCompactMode={setCompactMode} />
 				<div className='flex h-full w-full items-start justify-center pt-3'>
 					<form className='flex flex-col items-center space-y-2' onSubmit={handleSubmit}>
-						<label htmlFor='card-id' className='flex items-center text-gray-700 dark:text-gray-300'>
+						<label htmlFor='card-id' className='text-gray-custom flex items-center'>
 							Enter card IDs
 							<Tooltip
-								text='Enter a list of card IDs, separated with commas, to see their history. You can use any tool to find the card Id or use the scanner in the app.'
+								text='Enter a list of card IDs, separated by commas. You can use any tool (e.g., scanner, mintsearch, etc.) to find the card ID.'
 								direction='right'
 							/>
 						</label>

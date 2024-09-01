@@ -6,6 +6,7 @@ import Meta from "@/components/Meta";
 import CircList from "@/components/circulation/CircList";
 import LoadingSpin from "@/components/LoadingSpin";
 import RefreshButton from "@/components/RefreshButton";
+import PacksList from "@/components/circulation/PacksList";
 
 const Circulation = () => {
 	const { fetchData } = useAxios();
@@ -19,12 +20,10 @@ const Circulation = () => {
 	const [stickerPrices, setStickerPrices] = useState([]);
 	const [packs, setPacks] = useState([]);
 
-	const getPacks = async () => {
+	const getPacks = async (items) => {
 		try {
 			const chunkSize = 10;
-			const templateIds = [...collection.items.cards, ...collection.items.stickers].map(
-				(item) => item.templateId
-			);
+			const templateIds = items.map((item) => item.templateId);
 			for (let i = 0; i < templateIds.length; i += chunkSize) {
 				const chunk = templateIds.slice(i, i + chunkSize);
 				const { result } = await fetchData({
@@ -100,12 +99,12 @@ const Circulation = () => {
 		setLoading(true);
 		setCardPrices([]);
 		setStickerPrices([]);
+		setPacks([]);
+		setCollection({
+			info: {},
+			items: { cards: [], stickers: [] },
+		});
 		try {
-			setCollection({
-				info: {},
-				items: { cards: [], stickers: [] },
-			});
-
 			const cards = await getCardsCirc(selectedCollection.collection.id);
 			cards.length > 0 && (await getCardPrices(1));
 
@@ -121,7 +120,7 @@ const Circulation = () => {
 					...collection,
 					items: items,
 				}));
-				await getPacks(1);
+				await getPacks([...items.cards, ...items.stickers]);
 			}
 			setLoading(false);
 		} catch (err) {
@@ -143,7 +142,7 @@ const Circulation = () => {
 			<Meta title='Circulation | Kolex VIP' />
 			<div className='flex flex-col items-center'>
 				<div className='flex h-full w-full flex-col items-center justify-center pt-5'>
-					<div className='px-4 pt-2 text-center font-semibold text-gray-700 dark:text-gray-300'>
+					<div className='text-gray-custom0 px-4 pt-2 text-center font-semibold'>
 						Selected Collection:
 						{selectedCollection && (
 							<span>
@@ -174,13 +173,24 @@ const Circulation = () => {
 						</span>
 					</div>
 				)}
-				{/* <button onClick={() => console.log(packs)}>Packs</button> */}
 
 				{collection.items.cards.length + collection.items.stickers.length > 0 && !loading && (
-					<CircList
-						data={[...collection.items.cards, ...collection.items.stickers]}
-						prices={[...cardPrices, ...stickerPrices]}
-					/>
+					<>
+						{packs.length > 0 && (
+							<div className='relative flex flex-col items-center text-center'>
+								<button className='text-gray-custom'>
+									<span>
+										{packs.length} {packs.length > 1 ? "Packs" : "Pack"} containing this set:
+									</span>
+								</button>
+								<PacksList packs={packs} />
+							</div>
+						)}
+						<CircList
+							data={[...collection.items.cards, ...collection.items.stickers]}
+							prices={[...cardPrices, ...stickerPrices]}
+						/>
+					</>
 				)}
 			</div>
 		</>

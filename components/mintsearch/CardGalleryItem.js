@@ -36,7 +36,7 @@ const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {
 					<div className='absolute inset-1 z-20 rounded-md bg-black/60'></div>
 				)}
 			</div>
-			<div className='px-1 py-0.5 text-center text-sm text-gray-700 dark:text-gray-300'>{item.title}</div>
+			<div className='text-gray-custom px-1 py-0.5 text-center text-sm'>{item.title}</div>
 		</div>
 	);
 };

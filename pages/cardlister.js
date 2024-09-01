@@ -164,7 +164,7 @@ const Cardlister = () => {
 			<Meta title='Card Lister | Kolex VIP' />
 			<div className='flex'>
 				<div className='flex flex-col'>
-					<div className='mt-10 px-2 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
+					<div className='text-gray-custom mt-10 px-2 pt-2 font-semibold'>
 						Selected Collection:
 						{selectedCollection && (
 							<span>

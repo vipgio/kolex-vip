@@ -3,15 +3,15 @@ import ListedRow from "./ListedRow";
 const ListedTable = ({ listed, sortMethod, setListed, insertFloor }) => {
 	return (
 		<table className='w-full table-auto'>
-			<thead className='bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'>
+			<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
 				<tr>
-					<th className='py-1 px-2 sm:py-3 sm:px-6'>Mint</th>
-					<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
-					<th className='py-1 px-2 sm:py-3 sm:px-6'>Circulation</th>
-					<th className='py-1 px-2 sm:py-3 sm:px-6'>Price</th>
-					<th className='py-1 px-2 sm:py-3 sm:px-6'>Floor</th>
-					<th className='py-1 px-2 sm:py-3 sm:px-6'>New Price</th>
-					<th className='py-1 px-2 sm:py-3 sm:px-6'>Action</th>
+					<th className='table-cell'>Mint</th>
+					<th className='table-cell'>Title</th>
+					<th className='table-cell'>Circulation</th>
+					<th className='table-cell'>Price</th>
+					<th className='table-cell'>Floor</th>
+					<th className='table-cell'>New Price</th>
+					<th className='table-cell'>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -59,7 +59,7 @@ const ListedTable = ({ listed, sortMethod, setListed, insertFloor }) => {
 							  ]
 					).map((item) => (
 						<tr
-							className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'
+							className='text-gray-custom border-b border-gray-300 bg-gray-100 text-center hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
 							key={item.marketId}
 						>
 							<ListedRow setListed={setListed} item={item} insertFloor={insertFloor} />

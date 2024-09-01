@@ -10,9 +10,9 @@ const MintResultRow = ({ item, allowed }) => {
 		setShowHistory(true);
 	};
 	return (
-		<tr className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'>
+		<tr className='text-gray-custom border-b border-gray-300 bg-gray-100 text-center hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
 			<td
-				className={`py-1 px-2 sm:py-3 sm:px-6 ${item.signatureImage ? "text-yellow-500" : ""}`}
+				className={`table-cell ${item.signatureImage ? "text-yellow-500" : ""}`}
 				title={item.signatureImage && "Signed"}
 			>
 				<div className='flex items-center justify-center'>
@@ -22,11 +22,11 @@ const MintResultRow = ({ item, allowed }) => {
 				</div>
 			</td>
 
-			<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.id}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.delta > 0 ? `+${item.delta}` : 0}</td>
+			<td className='table-cell min-w-[10rem]'>{item.title}</td>
+			<td className='table-cell'>{item.id}</td>
+			<td className='table-cell'>{item.delta > 0 ? `+${item.delta}` : 0}</td>
 
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>
 				<a
 					target='_blank'
 					href={`${webApp}/user/${item.owner.username}`}
@@ -37,7 +37,7 @@ const MintResultRow = ({ item, allowed }) => {
 					{item.owner.username}
 				</a>
 			</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>
 				<a
 					href={`${webApp}/${item.type}/${item.templateUUID}/${item.uuid}`}
 					target='_blank'
@@ -47,7 +47,7 @@ const MintResultRow = ({ item, allowed }) => {
 					Click
 				</a>
 			</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>
 				<div className='relative flex h-8 items-center justify-center text-gray-200'>
 					{allowed ? (
 						item.type === "card" ? (

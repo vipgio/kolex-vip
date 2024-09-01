@@ -57,7 +57,7 @@ const NewNavbar = () => {
 
 	return (
 		user && (
-			<nav className='flex h-12 items-center justify-center rounded-b-md bg-primary-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500 dark:text-gray-300'>
+			<nav className='text-gray-custom flex h-12 items-center justify-center rounded-b-md bg-primary-500 font-semibold shadow-lg transition-colors dark:bg-slate-500'>
 				<Menu as='div' className='relative z-30 inline-block h-full w-12 text-left'>
 					{({ open }) => (
 						<>
@@ -75,7 +75,7 @@ const NewNavbar = () => {
 								leaveTo='transform opacity-0 scale-95'
 							>
 								<Menu.Items className='absolute left-0 mt-1 w-56 origin-top-left rounded-lg border border-gray-800 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200 dark:bg-gray-800'>
-									<div className='mb-1 grid h-16 w-full grid-cols-3 grid-rows-2 divide-x divide-y divide-gray-700 overflow-hidden rounded border border-gray-700 text-xs text-gray-700 dark:divide-gray-300 dark:border-gray-300 dark:text-gray-300'>
+									<div className='text-gray-custom mb-1 grid h-16 w-full grid-cols-3 grid-rows-2 divide-x divide-y divide-gray-700 overflow-hidden rounded border border-gray-700 text-xs dark:divide-gray-300 dark:border-gray-300'>
 										{categories.map((category) => (
 											<span
 												className={`inline-flex items-center justify-center ${
@@ -105,7 +105,7 @@ const NewNavbar = () => {
 														className={`${
 															active
 																? "bg-primary-500 fill-gray-200 text-gray-200 dark:bg-gray-200 dark:fill-gray-700 dark:text-gray-700"
-																: "fill-gray-700 text-gray-700 dark:fill-gray-200 dark:text-gray-200"
+																: "text-gray-custom fill-gray-700 dark:fill-gray-200"
 														} group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors active:bg-gray-800 active:shadow-md dark:active:bg-gray-300`}
 													>
 														<span className='mr-1'>

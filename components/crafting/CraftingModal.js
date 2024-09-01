@@ -253,14 +253,14 @@ const CraftingModal = React.memo(
 						extraStyle='h-fit my-auto'
 						escapeClose={false}
 					>
-						<div className='mt-1 text-center text-sm text-gray-300'>
+						<div className='text-gray-custom mt-1 text-center text-sm'>
 							Checked {checkedCollectionsCount[0]} of {checkedCollectionsCount[1]} templates
 						</div>
-						<div className='h-fit max-h-96 overflow-auto rounded px-2 pb-2 text-gray-800 dark:text-gray-300'>
+						<div className='text-gray-custom h-fit max-h-96 overflow-auto rounded px-2 pb-2'>
 							{dataToShow
 								.sort((a, b) => b.id - a.id)
 								.map((requirement) => (
-									<div key={requirement.id} className='text-gray-800 dark:text-gray-300'>
+									<div key={requirement.id} className='text-gray-custom'>
 										You own {requirement.items.length} available items from {requirement.count}{" "}
 										{requirement.name} items needed for this craft.
 									</div>

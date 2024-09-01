@@ -114,8 +114,8 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 
 	return (
 		<>
-			<div className='mt-10 rounded-md border border-gray-700 p-3 dark:border-gray-300'>
-				<h1 className='text-xl font-semibold text-gray-700 dark:text-gray-300'>
+			<div className='text-gray-custom mt-10 rounded-md border border-gray-700 p-3 dark:border-gray-300'>
+				<h1 className='text-xl font-semibold'>
 					{loading ? `Finding trades from ${selectedUser.username}` : `Trades from ${selectedUser.username}`}
 				</h1>
 				<div>
@@ -125,13 +125,13 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 						</div>
 					)}
 					{progress === 0 ? (
-						<div className='mt-2 text-gray-700 dark:text-gray-300'>
+						<div className='mt-2'>
 							{selectedUser.username} has sent you
 							<span className='text-orange-500'> {trades.length} </span>
 							trades.
 						</div>
 					) : (
-						<div className='mt-2 text-gray-700 dark:text-gray-300'>
+						<div className='mt-2'>
 							Accepted {progress} / {trades.length} trades
 						</div>
 					)}

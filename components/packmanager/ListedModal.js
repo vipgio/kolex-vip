@@ -117,7 +117,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 			>
 				<div className='flex h-16 min-h-[4rem] justify-between border-gray-700 p-1 dark:border-gray-500'>
 					<div className='flex flex-1 items-center'>
-						<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
+						<label htmlFor='sort' className='text-gray-custom ml-1'>
 							Sort by:{" "}
 						</label>
 						<select
@@ -167,7 +167,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 							onChange={(e) => setUndercuts(e.target.checked)}
 							className='cursor-pointer'
 						/>
-						<label htmlFor='undercut' className='ml-1 cursor-pointer text-gray-700 dark:text-gray-300'>
+						<label htmlFor='undercut' className='text-gray-custom ml-1 cursor-pointer'>
 							Only show undercuts
 						</label>
 					</div>

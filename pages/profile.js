@@ -81,7 +81,7 @@ const Profile = () => {
 		<>
 			<Meta title='Profile | Kolex VIP' />
 			<div
-				className={`mx-2 my-8 flex flex-col rounded-md border border-current py-2 text-gray-700 transition-colors dark:text-gray-300 sm:mx-0 sm:flex-row ${
+				className={`text-gray-custom mx-2 my-8 flex flex-col rounded-md border border-current py-2 transition-colors sm:mx-0 sm:flex-row ${
 					user.user.username === "Fynngin" ? "font-comic" : ""
 				}`}
 			>

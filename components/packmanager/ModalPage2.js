@@ -108,7 +108,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 	return (
 		<>
 			{selected.length > 0 && (
-				<div className='mt-3 flex items-center justify-center text-xl font-semibold text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom mt-3 flex items-center justify-center text-xl font-semibold'>
 					x{selected.length} {selected.length > 1 ? "Packs" : "Pack"} selected from {packTemplate.name}
 				</div>
 			)}
@@ -124,7 +124,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 						}}
 						className='flex flex-col items-center justify-center'
 					>
-						<label htmlFor='price' className='text-gray-700 dark:text-gray-300'>
+						<label htmlFor='price' className='text-gray-custom'>
 							Price:
 						</label>
 						<input
@@ -140,7 +140,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							onFocus={(e) => e.target.select()}
 						/>
 						<div className='flex justify-center'>
-							<label htmlFor='minOffer' className='text-gray-700 dark:text-gray-300'>
+							<label htmlFor='minOffer' className='text-gray-custom'>
 								Min Offer:
 							</label>
 							<input
@@ -187,7 +187,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					</div>
 					<div className='m-2 flex flex-1 flex-col overflow-auto'>
 						{openedCards.length > 0 && (
-							<div className='my-4 w-full overflow-auto border border-gray-500 px-2 text-gray-700 dark:text-gray-300'>
+							<div className='text-gray-custom my-4 w-full overflow-auto border border-gray-500 px-2'>
 								{sortBy(openedCards, ["mintBatch", "mintNumber"]).map((card) => (
 									<div className='flex' key={card.uuid}>
 										<span className='mr-2 text-orange-400'>

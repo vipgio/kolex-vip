@@ -17,7 +17,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 					value={filters.seasons}
 					onChange={(e) => setFilters((prev) => ({ ...prev, seasons: e }))}
 				>
-					<Listbox.Label className='mr-2 text-gray-700 dark:text-gray-300'>Seasons:</Listbox.Label>
+					<Listbox.Label className='text-gray-custom mr-2'>Seasons:</Listbox.Label>
 					<Listbox.Button className='relative h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
 						<span className='block truncate'>
 							{filters.seasons.length > 0 ? filters.seasons.join(", ") : "Select seasons"}
@@ -67,11 +67,15 @@ const Filters = ({ filters, setFilters, packs }) => {
 					value={filters.costTypes}
 					onChange={(e) => setFilters((prev) => ({ ...prev, costTypes: e }))}
 				>
-					<Listbox.Label className='mr-2 text-gray-700 dark:text-gray-300'>Cost Types:</Listbox.Label>
+					<Listbox.Label className='text-gray-custom mr-2'>Cost Types:</Listbox.Label>
 					<Listbox.Button className='relative h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
 						<span className='block truncate'>
 							{filters.costTypes.length > 0
-								? filters.costTypes.map((type) => type[0].toUpperCase() + type.slice(1)).join(", ")
+								? filters.costTypes
+										.map((type) =>
+											type === "usd" ? type.toUpperCase() : type[0].toUpperCase() + type.slice(1)
+										)
+										.join(", ")
 								: "Any"}
 						</span>
 						<span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
@@ -100,7 +104,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 											filters.costTypes.includes(type) ? "font-medium" : "font-normal"
 										}`}
 									>
-										{type[0].toUpperCase() + type.slice(1)}
+										{type === "usd" ? type.toUpperCase() : type[0].toUpperCase() + type.slice(1)}
 									</span>
 									{filters.costTypes.includes(type) ? (
 										<span className='absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600'>

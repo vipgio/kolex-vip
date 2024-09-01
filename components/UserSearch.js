@@ -79,7 +79,7 @@ const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = 
 						<button
 							className={`${
 								selectedUsers.find((user) => user.id === result.id) ? "bg-gray-500" : "hover:bg-gray-600"
-							} mx-4 my-2 flex w-fit min-w-[8rem] flex-col items-center rounded-md border border-gray-400 p-2 text-gray-700 transition-all hover:cursor-pointer hover:text-gray-300 active:scale-110 active:bg-gray-500 dark:hover:text-gray-300`}
+							} text-gray-custom group mx-4 my-2 flex w-fit min-w-[8rem] flex-col items-center rounded-md border border-gray-400 p-2 transition-all hover:cursor-pointer active:scale-110 active:bg-gray-500`}
 							key={result.id}
 							onClick={() => {
 								setSelectedUsers((prev) => uniqBy([...prev, result], "id"));
@@ -98,7 +98,9 @@ const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = 
 									unoptimized={true}
 								/>
 							</div>
-							<span className='mt-2 font-semibold text-gray-700 dark:text-gray-300'>{result.username}</span>
+							<span className='text-gray-custom mt-2 font-semibold group-hover:text-gray-300'>
+								{result.username}
+							</span>
 						</button>
 					))}
 				</div>

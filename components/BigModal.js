@@ -94,7 +94,7 @@ const BigModal = ({
 							{counter && counter}
 						</h1>
 						<button
-							className='ml-auto h-12 w-12 p-1 text-gray-900 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-300 active:bg-primary-300 active:text-orange-400 dark:text-gray-200 dark:hover:bg-gray-700'
+							className='ml-auto h-12 w-12 p-1 text-gray-900 transition-colors duration-300 hover:cursor-pointer hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-300 active:bg-primary-300 dark:text-gray-200 dark:hover:bg-gray-700'
 							onClick={close}
 						>
 							<svg

@@ -74,17 +74,17 @@ const MarketResults = ({
 		>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>
-					<thead className='bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'>
+					<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
 						<tr>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Mint</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Price</th>
+							<th className='table-cell'>Mint</th>
+							<th className='table-cell'>Title</th>
+							<th className='table-cell'>Price</th>
 							<th className='hidden py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>Min Offer</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Point gain</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Seller</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Link</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Buy</th>
+							<th className='table-cell'>Point gain</th>
+							<th className='table-cell'>Seller</th>
+							<th className='table-cell'>Link</th>
+							<th className='table-cell'>History</th>
+							<th className='table-cell'>Buy</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -111,7 +111,7 @@ const MarketResults = ({
 								onChange={(e) => setHideBadDeals(e.target.checked)}
 								className='cursor-pointer accent-primary-600'
 							/>
-							<label htmlFor='badDeals' className='ml-1 cursor-pointer text-gray-700 dark:text-gray-300'>
+							<label htmlFor='badDeals' className='text-gray-custom ml-1 cursor-pointer'>
 								Hide bad deals
 							</label>
 							<Tooltip

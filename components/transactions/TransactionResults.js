@@ -20,7 +20,7 @@ const TransactionResults = ({ results, filters }) => {
 	return (
 		<>
 			<div className='mt-2 flex flex-col justify-start sm:flex-row'>
-				<label htmlFor='filter' className='font-semibold text-gray-700 dark:text-gray-300 sm:m-1'>
+				<label htmlFor='filter' className='text-gray-custom font-semibold sm:m-1'>
 					Show:{" "}
 				</label>
 				<select
@@ -35,10 +35,8 @@ const TransactionResults = ({ results, filters }) => {
 			</div>
 			<div className='flex'>
 				<div>
-					<div className='m-1 font-medium text-gray-700 dark:text-gray-300'>
-						Total events: {filteredResults.length}
-					</div>
-					<div className='m-1 font-medium text-gray-700 dark:text-gray-300'>
+					<div className='text-gray-custom m-1 font-medium'>Total events: {filteredResults.length}</div>
+					<div className='text-gray-custom m-1 font-medium'>
 						Total amount:
 						<span
 							className={
@@ -70,17 +68,15 @@ const TransactionResults = ({ results, filters }) => {
 			</div>
 			<div className='mx-1 mb-5 flex flex-col justify-center overflow-x-auto rounded border border-gray-300'>
 				<table className='w-full table-auto'>
-					<thead className='bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'>
+					<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
 						<tr>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Date</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Description</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Amount</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Type</th>
-							{results[0]?.costType !== "silvercoins" && (
-								<th className='py-1 px-2 sm:py-3 sm:px-6'>Details</th>
-							)}
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Cost Type</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
+							<th className='table-cell'>Date</th>
+							<th className='table-cell'>Description</th>
+							<th className='table-cell'>Amount</th>
+							<th className='table-cell'>Type</th>
+							{results[0]?.costType !== "silvercoins" && <th className='table-cell'>Details</th>}
+							<th className='table-cell'>Cost Type</th>
+							<th className='table-cell'>History</th>
 						</tr>
 					</thead>
 					<tbody>

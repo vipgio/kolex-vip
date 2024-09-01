@@ -1,6 +1,6 @@
 const Filters = ({ filter, setFilter }) => {
 	return (
-		<div className='my-1 ml-auto mr-1 inline-flex items-center text-gray-700 dark:text-gray-300'>
+		<div className='text-gray-custom my-1 ml-auto mr-1 inline-flex items-center'>
 			<div className='mr-3 flex items-center'>
 				<label htmlFor='undercut' className='my-1 hover:cursor-pointer'>
 					Only undercuts

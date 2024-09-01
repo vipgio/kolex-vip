@@ -10,7 +10,7 @@ const CompactList = ({ results }) => {
 	return (
 		<>
 			<div className='flex items-center p-2'>
-				<label htmlFor='sort' className='mr-1 text-gray-800 dark:text-gray-300'>
+				<label htmlFor='sort' className='text-gray-custom mr-1'>
 					Sort By:{" "}
 				</label>
 				<select name='sort' id='sort' className='dropdown' onChange={handleSort}>
@@ -23,47 +23,27 @@ const CompactList = ({ results }) => {
 				<table className='w-full table-auto overflow-hidden border-t text-gray-600 transition-colors dark:text-gray-400'>
 					<thead className='bg-gray-300 uppercase text-gray-800 transition-colors dark:bg-gray-700 dark:text-gray-400'>
 						<tr>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Best Mint</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Owned</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Circulation</th>
+							<th className='table-cell'>Best Mint</th>
+							<th className='table-cell'>Title</th>
+							<th className='table-cell'>Owned</th>
+							<th className='table-cell'>Circulation</th>
 						</tr>
 					</thead>
 					<tbody className='text-center transition-colors'>
 						{sortBy(
 							results,
 							sortMethod === "mint"
-								? [
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										(o) => -o.owned,
-										"inCirculation",
-								  ]
+								? ["mintBatch", "mintNumber", (o) => -o.signatureImage, (o) => -o.owned, "inCirculation"]
 								: sortMethod === "owned"
-								? [
-										(o) => -o.owned,
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										"inCirculation",
-								  ]
-								: [
-										"inCirculation",
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										(o) => -o.owned,
-								  ]
+								? [(o) => -o.owned, "mintBatch", "mintNumber", (o) => -o.signatureImage, "inCirculation"]
+								: ["inCirculation", "mintBatch", "mintNumber", (o) => -o.signatureImage, (o) => -o.owned]
 						).map((item) => (
 							<tr
 								className='border-b bg-white transition-colors hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
 								key={item.id}
 							>
 								<td
-									className={`py-1 px-2 sm:py-3 sm:px-6 ${
-										item.signatureImage ? "text-yellow-400" : ""
-									}`}
+									className={`table-cell ${item.signatureImage ? "text-yellow-400" : ""}`}
 									title={item.signatureImage ? "Signed" : undefined}
 								>
 									<div className='flex items-center justify-center'>
@@ -72,9 +52,9 @@ const CompactList = ({ results }) => {
 										{item.mintNumber}
 									</div>
 								</td>
-								<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
-								<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.owned}</td>
-								<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.inCirculation}</td>
+								<td className='table-cell min-w-[10rem]'>{item.title}</td>
+								<td className='table-cell'>{item.owned}</td>
+								<td className='table-cell'>{item.inCirculation}</td>
 							</tr>
 						))}
 					</tbody>

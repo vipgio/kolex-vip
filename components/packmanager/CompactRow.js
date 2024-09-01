@@ -91,15 +91,15 @@ const CompactRow = ({ packs, setListed, insertFloor }) => {
 
 	return (
 		<>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{packs[0].title}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{packs.length}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>{packs[0].title}</td>
+			<td className='table-cell'>{packs.length}</td>
+			<td className='table-cell'>
 				{minBy(packs, "price").price == maxBy(packs, "price").price
 					? `$${minBy(packs, "price").price}`
 					: `$${minBy(packs, "price").price} - $${maxBy(packs, "price").price}`}
 			</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>${packs[0].floor}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>${packs[0].floor}</td>
+			<td className='table-cell'>
 				<input
 					type='number'
 					name='price'

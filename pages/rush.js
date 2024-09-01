@@ -84,11 +84,11 @@ const Rush = () => {
 			</div>
 			<div>{maps && selectedRoster && <RosterDetail roster={selectedRoster} maps={maps} />}</div>
 			<div className='mx-2 mt-6'>
-				<div className='mt-5 mb-1 text-lg font-bold text-gray-700 dark:text-gray-300'>Active Circuits:</div>
+				<div className='text-gray-custom mt-5 mb-1 text-lg font-bold'>Active Circuits:</div>
 				{loading ? (
 					<LoadingSpin />
 				) : !circuits ? (
-					<div className='text-gray-700 dark:text-gray-300'>No active circuits</div>
+					<div className='text-gray-custom'>No active circuits</div>
 				) : (
 					<Circuits circuits={circuits} isRosterSelected={selectedRoster?.id ? true : false} />
 				)}

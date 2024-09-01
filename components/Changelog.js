@@ -35,13 +35,14 @@ const Changelog = ({ showModal, setShowModal }) => {
 				}
 			}
 		} else {
-			setNewChanges(changelog.sort((a, b) => semver.rcompare(a.version, b.version)).slice(0, 3)); // Show the last 3 changelogs
+			setNewChanges(changelog.sort((a, b) => semver.rcompare(a.version, b.version))); // Show the last 3 changelogs
 			setShowModal(true);
 			localStorage.setItem(
 				"changelog",
 				JSON.stringify(changelog.sort((a, b) => semver.rcompare(a.version, b.version))[0].version)
 			); // Set the local storage to the latest version from the changelog (new format)
 		}
+		console.log("newChanges", newChanges);
 	}, [router.asPath]);
 
 	return (

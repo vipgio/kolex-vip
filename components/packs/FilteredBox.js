@@ -14,7 +14,7 @@ const FilteredBox = ({ pack }) => {
 	return (
 		<>
 			<div
-				className='flex cursor-pointer rounded border border-gray-500 pr-1 transition-all hover:scale-105'
+				className='flex h-full cursor-pointer rounded border border-gray-500 pr-1 transition-all hover:scale-105'
 				onClick={openModal}
 			>
 				<div className='m-1 flex h-24 w-1/3 items-center justify-center'>
@@ -25,13 +25,15 @@ const FilteredBox = ({ pack }) => {
 						alt={pack.name}
 					/>
 				</div>
-				<div className='m-1 w-2/3 text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom m-1 w-2/3'>
 					<div className='text-lg font-semibold'>{pack.name}</div>
 					<div>Season: {pack.properties.seasons[0]}</div>
 					<div>
 						{" "}
 						Cost: {Number(pack.cost).toLocaleString()}{" "}
-						{pack.costType[0].toUpperCase() + pack.costType.slice(1)}
+						{pack.costType === "usd"
+							? pack.costType.toUpperCase()
+							: pack.costType[0].toUpperCase() + pack.costType.slice(1)}
 					</div>
 				</div>
 				{showModal ? <PackModal pack={pack} isOpen={showModal} setIsOpen={setShowModal} /> : null}

@@ -4,9 +4,7 @@ import Tooltip from "../Tooltip";
 const JWTLogin = ({ jwt, setJwt, loading, onSubmit }) => {
 	return (
 		<>
-			<span className='pb-2 text-xl font-semibold text-gray-700 dark:text-gray-300'>
-				Login using your Kolex account jwt
-			</span>
+			<span className='text-gray-custom pb-2 text-xl font-semibold'>Login using your Kolex account jwt</span>
 			<form
 				className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
 				onSubmit={onSubmit}
@@ -26,7 +24,7 @@ const JWTLogin = ({ jwt, setJwt, loading, onSubmit }) => {
 				<button type='submit' disabled={loading} className='submit-button'>
 					{loading ? <LoadingSpin /> : "Login"}
 				</button>
-				<div className='pr-2 text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom pr-2'>
 					<Tooltip
 						text={
 							"Your token is never stored or sent to anywhere other than Kolex. If you have any questions you can check the source code or contact me on discord."

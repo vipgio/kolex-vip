@@ -114,7 +114,7 @@ const Searcher = () => {
 						func={fetchData}
 					/>
 				)}
-				<div className='px-2 pt-2 font-semibold text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom px-2 pt-2 font-semibold'>
 					Selected Collection:
 					{selectedCollection && (
 						<span>
@@ -125,7 +125,7 @@ const Searcher = () => {
 					)}
 				</div>
 				<div>{user && <SetSelector setSelectedCollection={setSelectedCollection} />}</div>
-				<div className='mb-1 flex flex-col pl-2 text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom mb-1 flex flex-col pl-2'>
 					<div className='flex items-center'>
 						<label htmlFor='sigs' className='hover:cursor-pointer'>
 							Only search for signatures
@@ -153,7 +153,7 @@ const Searcher = () => {
 						/>
 					</div>
 				</div>
-				<div className='mb-2 flex w-fit flex-col pl-2 text-gray-700 dark:text-gray-300 sm:flex-row'>
+				<div className='text-gray-custom mb-2 flex w-fit flex-col pl-2 sm:flex-row'>
 					<div>
 						<label htmlFor='batch'>Mint Batch: </label>
 						<select

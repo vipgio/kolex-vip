@@ -205,7 +205,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 				<>
 					<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
 						<div className='flex items-center'>
-							<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
+							<label htmlFor='sort' className='text-gray-custom ml-1'>
 								Sort by:{" "}
 							</label>
 							<select
@@ -259,9 +259,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 				</>
 			) : (
 				!loading && (
-					<div className='flex justify-center p-1 text-lg font-semibold text-gray-700 dark:text-gray-300'>
-						No items found
-					</div>
+					<div className='text-gray-custom flex justify-center p-1 text-lg font-semibold'>No items found</div>
 				)
 			)}
 		</BigModal>

@@ -36,8 +36,8 @@ const PurchaseRow = ({ item, loading, setLoading }) => {
 
 	return (
 		<>
-			<tr className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<tr className='text-gray-custom border-b border-gray-300 bg-gray-100 text-center hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
+				<td className='table-cell'>
 					<a
 						target='_blank'
 						href={`${webApp}/user/${item.user.username}`}
@@ -47,13 +47,13 @@ const PurchaseRow = ({ item, loading, setLoading }) => {
 						{item.user.username}
 					</a>
 				</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.pack.packTemplate.name}</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.price}</td>
+				<td className='table-cell'>{item.pack.packTemplate.name}</td>
+				<td className='table-cell'>{item.price}</td>
 				<td className='hidden h-full min-w-[10rem] items-end py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
 					{item.minOffer ? `$${item.minOffer}` : "-"}
 				</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.pack.created.split("T")[0]}</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.created.split("T")[0]}</td>
+				<td className='table-cell'>{item.pack.created.split("T")[0]}</td>
+				<td className='table-cell'>{item.created.split("T")[0]}</td>
 				<td>
 					<button onClick={buyItem} title='Quick buy' className='simple-button p-0.5'>
 						{loading ? <LoadingSpin size={4} /> : "Buy"}

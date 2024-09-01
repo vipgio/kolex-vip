@@ -120,7 +120,7 @@ const Vip = () => {
 						<button
 							disabled={!spinnerInfo}
 							onClick={stopSpin}
-							className='my-5 inline-flex items-center rounded-md bg-red-500 p-2 font-semibold text-gray-700 hover:bg-red-600 active:bg-red-700 dark:text-gray-200'
+							className='text-gray-custom my-5 inline-flex items-center rounded-md bg-red-500 p-2 font-semibold hover:bg-red-600 active:bg-red-700'
 						>
 							<FaStop className='mr-1 hidden sm:block' />
 							Stop Spinning
@@ -129,7 +129,7 @@ const Vip = () => {
 						<button
 							disabled={!spinnerInfo}
 							onClick={startSpin}
-							className='my-5 inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 hover:bg-green-600 active:bg-green-700 dark:text-gray-200'
+							className='text-gray-custom my-5 inline-flex items-center rounded-md bg-green-500 p-2 font-semibold hover:bg-green-600 active:bg-green-700'
 						>
 							<FaPlay className='mr-1 hidden sm:block' />
 							Start Spinning

@@ -92,7 +92,7 @@ const ListedRow = React.memo(
 			<>
 				{item.type === "card" ? (
 					<td
-						className={`py-1 px-2 sm:py-3 sm:px-6 ${item.signatureImage ? "text-yellow-500" : ""}`}
+						className={`table-cell ${item.signatureImage ? "text-yellow-500" : ""}`}
 						title={item.signatureImage && "Signed"}
 					>
 						<div className='flex items-center justify-center'>
@@ -102,16 +102,16 @@ const ListedRow = React.memo(
 						</div>
 					</td>
 				) : (
-					<td className='py-1 px-2 sm:py-3 sm:px-6'>
+					<td className='table-cell'>
 						{item.mintBatch}
 						{item.mintNumber}
 					</td>
 				)}
-				<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.circulation}</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>{floor ? `$${floor}` : `-`}</td>
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>
+				<td className='table-cell min-w-[10rem]'>{item.title}</td>
+				<td className='table-cell'>{item.circulation}</td>
+				<td className='table-cell'>${item.price}</td>
+				<td className='table-cell'>{floor ? `$${floor}` : `-`}</td>
+				<td className='table-cell'>
 					<input
 						type='number'
 						name='price'

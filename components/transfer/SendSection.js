@@ -151,8 +151,8 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 	};
 
 	return (
-		<div className='flex w-full flex-col p-3 pt-2'>
-			<h1 className='text-xl font-semibold text-gray-700 dark:text-gray-300'>
+		<div className='text-gray-custom flex w-full flex-col p-3 pt-2'>
+			<h1 className='text-xl font-semibold'>
 				{loading
 					? `Preparing trades to send to ${selectedUser.username}.\nThis might take several minutes depending on your network status.`
 					: `Trades to ${selectedUser.username}`}
@@ -163,15 +163,15 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 						<LoadingSpin />
 					</div>
 				)}
-				<div className='mt-2 text-gray-700 dark:text-gray-300'>
+				<div className='mt-2'>
 					{progress.collections} / {collections.length} Collections scanned
 				</div>
-				<div className='text-gray-700 dark:text-gray-300'>{items.length} Items found</div>
-				<div className='text-gray-700 dark:text-gray-300'>
+				<div>{items.length} Items found</div>
+				<div>
 					{Math.ceil(items.length / 50)} {items.length > 50 ? "Trades" : "Trade"} prepared
 				</div>
 				{progress.trades > 0 && (
-					<div className='text-gray-700 dark:text-gray-300'>
+					<div>
 						{progress.trades} / {Math.ceil(items.length / 50)} {items.length > 50 ? "Trades" : "Trade"} sent
 					</div>
 				)}

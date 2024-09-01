@@ -66,7 +66,7 @@ export default MassPackModal;
 
 const Footer = ({ page, setPage, disabled }) => {
 	return (
-		<div className='relative bottom-0 z-20 mt-auto mb-1 flex h-10 border-t border-gray-700 pt-2 text-gray-800 dark:border-gray-300 dark:text-gray-300'>
+		<div className='text-gray-custom relative bottom-0 z-20 mt-auto mb-1 flex h-10 border-t border-gray-700 pt-2 dark:border-gray-300'>
 			{page === 1 ? (
 				<div
 					className={`${

@@ -26,7 +26,7 @@ const RosterDetail = () => {
 						</div>
 					))}
 				</div>
-				<div className='flex divide-x divide-gray-500 text-gray-700 dark:divide-gray-300 dark:text-gray-300'>
+				<div className='text-gray-custom flex divide-x divide-gray-500 dark:divide-gray-300'>
 					<div className='p-1 lg:p-2'>
 						Maps bonus:
 						{mapBonus.map((item) => (

@@ -54,10 +54,10 @@ const DelisterRow = ({ item, setListed, loading, setLoading, handleDelete, handl
 	};
 
 	return (
-		<tr className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'>
+		<tr className='text-gray-custom border-b border-gray-300 bg-gray-100 text-center hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
 			{item.type === "card" ? (
 				<td
-					className={`py-1 px-2 sm:py-3 sm:px-6 ${item.card.signatureImage ? "text-yellow-500" : ""}`}
+					className={`table-cell ${item.card.signatureImage ? "text-yellow-500" : ""}`}
 					title={item.card.signatureImage && "Signed"}
 				>
 					<div className='flex items-center justify-center'>
@@ -67,17 +67,17 @@ const DelisterRow = ({ item, setListed, loading, setLoading, handleDelete, handl
 					</div>
 				</td>
 			) : (
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>
+				<td className='table-cell'>
 					{item.card.mintBatch}
 					{item.card.mintNumber}
 				</td>
 			)}
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.card.title}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.card.inCirculation}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.card.floor}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.created.split("T")[0]}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>{item.card.title}</td>
+			<td className='table-cell'>{item.card.inCirculation}</td>
+			<td className='table-cell'>${item.price}</td>
+			<td className='table-cell'>${item.card.floor}</td>
+			<td className='table-cell'>{item.created.split("T")[0]}</td>
+			<td className='table-cell'>
 				<input
 					type='number'
 					name='price'

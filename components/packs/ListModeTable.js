@@ -29,7 +29,7 @@ const ListModeTable = ({ packs, filters }) => {
 
 	return (
 		<>
-			<div className='my-2 text-gray-700 dark:text-gray-300'>
+			<div className='text-gray-custom my-2'>
 				<label htmlFor='batch'>Sort By: </label>
 				<select
 					id='batch'
@@ -46,18 +46,18 @@ const ListModeTable = ({ packs, filters }) => {
 			</div>
 			<div className='mb-10 overflow-x-auto rounded border'>
 				<table className='w-full table-auto'>
-					<thead className='bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'>
+					<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
 						<tr>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Name</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Season</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Acquired</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Cost</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Cost Type</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Minted</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Inventory Count</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Opened</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Unopened</th>
-							<th className='py-1 px-2 sm:px-6 sm:py-2'>Release Date</th>
+							<th className='table-cell'>Name</th>
+							<th className='table-cell'>Season</th>
+							<th className='table-cell'>Acquired</th>
+							<th className='table-cell'>Cost</th>
+							<th className='table-cell'>Cost Type</th>
+							<th className='table-cell'>Minted</th>
+							<th className='table-cell'>Inventory Count</th>
+							<th className='table-cell'>Opened</th>
+							<th className='table-cell'>Unopened</th>
+							<th className='table-cell'>Release Date</th>
 						</tr>
 					</thead>
 					<tbody>

@@ -28,7 +28,7 @@ const SpinnerLimit = ({ info, funds, limit, setLimit, spinActive }) => {
 	return (
 		<>
 			{limit.isSet ? (
-				<div className='mr-3 flex items-center gap-2 text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom mr-3 flex items-center gap-2'>
 					<div className='flex items-center rounded border border-gray-500/80 p-1'>
 						Limit:
 						<div className='ml-2 flex flex-col text-sm'>

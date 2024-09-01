@@ -184,7 +184,7 @@ const SpinArea = ({ info }) => {
 						{spinActive ? (
 							<button
 								onClick={stopSpin}
-								className='inline-flex items-center rounded-md bg-red-500 p-2 font-semibold text-gray-700 hover:bg-red-600 active:bg-red-700 dark:text-gray-200'
+								className='text-gray-custom inline-flex items-center rounded-md bg-red-500 p-2 font-semibold hover:bg-red-600 active:bg-red-700'
 							>
 								<FaStop className='mr-1 hidden sm:block' />
 								Stop Spinning
@@ -193,7 +193,7 @@ const SpinArea = ({ info }) => {
 							<button
 								onClick={startSpin}
 								disabled={!info.id || !limit.isSet}
-								className='inline-flex items-center rounded-md bg-green-500 p-2 font-semibold text-gray-700 enabled:hover:bg-green-600 enabled:active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
+								className='text-gray-custom inline-flex items-center rounded-md bg-green-500 p-2 font-semibold enabled:hover:bg-green-600 enabled:active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50'
 							>
 								<FaPlay className='mr-1 hidden sm:block' />
 								Start Spinning

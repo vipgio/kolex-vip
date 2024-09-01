@@ -44,7 +44,7 @@ const Spinner = () => {
 						{loading ? (
 							<div className='h-full w-full animate-pulse bg-gray-300 dark:bg-gray-600'></div>
 						) : spinnerInfo.items ? (
-							<table className='h-full w-full table-auto overflow-hidden rounded-md text-gray-700 transition-colors dark:text-gray-300'>
+							<table className='text-gray-custom h-full w-full table-auto overflow-hidden rounded-md transition-colors'>
 								<thead className='bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-400'>
 									<tr>
 										<th>Item</th>
@@ -90,7 +90,7 @@ const Spinner = () => {
 								</tbody>
 							</table>
 						) : (
-							<div className='flex h-full items-center justify-center font-semibold text-gray-700 dark:text-gray-300'>
+							<div className='text-gray-custom flex h-full items-center justify-center font-semibold'>
 								Spinner not available
 							</div>
 						)}

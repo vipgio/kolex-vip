@@ -153,7 +153,7 @@ const CardGallery = ({ templates, user }) => {
 			</div>
 
 			{totalValue > 0 && (
-				<div className='ml-2 mt-1 flex items-center font-semibold text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom ml-2 mt-1 flex items-center font-semibold'>
 					Total set value: ${totalValue.toFixed(2)}
 					<Tooltip
 						direction='right'

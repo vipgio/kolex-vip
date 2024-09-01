@@ -35,7 +35,7 @@ const Dialog = ({ title, children, isOpen, setIsOpen, closeFunction = null, clos
 								>
 									{title}
 								</HeadlessDialog.Title>
-								<HeadlessDialog.Panel className='mt-2 text-gray-700 dark:text-gray-300'>
+								<HeadlessDialog.Panel className='text-gray-custom mt-2'>
 									{children}
 									{closeButton && (
 										<div className='mt-5 flex w-full'>

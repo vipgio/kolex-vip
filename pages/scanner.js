@@ -87,10 +87,10 @@ const Scanner = () => {
 		<>
 			<Meta title='Scanner | Kolex VIP' />
 
-			<div className='mt-2 flex flex-col justify-center px-2'>
+			<div className='text-gray-custom mt-2 flex flex-col justify-center px-2'>
 				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='overflow-hidden'>
-						<div className='p-2 px-4 font-semibold text-gray-700 dark:text-gray-300'>
+						<div className=' p-2 px-4 font-semibold'>
 							<div>
 								<span>
 									Selected User:{" "}
@@ -130,7 +130,7 @@ const Scanner = () => {
 
 				<div className='relative mb-5 flex max-h-96 overflow-visible rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
 					<div className='px-1.5'>
-						<div className='p-2 font-semibold text-gray-700 dark:text-gray-300'>
+						<div className=' p-2 font-semibold'>
 							Selected Collection:
 							{selectedCollection && (
 								<span>
@@ -152,7 +152,7 @@ const Scanner = () => {
 					>
 						{loading ? <LoadingSpin /> : "Scan"}
 					</button>
-					<div className='text-gray-700 dark:text-gray-300'>
+					<div>
 						<Tooltip
 							text={"If there are too many of the same item, they won't be shown here."}
 							direction='right'
@@ -173,9 +173,7 @@ const Scanner = () => {
 							/>
 						</div>
 					) : (
-						<div className='mt-3 w-full text-center font-semibold text-gray-700 dark:text-gray-300'>
-							No items found
-						</div>
+						<div className=' mt-3 w-full text-center font-semibold'>No items found</div>
 					)
 				) : null}
 			</div>

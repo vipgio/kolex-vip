@@ -168,7 +168,7 @@ const Packmanager = () => {
 											/>
 											<IoSearchOutline className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
 										</div>
-										<div className='-mt-2 ml-4 flex flex-col font-semibold text-gray-700 dark:text-gray-300'>
+										<div className='text-gray-custom -mt-2 ml-4 flex flex-col font-semibold'>
 											<span>
 												Total packs:{" "}
 												{packs

@@ -14,24 +14,19 @@ const TransactionResultsRow = ({ item, allowed }) => {
 		setShowHistory(true);
 	};
 	return (
-		<tr
-			className='border-b border-gray-300 bg-gray-100 text-center text-gray-700 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'
-			onClick={() => console.log(item)}
-		>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.created.split("T")[0]}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.description}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.amount}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.type[0].toUpperCase() + item.type.slice(1)}</td>
-			{item.costType !== "silvercoins" && (
-				<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.details?.title}</td>
-			)}
-			<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>
-				{item.costType.length <= 4
+		<tr className='text-gray-custom border-b border-gray-300 bg-gray-100 text-center hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
+			<td className='table-cell'>{item.created.split("T")[0]}</td>
+			<td className='table-cell'>{item.description}</td>
+			<td className='table-cell'>{item.amount}</td>
+			<td className='table-cell'>{item.type[0].toUpperCase() + item.type.slice(1)}</td>
+			{item.costType !== "silvercoins" && <td className='table-cell min-w-[10rem]'>{item.details?.title}</td>}
+			<td className='table-cell min-w-[10rem]'>
+				{item.costType === "usd"
 					? item.costType.toUpperCase()
 					: item.costType[0].toUpperCase() + item.costType.slice(1)}
 			</td>
 
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>
 				<div className='relative flex h-8 items-center justify-center'>
 					{allowed ? (
 						!item.details || item.details.entityType !== "card" ? (

@@ -74,11 +74,11 @@ const ListedRow = ({ pack, setListed, insertFloor }) => {
 
 	return (
 		<>
-			<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{pack.title}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{pack.minted}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>${pack.price}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>${pack.floor}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell min-w-[10rem]'>{pack.title}</td>
+			<td className='table-cell'>{pack.minted}</td>
+			<td className='table-cell'>${pack.price}</td>
+			<td className='table-cell'>${pack.floor}</td>
+			<td className='table-cell'>
 				<input
 					type='number'
 					name='price'

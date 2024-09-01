@@ -12,7 +12,7 @@ const ListModeToggle = ({ listMode, setListMode, loading }) => {
 				>
 					<span className='inline-block h-4 w-4 transform rounded-full bg-white transition ui-checked:translate-x-6 ui-not-checked:translate-x-1' />
 				</Switch>
-				<Switch.Label passive className='w-fit pt-2 text-sm text-gray-700 dark:text-gray-300'>
+				<Switch.Label passive className='text-gray-custom w-fit pt-2 text-sm'>
 					{listMode ? <div>List Mode</div> : <div>Image Mode</div>}
 				</Switch.Label>
 			</Switch.Group>

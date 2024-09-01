@@ -46,10 +46,10 @@ const MarketResultRow = ({ item, allowed }) => {
 	};
 
 	return (
-		<tr className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'>
+		<tr className='text-gray-custom border-b border-gray-300 bg-gray-100 text-center hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
 			{item.card ? (
 				<td
-					className={`py-1 px-2 sm:py-3 sm:px-6 ${item.card.signatureImage ? "text-yellow-500" : ""}`}
+					className={`table-cell ${item.card.signatureImage ? "text-yellow-500" : ""}`}
 					title={item.card.signatureImage && "Signed"}
 				>
 					<div className='flex items-center justify-center'>
@@ -59,18 +59,18 @@ const MarketResultRow = ({ item, allowed }) => {
 					</div>
 				</td>
 			) : (
-				<td className='py-1 px-2 sm:py-3 sm:px-6'>
+				<td className='table-cell'>
 					{item.sticker.mintBatch}
 					{item.sticker.mintNumber}
 				</td>
 			)}
-			<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>
+			<td className='table-cell min-w-[10rem]'>{item.title}</td>
+			<td className='table-cell'>${item.price}</td>
 			<td className='hidden h-full min-w-[10rem] items-end py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
 				{item.minOffer ? `$${item.minOffer}` : "-"}
 			</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.delta > 0 ? `+${item.delta}` : 0}</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>{item.delta > 0 ? `+${item.delta}` : 0}</td>
+			<td className='table-cell'>
 				<a
 					target='_blank'
 					href={`${webApp}/user/${item.user.username}`}
@@ -80,7 +80,7 @@ const MarketResultRow = ({ item, allowed }) => {
 					{item.user.username}
 				</a>
 			</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>
 				<a
 					href={`${webApp}/${item.type}/${item.templateUUID}/${item.uuid}`}
 					target='_blank'
@@ -90,7 +90,7 @@ const MarketResultRow = ({ item, allowed }) => {
 					Click
 				</a>
 			</td>
-			<td className='py-1 px-2 sm:py-3 sm:px-6'>
+			<td className='table-cell'>
 				<div className='relative flex h-8 items-center justify-center'>
 					{allowed ? (
 						item.type === "card" ? (

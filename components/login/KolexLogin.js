@@ -14,9 +14,7 @@ const KolexLogin = ({
 }) => {
 	return (
 		<>
-			<span className='pb-2 text-xl font-semibold text-gray-700 dark:text-gray-300'>
-				Login using your Kolex account
-			</span>
+			<span className='text-gray-custom pb-2 text-xl font-semibold'>Login using your Kolex account</span>
 			<form
 				className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
 				onSubmit={onSubmit}
@@ -60,7 +58,7 @@ const KolexLogin = ({
 				<button type='submit' disabled={loading} className='submit-button'>
 					{loading ? <LoadingSpin /> : "Login"}
 				</button>
-				<div className='pr-2 text-gray-700 dark:text-gray-300'>
+				<div className='text-gray-custom pr-2'>
 					<Tooltip
 						text={
 							"Your password is never stored or sent to anywhere other than kolex. If you have any questions you can check the source code or contact me on discord vipgio#4884"

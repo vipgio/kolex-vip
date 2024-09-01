@@ -317,7 +317,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 						Deselect All
 					</button>
 					<span className='inline-flex w-fit items-center'>
-						<label htmlFor='need' className='mr-1 ml-2 text-gray-800 hover:cursor-pointer dark:text-gray-200'>
+						<label htmlFor='need' className='text-gray-custom mr-1 ml-2 hover:cursor-pointer'>
 							Need Only
 						</label>
 						<input
@@ -365,7 +365,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 					/>
 					<IoSearchOutline className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
 				</div>
-				<div className='ml-2 text-gray-700 dark:text-gray-300'>Selected items: {selectedCards.length}</div>
+				<div className='text-gray-custom ml-2'>Selected items: {selectedCards.length}</div>
 			</div>
 			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-5'>
 				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.id])

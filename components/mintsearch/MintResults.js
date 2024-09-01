@@ -67,15 +67,15 @@ const MintResults = ({
 		>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>
-					<thead className='bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'>
+					<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
 						<tr>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Mint</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Title</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>ID</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Point gain</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Owner</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>Link</th>
-							<th className='py-1 px-2 sm:py-3 sm:px-6'>History</th>
+							<th className='table-cell'>Mint</th>
+							<th className='table-cell'>Title</th>
+							<th className='table-cell'>ID</th>
+							<th className='table-cell'>Point gain</th>
+							<th className='table-cell'>Owner</th>
+							<th className='table-cell'>Link</th>
+							<th className='table-cell'>History</th>
 						</tr>
 					</thead>
 					<tbody>

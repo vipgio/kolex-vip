@@ -12,7 +12,7 @@ const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 			title={item.count === item.listed ? "All items are already listed" : item.title}
 			className={`relative flex ${
 				item.count === 0 ? "cursor-not-allowed" : "cursor-pointer hover:scale-105"
-			} flex-col items-center rounded border border-gray-500 text-gray-700 shadow-md transition-all dark:text-gray-300`}
+			} text-gray-custom flex-col items-center rounded border border-gray-500 shadow-md transition-all`}
 			onClick={() => {
 				selectedTemplates.some((e) => e.id === item.id)
 					? setSelectedTemplates((prev) => prev.filter((selected) => item.id !== selected.id))
