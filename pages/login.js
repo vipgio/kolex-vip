@@ -119,9 +119,8 @@ const Login = () => {
 			/>
 			<div className='mt-16 flex h-1/4 w-full flex-col items-center justify-center text-primary-500 lg:mt-11'>
 				<p className='text-center'>
-					Kolex recently added a security feature (captcha) which prevents third party tools from logging in
-					from third party tools. <br />
-					I&apos;m trying to work with Kolex to get this fixed.
+					Kolex added a security feature (CAPTCHA) which prevents logging in through third-party tools. <br />
+					I tried working with Kolex to get this fixed, but I&apos;ve been waiting for a few months.
 					<br />
 					So until they fix it, you can use your JWT to use the site.
 					<span className='block cursor-pointer underline' onClick={handleCopyClick}>
