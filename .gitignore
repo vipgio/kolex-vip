@@ -29,4 +29,4 @@ yarn-error.log*
 
 /.vscode
 /components/spinner/spinsLocal.js
-/public/features/old
+/public/features/old/
