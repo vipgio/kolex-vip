@@ -58,7 +58,7 @@ const MassPackModal = ({ packTemplate, showModal, setShowModal }) => {
 					CDN={CDN}
 				/>
 			)}
-			<Footer page={page} setPage={setPage} disabled={selected.length > 0 ? false : true} />
+			<Footer page={page} setPage={setPage} disabled={!selected.length} />
 		</BigModal>
 	);
 };
@@ -68,20 +68,25 @@ const Footer = ({ page, setPage, disabled }) => {
 	return (
 		<div className='text-gray-custom relative bottom-0 z-20 mt-auto mb-1 flex h-10 border-t border-gray-700 pt-2 dark:border-gray-300'>
 			{page === 1 ? (
-				<div
+				<button
 					className={`${
 						disabled ? "cursor-not-allowed text-gray-400" : "cursor-pointer hover:text-orange-500"
 					} ml-auto mr-4 flex`}
 					onClick={() => !disabled && setPage(2)}
+					disabled={disabled}
 				>
 					<span className='mr-1'>Next </span>
 					<HiOutlineArrowCircleRight size={22} />
-				</div>
+				</button>
 			) : (
-				<div className='mr-auto ml-4 flex cursor-pointer hover:text-orange-500' onClick={() => setPage(1)}>
+				<button
+					className='mr-auto ml-4 flex cursor-pointer hover:text-orange-500'
+					onClick={() => setPage(1)}
+					disabled={disabled}
+				>
 					<HiOutlineArrowCircleLeft size={22} />
 					<span className='ml-1'>Back </span>
-				</div>
+				</button>
 			)}
 		</div>
 	);

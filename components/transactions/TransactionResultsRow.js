@@ -4,7 +4,6 @@ import HistoryModal from "../HistoryModal";
 
 const TransactionResultsRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);
-	if (!item.details) console.log(item);
 	const historyFakeItem = {
 		id: item.details?.entityId,
 		title: item.details?.title,

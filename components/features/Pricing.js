@@ -1,35 +1,10 @@
-const bundles = [
-	{
-		features: ["Kolex Custom Feed", "Mint Search"],
-		id: 1,
-		oldPrice: 6.98,
-		price: 5.99,
-		oldPrice2: 12.98,
-		price2: 10.99,
-	},
-	{
-		features: ["Mint Search", "History Check"],
-		id: 2,
-		oldPrice: 5.98,
-		price: 4.99,
-		oldPrice2: 9.98,
-		price2: 8.99,
-	},
-	{
-		features: ["Kolex Full Access"],
-		id: 3,
-		oldPrice: 15.98,
-		price: 13.99,
-		oldPrice2: 27.98,
-		price2: 24.99,
-	},
-];
-const Pricing = ({ features }) => {
+const Pricing = ({ features, bundles }) => {
 	return (
 		<>
 			<div className='text-gray-custom mt-8 flex flex-col justify-center px-2'>
 				<h1 className='mb-2 text-center text-4xl font-semibold text-gray-800 dark:text-gray-200'>Pricing</h1>
-				<table className='mt-5 w-full table-auto border border-gray-600 transition-colors dark:border-gray-400'>
+				<h2 className='mt-5 p-1 text-xl font-semibold'>Features</h2>
+				<table className='w-full table-auto border border-gray-600 transition-colors dark:border-gray-400'>
 					<thead className='bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-400'>
 						<tr>
 							<th className='table-cell'>Feature</th>
@@ -54,7 +29,7 @@ const Pricing = ({ features }) => {
 				</table>
 
 				<h2 className='mt-5 p-1 text-xl font-semibold'>Bundles</h2>
-				<table className=' mb-4 w-full table-auto border border-gray-600 transition-colors dark:border-gray-400'>
+				<table className='mb-4 w-full table-auto border border-gray-600 transition-colors dark:border-gray-400'>
 					<thead className='bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-400'>
 						<tr>
 							<th className='table-cell'>Features</th>

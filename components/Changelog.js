@@ -42,7 +42,6 @@ const Changelog = ({ showModal, setShowModal }) => {
 				JSON.stringify(changelog.sort((a, b) => semver.rcompare(a.version, b.version))[0].version)
 			); // Set the local storage to the latest version from the changelog (new format)
 		}
-		console.log("newChanges", newChanges);
 	}, [router.asPath]);
 
 	return (
