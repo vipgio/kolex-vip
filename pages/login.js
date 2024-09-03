@@ -23,7 +23,7 @@ const Login = () => {
 	const handleCopyClick = async () => {
 		try {
 			await navigator.clipboard.writeText(
-				`const sessionData = localStorage.getItem("session");const parsedData = JSON.parse(sessionData);const { ["braze"]: _, ...rest } = parsedData;console.log(rest);`
+				"(() => { const copyToClipboard = t => { const e = document.createElement('textarea'); e.value = t; document.body.appendChild(e); e.select(); const s = document.execCommand('copy'); document.body.removeChild(e); if (!s) { console.log('Failed to copy text to clipboard. Please copy manually using \"Copy Object\"');console.log(JSON.parse(t)); alert(`Failed to copy text to clipboard. Please copy manually:${t}`);} else { console.log('Text copied to clipboard successfully! (Thanks vot)'); } }; copyToClipboard(JSON.stringify((() => { const { braze: _, ...rest } = JSON.parse(localStorage.getItem(\"session\")); return rest; })())); })();"
 			);
 			toast.success(`Code copied!`, {
 				toastId: "copy",
@@ -127,9 +127,25 @@ const Login = () => {
 						Click to copy the code if you already know how it works
 					</span>{" "}
 				</p>
-				<button className='simple-button mt-1' onClick={() => setShowTutorial(true)}>
-					HOW
-				</button>
+				<div className='flex gap-3'>
+					<button className='simple-button mt-1' onClick={() => setShowTutorial({ type: "web", show: true })}>
+						HOW (Web)
+					</button>
+					<button
+						className='simple-button mt-1'
+						onClick={() => setShowTutorial({ type: "android", show: true })}
+						disabled
+						title='Soon'
+					>
+						HOW (Android)
+					</button>
+					{/* <button
+						className='simple-button mt-1'
+						onClick={() => setShowTutorial({ type: "ios", show: true })}
+					>
+						HOW (iOS)
+					</button> */}
+				</div>
 			</div>
 
 			<div className='text-gray-custom absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold transition-colors'>
@@ -178,7 +194,13 @@ const Login = () => {
 				</Link>
 			</div>
 			<div>
-				<TokenTutorial showModal={showTutorial} setShowModal={setShowTutorial} />
+				{showTutorial.show && (
+					<TokenTutorial
+						showModal={showTutorial}
+						setShowModal={setShowTutorial}
+						handleCopyClick={handleCopyClick}
+					/>
+				)}
 			</div>
 
 			<JWTLogin

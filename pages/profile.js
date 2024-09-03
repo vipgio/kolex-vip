@@ -132,8 +132,8 @@ const Profile = () => {
 												|{" "}
 											</span>
 										),
-										<Link href={features[option].link} key={option}>
-											<a className='my-outline rounded hover:text-orange-500'>{features[option].name}</a>
+										<Link href={features[option]?.link || ""} key={option}>
+											<a className='my-outline rounded hover:text-orange-500'>{features[option]?.name}</a>
 										</Link>,
 									])
 								) : (

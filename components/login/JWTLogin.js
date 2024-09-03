@@ -4,7 +4,7 @@ import Tooltip from "../Tooltip";
 const JWTLogin = ({ jwt, setJwt, loading, onSubmit }) => {
 	return (
 		<>
-			<span className='text-gray-custom pb-2 text-xl font-semibold'>Login using your Kolex account jwt</span>
+			<div className='text-gray-custom pb-1 text-xl font-semibold'>Login using your Kolex account JWT</div>
 			<form
 				className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
 				onSubmit={onSubmit}

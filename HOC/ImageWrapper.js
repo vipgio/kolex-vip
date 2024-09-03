@@ -1,12 +1,13 @@
 import Image from "next/future/image";
 
-const ImageWrapper = ({ src, alt, width, height, className = "", unoptimized = true }) => {
+const ImageWrapper = ({ src, alt, width, height, className = "", unoptimized = true, fill = false }) => {
 	return (
 		<Image
 			src={src}
 			alt={alt}
 			width={width}
 			height={height}
+			fill={fill}
 			unoptimized={unoptimized}
 			placeholder='blur'
 			blurDataURL={

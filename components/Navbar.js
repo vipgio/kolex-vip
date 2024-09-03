@@ -12,6 +12,7 @@ import {
 	FaGithub,
 	FaDiscord,
 	FaPeopleArrows,
+	FaBurn,
 } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
 import { categories } from "@/config/config";
@@ -321,4 +322,11 @@ const pages = [
 		icon: <FaPeopleArrows size={16} />,
 		paid: true,
 	},
+	// {
+	// 	link: "burn",
+	// 	title: "Burner",
+	// 	icon: <FaBurn />,
+	// 	paid: true,
+	// 	new: true,
+	// },
 ];
