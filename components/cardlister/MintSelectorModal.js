@@ -57,8 +57,7 @@ const MintSelectorModal = React.memo(
 					<div className='flex h-[23rem] grow border border-gray-400'>
 						<div className='max-h-[23rem] w-1/3 divide-y divide-gray-400 overflow-auto border-r border-gray-400 p-1'>
 							{sortBy(data.cards, ["mintBatch", "mintNumber"])
-								.slice(0)
-								.reverse()
+								.toReversed()
 								.map((card) => (
 									<div key={card.id} className='text-gray-custom flex w-full px-1'>
 										<label
@@ -148,8 +147,7 @@ const MintSelectorModal = React.memo(
 											setFilters(defaultFilters);
 											setSelectedCards(
 												data.cards
-													.slice()
-													.reverse()
+													.toReversed()
 													.slice(0, e.target.value)
 													.map((card) => ({ id: card.id, type: card.type }))
 											);

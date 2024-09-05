@@ -1,6 +1,14 @@
 {
 	"changelog": [
 		{
+			"version": "2.9.2",
+			"date": "2024-09-05",
+			"changes": [
+				"Performance improvement for places with too many cards (crafting, scanner, etc).",
+				"Login proccess is now faster (last update). Changed the console message to be more clear."
+			]
+		},
+		{
 			"version": "2.9.1",
 			"date": "2024-09-01",
 			"changes": [

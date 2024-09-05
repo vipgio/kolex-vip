@@ -78,25 +78,22 @@ const HistoryModal = React.memo(
 						<>
 							<div className='mt-2 rounded border border-gray-400 p-1'>
 								<div className='text-gray-custom relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain'>
-									{history.history
-										.slice()
-										.reverse()
-										.map((event) => (
-											<Fragment key={`${event.created}`}>
-												{event.type === "mint" && <div>Minted on {getDate(event)}</div>}
-												{event.type in historyEvents && (
-													<div>
-														<p>
-															<span className='font-medium text-green-600 dark:text-green-400'>
-																{event.receiver?.username || event.sender?.username || "null"}{" "}
-															</span>
-															{historyEvents[event.type](event)}{" "}
-															<span className='block text-gray-500'>{getDate(event)}</span>
-														</p>
-													</div>
-												)}
-											</Fragment>
-										))}
+									{history.history.toReversed().map((event) => (
+										<Fragment key={`${event.created}`}>
+											{event.type === "mint" && <div>Minted on {getDate(event)}</div>}
+											{event.type in historyEvents && (
+												<div>
+													<p>
+														<span className='font-medium text-green-600 dark:text-green-400'>
+															{event.receiver?.username || event.sender?.username || "null"}{" "}
+														</span>
+														{historyEvents[event.type](event)}{" "}
+														<span className='block text-gray-500'>{getDate(event)}</span>
+													</p>
+												</div>
+											)}
+										</Fragment>
+									))}
 								</div>
 							</div>
 						</>

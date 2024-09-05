@@ -23,7 +23,7 @@ const Login = () => {
 	const handleCopyClick = async () => {
 		try {
 			await navigator.clipboard.writeText(
-				"(() => { const copyToClipboard = t => { const e = document.createElement('textarea'); e.value = t; document.body.appendChild(e); e.select(); const s = document.execCommand('copy'); document.body.removeChild(e); if (!s) { console.log('Failed to copy text to clipboard. Please copy manually using \"Copy Object\"');console.log(JSON.parse(t)); alert(`Failed to copy text to clipboard. Please copy manually:${t}`);} else { console.log('Text copied to clipboard successfully! (Thanks vot)'); } }; copyToClipboard(JSON.stringify((() => { const { braze: _, ...rest } = JSON.parse(localStorage.getItem(\"session\")); return rest; })())); })();"
+				"(() => { const copyToClipboard = t => { const e = document.createElement('textarea'); e.value = t; document.body.appendChild(e); e.select(); const s = document.execCommand('copy'); document.body.removeChild(e); if (!s) { console.log('Failed to copy token to clipboard. Please copy manually using \"Copy Object\"');console.log(JSON.parse(t)); alert(`Failed to copy token to clipboard. Please copy manually:${t}`);} else { console.log('JWT Token copied to clipboard successfully! (Thanks vot)'); } }; copyToClipboard(JSON.stringify((() => { const { braze: _, ...rest } = JSON.parse(localStorage.getItem(\"session\")); return rest; })())); })();"
 			);
 			toast.success(`Code copied!`, {
 				toastId: "copy",

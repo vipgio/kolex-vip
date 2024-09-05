@@ -74,8 +74,7 @@ const ItemBox = React.memo(
 								onChange={(e) =>
 									setSelectedCards(
 										template.cards
-											.slice()
-											.reverse()
+											.toReversed()
 											.slice(0, e.target.value)
 											.map((card) => ({ id: card.id, type: card.type }))
 									)

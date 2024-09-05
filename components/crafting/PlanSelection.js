@@ -43,6 +43,7 @@ const PlanSelection = ({ plan }) => {
 							</Fragment>,
 						])}
 					</div>
+					{plan.userLimit ? <div>Limit: {plan.userLimit}x crafts</div> : null}
 				</div>
 			</div>
 			{showModal && (

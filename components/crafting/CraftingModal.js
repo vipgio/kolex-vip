@@ -1,23 +1,18 @@
-import React, { useEffect, useContext, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import uniq from "lodash/uniq";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
-import { UserContext } from "@/context/UserContext";
 import BigModal from "@/components/BigModal";
 import CraftResultModal from "./CraftResultModal";
 
-import http from "@/utils/httpClient";
-import { API } from "@/config/config";
-
 const CraftingModal = React.memo(
 	({ showModal, setShowModal, plan }) => {
-		const { user, categoryId } = useContext(UserContext);
 		const { fetchData, postData } = useAxios();
-		const totalCards = useRef(0);
 		const [loading, setLoading] = useState(true);
 		const [dupeOnly, setDupeOnly] = useState("dupe");
 		const [craftResult, setCraftResult] = useState([]);
@@ -33,6 +28,14 @@ const CraftingModal = React.memo(
 				items: [],
 			}))
 		);
+
+		if (!Array.prototype.toReversed) {
+			//polyfill for toReversed
+			console.log("Adding toReversed to Array prototype");
+			Array.prototype.toReversed = function () {
+				return this.slice().reverse();
+			};
+		}
 
 		const handleCount = (target) => {
 			const min = Number(target.min);
@@ -58,7 +61,7 @@ const CraftingModal = React.memo(
 				});
 			}
 			if (result) {
-				const { result: templates, error: templateError } = await await fetchData(`/api/cards/templates`, {
+				const { result: templates, error: templateError } = await fetchData(`/api/cards/templates`, {
 					cardIds: uniq(result.cards.map((card) => card.cardTemplateId)).toString(),
 				});
 				if (templateError) {
@@ -138,51 +141,34 @@ const CraftingModal = React.memo(
 							// ignore the duplicate core collection for now
 						}
 						for (const template of collection.cardTemplates) {
-							if (isApiSubscribed) {
-								if (template.userCount) {
-									totalCards.current += template.userCount;
-									// foundAny = true;
-									try {
-										const { data: cards } = await http(
-											`${API}/crafting/user-cards/${template.id}?categoryId=${categoryId}`,
-											{
-												method: "GET",
-												headers: {
-													"Content-Type": "application/json",
-													"x-user-jwt": user.jwt,
-												},
-											}
-										);
-										setCheckedCollectionsCount((prev) => [prev[0] + 1, prev[1]]);
-										cards.data.cards.map((item) => {
-											setOwnedCards((prev) => {
-												const oldItems = prev.find((o) => o.id === reqId);
-												return [
-													...prev.filter((o) => o.id !== reqId),
-													{
-														...oldItems,
-														items: sortBy(
-															[
-																...oldItems.items,
-																{
-																	templateId: item.cardTemplateId,
-																	mintBatch: item.mintBatch,
-																	mintNumber: item.mintNumber,
-																	id: item.id,
-																},
-															],
-															["mintBatch", "mintNumber"]
-														).reverse(),
-													},
-												];
-											});
+							if (isApiSubscribed && template.userCount) {
+								try {
+									const { result: cards, error } = await fetchData({
+										endpoint: `${API}/crafting/user-cards/${template.id}`,
+										direct: true,
+									});
+									setCheckedCollectionsCount((prev) => [prev[0] + 1, prev[1]]);
+									cards.cards.forEach(({ cardTemplateId, mintBatch, mintNumber, id }) => {
+										setOwnedCards((prev) => {
+											return prev.map(
+												(o) =>
+													o.id === reqId
+														? {
+																...o,
+																items: sortBy(
+																	[...o.items, { templateId: cardTemplateId, mintBatch, mintNumber, id }],
+																	["mintBatch", "mintNumber"]
+																).reverse(),
+														  }
+														: o // if the id matches, add the card to the ownedCards array. else return the object as is
+											);
 										});
-									} catch (err) {
-										console.error(err);
-										toast.error(err.response.data.error, {
-											toastId: err.response.data.errorCode,
-										});
-									}
+									});
+								} catch (err) {
+									console.error(err);
+									toast.error(err.response.data.error, {
+										toastId: err.response.data.errorCode,
+									});
 								}
 							}
 						}
@@ -207,20 +193,15 @@ const CraftingModal = React.memo(
 		useEffect(() => {
 			setCraftCount(0);
 		}, [dupeOnly]);
-
+		console.log(ownedCards);
 		const dataToShow =
 			dupeOnly === "dupe"
 				? ownedCards.map((req) => ({
 						...req,
 						items: uniqBy(req.items, "id")
-							.slice()
-							.reverse()
-							.filter(
-								// don't show the best set
-								(item, index, self) => index !== self.findIndex((t) => t.templateId === item.templateId)
-							)
-							.slice()
-							.reverse(),
+							.toReversed()
+							.filter((item, index, self) => index !== self.findIndex((t) => t.templateId === item.templateId))
+							.toReversed(),
 				  }))
 				: uniqBy(ownedCards, "id");
 
@@ -269,9 +250,16 @@ const CraftingModal = React.memo(
 								Total crafts possible:{" "}
 								<span className='text-orange-500'>
 									{Math.min(
-										...dataToShow.map((requirement) =>
-											Math.floor(requirement.items.length / requirement.count)
-										)
+										...(plan.userLimit === 0
+											? dataToShow.map((requirement) =>
+													Math.floor(requirement.items.length / requirement.count)
+											  )
+											: [
+													plan.userLimit,
+													...dataToShow.map((requirement) =>
+														Math.floor(requirement.items.length / requirement.count)
+													),
+											  ])
 									)}
 								</span>
 							</>
@@ -287,10 +275,17 @@ const CraftingModal = React.memo(
 											id='craftCount'
 											min={0}
 											max={Math.min(
-												...dataToShow.map((requirement) =>
-													Math.floor(requirement.items.length / requirement.count)
-												)
-											)}
+												...(plan.userLimit === 0
+													? dataToShow.map((requirement) =>
+															Math.floor(requirement.items.length / requirement.count)
+													  )
+													: [
+															plan.userLimit,
+															...dataToShow.map((requirement) =>
+																Math.floor(requirement.items.length / requirement.count)
+															),
+													  ])
+											)} // if user limit is set, use that to compare that to the available cards count. else use the minimum of all the available cards
 											disabled={loading}
 											value={craftCount}
 											onChange={(e) => handleCount(e.target)}

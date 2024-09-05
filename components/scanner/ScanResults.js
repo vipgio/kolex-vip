@@ -64,7 +64,7 @@ const ScanResult = React.memo(
 				: filterMethod === "best"
 				? uniqBy(sorted, "templateId")
 				: filterMethod === "worst"
-				? uniqBy(sorted.slice().reverse(), "templateId").slice().reverse()
+				? uniqBy(sorted.toReversed(), "templateId").toReversed()
 				: filterMethod === "dupes"
 				? sorted.filter(
 						// don't show the best set
