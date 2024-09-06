@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import sortBy from "lodash/sortBy";
+import omit from "lodash/omit";
+import pick from "lodash/pick";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
 import { IoSearchOutline } from "react-icons/io5";
 import { API } from "@/config/config";
@@ -78,7 +80,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 									const foundCards = data.data.cards
 										.filter(
 											(item) =>
-												item.mintBatch === filter.batch &&
+												(filter.batch === "any" || item.mintBatch === filter.batch) &&
 												item.mintNumber >= filter.min &&
 												item.mintNumber <= filter.max &&
 												selectedCards.some((selCard) => selCard.id === item.cardTemplateId)
@@ -101,7 +103,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 									const foundtickers = data.data.stickers
 										.filter(
 											(item) =>
-												item.mintBatch === filter.batch &&
+												(filter.batch === "any" || item.mintBatch === filter.batch) &&
 												item.mintNumber >= filter.min &&
 												item.mintNumber <= filter.max &&
 												selectedCards.some((selCard) => selCard.id === item.stickerTemplateId)
@@ -227,34 +229,40 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 				if (item.type === "card") {
 					if (!filter.sigsOnly && !filter.upgradesOnly) {
 						//normal search, follow filters
-						accepted = data.market[0].filter(
-							(listing) =>
-								Number(listing.price) <= filter.price &&
-								listing.card.mintNumber >= filter.min &&
-								listing.card.mintNumber <= filter.max &&
-								listing.card.mintBatch === filter.batch
-						);
+						accepted = data.market[0]
+							.filter(
+								(listing) =>
+									Number(listing.price) <= filter.price &&
+									listing.card.mintNumber >= filter.min &&
+									listing.card.mintNumber <= filter.max &&
+									(filter.batch === "any" || listing.card.mintBatch === filter.batch)
+							)
+							.map((listing) => sizeReducer(listing));
 					} else if (filter.sigsOnly) {
-						accepted = data.market[0].filter(
-							(listing) => Number(listing.price) <= filter.price && listing.card.signatureImage
-						);
+						accepted = data.market[0]
+							.filter((listing) => Number(listing.price) <= filter.price && listing.card.signatureImage)
+							.map((listing) => sizeReducer(listing));
 					} else if (filter.upgradesOnly) {
-						accepted = data.market[0].filter(
-							(listing) => listing.card.rating > ownedRating && Number(listing.price) <= filter.price
-						);
+						accepted = data.market[0]
+							.filter((listing) => listing.card.rating > ownedRating && Number(listing.price) <= filter.price)
+							.map((listing) => sizeReducer(listing));
 					}
 				}
 				if (item.type === "sticker") {
 					if (!filter.sigsOnly && !filter.upgradesOnly) {
-						accepted = data.market[0].filter(
-							(listing) =>
-								Number(listing.price) <= filter.price &&
-								listing.sticker.mintNumber >= filter.min &&
-								listing.sticker.mintNumber <= filter.max &&
-								listing.sticker.mintBatch === filter.batch
-						);
+						accepted = data.market[0]
+							.filter(
+								(listing) =>
+									Number(listing.price) <= filter.price &&
+									listing.sticker.mintNumber >= filter.min &&
+									listing.sticker.mintNumber <= filter.max &&
+									(filter.batch === "any" || listing.sticker.mintBatch === filter.batch)
+							)
+							.map((listing) => sizeReducer(listing));
 					} else if (filter.upgradesOnly) {
-						accepted = data.market[0].filter((listing) => listing.sticker.rating > ownedRating);
+						accepted = data.market[0]
+							.filter((listing) => listing.sticker.rating > ownedRating)
+							.map((listing) => sizeReducer(listing));
 					}
 				}
 				setResults((prev) => [
@@ -412,11 +420,26 @@ const pickObj = (item) => {
 		mintBatch: item.mintBatch,
 		mintNumber: item.mintNumber,
 		rating: item.rating,
-		cardTemplateId: item.cardTemplateId,
+		...(item.type === "card" && { cardTemplateId: item.cardTemplateId }),
+		...((item.type === "sticker" || !item.type) && { stickerTemplateId: item.stickerTemplateId }),
 		id: item.id,
 		signatureImage: item.signatureImage,
 		uuid: item.uuid,
 		status: item.status,
 		type: item.type ? item.type : "sticker",
+	};
+};
+
+const commonFields = ["mintBatch", "mintNumber", "rating", "id", "marketId", "signatureImage", "type", "uuid"];
+
+const sizeReducer = (item) => {
+	return {
+		...omit(item, ["previousAvgPrice", "currentHourPrice", "created", "isUserNeed"]),
+		...(item.card && {
+			card: pick(item.card, [...commonFields, "cardTemplateId"]),
+		}),
+		...(item.sticker && {
+			sticker: pick(item.sticker, [...commonFields, "stickerTemplateId"]),
+		}),
 	};
 };

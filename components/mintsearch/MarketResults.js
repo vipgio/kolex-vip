@@ -17,7 +17,7 @@ const MarketResults = ({
 	filter,
 	selectedCollection,
 }) => {
-	const { user, categoryId } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [hideBadDeals, setHideBadDeals] = useState(false);
 
 	const suffix = filter.sigsOnly
@@ -28,6 +28,7 @@ const MarketResults = ({
 
 	const uniqResults = uniqBy(
 		sortBy(results, [
+			(o) => (o.card ? o.card.mintBatch : o.sticker.mintBatch),
 			(o) => (o.card ? o.card.mintNumber : o.sticker.mintNumber),
 			(o) => (o.card ? o.card.cardTemplateId : o.stickerTemplateId),
 		]),
@@ -42,7 +43,8 @@ const MarketResults = ({
 						(betterItem) =>
 							betterItem.title === item.title &&
 							Number(betterItem.price) <= Number(item.price) &&
-							betterItem[betterItem.type].mintNumber <= item[item.type].mintNumber
+							(betterItem[betterItem.type].mintBatch <= item[item.type].mintBatch ||
+								betterItem[betterItem.type].mintNumber <= item[item.type].mintNumber)
 					);
 				return sameTitles ? false : true;
 		  })
@@ -93,7 +95,6 @@ const MarketResults = ({
 								item={item}
 								allowed={user.info.allowed.includes("history")}
 								key={item.marketId}
-								categoryId={categoryId}
 							/>
 						))}
 					</tbody>

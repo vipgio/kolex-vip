@@ -81,6 +81,7 @@ const MintResults = ({
 					<tbody>
 						{uniqBy(
 							sortBy(results, [
+								(o) => o.mintBatch,
 								(o) => o.mintNumber,
 								(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
 							]),
@@ -101,6 +102,7 @@ const MintResults = ({
 						<ExportToCSV
 							data={uniqBy(
 								sortBy(results, [
+									(o) => o.mintBatch,
 									(o) => o.mintNumber,
 									(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
 								]),

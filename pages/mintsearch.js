@@ -168,6 +168,7 @@ const Searcher = () => {
 							<option value='M'>M</option>
 							<option value='HB'>HB</option>
 							<option value='P'>P</option>
+							<option value='any'>Any</option>
 						</select>
 					</div>
 					<div>
