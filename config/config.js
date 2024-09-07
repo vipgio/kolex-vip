@@ -32,6 +32,7 @@ export const historyEvents = {
 	"imx-unlocked": () => "transferred the item to Kolex.",
 	"eth-owner-update": () => "Ethereum item ownership updated.",
 	"eth-locked": () => "Ethereum token trading disabled.",
+	gift: () => "received the item from an airdrop.",
 	trade: (event) => (
 		<>
 			received the item from{" "}

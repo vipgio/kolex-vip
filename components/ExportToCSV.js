@@ -63,9 +63,7 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.delta,
 					item.minOffer ? item.minOffer : "-",
 					item.price,
-					`${webApp}/market/${item.type}/${
-						item.card ? item.card.cardTemplateId : item.sticker.stickerTemplateId
-					}/${item.marketId}`,
+					`${webApp}/${item.type}/${item.templateUUID}/${item.uuid}`,
 			  ])
 			: type === "compact"
 			? data.map((item) => [

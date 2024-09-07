@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import sortBy from "lodash/sortBy";
-import omit from "lodash/omit";
 import pick from "lodash/pick";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
 import { IoSearchOutline } from "react-icons/io5";
@@ -9,7 +8,6 @@ import { useAxios } from "@/hooks/useAxios";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
 import CardGalleryItem from "./CardGalleryItem";
-import http from "@/utils/httpClient";
 import fixDecimal from "@/utils/NumberUtils";
 
 const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned, categoryId }) => {
@@ -37,6 +35,20 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 		}
 	}, [results]);
 
+	const processItems = (items, templateKey, user) =>
+		items.map((item) => {
+			const ownedItem = owned.find((own) => own.templateId === item[templateKey]);
+			const ownedRating = ownedItem ? ownedItem?.rating : 0;
+			return {
+				...sizeReducer(item),
+				type: item.type ? item.type : item.card ? "card" : "sticker",
+				owner: pick(user, ["id", "username"]),
+				title: selectedCards.find((o) => o.id === item[templateKey]).title,
+				templateUUID: selectedCards.find((o) => o.id === item[templateKey]).uuid,
+				delta: fixDecimal((item.rating - ownedRating) * 10),
+			};
+		});
+
 	const mintSearch = async () => {
 		setLoading(true);
 		finished.current = false;
@@ -45,14 +57,15 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 		getAllLeaderboard(1);
 	};
 
-	const searchUser = async (jwt, userId, collectionId, categoryId) => {
-		return http(`${API}/collections/${collectionId}/users/${userId}/owned2?categoryId=${categoryId}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				"x-user-jwt": jwt,
-			},
+	const searchUser = async (userId, collectionId, categoryId) => {
+		const { result, error } = await fetchData({
+			endpoint: `${API}/collections/${collectionId}/users/${userId}/owned2?categoryId=${categoryId}`,
+			direct: true,
 		});
+		if (error) {
+			console.error(error);
+		}
+		return result;
 	};
 
 	const getAllLeaderboard = async (firstPage) => {
@@ -68,113 +81,59 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 				for (const leaderboardUser of users) {
 					if (!finished.current) {
 						try {
-							const { data } = await searchUser(
-								user.jwt,
-								leaderboardUser.id,
-								selectedCollection.collection.id,
-								categoryId
-							);
-							if (data.success) {
+							const items = await searchUser(leaderboardUser.id, selectedCollection.collection.id, categoryId);
+							if (items) {
 								setUsersChecked((prev) => prev + 1);
 								if (!filter.sigsOnly && !filter.upgradesOnly) {
-									const foundCards = data.data.cards
-										.filter(
+									//normal search, follow filters
+									const foundCards = processItems(
+										items.cards.filter(
 											(item) =>
 												(filter.batch === "any" || item.mintBatch === filter.batch) &&
 												item.mintNumber >= filter.min &&
 												item.mintNumber <= filter.max &&
 												selectedCards.some((selCard) => selCard.id === item.cardTemplateId)
-										)
-										.map((item) => {
-											const ownedItem = owned.find((own) => own.templateId === item.cardTemplateId);
-											const ownedRating = ownedItem ? ownedItem?.rating : 0;
-											return {
-												...item,
-												owner: leaderboardUser,
-												title: selectedCards.find((o) => o.id === item.cardTemplateId).title,
-												templateUUID: selectedCards.find((o) => o.id === item.cardTemplateId).uuid,
-												delta: fixDecimal((item.rating - ownedRating) * 10),
-											};
-										});
-									if (foundCards.length > 0) {
-										setResults((prev) => [...prev, ...foundCards]);
-									}
+										),
+										"cardTemplateId",
+										leaderboardUser
+									);
+									if (foundCards.length > 0) setResults((prev) => [...prev, ...foundCards]);
 
-									const foundtickers = data.data.stickers
-										.filter(
+									const foundStickers = processItems(
+										items.stickers.filter(
 											(item) =>
 												(filter.batch === "any" || item.mintBatch === filter.batch) &&
 												item.mintNumber >= filter.min &&
 												item.mintNumber <= filter.max &&
 												selectedCards.some((selCard) => selCard.id === item.stickerTemplateId)
-										)
-										.map((item) => {
-											const ownedItem = owned.find((own) => own.templateId === item.stickerTemplateId);
-											const ownedRating = ownedItem ? ownedItem?.rating : 0;
-											return {
-												...pickObj(item),
-												owner: leaderboardUser,
-												title: selectedCards.find((o) => o.id === item.stickerTemplateId).title,
-												templateUUID: selectedCards.find((o) => o.id === item.stickerTemplateId).uuid,
-												delta: fixDecimal((item.rating - ownedRating) * 10),
-											};
-										});
-									if (foundtickers.length > 0) setResults((prev) => [...prev, ...foundtickers]);
+										),
+										"stickerTemplateId",
+										leaderboardUser
+									);
+									if (foundStickers.length > 0) setResults((prev) => [...prev, ...foundStickers]);
 								} else if (filter.sigsOnly) {
-									const found = data.data.cards
-										.filter(
+									const found = processItems(
+										items.cards.filter(
 											(card) =>
 												card.signatureImage &&
 												selectedCards.some((selCard) => selCard.id === card.cardTemplateId)
-										)
-										.map((item) => {
-											const ownedItem = owned.find((own) => own.templateId === item.cardTemplateId);
-											const ownedRating = ownedItem ? ownedItem?.rating : 0;
-											return {
-												...pickObj(item),
-												owner: leaderboardUser,
-												title: selectedCards.find((o) => o.id === item.cardTemplateId).title,
-												templateUUID: selectedCards.find((o) => o.id === item.cardTemplateId).uuid,
-												delta: fixDecimal((item.rating - ownedRating) * 10),
-											};
-										});
+										),
+										"cardTemplateId",
+										leaderboardUser
+									);
 
 									if (found.length > 0) setResults((prev) => [...prev, ...found]);
 								} else if (filter.upgradesOnly) {
-									const foundCards = data.data.cards
-										.map((item) => {
-											const ownedItem = owned.find((own) => own.templateId === item.cardTemplateId);
-											const ownedRating = ownedItem ? ownedItem?.rating : 0;
-											const delta = fixDecimal((item.rating - ownedRating) * 10);
-											if (selectedCards.some((selCard) => selCard.id === item.cardTemplateId)) {
-												return {
-													...pickObj(item),
-													owner: leaderboardUser,
-													title: selectedCards.find((o) => o.id === item.cardTemplateId).title,
-													templateUUID: selectedCards.find((o) => o.id === item.cardTemplateId).uuid,
-													delta: delta,
-												};
-											}
-										})
-										.filter((item) => item && item.delta > 0);
+									const foundCards = processItems(items.cards, "cardTemplateId", leaderboardUser).filter(
+										(item) => item && item.delta > 0
+									);
 									if (foundCards.length > 0) setResults((prev) => [...prev, ...foundCards]);
 
-									const foundStickers = data.data.stickers
-										.map((item) => {
-											const ownedItem = owned.find((own) => own.templateId === item.stickerTemplateId);
-											const ownedRating = ownedItem ? ownedItem?.rating : 0;
-											const delta = fixDecimal((item.rating - ownedRating) * 10);
-											if (selectedCards.some((selCard) => selCard.id === item.stickerTemplateId)) {
-												return {
-													...pickObj(item),
-													owner: leaderboardUser,
-													title: selectedCards.find((o) => o.id === item.stickerTemplateId).title,
-													templateUUID: selectedCards.find((o) => o.id === item.stickerTemplateId).uuid,
-													delta: delta,
-												};
-											}
-										})
-										.filter((item) => item && item.delta > 0);
+									const foundStickers = processItems(
+										items.stickers,
+										"stickerTemplateId",
+										leaderboardUser
+									).filter((item) => item && item.delta > 0);
 									if (foundStickers.length > 0) setResults((prev) => [...prev, ...foundStickers]);
 								}
 							}
@@ -415,31 +374,38 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 CardGallery.displayName = "CardGallery";
 export default CardGallery;
 
-const pickObj = (item) => {
-	return {
-		mintBatch: item.mintBatch,
-		mintNumber: item.mintNumber,
-		rating: item.rating,
-		...(item.type === "card" && { cardTemplateId: item.cardTemplateId }),
-		...((item.type === "sticker" || !item.type) && { stickerTemplateId: item.stickerTemplateId }),
-		id: item.id,
-		signatureImage: item.signatureImage,
-		uuid: item.uuid,
-		status: item.status,
-		type: item.type ? item.type : "sticker",
-	};
-};
-
-const commonFields = ["mintBatch", "mintNumber", "rating", "id", "marketId", "signatureImage", "type", "uuid"];
+const commonFields = [
+	"mintBatch",
+	"mintNumber",
+	"rating",
+	"id",
+	"marketId",
+	"signatureImage",
+	"type",
+	"uuid",
+	"status",
+	"price",
+	"minOffer",
+	"marketId",
+	"type",
+];
 
 const sizeReducer = (item) => {
-	return {
-		...omit(item, ["previousAvgPrice", "currentHourPrice", "created", "isUserNeed"]),
+	const reduced = {
+		...pick(item, commonFields),
+		...(item.type === "card" && { cardTemplateId: item.cardTemplateId }),
+		...((item.type === "sticker" || !item.type) && {
+			stickerTemplateId: item.stickerTemplateId || item.sticker.stickerTemplateId,
+		}),
 		...(item.card && {
 			card: pick(item.card, [...commonFields, "cardTemplateId"]),
 		}),
 		...(item.sticker && {
 			sticker: pick(item.sticker, [...commonFields, "stickerTemplateId"]),
 		}),
+		...(item.user && {
+			user: pick(item.user, ["id", "username"]),
+		}),
 	};
+	return reduced;
 };

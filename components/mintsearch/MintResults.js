@@ -83,6 +83,7 @@ const MintResults = ({
 							sortBy(results, [
 								(o) => o.mintBatch,
 								(o) => o.mintNumber,
+								(o) => -o.rating,
 								(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
 							]),
 							(o) => o.id

@@ -16,7 +16,7 @@ const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {
 			  ]);
 	};
 	return (
-		<div
+		<button
 			className={`flex cursor-pointer flex-col items-center rounded border border-gray-500 transition-transform hover:scale-105`}
 			onClick={handleItem}
 		>
@@ -37,7 +37,7 @@ const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {
 				)}
 			</div>
 			<div className='text-gray-custom px-1 py-0.5 text-center text-sm'>{item.title}</div>
-		</div>
+		</button>
 	);
 };
 export default CardGalleryItem;
