@@ -63,7 +63,7 @@ const Scanner = () => {
 				if (selectedUser.username !== user.user.username) {
 					const data = await scanUser(selectedUser.id, selectedCollection.collection.id);
 					setScanResults((prev) => [
-						...prev,
+						...(prev ?? []),
 						...[...data.cards, ...data.stickers].map((item) =>
 							pickObj(item, selectedCollection, selectedUser)
 						),
@@ -104,7 +104,7 @@ const Scanner = () => {
 													title='Clear selection'
 													onClick={() => {
 														setSelectedUsers((prev) => prev.filter((oldUser) => oldUser.id !== user.id));
-														setScanResults((prev) => prev.filter((items) => items.owner !== user.username));
+														setScanResults((prev) => prev?.filter((items) => items.owner !== user.username));
 													}}
 												>
 													x
@@ -170,6 +170,7 @@ const Scanner = () => {
 								ownedItems={ownedItems}
 								isSelfScan={isSelfScan}
 								singleUserSearch={singleUserSearch}
+								isHistoryAllowed={user.info.allowed.includes("history")}
 							/>
 						</div>
 					) : (
@@ -199,5 +200,6 @@ const pickObj = (item, selectedCollection, owner) => {
 		owenrId: owner.id,
 		marketId: item.isMarketList ? item.marketId : "-",
 		uuid: item.uuid,
+		minted: item.minted,
 	};
 };

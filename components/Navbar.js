@@ -144,14 +144,14 @@ const NewNavbar = () => {
 						<FaGithub className='h-5 w-5 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 					</a>
 				</button>
-				<button className='mr-2 h-5 w-5' tabIndex={-1}>
+				<button className='mr-1 h-5 w-5' tabIndex={-1}>
 					<a
 						href='https://discordapp.com/users/473436055958192128'
 						target='_blank'
 						rel='noreferrer'
 						title='Contact me on Discord'
 					>
-						<FaDiscord className='h-full w-full hover:text-gray-600 dark:hover:text-gray-200' />
+						<FaDiscord className='h-full w-full hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 					</a>
 				</button>
 				<button

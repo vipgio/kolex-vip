@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAxios } from "@/hooks/useAxios";
@@ -12,28 +12,28 @@ import LoadingSpin from "@/components/LoadingSpin";
 import RefreshButton from "@/components/RefreshButton";
 
 const Rush = () => {
-	const { fetchData, postData } = useAxios();
+	const { fetchData } = useAxios();
 	const { user } = useContext(UserContext);
 	const { maps, setMaps, selectedRoster, setSelectedRoster } = useContext(RushContext);
 	const [rosters, setRosters] = useState([]);
 	const [circuits, setCircuits] = useState(null);
 	const [loading, setLoading] = useState(false);
 
-	const fetchInfo = async () => {
+	const fetchInfo = useCallback(async () => {
 		setLoading(true);
 		setSelectedRoster(null);
 		await getRosters();
 		await getMaps();
 		await getCircuit();
 		setLoading(false);
-	};
+	}, [getRosters, getMaps, getCircuit]);
 
 	useEffect(() => {
 		fetchInfo();
 		return () => {
 			setSelectedRoster(null);
 		};
-	}, []);
+	}, [fetchInfo]);
 
 	const getRosters = async () => {
 		const { result, error } = await fetchData("/api/rush/userRosters", {

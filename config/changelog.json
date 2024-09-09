@@ -1,6 +1,16 @@
 {
 	"changelog": [
 		{
+			"version": "2.9.3",
+			"date": "2024-09-09",
+			"changes": [
+				"Fixed a bug with pack manager undercut option.",
+				"Added the option to see all results history directly from scanner and mint search.",
+				"History images should load faster now.",
+				"Moved the theme switcher icon 2 pixels to the left."
+			]
+		},
+		{
 			"version": "2.9.2",
 			"date": "2024-09-05",
 			"changes": [

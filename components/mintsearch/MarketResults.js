@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
+import Link from "next/link";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-import { FaSignature } from "react-icons/fa";
+import { FaSignature, FaLock } from "react-icons/fa";
 import { UserContext } from "@/context/UserContext";
 import BigModal from "@/components/BigModal";
 import ExportToCSV from "../ExportToCSV";
-import Tooltip from "../Tooltip";
+import Tooltip from "@/components/Tooltip";
 import MarketResultRow from "./MarketResultRow";
 
 const MarketResults = ({
@@ -124,7 +125,38 @@ const MarketResults = ({
 							<FaSignature className='mr-2' /> Signed Item
 						</span>
 					</div>
-					<div className='ml-auto'>
+					<div className='ml-auto inline-flex gap-4'>
+						<div className='flex items-center'>
+							{user.info.allowed.includes("history") ? (
+								<>
+									<Tooltip text="Don't use it on like a million cards all at once." direction='left' />
+									<Link
+										href={{
+											pathname: "/history",
+											query: {
+												href: JSON.stringify(
+													results.filter((item) => item.type === "card").map((item) => item.card.id)
+												),
+											},
+										}}
+										as='/history'
+										passHref
+									>
+										<button className='button' disabled={!user.info.allowed.includes("history")}>
+											History
+										</button>
+									</Link>
+								</>
+							) : (
+								<>
+									<Tooltip text='You need access to the history feature for this.' direction='left' />
+									<button className='button' disabled title='No Access'>
+										History
+										<FaLock />
+									</button>
+								</>
+							)}
+						</div>
 						<ExportToCSV
 							data={shownResults}
 							filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - ${suffix} - Market`}

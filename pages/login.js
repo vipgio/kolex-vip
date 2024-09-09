@@ -165,7 +165,7 @@ const Login = () => {
 					// className='rounded-full focus:outline-primary-500 focus-visible:outline-offset-4 focus-visible:outline-primary-500'
 					className='my-outline mx-3 h-8 w-8 rounded-full focus-visible:ring-inset'
 				>
-					<FaDiscord className='h-full w-full hover:text-gray-600 dark:hover:text-gray-200' />
+					<FaDiscord className='h-full w-full hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 				<button
 					className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'

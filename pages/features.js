@@ -6,7 +6,6 @@ import Details from "@/components/features/Details";
 import Pricing from "@/components/features/Pricing";
 
 const Features = ({ features, bundles }) => {
-	console.log(bundles);
 	const [show, setShow] = useState("features");
 	return (
 		<>

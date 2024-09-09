@@ -193,7 +193,6 @@ const CraftingModal = React.memo(
 		useEffect(() => {
 			setCraftCount(0);
 		}, [dupeOnly]);
-		console.log(ownedCards);
 		const dataToShow =
 			dupeOnly === "dupe"
 				? ownedCards.map((req) => ({

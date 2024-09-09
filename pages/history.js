@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import uniq from "lodash/uniq";
+import pick from "lodash/pick";
 import chunk from "lodash/chunk";
 import { useAxios } from "@/hooks/useAxios";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,16 +12,24 @@ import CardHistory from "@/components/CardHistory";
 import LoadingSpin from "@/components/LoadingSpin";
 import Toggle from "@/components/history/Toggle";
 import ExportButton from "@/components/history/ExportButton";
+import { useRouter } from "next/router";
 
 const History = () => {
-	const [loading, setLoading] = useState(false);
+	const router = useRouter();
 	const { fetchData } = useAxios();
+	const [loading, setLoading] = useState(false);
 	const [cardId, setCardId] = useState("");
 	const [history, setHistory] = useState([]);
 	const [templates, setTemplates] = useState([]);
 	const [isDone, setIsDone] = useState(false);
 	const [compactMode, setCompactMode] = useState(true);
+	const { href } = router.query;
 	const dataToShow = history.sort((a, b) => a.id - b.id);
+
+	useEffect(() => {
+		const refQuery = href ? JSON.parse(href) : [];
+		setCardId(refQuery.join(", "));
+	}, []);
 
 	useEffect(() => {
 		if (templates?.length > 0) {
@@ -28,7 +37,7 @@ const History = () => {
 				setHistory((items) =>
 					items.map((history) => {
 						return history.cardTemplateId === template.id
-							? { ...history, template: template }
+							? { ...history, ...pick(template, ["title", "images"]) }
 							: { ...history };
 					})
 				);
@@ -59,7 +68,10 @@ const History = () => {
 					const { result, error } = await fetchData(`/api/cards/${cardId}`);
 					if (result) {
 						templateIds.push(result.cardTemplateId);
-						setHistory((prev) => [...prev, result]);
+						setHistory((prev) => [
+							...prev,
+							pick(result, ["id", "mintBatch", "mintNumber", "history", "images", "cardTemplateId"]),
+						]);
 					}
 					if (error) {
 						setLoading(false);
@@ -88,6 +100,7 @@ const History = () => {
 					}
 				}
 			}
+			setIsDone(true);
 		} else {
 			toast.error("Please enter a valid input", {
 				toastId: "valid input",
@@ -145,7 +158,7 @@ const History = () => {
 				{history.length > 0 && isDone && (
 					<div className='mt-5 flex w-full flex-col items-center space-y-2 px-5'>
 						<div className='flex w-full justify-end pr-6'>
-							<ExportButton data={dataToShow} templates={templates} />
+							<ExportButton data={dataToShow} />
 						</div>
 						<div className='flex w-full flex-wrap justify-center'>
 							{dataToShow.map((item) => (

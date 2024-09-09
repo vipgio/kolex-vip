@@ -1,16 +1,28 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
 import sumBy from "lodash/sumBy";
 import uniqBy from "lodash/uniqBy";
 import countBy from "lodash/countBy";
+import { FaLock } from "react-icons/fa";
 import ExportToCSV from "@/components/ExportToCSV";
 import CompactList from "./CompactList";
 import FullList from "./FullList";
+import Tooltip from "../Tooltip";
 import fixDecimal from "@/utils/NumberUtils";
 
 const ScanResult = React.memo(
-	({ scanResults, user, collection, templates, ownedItems, isSelfScan, singleUserSearch }) => {
+	({
+		scanResults,
+		user,
+		collection,
+		templates,
+		ownedItems,
+		isSelfScan,
+		singleUserSearch,
+		isHistoryAllowed,
+	}) => {
 		const userList = user
 			.map((usr) => usr["username"])
 			.join(", ")
@@ -36,6 +48,8 @@ const ScanResult = React.memo(
 				type: result.type === "card" ? "card" : "sticker",
 				delta: !isSelfScan && fixDecimal((result.rating - ownedRating) * 10),
 				need: ownedRating === 0,
+				minted:
+					result.type === "card" && templates.find((template) => template.id === result.templateId).minted,
 			};
 		});
 		const sortedInc = sortBy(strippedResults, ["mintBatch", "mintNumber", (o) => -o.signatureImage]);
@@ -109,7 +123,38 @@ const ScanResult = React.memo(
 							</select>
 						</div>
 						{user && filteredResults.length > 0 && (
-							<div className='ml-auto'>
+							<div className='ml-auto inline-flex gap-4'>
+								<div className='flex items-center'>
+									{isHistoryAllowed ? (
+										<>
+											<Tooltip text="Don't use it on like a million cards all at once." direction='left' />
+											<Link
+												href={{
+													pathname: "/history",
+													query: {
+														href: JSON.stringify(
+															filteredResults.filter((item) => item.type === "card").map((item) => item.id)
+														),
+													},
+												}}
+												as='/history'
+												passHref
+											>
+												<button className='button' disabled={!isHistoryAllowed}>
+													History
+												</button>
+											</Link>
+										</>
+									) : (
+										<>
+											<Tooltip text='You need access to the history feature for this.' direction='left' />
+											<button className='button' disabled title='No Access'>
+												History
+												<FaLock />
+											</button>
+										</>
+									)}
+								</div>
 								<ExportToCSV
 									type={filterMethod === "compact" ? "compact" : "full"}
 									filename={`${userList} - ${collection.collection.properties.seasons[0]} - ${

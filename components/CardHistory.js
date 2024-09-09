@@ -11,7 +11,7 @@ const CardHistory = React.memo(
 					{item.images.size402 && !compactMode && (
 						<div className='mr-2 min-w-fit'>
 							<ImageWrapper
-								src={item.images.size402 ? item.images.size402 : item.template.images.size402}
+								src={item.images.size201 || item.images.size102 || item.images.size402 || ""}
 								alt={item.id}
 								width={50 * 1.5}
 								height={75 * 1.5}
@@ -25,7 +25,7 @@ const CardHistory = React.memo(
 								{item.mintNumber}{" "}
 							</span>
 							<span>
-								{item.template?.title}: {item.id}
+								{item.title}: {item.id}
 							</span>
 						</div>
 

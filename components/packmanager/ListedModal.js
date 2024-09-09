@@ -151,7 +151,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 					<ListedTable
 						compactMode={compactMode}
 						setListed={setListed}
-						listed={undercuts ? listed.filter((pack) => pack.floor < pack.price) : listed}
+						listed={undercuts ? listed.filter((pack) => Number(pack.floor) < Number(pack.price)) : listed}
 						sortMethod={sortMethod}
 						insertFloor={insertFloor}
 					/>
