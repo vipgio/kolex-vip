@@ -142,17 +142,17 @@ const Circulation = () => {
 			<Meta title='Circulation | Kolex VIP' />
 			<div className='flex flex-col items-center'>
 				<div className='flex h-full w-full flex-col items-center justify-center pt-5'>
-					<div className='text-gray-custom0 px-4 pt-2 text-center font-semibold'>
+					<div className='text-gray-custom px-4 pt-2 text-center font-semibold'>
 						Selected Collection:
-						{selectedCollection && (
-							<span>
-								{" "}
-								{selectedCollection.collection.properties.seasons[0]} -{" "}
-								{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
-							</span>
+							{selectedCollection && (
+								<span>
+									{""}
+									{selectedCollection.collection.properties.seasons[0]} -{" "}
+									{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
+								</span>
 						)}
 					</div>
-					<SetSelector setSelectedCollection={setSelectedCollection} />
+					<SetSelector setSelectedCollection={setSelectedCollection}/>
 				</div>
 				{collection.info?.length > 0 && (
 					<div className='mt-3 text-xl font-bold text-gray-300'>

@@ -33,7 +33,7 @@ const NewSetSelector = ({ collections, setSelectedCollection }) => {
 
 	return (
 		<>
-			<div className='relative ml-2 mb-1 grid w-[36rem] grid-cols-3 gap-2 divide-x text-gray-800'>
+			<div className='relative ml-2 mb-1 sm:grid sm:w-[36rem] sm:grid-cols-3 sm:gap-2 sm:divide-x text-gray-800 flex flex-initial flex-col'>
 				<SeasonSelect
 					selectedSeason={selectedSeason}
 					setSelectedSeason={setSelectedSeason}
