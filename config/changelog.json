@@ -1,6 +1,15 @@
 {
 	"changelog": [
 		{
+			"version": "2.9.4",
+			"date": "2024-09-11",
+			"changes": [
+				"Optimiezd the performance of scanner results.",
+				"Added Kolex link in the login page.",
+				"Implemented craft limits."
+			]
+		},
+		{
 			"version": "2.9.3",
 			"date": "2024-09-09",
 			"changes": [

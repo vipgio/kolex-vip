@@ -15,6 +15,7 @@ const Meta = ({
 			<meta charSet='utf-8' />
 			<meta property='og:image' content='https://i.imgur.com/JzHKUOD.png' />
 			<link rel='icon' href='/favicon.ico' />
+			<meta name='google-site-verification' content='9AMGLYbdxkh1RPLt3m7cR4lX1aHKid51YCpdZlOLOE8' />
 			<title>{title}</title>
 		</Head>
 	);

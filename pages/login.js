@@ -3,7 +3,9 @@ import Link from "next/link";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaGithub, FaMoon, FaSun, FaDiscord } from "react-icons/fa";
+import { GoLinkExternal } from "react-icons/go";
 import "react-toastify/dist/ReactToastify.css";
+import { webApp } from "@/config/config";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import JWTLogin from "@/components/login/JWTLogin";
@@ -117,37 +119,6 @@ const Login = () => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='mt-16 flex h-1/4 w-full flex-col items-center justify-center text-primary-500 lg:mt-11'>
-				<p className='text-center'>
-					Kolex added a security feature (CAPTCHA) which prevents logging in through third-party tools. <br />
-					I tried working with Kolex to get this fixed, but I&apos;ve been waiting for a few months.
-					<br />
-					So until they fix it, you can use your JWT to use the site.
-					<span className='block cursor-pointer underline' onClick={handleCopyClick}>
-						Click to copy the code if you already know how it works
-					</span>{" "}
-				</p>
-				<div className='flex gap-3'>
-					<button className='simple-button mt-1' onClick={() => setShowTutorial({ type: "web", show: true })}>
-						HOW (Web)
-					</button>
-					<button
-						className='simple-button mt-1'
-						onClick={() => setShowTutorial({ type: "android", show: true })}
-						disabled
-						title='Soon'
-					>
-						HOW (Android)
-					</button>
-					{/* <button
-						className='simple-button mt-1'
-						onClick={() => setShowTutorial({ type: "ios", show: true })}
-					>
-						HOW (iOS)
-					</button> */}
-				</div>
-			</div>
-
 			<div className='text-gray-custom absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold transition-colors'>
 				<a
 					href='https://github.com/vipgio/kolex-vip'
@@ -193,6 +164,52 @@ const Login = () => {
 					</a>
 				</Link>
 			</div>
+
+			<div className='mt-16 flex h-1/4 w-full flex-col items-center justify-center text-primary-500 lg:mt-11'>
+				<p className='text-center'>
+					Kolex added a security feature (CAPTCHA) which prevents logging in through third-party tools. <br />
+					I tried working with Kolex to get this fixed, but I&apos;ve been waiting for a few months.
+					<br />
+					So until they fix it, you can use your JWT to use the site.
+					<span className='flex justify-center'>
+						<button className='mr-2 block cursor-pointer underline' onClick={handleCopyClick}>
+							Click to copy the code if you already know how it works.{" "}
+						</button>
+						{" | "}
+						<span className='ml-2'>
+							<a
+								href={webApp}
+								target='_blank'
+								rel='noopener noreferrer'
+								className='flex items-center hover:underline'
+							>
+								Kolex
+								<GoLinkExternal />
+							</a>
+						</span>
+					</span>
+				</p>
+				<div className='flex gap-3'>
+					<button className='simple-button mt-1' onClick={() => setShowTutorial({ type: "web", show: true })}>
+						HOW (Web)
+					</button>
+					<button
+						className='simple-button mt-1'
+						onClick={() => setShowTutorial({ type: "android", show: true })}
+						disabled
+						title='Soon'
+					>
+						HOW (Android)
+					</button>
+					{/* <button
+						className='simple-button mt-1'
+						onClick={() => setShowTutorial({ type: "ios", show: true })}
+					>
+						HOW (iOS)
+					</button> */}
+				</div>
+			</div>
+
 			<div>
 				{showTutorial.show && (
 					<TokenTutorial

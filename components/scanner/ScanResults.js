@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
 import sumBy from "lodash/sumBy";
 import uniqBy from "lodash/uniqBy";
 import countBy from "lodash/countBy";
+import sortedIndexBy from "lodash/sortedIndexBy";
 import { FaLock } from "react-icons/fa";
+import { useAxios } from "@/hooks/useAxios";
 import ExportToCSV from "@/components/ExportToCSV";
 import CompactList from "./CompactList";
 import FullList from "./FullList";
@@ -23,87 +25,112 @@ const ScanResult = React.memo(
 		singleUserSearch,
 		isHistoryAllowed,
 	}) => {
+		const { fetchData } = useAxios();
 		const userList = user
 			.map((usr) => usr["username"])
 			.join(", ")
 			.toString();
 		const [filterMethod, setFilterMethod] = useState("all");
-		const strippedResults = scanResults.map((result) => {
-			const ownedItem = sortBy(ownedItems, ["mintBatch", "mintNumber"]).find(
-				(own) => own.templateId === result.templateId
-			);
-			const ownedRating = ownedItem ? ownedItem?.rating : 0;
-			return {
-				...result,
-				signatureImage: result.signatureImage ? true : false,
-				rating: Number(result.rating),
-				title:
-					result.type === "card"
-						? templates.find((template) => template.id === result.templateId).title
-						: result.title,
-				inCirculation:
-					result.type === "card"
-						? templates.find((template) => template.id === result.templateId).inCirculation
-						: result.inCirculation,
-				type: result.type === "card" ? "card" : "sticker",
-				delta: !isSelfScan && fixDecimal((result.rating - ownedRating) * 10),
-				need: ownedRating === 0,
-				minted:
-					result.type === "card" && templates.find((template) => template.id === result.templateId).minted,
-			};
-		});
+		const [leaderboardPoints, setLeaderboardPoints] = useState([]);
+
+		const strippedResults = useMemo(
+			() =>
+				scanResults.map((result) => {
+					const ownedItem = sortBy(ownedItems, ["mintBatch", "mintNumber"]).find(
+						(own) => own.templateId === result.templateId
+					);
+					const ownedRating = ownedItem?.rating || 0;
+
+					const template = templates.find((template) => template.id === result.templateId);
+
+					return {
+						...result,
+						signatureImage: !!result.signatureImage,
+						rating: Number(result.rating),
+						title: template?.title || result.title,
+						inCirculation: template?.inCirculation || result.inCirculation,
+						type: result.type === "card" ? "card" : "sticker",
+						delta: !isSelfScan && fixDecimal((result.rating - ownedRating) * 10),
+						need: ownedRating === 0,
+						minted: result.type === "card" && template?.minted,
+					};
+				}),
+			[scanResults, ownedItems, templates, isSelfScan, fixDecimal]
+		);
+
 		const sortedInc = sortBy(strippedResults, ["mintBatch", "mintNumber", (o) => -o.signatureImage]);
-		const sorted = sortedInc.map((item, index, self) => {
-			const firstPosition = self.findIndex((o) => o.templateId === item.templateId);
-			if (firstPosition === index) {
-				//if it's the best item
-				const nextPosition = sortedInc //find the second one then get their rating difference
-					.slice(index + 1)
-					.find((o) => o.templateId === item.templateId);
-				return {
-					...item,
-					pointsToLose: nextPosition ? fixDecimal(item.rating - nextPosition.rating) : item.rating,
-				};
-			} else {
-				//if it's a dupe
-				return {
-					...item,
-					pointsToLose: 0,
-				};
+		const sorted = useMemo(() => {
+			return sortedInc.map((item, index, self) => {
+				const firstPosition = self.findIndex((o) => o.templateId === item.templateId);
+				if (firstPosition === index) {
+					const nextPosition = sortedInc.slice(index + 1).find((o) => o.templateId === item.templateId);
+					return {
+						...item,
+						pointsToLose: nextPosition ? fixDecimal(item.rating - nextPosition.rating) : item.rating,
+					};
+				} else {
+					return {
+						...item,
+						pointsToLose: 0,
+					};
+				}
+			});
+		}, [sortedInc]);
+
+		const filteredResults = useMemo(() => {
+			const uniqueByTemplateId = (data) => uniqBy(data, "templateId");
+			const removeBest = (data) =>
+				data.filter((item, index, self) => index !== self.findIndex((o) => o.templateId === item.templateId));
+
+			switch (filterMethod) {
+				case "all":
+					return sorted;
+				case "best":
+					return uniqueByTemplateId(sorted);
+				case "worst":
+					return uniqueByTemplateId(sorted.toReversed()).toReversed();
+				case "dupes":
+					return removeBest(sorted);
+				case "second":
+					const withoutBest = removeBest(sorted);
+					return uniqueByTemplateId(withoutBest);
+				default:
+					// Handle the "compact" case or other filters here
+					return sorted.map((item) => ({
+						...item,
+						owned: countBy(sorted, (o) => o.templateId)[item.templateId],
+					}));
 			}
-		});
-		const filteredResults =
-			filterMethod === "all"
-				? sorted
-				: filterMethod === "best"
-				? uniqBy(sorted, "templateId")
-				: filterMethod === "worst"
-				? uniqBy(sorted.toReversed(), "templateId").toReversed()
-				: filterMethod === "dupes"
-				? sorted.filter(
-						// don't show the best set
-						(item, index, self) => index !== self.findIndex((o) => o.templateId === item.templateId)
-				  )
-				: filterMethod === "second"
-				? uniqBy(
-						sorted.filter(
-							// don't show the best set then show the remaining best one after
-							(item, index, self) => index !== self.findIndex((o) => o.templateId === item.templateId)
-						),
-						"templateId"
-				  )
-				: uniqBy(
-						//compact
-						sorted.map((item) => ({
-							...item,
-							owned: countBy(sorted, (o) => o.templateId)[item.templateId],
-						})),
-						"templateId"
-				  );
+		}, [sorted, filterMethod]);
+
+		const getLeaderboard = async (collectionId, page) => {
+			const { result, error } = await fetchData(`/api/leaderboard/${collectionId}?page=${page}`);
+			if (error) {
+				console.error(error);
+			}
+			return result;
+		};
+
+		const getLeaderboardData = async (page = 1) => {
+			if (page > 6) return;
+			// Get leaderboard data for the current page
+			const leaderboardData = await getLeaderboard(collection.collection.id, page);
+			setLeaderboardPoints((prev) => [...prev, ...leaderboardData.map((item) => item.score)]);
+			await getLeaderboardData(page + 1);
+		};
+
+		useEffect(() => {
+			setLeaderboardPoints([]);
+			getLeaderboardData();
+		}, []);
 
 		const handleFilter = (e) => {
 			setFilterMethod(e.target.value);
 		};
+
+		const rank = useMemo(
+			() => sortedIndexBy(leaderboardPoints, sumBy(filteredResults, "rating"), (o) => -o) + 1
+		);
 
 		return (
 			<>
@@ -171,8 +198,10 @@ const ScanResult = React.memo(
 					<>
 						{(filterMethod === "best" || filterMethod === "second" || filterMethod === "worst") &&
 							filteredResults.length > 0 && (
-								<div className='mb-1 ml-1 font-semibold text-orange-400'>
-									Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}
+								<div className='text-gray-custom mb-1 ml-1 font-semibold'>
+									<div>Items: {filteredResults.length}</div>
+									<div>Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}</div>
+									<div>Rank: {rank > 120 ? "120+" : rank}</div>
 								</div>
 							)}
 						<div className='mb-1 flex flex-col justify-center overflow-hidden rounded-md border border-gray-300'>
