@@ -20,7 +20,7 @@ const ListModeTable = ({ packs, filters }) => {
 				} else if (option === "minted") {
 					return a.mintCount - b.mintCount;
 				} else if (option === "unopened") {
-					return a.mintCount - a.openedCount - (b.mintCount - b.openedCount);
+					return a.mintCount - a.openedCount - (b.mintCount - b.openedCount) || a.mintCount - b.mintCount;
 				}
 				return 0;
 			});

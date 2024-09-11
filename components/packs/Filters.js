@@ -10,7 +10,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 	const costTypes = uniqBy(packs, "costType").map((pack) => pack.costType);
 
 	return (
-		<div className='flex w-full justify-center p-1'>
+		<div className='flex w-full flex-col items-center justify-center p-1 sm:flex-row'>
 			<div className='relative w-72'>
 				<Listbox
 					multiple
@@ -32,7 +32,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						<Listbox.Options className='absolute mt-1 max-h-72 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+						<Listbox.Options className='absolute z-20 mt-1 max-h-72 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 							{packSeasons.map((season) => (
 								<Listbox.Option
 									key={season}
@@ -61,7 +61,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 					</Transition>
 				</Listbox>
 			</div>
-			<div className='relative ml-3 w-72'>
+			<div className='relative mt-3 w-72 sm:mt-0 sm:ml-3'>
 				<Listbox
 					multiple
 					value={filters.costTypes}
@@ -117,7 +117,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 					</Transition>
 				</Listbox>
 			</div>
-			<div className='ml-3 inline-flex items-end'>
+			<div className='mt-3 inline-flex items-end sm:ml-3 sm:mt-0'>
 				<button onClick={() => setFilters((prev) => ({ ...prev, show: true }))} className='submit-button'>
 					Show
 				</button>

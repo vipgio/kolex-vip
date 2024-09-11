@@ -122,7 +122,7 @@ const PackSearch = () => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='mt-10 flex flex-col justify-center px-5'>
+			<div className='mt-5 flex flex-col justify-center px-5'>
 				<Toggle filtersMode={filtersMode} setFiltersMode={setFiltersMode} loading={loading} />
 				{!filtersMode ? ( //old style
 					<>
