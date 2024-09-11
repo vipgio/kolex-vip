@@ -146,7 +146,7 @@ const Circulation = () => {
 						Selected Collection:
 							{selectedCollection && (
 								<span>
-									{""}
+									{" "}
 									{selectedCollection.collection.properties.seasons[0]} -{" "}
 									{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
 								</span>
