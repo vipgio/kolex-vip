@@ -14,7 +14,7 @@ const FilteredBox = ({ pack }) => {
 	return (
 		<>
 			<div
-				className='flex h-full cursor-pointer rounded border border-gray-500 pr-1 transition-all hover:scale-105'
+				className='flex items-center h-full cursor-pointer rounded border border-gray-500 pr-1 transition-all hover:scale-105'
 				onClick={openModal}
 			>
 				<div className='m-1 flex h-24 w-1/3 items-center justify-center'>

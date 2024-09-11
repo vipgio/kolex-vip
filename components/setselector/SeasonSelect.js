@@ -19,7 +19,7 @@ const SeasonSelect = ({ selectedSeason, setSelectedSeason, collections }) => {
 				leaveFrom='transform opacity-100 scale-100'
 				leaveTo='transform opacity-0 scale-95'
 			>
-				<Listbox.Options className='absolute top-full z-30 w-1/3 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+				<Listbox.Options className='absolute top-full z-30 sm:w-1/3 w-[60vw] rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 					{collections.map(
 						(
 							[season, _] // Show all seasons

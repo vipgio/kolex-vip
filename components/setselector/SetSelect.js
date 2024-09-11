@@ -20,7 +20,7 @@ const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setS
 				leaveTo='transform opacity-0 scale-95'
 			>
 				{selectedCol.length > 0 && ( // If a collection is selected, show the sets
-					<Listbox.Options className='absolute top-full left-2/3 z-30 max-h-96 w-1/3 divide-y overflow-auto rounded-md bg-white pb-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+					<Listbox.Options className='absolute top-full sm:left-2/3 z-30 max-h-96 sm:w-1/3 w-[60vw] divide-y overflow-auto rounded-md bg-white pb-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 						{collections
 							.find(([season, _]) => season === selectedSeason)?.[1]
 							.find(([col, _]) => col === selectedCol)?.[1]
