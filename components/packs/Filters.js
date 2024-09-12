@@ -10,7 +10,7 @@ const Filters = ({ filters, setFilters, packs }) => {
 	const costTypes = uniqBy(packs, "costType").map((pack) => pack.costType);
 
 	return (
-		<div className='flex w-full flex-col items-center justify-center p-1 sm:flex-row'>
+		<div className='flex w-full flex-col items-center justify-center p-1 sm:flex-row sm:items-end'>
 			<div className='relative w-72'>
 				<Listbox
 					multiple

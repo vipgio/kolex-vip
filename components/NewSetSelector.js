@@ -3,7 +3,7 @@ import SeasonSelect from "./setselector/SeasonSelect";
 import CollectionSelect from "./setselector/CollectionSelect";
 import SetSelect from "./setselector/SetSelect";
 
-const NewSetSelector = ({ collections, setSelectedCollection }) => {
+const NewSetSelector = ({ collections, setSelectedCollection, loading }) => {
 	const [selectedSeason, setSelectedSeason] = useState("");
 	const [selectedCol, setSelectedCol] = useState("");
 	const [selectedSet, setSelectedSet] = useState("");
@@ -33,11 +33,12 @@ const NewSetSelector = ({ collections, setSelectedCollection }) => {
 
 	return (
 		<>
-			<div className='relative ml-2 mb-1 sm:grid sm:w-[36rem] sm:grid-cols-3 sm:gap-2 sm:divide-x text-gray-800 flex flex-initial flex-col w-[60vw]'>
+			<div className='relative ml-2 mb-1 flex w-[60vw] flex-initial flex-col text-gray-800 sm:grid sm:w-[36rem] sm:grid-cols-3 sm:gap-2 sm:divide-x'>
 				<SeasonSelect
 					selectedSeason={selectedSeason}
 					setSelectedSeason={setSelectedSeason}
 					collections={collections}
+					loading={loading}
 				/>
 				<CollectionSelect
 					selectedCol={selectedCol}

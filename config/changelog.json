@@ -1,6 +1,15 @@
 {
 	"changelog": [
 		{
+			"version": "2.9.5",
+			"date": "2024-09-13",
+			"changes": [
+				"Replaced the SK category with CS China.",
+				"Added sort option to mintsearch market results.",
+				"History page now shows progress count while searching."
+			]
+		},
+		{
 			"version": "2.9.4",
 			"date": "2024-09-11",
 			"changes": [

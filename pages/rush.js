@@ -36,8 +36,10 @@ const Rush = () => {
 	}, [fetchInfo]);
 
 	const getRosters = async () => {
-		const { result, error } = await fetchData("/api/rush/userRosters", {
-			userId: user.user.id,
+		const { result, error } = await fetchData({
+			endpoint: "/api/rush/userRosters",
+			params: { userId: user.user.id },
+			forceCategoryId: true,
 		});
 		result && setRosters(result.rosters.filter((roster) => roster.cards.length === 5));
 		error &&
@@ -47,7 +49,10 @@ const Rush = () => {
 	};
 
 	const getMaps = async () => {
-		const { result, error } = await fetchData("/api/rush/maps");
+		const { result, error } = await fetchData({
+			endpoint: "/api/rush/maps",
+			forceCategoryId: true,
+		});
 		result && setMaps(result.maps);
 		error &&
 			toast.error(error.response.data.error, {
@@ -56,7 +61,10 @@ const Rush = () => {
 	};
 
 	const getCircuit = async () => {
-		const { result, error } = await fetchData("/api/rush/circuits");
+		const { result, error } = await fetchData({
+			endpoint: "/api/rush/circuits",
+			forceCategoryId: true,
+		});
 		result && result.circuits.length > 0 && setCircuits(result.circuits);
 		error &&
 			toast.error(error.response.data.error, {

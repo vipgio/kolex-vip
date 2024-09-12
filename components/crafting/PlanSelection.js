@@ -9,13 +9,23 @@ const PlanSelection = ({ plan }) => {
 	const comingSoon = new Date(plan.start) > new Date() && !isLocal;
 	return (
 		<>
-			<div
+			<button
 				className={`max-w-xs rounded border border-gray-800 transition-transform ${
 					comingSoon ? "cursor-not-allowed" : "hover:scale-105 hover:cursor-pointer"
 				} dark:border-gray-200`}
-				onClick={() => (comingSoon ? null : setShowModal(true))}
+				onClick={() => !comingSoon && setShowModal(true)}
+				disabled={comingSoon}
 				title={
-					comingSoon ? `Coming Soon: ${new Date(plan.start).toLocaleString("en-GB", { timeZone: "UTC" })}` : ""
+					comingSoon
+						? `Coming Soon: ${new Intl.DateTimeFormat("en-GB", {
+								day: "2-digit",
+								month: "2-digit",
+								year: "numeric",
+								hour: "2-digit",
+								minute: "2-digit",
+								second: "2-digit",
+						  }).format(new Date(plan.start))}`
+						: ""
 				}
 			>
 				<div className='relative inline-flex w-full max-w-xs justify-center p-1'>
@@ -45,7 +55,7 @@ const PlanSelection = ({ plan }) => {
 					</div>
 					{plan.userLimit ? <div>Limit: {plan.userLimit}x crafts</div> : null}
 				</div>
-			</div>
+			</button>
 			{showModal && (
 				<div className='fixed top-0 left-0 z-30'>
 					<CraftingModal plan={plan} showModal={showModal} setShowModal={setShowModal} />

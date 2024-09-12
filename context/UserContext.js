@@ -60,7 +60,7 @@ const UserContextProvider = (props) => {
 			console.log("Category ID: ", categoryId);
 			switch (categoryId) {
 				case "1":
-					document.documentElement.classList.add("theme-cs");
+					document.documentElement.classList.add("theme-csgo");
 					break;
 				case "2":
 					document.documentElement.classList.add("theme-streamers");
@@ -77,8 +77,11 @@ const UserContextProvider = (props) => {
 				case "106":
 					document.documentElement.classList.add("theme-hiroquest");
 					break;
+				case "107":
+					document.documentElement.classList.add("theme-csc");
+					break;
 				default:
-					document.documentElement.classList.add("theme-cs");
+					document.documentElement.classList.add("theme-csgo");
 					break;
 			}
 		} else {

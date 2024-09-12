@@ -3,7 +3,7 @@ import FilteredBox from "@/components/packs/FilteredBox";
 const PacksList = ({ packs }) => {
 	return (
 		<div
-			className={`my-2 flex w-[60vw] overflow-auto overflow-y-hidden rounded border border-gray-500 sm:w-[36rem] ${
+			className={`my-2 flex w-[60vw] overflow-auto overflow-y-hidden rounded border border-primary-500 sm:w-[36rem] ${
 				packs.length === 1 || packs.length === 2 ? "justify-center" : ""
 			}`}
 		>

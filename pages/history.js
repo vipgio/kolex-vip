@@ -125,7 +125,7 @@ const History = () => {
 			/>
 			<div className='mt-7 mb-10 flex flex-col items-center'>
 				<Toggle compactMode={compactMode} setCompactMode={setCompactMode} />
-				<div className='flex h-full w-full items-start justify-center pt-3'>
+				<div className='h-full w-full flex-col items-start justify-center pt-3'>
 					<form className='flex flex-col items-center space-y-2' onSubmit={handleSubmit}>
 						<label htmlFor='card-id' className='text-gray-custom flex items-center'>
 							Enter card IDs
@@ -154,6 +154,11 @@ const History = () => {
 							{loading ? <LoadingSpin /> : "Get history"}
 						</button>
 					</form>
+					{history.length > 0 && (
+						<div className='text-gray-custom mt-1 text-center'>
+							{history.length}/{cardId.split(/\s|,/).filter((id) => !isNaN(id) && id !== "").length}
+						</div>
+					)}
 				</div>
 				{history.length > 0 && isDone && (
 					<div className='mt-5 flex w-full flex-col items-center space-y-2 px-5'>

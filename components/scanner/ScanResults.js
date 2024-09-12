@@ -128,9 +128,7 @@ const ScanResult = React.memo(
 			setFilterMethod(e.target.value);
 		};
 
-		const rank = useMemo(
-			() => sortedIndexBy(leaderboardPoints, sumBy(filteredResults, "rating"), (o) => -o) + 1
-		);
+		const rank = useMemo(() => sortedIndexBy(leaderboardPoints, sumBy(filteredResults, "rating"), (o) => -o));
 
 		return (
 			<>
@@ -204,7 +202,7 @@ const ScanResult = React.memo(
 									<div>Rank: {rank > 120 ? "120+" : rank}</div>
 								</div>
 							)}
-						<div className='mb-1 flex flex-col justify-center overflow-hidden rounded-md border border-gray-300'>
+						<div className='relative mb-1 flex flex-col justify-center overflow-hidden rounded-md border border-gray-300'>
 							{filterMethod !== "compact" ? (
 								<FullList
 									results={filteredResults}

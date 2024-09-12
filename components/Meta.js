@@ -2,7 +2,7 @@ import Head from "next/head";
 
 const Meta = ({
 	title,
-	keywords = "Kolex, KolexGG, Kolexgg, Kolex Toolkit, Epics, EpicsGG, Epicsgg, Epics Toolkit",
+	keywords = "Kolex, KolexGG, Kolexgg, Kolex Toolkit, Epics, EpicsGG, Epicsgg, Epics Toolkit, Kolex.gg, Epics.gg, Kolex.gg Toolkit, Epics.gg Toolkit",
 	description = "An epic and kool toolkit for Kolex.gg",
 	robots,
 }) => {

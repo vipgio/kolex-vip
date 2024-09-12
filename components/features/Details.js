@@ -10,7 +10,7 @@ const Details = ({ features }) => {
 			<div className='my-10 grid grid-cols-1 place-items-center gap-10 px-2 lg:grid-cols-2'>
 				{features.map((feature) => (
 					<div
-						className={`text-gray-custom relative flex h-fit w-[30rem] min-w-min flex-col rounded-lg border border-gray-800 outline outline-4 outline-transparent transition-all dark:border-gray-300 sm:h-96 sm:hover:scale-110 xl:w-[36rem]`}
+						className={`text-gray-custom relative flex h-fit w-96 min-w-min flex-col rounded-lg border border-gray-800 outline outline-4 outline-transparent transition-all dark:border-gray-300 sm:h-96 sm:w-[30rem] sm:hover:scale-110 xl:w-[36rem]`}
 						key={feature.name}
 					>
 						<div className='relative flex justify-center border-b border-gray-700 text-center dark:border-gray-300'>

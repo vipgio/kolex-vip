@@ -8,6 +8,7 @@ import { useAxios } from "@/hooks/useAxios";
 import { UserContext } from "@/context/UserContext";
 import SetSelectorDropdown from "@/components/SetSelectorDropdown";
 import NewSetSelector from "@/components/NewSetSelector";
+import { set } from "lodash";
 
 const coreNames = [
 	"Common",
@@ -31,6 +32,7 @@ const SetSelector = React.memo(
 		const { user, categoryId } = useContext(UserContext);
 		const { fetchData } = useAxios();
 		const [collections, setCollections] = useState([]);
+		const [loading, setLoading] = useState(true);
 
 		function updatePhysicalKey(section) {
 			// Update the physical key in the info object
@@ -42,6 +44,7 @@ const SetSelector = React.memo(
 
 		useEffect(() => {
 			const groupCollections = async () => {
+				setLoading(true);
 				const data = (await getCollections()).map((item) => ({
 					...item,
 					collection: omit(item.collection, "images"),
@@ -125,6 +128,7 @@ const SetSelector = React.memo(
 							}), // Add the non-events groupings
 						],
 					]);
+					setLoading(false);
 				});
 			};
 			setCollections([]);
@@ -147,6 +151,7 @@ const SetSelector = React.memo(
 				<NewSetSelector
 					collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}
 					setSelectedCollection={setSelectedCollection}
+					loading={loading}
 				/>
 				{/* <SetSelectorDropdown
 					collections={sortBy(collections, (item) => seasons.indexOf(item[0]))}

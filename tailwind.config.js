@@ -41,7 +41,7 @@ module.exports = {
 	plugins: [
 		require("@headlessui/tailwindcss"),
 		createThemes({
-			cs: {
+			csgo: {
 				"primary-300": "#93c5fd",
 				"primary-400": "#60a5fa",
 				"primary-500": "#3b82f6",
@@ -82,6 +82,13 @@ module.exports = {
 				"primary-500": "#10b981",
 				"primary-600": "#059669",
 				"primary-700": "#047857",
+			},
+			csc: {
+				"primary-300": "#fca5a5",
+				"primary-400": "#f87171",
+				"primary-500": "#ef4444",
+				"primary-600": "#dc2626",
+				"primary-700": "#b91c1c",
 			},
 		}),
 	],

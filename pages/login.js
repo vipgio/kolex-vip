@@ -10,6 +10,7 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import JWTLogin from "@/components/login/JWTLogin";
 import TokenTutorial from "@/components/TokenTutorial";
+import Meta from "@/components/Meta";
 
 const Login = () => {
 	const { setUser } = useContext(UserContext);
@@ -109,6 +110,7 @@ const Login = () => {
 
 	return (
 		<>
+			<Meta title='Login | Kolex VIP' description='Toolkit for Kolex.gg' />
 			<ToastContainer
 				position='top-right'
 				hideProgressBar

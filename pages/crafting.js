@@ -12,13 +12,13 @@ const Crafting = () => {
 	const { fetchData, postData } = useAxios();
 
 	const getPlans = async () => {
-		const { result, error } = await fetchData(`/api/crafting/plans`);
+		const { result, error } = await fetchData({ endpoint: `/api/crafting/plans`, forceCategoryId: true });
 		if (result) return result;
 		if (error) throw new Error(error);
 	};
 
 	const getUserSlots = async () => {
-		const { result, error } = await fetchData(`/api/crafting/user-slots`);
+		const { result, error } = await fetchData({ endpoint: `/api/crafting/user-slots`, forceCategoryId: true });
 		if (result) return result;
 		if (error) throw new Error(error);
 	};
@@ -85,7 +85,7 @@ const Crafting = () => {
 				) : plans.length > 0 ? (
 					<div className='grid grid-cols-1 gap-5 self-start px-5 sm:grid-cols-3'>
 						{plans
-							.sort((a, b) => a.id - b.id)
+							.sort((a, b) => b.id - a.id)
 							.map((plan) => (
 								<PlanSelection plan={plan} key={plan.id} />
 							))}

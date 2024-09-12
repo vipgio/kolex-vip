@@ -34,6 +34,7 @@ const NewNavbar = () => {
 			orange: "dark:bg-orange-600 bg-orange-500",
 			purple: "dark:bg-purple-600 bg-purple-500",
 			cyan: "dark:bg-cyan-600 bg-cyan-500",
+			red: "dark:bg-red-600 bg-red-500",
 		};
 		return classes[color] || "";
 	};
@@ -47,6 +48,7 @@ const NewNavbar = () => {
 			orange: "dark:hover:bg-orange-600 hover:bg-orange-500",
 			purple: "dark:hover:bg-purple-600 hover:bg-purple-500",
 			cyan: "dark:hover:bg-cyan-600 hover:bg-cyan-500",
+			red: "dark:hover:bg-red-600 hover:bg-red-500",
 		};
 		return classes[color] || "";
 	};

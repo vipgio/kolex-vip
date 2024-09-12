@@ -8,7 +8,7 @@ const Index = () => {
 	const { user } = useContext(UserContext);
 	return (
 		<>
-			<Meta title='Login | Kolex VIP' />
+			<Meta title='Kolex VIP - Toolkit for Kolex.gg' />
 			{user && (
 				<div className='container relative mx-auto h-full bg-gray-100 dark:bg-gray-700'>
 					<Profile />
