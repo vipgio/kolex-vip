@@ -161,8 +161,8 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 			extraStyle='h-fit my-auto'
 			hasToast={true}
 		>
-			<div className='flex w-full border border-gray-400'>
-				<div className='max-h-96 w-1/2 divide-y divide-gray-500 overflow-auto p-1 text-gray-900 dark:text-gray-200'>
+			<div className='relative flex h-full w-full border border-gray-400'>
+				<div className='h-full max-h-[26rem] w-1/2 divide-y divide-gray-500 overflow-auto p-1 text-gray-900 dark:text-gray-200'>
 					{cardDetails &&
 						cardDetails.map((item) => (
 							<div key={item.id} className='flex'>

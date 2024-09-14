@@ -9,7 +9,7 @@ const PackResults = React.memo(
 	({ pack }) => {
 		const [showOdds, setShowOdds] = useState(false);
 		return (
-			<div className='relative m-2 flex border-t border-gray-700 p-2 dark:border-gray-300'>
+			<div className='relative m-2 flex border-t border-gray-600 p-2 dark:border-gray-400'>
 				<div className='w-4/12 pt-1 sm:w-1/5'>
 					<ImageWrapper
 						src={`${CDN}${pack.images.find((images) => images.name === "image").url}`}

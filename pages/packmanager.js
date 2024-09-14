@@ -157,7 +157,7 @@ const Packmanager = () => {
 						{manageMode ? (
 							<>
 								<div className='flex justify-between'>
-									<div className='mt-5 ml-4 inline-flex'>
+									<div className='mt-5 ml-4 inline-flex flex-col sm:flex-row'>
 										<div className='relative'>
 											<input
 												type='text'
@@ -168,7 +168,7 @@ const Packmanager = () => {
 											/>
 											<IoSearchOutline className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
 										</div>
-										<div className='text-gray-custom -mt-2 ml-4 flex flex-col font-semibold'>
+										<div className='text-gray-custom my-2 flex flex-col font-semibold sm:ml-4 sm:-mt-2'>
 											<span>
 												Total packs:{" "}
 												{packs
@@ -184,7 +184,7 @@ const Packmanager = () => {
 											</span>
 										</div>
 									</div>
-									<div className='mt-5 mb-3 mr-4 flex items-center justify-end'>
+									<div className='mb-3 mr-4 mt-5 flex items-start justify-end sm:items-center'>
 										<Tooltip
 											direction='left'
 											text={`It will load ALL your packs. If you have too many it's gonna take a while or you can stop loading the items by clicking on "Stop".`}

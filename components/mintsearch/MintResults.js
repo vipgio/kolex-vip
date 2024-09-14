@@ -69,7 +69,7 @@ const MintResults = ({
 		>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>
-					<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
+					<thead className='text-gray-custom sticky top-0 z-10 bg-gray-200 dark:bg-gray-700'>
 						<tr>
 							<th className='table-cell'>Mint</th>
 							<th className='table-cell'>Title</th>
@@ -98,7 +98,8 @@ const MintResults = ({
 			{results.length > 0 && (
 				<div className='flex p-3'>
 					<div className='ml-2 flex items-center text-yellow-500'>
-						<FaSignature className='mr-2' /> Signed Item
+						<FaSignature className='mr-2' /> Signed
+						<span className='ml-1 hidden sm:block'>Item</span>
 					</div>
 
 					<div className='ml-auto inline-flex gap-4'>

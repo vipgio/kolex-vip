@@ -121,7 +121,7 @@ const AdvancedModal = ({ selectedTemplates, showModal, setShowModal, user, templ
 			hasToast={true}
 			escapeClose={false}
 		>
-			<div className='relative grid overflow-auto p-2 sm:grid-cols-2'>
+			<div className='relative grid overflow-auto p-2 sm:grid-cols-2 md:grid-cols-3'>
 				{cardDetails.map((template) => (
 					<ItemBox
 						template={template}

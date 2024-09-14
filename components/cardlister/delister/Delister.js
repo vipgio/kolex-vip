@@ -63,7 +63,6 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 			setLoading(false);
 		};
 		initialFetch();
-
 		return () => {
 			controller.abort();
 			isApiSubscribed = false;
@@ -102,7 +101,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 		const allMarketIds = cardDetails
 			.filter(
 				(item) =>
-					item.card.mintBatch === filter.batch &&
+					(filter.batch === "any" || item.card.mintBatch === filter.batch) &&
 					item.card.mintNumber <= filter.max &&
 					item.card.mintNumber >= filter.min
 			)
@@ -136,12 +135,13 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 		for await (const item of cardDetails
 			.filter(
 				(item) =>
-					item.card.mintBatch === filter.batch &&
+					(filter.batch === "any" || item.card.mintBatch === filter.batch) &&
 					item.card.mintNumber <= filter.max &&
 					item.card.mintNumber >= filter.min
 			)
 			.filter((item) => (filter.undercut ? item.price > item.card.floor : true))) {
 			const newPrice = Math.max(fixDecimal(item.card.floor - 0.01), minPrice).toString();
+			if (newPrice === item.price) continue;
 			const { result, error } = await handleUpdate(item.marketId, newPrice);
 			if (result && result.success) {
 				counter++;
@@ -203,25 +203,8 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 		>
 			{cardDetails.length > 0 ? (
 				<>
-					<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
-						<div className='flex items-center'>
-							<label htmlFor='sort' className='text-gray-custom ml-1'>
-								Sort by:{" "}
-							</label>
-							<select
-								name='sort'
-								id='sort'
-								className='dropdown mx-2 my-1 transition-opacity disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
-								onChange={(e) => setSortMethod(e.target.value)}
-							>
-								<option value='mint'>Mint</option>
-								<option value='price'>Price</option>
-								<option value='floor'>Floor</option>
-								<option value='circulation'>Circulation</option>
-								<option value='date'>Date Listed</option>
-							</select>
-						</div>
-						<Filters filter={filter} setFilter={setFilter} />
+					<div className='flex h-fit border border-gray-700 p-1 dark:border-gray-500'>
+						<Filters filter={filter} setFilter={setFilter} setSortMethod={setSortMethod} />
 					</div>
 					<div className='overflow-auto'>
 						<DelisterTable
@@ -239,7 +222,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 					</div>
 
 					<div className='flex border-t border-gray-400 p-3 dark:border-gray-200'>
-						<div className='ml-1 flex items-center'>
+						<div className='flex items-center'>
 							<button onClick={updateToFloor} className='button font-semibold' disabled={loading}>
 								{loading ? <LoadingSpin size={4} /> : "Update to floor"}
 							</button>
@@ -250,9 +233,9 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 							/>
 						</div>
 
-						<div className='ml-auto sm:mb-0'>
-							<button onClick={removeAllItems} className='button mb-2 sm:mb-0' disabled={loading}>
-								{loading ? <LoadingSpin size={4} /> : "Remove all items"}
+						<div className='ml-auto flex items-center sm:mb-0'>
+							<button onClick={removeAllItems} className='button' disabled={loading}>
+								{loading ? <LoadingSpin size={4} /> : "Remove all"}
 							</button>
 						</div>
 					</div>

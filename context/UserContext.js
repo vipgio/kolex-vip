@@ -7,6 +7,7 @@ const UserContextProvider = (props) => {
 	const [user, setUser] = useState(null); // user object
 	const [initialLoading, setInitialLoading] = useState(true); // used to show loading screen on first load and redirect
 	const [categoryId, setCategoryId] = useState(null);
+	const [categories, setCategories] = useState([]);
 	const [packGalleryColumns, setPackGalleryColumns] = useState(null);
 	const router = useRouter();
 
@@ -99,6 +100,8 @@ const UserContextProvider = (props) => {
 				setCategoryId,
 				packGalleryColumns,
 				setPackGalleryColumns,
+				categories,
+				setCategories,
 			}}
 		>
 			{props.children}

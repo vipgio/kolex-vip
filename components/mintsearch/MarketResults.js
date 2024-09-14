@@ -123,7 +123,7 @@ const MarketResults = ({
 			</div>
 			<div className='max-h-full overflow-auto'>
 				<table className='w-full table-auto'>
-					<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
+					<thead className='text-gray-custom sticky top-0 z-10 bg-gray-200 dark:bg-gray-700'>
 						<tr>
 							<th className='table-cell'>Mint</th>
 							<th className='table-cell'>Title</th>
@@ -159,7 +159,7 @@ const MarketResults = ({
 								onChange={(e) => setHideBadDeals(e.target.checked)}
 								className='cursor-pointer accent-primary-600'
 							/>
-							<label htmlFor='badDeals' className='text-gray-custom ml-1 cursor-pointer'>
+							<label htmlFor='badDeals' className='text-gray-custom ml-1 w-min cursor-pointer sm:w-auto'>
 								Hide bad deals
 							</label>
 							<Tooltip
@@ -168,7 +168,8 @@ const MarketResults = ({
 							/>
 						</div>
 						<span className='inline-flex items-center text-yellow-500'>
-							<FaSignature className='mr-2' /> Signed Item
+							<FaSignature className='mr-2' /> Signed
+							<span className='ml-1 hidden sm:block'>Item</span>
 						</span>
 					</div>
 					<div className='ml-auto inline-flex gap-4'>

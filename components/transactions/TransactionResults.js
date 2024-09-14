@@ -18,8 +18,8 @@ const TransactionResults = ({ results, filters }) => {
 		setFilterMethod(e.target.value);
 	};
 	return (
-		<>
-			<div className='mt-2 flex flex-col justify-start sm:flex-row'>
+		<div className='mx-2'>
+			<div className='m-1 mt-2 flex flex-col justify-start sm:ml-0 sm:flex-row'>
 				<label htmlFor='filter' className='text-gray-custom font-semibold sm:m-1'>
 					Show:{" "}
 				</label>
@@ -33,7 +33,7 @@ const TransactionResults = ({ results, filters }) => {
 					<option value='expense'>Expense</option>
 				</select>
 			</div>
-			<div className='flex'>
+			<div className='my-1 flex'>
 				<div>
 					<div className='text-gray-custom m-1 font-medium'>Total events: {filteredResults.length}</div>
 					<div className='text-gray-custom m-1 font-medium'>
@@ -53,7 +53,7 @@ const TransactionResults = ({ results, filters }) => {
 							: results[0]?.costType[0].toUpperCase() + results[0]?.costType.slice(1)}
 					</div>
 				</div>
-				<div className='ml-auto mr-2'>
+				<div className='ml-auto mr-2 flex items-center'>
 					<ExportToCSV
 						type='transaction'
 						filename={`Transactions - ${filters.startDate
@@ -86,7 +86,7 @@ const TransactionResults = ({ results, filters }) => {
 					</tbody>
 				</table>
 			</div>
-		</>
+		</div>
 	);
 };
 export default TransactionResults;

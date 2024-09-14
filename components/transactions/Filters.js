@@ -21,10 +21,6 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 				<div className='mx-auto flex w-1/2 flex-col items-center p-1'>
 					<div className='my-3 inline-flex flex-col justify-center lg:flex-row'>
 						<div className='mx-auto mt-5 flex items-center lg:mx-3'>
-							<Tooltip
-								direction='left'
-								text='This is your local time/date, results will be in UTC timezone, so expect a few hours of difference in results. Pick a day before/after your target to have all the results.'
-							/>
 							<DatePicker
 								className='input-field inline-flex w-fit cursor-pointer items-center pr-5 text-sm'
 								placeholderText='Date Range'
@@ -36,6 +32,10 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 								selectsRange
 								showPopperArrow={false}
 								onChange={onChange}
+							/>
+							<Tooltip
+								direction='right'
+								text='This is your local time/date, results will be in UTC timezone, so expect a few hours of difference in results. Pick a day before/after your target to have all the results.'
 							/>
 						</div>
 						<div className='relative mt-3 w-48'>

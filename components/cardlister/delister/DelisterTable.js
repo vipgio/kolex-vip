@@ -13,11 +13,14 @@ const DelisterTable = ({
 }) => {
 	return (
 		<table className='w-full table-auto'>
-			<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
+			<thead className='text-gray-custom sticky top-0 bg-gray-200 dark:bg-gray-700'>
 				<tr>
 					<th className='table-cell'>Mint</th>
 					<th className='table-cell'>Title</th>
-					<th className='table-cell'>Circulation</th>
+					<th className='table-cell'>
+						Circ
+						<span className='hidden sm:inline'>ulation</span>
+					</th>
 					<th className='table-cell'>Price</th>
 					<th className='table-cell'>Floor</th>
 					<th className='table-cell'>List Date</th>
@@ -71,7 +74,7 @@ const DelisterTable = ({
 					)
 						.filter(
 							(item) =>
-								item.card.mintBatch === filter.batch &&
+								(filter.batch === "any" || item.card.mintBatch === filter.batch) &&
 								item.card.mintNumber <= filter.max &&
 								item.card.mintNumber >= filter.min
 						)

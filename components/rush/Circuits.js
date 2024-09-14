@@ -36,6 +36,7 @@ const Circuits = ({ circuits, isRosterSelected }) => {
 					});
 			});
 		};
+		setCircuitInfo([]);
 		fetchCircuitInfo();
 	}, []);
 
@@ -69,7 +70,7 @@ const Circuits = ({ circuits, isRosterSelected }) => {
 								{circuitInfo
 									.find((c) => c.id === circuit.id)
 									.stages.map((stage) => (
-										<div key={stage.id} className='flex items-center justify-center p-1'>
+										<div key={stage.id} className='flex items-center p-1 sm:justify-center'>
 											<span
 												className='flex w-fit cursor-pointer items-center justify-center'
 												onClick={() => {

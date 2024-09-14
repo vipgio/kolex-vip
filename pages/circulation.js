@@ -32,7 +32,7 @@ const Circulation = () => {
 						templateIds: chunk.toString(),
 					},
 				});
-				setPacks((prev) => uniqBy([...prev, ...result], "id"));
+				setPacks((prev) => uniqBy([...prev, ...result], "id").sort((a, b) => a.id - b.id));
 			}
 		} catch (err) {
 			console.error(err);
@@ -144,15 +144,15 @@ const Circulation = () => {
 				<div className='flex h-full w-full flex-col items-center justify-center pt-5'>
 					<div className='text-gray-custom px-4 pt-2 text-center font-semibold'>
 						Selected Collection:
-							{selectedCollection && (
-								<span>
-									{" "}
-									{selectedCollection.collection.properties.seasons[0]} -{" "}
-									{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
-								</span>
+						{selectedCollection && (
+							<span>
+								{" "}
+								{selectedCollection.collection.properties.seasons[0]} -{" "}
+								{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
+							</span>
 						)}
 					</div>
-					<SetSelector setSelectedCollection={setSelectedCollection}/>
+					<SetSelector setSelectedCollection={setSelectedCollection} />
 				</div>
 				{collection.info?.length > 0 && (
 					<div className='mt-3 text-xl font-bold text-gray-300'>
@@ -177,7 +177,7 @@ const Circulation = () => {
 				{collection.items.cards.length + collection.items.stickers.length > 0 && !loading && (
 					<>
 						{packs.length > 0 && (
-							<div className='relative flex flex-col items-center text-center'>
+							<div className='relative flex w-full flex-col items-center px-2 text-center'>
 								<button className='text-gray-custom'>
 									<span>
 										{packs.length} {packs.length > 1 ? "Packs" : "Pack"} containing this set:

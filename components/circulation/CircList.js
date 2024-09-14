@@ -11,10 +11,13 @@ const CircList = ({ data, prices }) => {
 				<div className='text-gray-custom flex justify-around p-1 text-center font-semibold'>
 					<div>
 						<>
-							Total Circulation: {opened}{" "}
-							<span className='text-primary-500'>
-								{minted > 0 ? `(${((opened / minted) * 100).toFixed(2)}%)` : null}
-							</span>
+							Total Circulation:
+							<div>
+								{opened}{" "}
+								<span className='text-primary-500'>
+									{minted > 0 ? `(${((opened / minted) * 100).toFixed(2)}%)` : null}
+								</span>
+							</div>
 						</>
 						<>{minted > 0 ? <div>Total Minted: {minted}</div> : null}</>
 					</div>

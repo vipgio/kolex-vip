@@ -264,9 +264,9 @@ const CraftingModal = React.memo(
 							</>
 							<div className='mt-1 flex flex-col border-t border-gray-800 pt-2 dark:border-gray-300'>
 								<div className='flex items-center'>
-									<div>
+									<div className='w-1/2 sm:w-auto'>
 										<label htmlFor='craftCount' className='mr-1'>
-											Number of crafts to do:{" "}
+											Number of crafts:{" "}
 										</label>
 										<input
 											type='number'
@@ -291,7 +291,7 @@ const CraftingModal = React.memo(
 											className='input-field'
 										/>
 									</div>
-									<div className='ml-5 flex flex-col'>
+									<div className='flex flex-col sm:ml-5'>
 										<div className='flex'>
 											<label htmlFor='dupe' className='mr-1 hover:cursor-pointer'>
 												Only use dupe items

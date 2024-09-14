@@ -77,7 +77,7 @@ const HistoryModal = React.memo(
 					{history.history ? (
 						<>
 							<div className='mt-2 rounded border border-gray-400 p-1'>
-								<div className='text-gray-custom relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain'>
+								<div className='text-gray-custom relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain px-1'>
 									{history.history.toReversed().map((event) => (
 										<Fragment key={`${event.created}`}>
 											{event.type === "mint" && <div>Minted on {getDate(event)}</div>}
@@ -103,8 +103,8 @@ const HistoryModal = React.memo(
 						</div>
 					)}
 
-					<div className='mt-4'>
-						<button type='button' className='button' onClick={closeModal}>
+					<div className='mt-4 flex'>
+						<button type='button' className='button ml-auto' onClick={closeModal}>
 							Close
 						</button>
 					</div>

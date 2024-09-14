@@ -15,56 +15,29 @@ import {
 	FaBurn,
 } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
-import { categories } from "@/config/config";
 import { UserContext } from "@/context/UserContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
+import CategorySelector from "./CategorySelector";
 
 const NewNavbar = () => {
-	const { user, categoryId, setCategoryId } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const { theme, setTheme } = useContext(ThemeContext);
 	const router = useRouter();
 
-	const getColorClasses = (color) => {
-		const classes = {
-			indigo: "dark:bg-indigo-600 bg-indigo-500",
-			rose: "dark:bg-rose-600 bg-rose-500",
-			emerald: "dark:bg-emerald-600 bg-emerald-500",
-			violet: "dark:bg-violet-600 bg-violet-500",
-			orange: "dark:bg-orange-600 bg-orange-500",
-			purple: "dark:bg-purple-600 bg-purple-500",
-			cyan: "dark:bg-cyan-600 bg-cyan-500",
-			red: "dark:bg-red-600 bg-red-500",
-		};
-		return classes[color] || "";
-	};
-
-	const getHoverColorClasses = (color) => {
-		const classes = {
-			indigo: "dark:hover:bg-indigo-600 hover:bg-indigo-500",
-			rose: "dark:hover:bg-rose-600 hover:bg-rose-500",
-			emerald: "dark:hover:bg-emerald-600 hover:bg-emerald-500",
-			violet: "dark:hover:bg-violet-600 hover:bg-violet-500",
-			orange: "dark:hover:bg-orange-600 hover:bg-orange-500",
-			purple: "dark:hover:bg-purple-600 hover:bg-purple-500",
-			cyan: "dark:hover:bg-cyan-600 hover:bg-cyan-500",
-			red: "dark:hover:bg-red-600 hover:bg-red-500",
-		};
-		return classes[color] || "";
-	};
-
-	const changeCategory = (id) => {
-		setCategoryId(id);
-		router.reload();
-	};
-
-	return (
-		user && (
-			<nav className='text-gray-custom flex h-12 items-center justify-center rounded-b-md bg-primary-500 font-semibold shadow-lg transition-colors dark:bg-slate-500'>
+	return router.pathname === "/" && !user ? null : (
+		<nav className='text-gray-custom flex h-12 items-center justify-center rounded-b-md bg-primary-500 font-semibold shadow-lg transition-colors dark:bg-slate-500'>
+			{user && (
 				<Menu as='div' className='relative z-30 inline-block h-full w-12 text-left'>
 					{({ open }) => (
 						<>
-							<Menu.Button className='my-outline group inline-flex h-12 w-full items-center justify-center px-4 py-2 text-sm font-medium text-gray-100 focus-visible:ring-inset'>
+							<Menu.Button
+								className='my-outline group inline-flex h-12 w-full items-center justify-center px-4 py-2 text-sm font-medium text-gray-100 focus-visible:ring-inset'
+								onMouseEnter={({ target }) => {
+									const isMobile = navigator.maxTouchPoints > 0;
+									isMobile ? null : target.click();
+								}}
+							>
 								<BurgerMenuIcon open={open} />
 							</Menu.Button>
 
@@ -78,21 +51,6 @@ const NewNavbar = () => {
 								leaveTo='transform opacity-0 scale-95'
 							>
 								<Menu.Items className='absolute left-0 mt-1 w-56 origin-top-left rounded-lg border border-gray-800 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200 dark:bg-gray-800'>
-									<div className='text-gray-custom mb-1 grid h-16 w-full grid-cols-3 grid-rows-2 divide-x divide-y divide-gray-700 overflow-hidden rounded border border-gray-700 text-xs dark:divide-gray-300 dark:border-gray-300'>
-										{categories.map((category) => (
-											<span
-												className={`inline-flex items-center justify-center ${
-													categoryId === category.id
-														? `cursor-default ${getColorClasses(category.color)}`
-														: `cursor-pointer ${getHoverColorClasses(category.color)}`
-												}`}
-												onClick={() => (categoryId !== category.id ? changeCategory(category.id) : null)}
-												key={category.id}
-											>
-												{category.title}
-											</span>
-										))}
-									</div>
 									{pages.map((page) => (
 										<Menu.Items key={page.link}>
 											<Menu.Item>
@@ -136,50 +94,63 @@ const NewNavbar = () => {
 						</>
 					)}
 				</Menu>
-				<button className='ml-auto mr-2 h-6 w-6' tabIndex={-1}>
-					<a
-						href='https://github.com/vipgio/kolex-vip'
-						target='_blank'
-						rel='noopener noreferrer'
-						title='Source Code'
-					>
-						<FaGithub className='h-5 w-5 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
-					</a>
-				</button>
-				<button className='mr-1 h-5 w-5' tabIndex={-1}>
-					<a
-						href='https://discordapp.com/users/473436055958192128'
-						target='_blank'
-						rel='noreferrer'
-						title='Contact me on Discord'
-					>
-						<FaDiscord className='h-full w-full hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
-					</a>
-				</button>
-				<button
-					className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
-					onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+			)}
+			{user && (
+				<div className='ml-2'>
+					<CategorySelector />
+				</div>
+			)}
+			<button className='ml-auto mr-2 h-6 w-6' tabIndex={-1}>
+				<a
+					href='https://github.com/vipgio/kolex-vip'
+					target='_blank'
+					rel='noopener noreferrer'
+					title='Source Code'
 				>
-					<div className='relative h-10 w-10 rounded-full' title='Change theme'>
-						<FaSun
-							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
-								theme === "dark" ? "" : "animate-fadeOut opacity-0"
-							}`}
-						/>
-						<FaMoon
-							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-700 transition-transform  ${
-								theme === "dark" ? "animate-fadeOut opacity-0" : ""
-							}`}
-						/>
-					</div>
-				</button>
+					<FaGithub className='h-5 w-5 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
+				</a>
+			</button>
+			<button className='mr-1 h-5 w-5' tabIndex={-1}>
+				<a
+					href='https://discordapp.com/users/473436055958192128'
+					target='_blank'
+					rel='noreferrer'
+					title='Contact me on Discord'
+				>
+					<FaDiscord className='h-full w-full hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
+				</a>
+			</button>
+			<button
+				className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
+				onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+			>
+				<div className='relative h-10 w-10 rounded-full' title='Change theme'>
+					<FaSun
+						className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
+							theme === "dark" ? "" : "animate-fadeOut opacity-0"
+						}`}
+					/>
+					<FaMoon
+						className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-700 transition-transform  ${
+							theme === "dark" ? "animate-fadeOut opacity-0" : ""
+						}`}
+					/>
+				</div>
+			</button>
+			{router.pathname === "/features" ? (
+				<Link href='/'>
+					<a className='my-outline mr-2 rounded bg-gray-100 p-1.5 text-primary-500 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1 active:bg-gray-300 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'>
+						Home
+					</a>
+				</Link>
+			) : (
 				<Link href='/features'>
 					<a className='my-outline mr-2 rounded bg-gray-100 p-1.5 text-primary-500 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1 active:bg-gray-300 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'>
 						Features
 					</a>
 				</Link>
-			</nav>
-		)
+			)}
+		</nav>
 	);
 };
 

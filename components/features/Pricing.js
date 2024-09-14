@@ -4,7 +4,7 @@ const Pricing = ({ features, bundles }) => {
 			<div className='text-gray-custom mt-8 flex flex-col justify-center px-2'>
 				<h1 className='mb-2 text-center text-4xl font-semibold text-gray-800 dark:text-gray-200'>Pricing</h1>
 				<h2 className='mt-5 p-1 text-xl font-semibold'>Features</h2>
-				<div className='overflow-hidden rounded border border-gray-600 dark:border-gray-400'>
+				<div className='overflow-hidden rounded-md border border-gray-600 dark:border-gray-400'>
 					<table className='w-full table-auto transition-colors'>
 						<thead className='bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-400'>
 							<tr>
@@ -31,7 +31,7 @@ const Pricing = ({ features, bundles }) => {
 				</div>
 
 				<h2 className='mt-5 p-1 text-xl font-semibold'>Bundles</h2>
-				<div className='overflow-hidden rounded border border-gray-600 dark:border-gray-400'>
+				<div className='overflow-hidden rounded-md border border-gray-600 dark:border-gray-400'>
 					<table className='w-full table-auto transition-colors'>
 						<thead className='bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-400'>
 							<tr>
@@ -62,7 +62,7 @@ const Pricing = ({ features, bundles }) => {
 				</div>
 
 				<h2 className='mt-5 p-1 text-xl font-semibold'>Other services</h2>
-				<div className='mb-4 overflow-hidden rounded border border-gray-600 dark:border-gray-400'>
+				<div className='mb-4 overflow-hidden rounded-md border border-gray-600 dark:border-gray-400'>
 					<table className='w-full table-auto transition-colors'>
 						<thead className='bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-400'>
 							<tr>

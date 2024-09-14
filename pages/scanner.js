@@ -152,12 +152,11 @@ const Scanner = () => {
 					>
 						{loading ? <LoadingSpin /> : "Scan"}
 					</button>
-					<div>
-						<Tooltip
-							text={"If there are too many of the same item, they won't be shown here."}
-							direction='right'
-						/>
-					</div>
+
+					<Tooltip
+						text={"If there are too many of the same item, they won't be shown here."}
+						direction='right'
+					/>
 				</div>
 				{scanResults ? (
 					scanResults.length > 0 ? (

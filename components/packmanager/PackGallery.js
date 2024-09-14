@@ -10,22 +10,24 @@ const PackGallery = ({ packs, searchQuery }) => {
 	const getGridColumnClass = (columns) => {
 		columns = columns.toString();
 		switch (columns) {
+			case "1":
+				return "grid-cols-1";
 			case "2":
-				return "sm:grid-cols-2";
+				return "grid-cols-2";
 			case "3":
-				return "sm:grid-cols-3";
+				return "grid-cols-3";
 			case "4":
-				return "sm:grid-cols-4";
+				return "grid-cols-4";
 			case "5":
-				return "sm:grid-cols-5";
+				return "grid-cols-5";
 			case "6":
-				return "sm:grid-cols-6";
+				return "grid-cols-6";
 			case "7":
-				return "sm:grid-cols-7";
+				return "grid-cols-7";
 			case "8":
-				return "sm:grid-cols-8";
+				return "grid-cols-8";
 			default:
-				return "sm:grid-cols-3"; // Default to 3 columns if none is specified
+				return "grid-cols-3"; // Default to 3 columns if none is specified
 		}
 	};
 	return (
@@ -38,13 +40,28 @@ const PackGallery = ({ packs, searchQuery }) => {
 					onChange={(e) => setPackGalleryColumns(() => e.target.value)}
 					value={packGalleryColumns}
 				>
+					<option value='1' className='sm:hidden'>
+						1
+					</option>
 					<option value='2'>2</option>
-					<option value='3'>3</option>
-					<option value='4'>4</option>
-					<option value='5'>5</option>
-					<option value='6'>6</option>
-					<option value='7'>7</option>
-					<option value='8'>8</option>
+					<option value='3' className='hidden sm:block'>
+						3
+					</option>
+					<option value='4' className='hidden sm:block'>
+						4
+					</option>
+					<option value='5' className='hidden sm:block'>
+						5
+					</option>
+					<option value='6' className='hidden sm:block'>
+						6
+					</option>
+					<option value='7' className='hidden sm:block'>
+						7
+					</option>
+					<option value='8' className='hidden sm:block'>
+						8
+					</option>
 				</select>
 			</div>
 			<div className='text-gray-custom m-4 mb-2'>
@@ -61,7 +78,7 @@ const PackGallery = ({ packs, searchQuery }) => {
 					<option value='owned'>Owned</option>
 				</select>
 			</div>
-			<div className={`mx-2 mt-2 grid grid-cols-2 gap-16 pb-8 ${getGridColumnClass(packGalleryColumns)}`}>
+			<div className={`mx-2 mt-2 grid gap-16 pb-8 ${getGridColumnClass(packGalleryColumns)}`}>
 				{sortBy(
 					packs
 						.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))

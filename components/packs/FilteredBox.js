@@ -14,21 +14,21 @@ const FilteredBox = ({ pack }) => {
 	return (
 		<>
 			<div
-				className='flex h-full cursor-pointer items-center rounded border border-primary-500 pr-1 transition-all hover:scale-105'
+				className='flex h-full w-full cursor-pointer flex-col items-center rounded border border-primary-500 transition-all hover:scale-105 sm:flex-row sm:pr-1'
 				onClick={openModal}
 			>
-				<div className='m-1 flex h-24 w-1/3 items-center justify-center'>
+				<div className='m-1 flex w-1/3 items-center justify-center sm:h-24'>
 					<ImageWrapper
 						src={`${CDN}${pack.images.find((img) => img.name === "image").url}`}
-						width={50}
-						height={75}
+						width={75}
+						height={100}
 						alt={pack.name}
 					/>
 				</div>
-				<div className='text-gray-custom m-1 w-2/3'>
+				<div className='text-gray-custom m-1 flex w-full flex-col gap-2 sm:w-2/3'>
 					<div className='text-lg font-semibold'>{pack.name}</div>
-					<div>Season: {pack.properties.seasons[0]}</div>
-					<div>
+					<div className='hidden sm:block'>Season: {pack.properties.seasons[0]}</div>
+					<div className='hidden sm:block'>
 						{" "}
 						Cost: {Number(pack.cost).toLocaleString()}{" "}
 						{pack.costType === "usd"

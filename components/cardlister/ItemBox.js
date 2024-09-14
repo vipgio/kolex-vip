@@ -37,13 +37,13 @@ const ItemBox = React.memo(
 			template.cards.length > 0 && (
 				<div
 					key={template.uuid}
-					className='m-1 h-[12.5rem] max-h-64 overflow-auto border border-gray-500 p-2 text-gray-800 dark:text-gray-200'
+					className='m-1 flex h-56 max-h-56 flex-col justify-between overflow-auto rounded border border-gray-500 p-2 text-gray-800 dark:text-gray-200'
 				>
 					<div className='text-center font-semibold text-orange-500'>
 						{template.title} <span className='text-xs'>x</span>
 						<span className='text-base'>{template.cards.length}</span>
 					</div>
-					<div className='flex flex-col'>
+					<div className='my-auto flex flex-col'>
 						<div className='flex items-center'>
 							<span className='mr-1'>Floor price:</span>
 							<span>{template.floor ? `$${template.floor}` : "-"}</span>
@@ -83,7 +83,7 @@ const ItemBox = React.memo(
 							/>
 						</div>
 					</div>
-					<button className='submit-button' onClick={() => setShowMintModal(true)}>
+					<button className='submit-button mt-auto w-32' onClick={() => setShowMintModal(true)}>
 						Mint details
 					</button>
 					<div>

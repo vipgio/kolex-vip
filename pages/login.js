@@ -160,7 +160,7 @@ const Login = () => {
 				<Link href='/features'>
 					<a
 						title='Site Features'
-						className='my-outline mr-2 rounded bg-orange-500 p-2.5 text-gray-200 transition-colors hover:bg-orange-400 focus-visible:ring-offset-1  active:bg-orange-300 dark:bg-orange-500 dark:text-gray-100 dark:hover:bg-orange-600 dark:active:bg-orange-700'
+						className='my-outline mr-2 rounded bg-primary-500 p-2.5 text-gray-200 transition-colors hover:bg-primary-400 focus-visible:ring-offset-1  active:bg-orange-300 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'
 					>
 						Features
 					</a>
@@ -192,14 +192,17 @@ const Login = () => {
 					</span>
 				</p>
 				<div className='flex gap-3'>
-					<button className='simple-button mt-1' onClick={() => setShowTutorial({ type: "web", show: true })}>
+					<button
+						className='simple-button mt-1'
+						onClick={() => setShowTutorial({ type: "web", show: true })}
+						title='Web Tutorial'
+					>
 						HOW (Web)
 					</button>
 					<button
 						className='simple-button mt-1'
 						onClick={() => setShowTutorial({ type: "android", show: true })}
-						disabled
-						title='Soon'
+						title='Android Tutorial'
 					>
 						HOW (Android)
 					</button>

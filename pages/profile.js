@@ -32,14 +32,21 @@ const Profile = () => {
 		const categories = await getCategories();
 
 		const fetchAchievements = categories.map(async (category) => {
-			const { result } = await fetchData(`/api/achievements`, {
-				userId: user.user.id,
-				categoryId: category.id,
-			});
-			const general = result.achievements.filter((quest) => quest.progress.claimAvailable === true) || [];
-			const daily = result.daily.filter((quest) => quest.progress.claimAvailable === true) || [];
-			const weekly = result.weekly.filter((quest) => quest.progress.claimAvailable === true) || [];
-			setAchievements((prev) => [...prev, ...general, ...daily, ...weekly]);
+			try {
+				const { result, error } = await fetchData(`/api/achievements`, {
+					userId: user.user.id,
+					categoryId: category.id,
+				});
+				const general = result?.achievements.filter((quest) => quest.progress.claimAvailable === true) || [];
+				const daily = result?.daily.filter((quest) => quest.progress.claimAvailable === true) || [];
+				const weekly = result?.weekly.filter((quest) => quest.progress.claimAvailable === true) || [];
+				setAchievements((prev) => [...prev, ...general, ...daily, ...weekly]);
+			} catch (error) {
+				console.error(error);
+				toast.error(`${error.response.data.error}`, {
+					position: "top-left",
+				});
+			}
 		});
 		await Promise.all(fetchAchievements);
 		setLoading(false);

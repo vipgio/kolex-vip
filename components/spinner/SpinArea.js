@@ -168,18 +168,10 @@ const SpinArea = ({ info }) => {
 						</div>
 						<div className='flex items-center'>
 							<>
-								<span className='mr-auto sm:hidden'>
-									<Tooltip
-										text='Make sure to reset the spin history if you change the limit after spinning.'
-										direction='right'
-									/>
-								</span>
-								<span className='hidden sm:block'>
-									<Tooltip
-										text='Make sure to reset the spin history if you change the limit after spinning.'
-										direction='left'
-									/>
-								</span>
+								<Tooltip
+									text='Make sure to reset the spin history if you change the limit after spinning.'
+									direction='left'
+								/>
 								<SpinnerLimit
 									info={info}
 									funds={funds}

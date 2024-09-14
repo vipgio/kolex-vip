@@ -1,6 +1,16 @@
 {
 	"changelog": [
 		{
+			"version": "2.10.0",
+			"date": "2024-09-14",
+			"changes": [
+				"Support for Android (yay!). If you find any bugs, please let me know.",
+				"Navbar menu now opens on hover. (you'll get used to it).",
+				"New category selection menu.",
+				"Added 'any' mint filter for minssearch."
+			]
+		},
+		{
 			"version": "2.9.5",
 			"date": "2024-09-13",
 			"changes": [

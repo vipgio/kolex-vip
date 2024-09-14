@@ -123,7 +123,7 @@ const CardGallery = ({ templates, user }) => {
 						<button onClick={() => setSelectedTemplates([])} className='simple-button m-1'>
 							Deselect All
 						</button>
-						<button onClick={() => setShowFiltersModal(true)} className='button m-1 ml-10'>
+						<button onClick={() => setShowFiltersModal(true)} className='button sm:nml-10 m-1'>
 							Filters
 						</button>
 					</div>

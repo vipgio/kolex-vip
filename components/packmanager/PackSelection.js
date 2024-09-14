@@ -107,18 +107,10 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 								onFocus={(e) => e.target.select()}
 							/>
 						</form>
-						<div className='hidden sm:block'>
-							<Tooltip
-								text='Must be bigger than 0. Consecutive packs, starting from the oldest minted pack'
-								direction='right'
-							/>
-						</div>
-						<div className='block sm:hidden'>
-							<Tooltip
-								text='Must be bigger than 0. Consecutive packs, starting from the oldest minted pack'
-								direction='left'
-							/>
-						</div>
+						<Tooltip
+							text='Must be bigger than 0. Consecutive packs, starting from the oldest minted pack'
+							direction='right'
+						/>
 					</div>
 				</div>
 				<div className='divide-y divide-gray-700 overflow-auto overscroll-contain border-t border-b border-gray-500'>
