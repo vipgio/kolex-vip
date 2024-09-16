@@ -9,6 +9,8 @@ const PackGallery = ({ packs, searchQuery }) => {
 
 	const getGridColumnClass = (columns) => {
 		columns = columns.toString();
+		const isMobile = navigator.maxTouchPoints > 0;
+
 		switch (columns) {
 			case "1":
 				return "grid-cols-1";
@@ -27,7 +29,7 @@ const PackGallery = ({ packs, searchQuery }) => {
 			case "8":
 				return "grid-cols-8";
 			default:
-				return "grid-cols-3"; // Default to 3 columns if none is specified
+				return isMobile ? "grid-cols-2" : "grid-cols-3"; // Default to 3 columns if none is specified
 		}
 	};
 	return (

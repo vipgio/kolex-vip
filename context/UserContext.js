@@ -46,8 +46,14 @@ const UserContextProvider = (props) => {
 		if (localPackGalleryColumns) {
 			setPackGalleryColumns(localPackGalleryColumns);
 		} else {
-			localStorage.setItem("packGalleryColumns", "4");
-			setPackGalleryColumns("4");
+			const isMobile = navigator.maxTouchPoints > 0;
+			if (isMobile) {
+				localStorage.setItem("packGalleryColumns", "2");
+				setPackGalleryColumns("2");
+			} else {
+				localStorage.setItem("packGalleryColumns", "4");
+				setPackGalleryColumns("4");
+			}
 		}
 	}, []);
 	useEffect(() => {

@@ -168,7 +168,7 @@ const Login = () => {
 			</div>
 
 			<div className='mt-16 flex h-1/4 w-full flex-col items-center justify-center text-primary-500 lg:mt-11'>
-				<p className='text-center'>
+				<p className='p-1 text-center'>
 					Kolex added a security feature (CAPTCHA) which prevents logging in through third-party tools. <br />
 					I tried working with Kolex to get this fixed, but I&apos;ve been waiting for a few months.
 					<br />
@@ -215,15 +215,13 @@ const Login = () => {
 				</div>
 			</div>
 
-			<div>
-				{showTutorial.show && (
-					<TokenTutorial
-						showModal={showTutorial}
-						setShowModal={setShowTutorial}
-						handleCopyClick={handleCopyClick}
-					/>
-				)}
-			</div>
+			{showTutorial.show && (
+				<TokenTutorial
+					showModal={showTutorial}
+					setShowModal={setShowTutorial}
+					handleCopyClick={handleCopyClick}
+				/>
+			)}
 
 			<JWTLogin
 				jwt={jwt}

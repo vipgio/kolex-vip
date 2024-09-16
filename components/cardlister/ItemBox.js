@@ -15,7 +15,7 @@ const ItemBox = React.memo(
 				setListingDetails((prev) => ({
 					...prev,
 					[template.id]: selectedCards.map((card) => ({
-						price: price,
+						price: price.toString(),
 						id: card.id,
 						type: card.type,
 					})),

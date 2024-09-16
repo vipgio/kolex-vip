@@ -113,7 +113,10 @@ const AndroidTutorial = ({ handleCopyClick }) => {
 						</span>{" "}
 						code in the console and hit enter.
 					</li>
-					<li>Long press on the output and hit &quot;Copy object&quot;.</li>
+					<li>
+						Your Token should be copied to your clipboard by default, if not, long press on the output and hit
+						&quot;Copy object&quot;.
+					</li>
 					<li>Paste the text in the field below.</li>
 				</ol>
 				<div className='relative -mt-20 min-h-full md:mt-0 md:h-full md:w-1/2'>

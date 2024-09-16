@@ -2,7 +2,7 @@ import FilteredBox from "./FilteredBox";
 
 const ImageModeGallery = ({ packs, filters }) => {
 	return (
-		<div className='mt-4 grid grid-cols-1 gap-3 p-1.5 px-3 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
+		<div className='mt-4 grid grid-cols-2 gap-3 p-1.5 px-3 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
 			{packs
 				.filter(
 					(pack) =>

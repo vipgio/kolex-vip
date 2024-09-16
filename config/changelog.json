@@ -1,13 +1,23 @@
 {
 	"changelog": [
 		{
+			"version": "2.10.1",
+			"date": "2024-09-16",
+			"changes": [
+				"Added a jump to top button on mobile for long pages.",
+				"Changed Android login tutorial.",
+				"Fixed a bug in rush where it would keep playing until you refresh the page.",
+				"Fixed some styling issues with mobile"
+			]
+		},
+		{
 			"version": "2.10.0",
 			"date": "2024-09-14",
 			"changes": [
 				"Support for Android (yay!). If you find any bugs, please let me know.",
 				"Navbar menu now opens on hover. (you'll get used to it).",
 				"New category selection menu.",
-				"Added 'any' mint filter for minssearch."
+				"Added 'any' mint filter for cardlister."
 			]
 		},
 		{

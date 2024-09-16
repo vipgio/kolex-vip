@@ -125,10 +125,10 @@ const PurchasePage = () => {
 						</button>
 					</form>
 				</div>
-				<div>
+				<>
 					{listings.length > 0 && (
-						<div className='mt-4'>
-							<div className='flex items-center'>
+						<div className='m-2 mt-4'>
+							<div className='flex flex-col items-center gap-2 sm:flex-row'>
 								<input
 									type='text'
 									name='user'
@@ -151,7 +151,7 @@ const PurchasePage = () => {
 									step={0.01}
 									max={10000}
 								/>
-								<span className='text-gray-custom ml-auto mr-2'>
+								<span className='text-gray-custom mr-2 sm:ml-auto'>
 									{filteredItems.length} Items - Total price:{" "}
 									<span className='font-semibold underline'>
 										${filteredItems.reduce((sum, item) => sum + Number(item.price), 0).toFixed(2)}
@@ -161,12 +161,12 @@ const PurchasePage = () => {
 									Buy All
 								</button>
 							</div>
-							<div className='mt-4 border'>
+							<div className='mt-4 overflow-hidden rounded border'>
 								<PurchaseTable results={filteredItems} loading={loading} setLoading={setLoading} />
 							</div>
 						</div>
 					)}
-				</div>
+				</>
 			</div>
 		</>
 	);

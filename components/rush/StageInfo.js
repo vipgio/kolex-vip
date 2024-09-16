@@ -21,6 +21,7 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 	const { user } = useContext(UserContext);
 	const { selectedRoster } = useContext(RushContext);
 	const counter = useRef(0);
+	const isMountedRef = useRef(true);
 	const [rosters, setRosters] = useState([]);
 	const [locked, setLocked] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -53,12 +54,18 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 	};
 
 	useEffect(() => {
+		isMountedRef.current = true;
 		getRosters();
+
+		// Clean up function to set isMounted to false when the component unmounts
+		return () => {
+			isMountedRef.current = false;
+		};
 	}, []);
 
 	const repeatGame = async (remaining, totalWinsNeeded, opponent, thisStage) => {
 		//play against opponent until [remaining] wins
-		if (remaining === 0) return;
+		if (remaining === 0 || !isMountedRef.current) return;
 		const payload = {
 			rosterId: selectedRoster.id,
 			enemyRosterId: opponent.id,
@@ -71,9 +78,9 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 		);
 		if (result) {
 			++counter.current;
-			counter.current === totalWinsNeeded && setLoading(false); //if total won games = wins needed to clear the stage, loading => false
+			(counter.current === totalWinsNeeded || !isMountedRef.current) && setLoading(false); //if total won games = wins needed to clear the stage, loading => false
 			repeatGame(--remaining, totalWinsNeeded, opponent, thisStage);
-		} else {
+		} else if (isMountedRef.current) {
 			repeatGame(remaining, totalWinsNeeded, opponent, thisStage); //if lost, play the same game
 		}
 	};

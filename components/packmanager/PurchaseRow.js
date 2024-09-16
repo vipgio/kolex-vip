@@ -53,8 +53,8 @@ const PurchaseRow = ({ item, loading, setLoading }) => {
 					{item.minOffer ? `$${item.minOffer}` : "-"}
 				</td>
 				<td className='table-cell'>{item.pack.created.split("T")[0]}</td>
-				<td className='table-cell'>{item.created.split("T")[0]}</td>
-				<td>
+				<td className='hidden sm:table-cell'>{item.created.split("T")[0]}</td>
+				<td className='table-cell'>
 					<button onClick={buyItem} title='Quick buy' className='simple-button p-0.5'>
 						{loading ? <LoadingSpin size={4} /> : "Buy"}
 					</button>

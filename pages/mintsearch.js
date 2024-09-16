@@ -105,7 +105,7 @@ const Searcher = () => {
 	return (
 		<>
 			<Meta title='Mint Search | Kolex VIP' />
-			<div className='my-10 rounded border border-gray-800 p-2 dark:border-gray-200'>
+			<div className='m-2 my-10 rounded border border-gray-800 p-2 dark:border-gray-200'>
 				{selectedCollection && (
 					<RefreshButton
 						title='Refresh Items'

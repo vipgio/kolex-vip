@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import BackToTopButton from "./BackToTopButton";
 
 const Layout = ({ children }) => {
 	const { theme } = useContext(ThemeContext);
@@ -13,6 +14,7 @@ const Layout = ({ children }) => {
 		>
 			<Navbar />
 			{children}
+			<BackToTopButton />
 			{/* <div className='py-10'>{children}</div>
 			<Footer /> */}
 		</div>

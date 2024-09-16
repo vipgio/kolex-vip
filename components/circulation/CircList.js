@@ -6,7 +6,7 @@ const CircList = ({ data, prices }) => {
 	const setValue = prices.reduce((cur, acc) => (acc.lowestPrice ? cur + Number(acc.lowestPrice) : cur), 0);
 
 	return (
-		<div className='relative mb-5 flex justify-center px-2'>
+		<div className='mb-5 flex justify-center px-2'>
 			<div className='grid divide-y divide-primary-400 overflow-hidden rounded border border-primary-400'>
 				<div className='text-gray-custom flex justify-around p-1 text-center font-semibold'>
 					<div>
@@ -30,8 +30,8 @@ const CircList = ({ data, prices }) => {
 						</>
 					</div>
 				</div>
-				<div className='overflow-auto'>
-					<table className='table-auto'>
+				<div className='max-h-[30rem] overflow-auto'>
+					<table className='w-full table-auto'>
 						<thead className='text-gray-custom sticky top-0 bg-gray-200 dark:bg-gray-700'>
 							<tr>
 								<th className='table-cell'>Title</th>
