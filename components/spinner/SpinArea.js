@@ -160,9 +160,9 @@ const SpinArea = ({ info }) => {
 				pauseOnHover
 			/>
 			{!isEmpty(info) && (
-				<div className='mt-3 flex h-full w-full flex-col rounded-md border border-gray-500 p-2 sm:mt-0 sm:ml-3'>
+				<div className='mt-3 flex h-[47rem] w-full flex-col rounded-md border border-gray-500 p-2 sm:mt-0 sm:ml-3 sm:h-full'>
 					<div className='flex w-full items-center justify-evenly border-b border-gray-500 pb-2'>
-						<div className='ml-1 mr-auto text-center text-lg font-semibold text-gray-700 dark:text-slate-200'>
+						<div className='ml-1 mr-auto text-lg font-semibold text-gray-700 dark:text-slate-200 sm:text-center'>
 							{info.costType?.[0]?.toUpperCase() + info.costType?.slice(1)}:{" "}
 							{funds[info?.costType]?.toLocaleString()}
 						</div>

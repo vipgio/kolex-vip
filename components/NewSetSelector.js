@@ -33,26 +33,32 @@ const NewSetSelector = ({ collections, setSelectedCollection, loading }) => {
 
 	return (
 		<>
-			<div className='relative ml-2 mb-1 flex w-[60vw] flex-initial flex-col text-gray-800 sm:grid sm:w-[36rem] sm:grid-cols-3 sm:gap-2 sm:divide-x'>
-				<SeasonSelect
-					selectedSeason={selectedSeason}
-					setSelectedSeason={setSelectedSeason}
-					collections={collections}
-					loading={loading}
-				/>
-				<CollectionSelect
-					selectedCol={selectedCol}
-					setSelectedCol={setSelectedCol}
-					selectedSeason={selectedSeason}
-					collections={collections}
-				/>
-				<SetSelect
-					selectedSet={selectedSet}
-					setSelectedSet={setSelectedSet}
-					selectedCol={selectedCol}
-					collections={collections}
-					selectedSeason={selectedSeason}
-				/>
+			<div className='relative ml-2 mb-1 flex w-[60vw] flex-initial flex-col gap-1 text-gray-800 sm:grid sm:w-[36rem] sm:grid-cols-3 sm:gap-2'>
+				<div className='relative text-gray-800'>
+					<SeasonSelect
+						selectedSeason={selectedSeason}
+						setSelectedSeason={setSelectedSeason}
+						collections={collections}
+						loading={loading}
+					/>
+				</div>
+				<div className='relative text-gray-800'>
+					<CollectionSelect
+						selectedCol={selectedCol}
+						setSelectedCol={setSelectedCol}
+						selectedSeason={selectedSeason}
+						collections={collections}
+					/>
+				</div>
+				<div className='relative text-gray-800'>
+					<SetSelect
+						selectedSet={selectedSet}
+						setSelectedSet={setSelectedSet}
+						selectedCol={selectedCol}
+						collections={collections}
+						selectedSeason={selectedSeason}
+					/>
+				</div>
 			</div>
 		</>
 	);

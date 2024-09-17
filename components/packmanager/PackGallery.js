@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import sortBy from "lodash/sortBy";
 import { UserContext } from "@/context/UserContext";
 import PackGalleryItem from "./PackGalleryItem";
+import isMobile from "@/utils/isMobile";
 
 const PackGallery = ({ packs, searchQuery }) => {
 	const { packGalleryColumns, setPackGalleryColumns } = useContext(UserContext);
@@ -9,7 +10,6 @@ const PackGallery = ({ packs, searchQuery }) => {
 
 	const getGridColumnClass = (columns) => {
 		columns = columns.toString();
-		const isMobile = navigator.maxTouchPoints > 0;
 
 		switch (columns) {
 			case "1":
@@ -29,7 +29,7 @@ const PackGallery = ({ packs, searchQuery }) => {
 			case "8":
 				return "grid-cols-8";
 			default:
-				return isMobile ? "grid-cols-2" : "grid-cols-3"; // Default to 3 columns if none is specified
+				return isMobile() ? "grid-cols-2" : "grid-cols-3"; // Default to 3 columns if none is specified
 		}
 	};
 	return (

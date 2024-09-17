@@ -129,8 +129,8 @@ const Scanner = () => {
 				</div>
 
 				<div className='relative mb-5 flex max-h-96 overflow-visible rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
-					<div className='px-1.5'>
-						<div className=' p-2 font-semibold'>
+					<div className='inline-flex w-full flex-col items-center px-1.5 sm:items-start'>
+						<div className='p-2 font-semibold'>
 							Selected Collection:
 							{selectedCollection && (
 								<span>

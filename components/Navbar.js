@@ -19,6 +19,7 @@ import { UserContext } from "@/context/UserContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
 import CategorySelector from "./CategorySelector";
+import isMobile from "@/utils/isMobile";
 
 const NewNavbar = () => {
 	const { user } = useContext(UserContext);
@@ -33,10 +34,7 @@ const NewNavbar = () => {
 						<>
 							<Menu.Button
 								className='my-outline group inline-flex h-12 w-full items-center justify-center px-4 py-2 text-sm font-medium text-gray-100 focus-visible:ring-inset'
-								onMouseEnter={({ target }) => {
-									const isMobile = navigator.maxTouchPoints > 0;
-									isMobile ? null : target.click();
-								}}
+								onMouseEnter={({ target }) => !isMobile() && target.click()}
 							>
 								<BurgerMenuIcon open={open} />
 							</Menu.Button>

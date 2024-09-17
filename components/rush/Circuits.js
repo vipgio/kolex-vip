@@ -72,7 +72,7 @@ const Circuits = ({ circuits, isRosterSelected }) => {
 									.stages.map((stage) => (
 										<div key={stage.id} className='flex items-center p-1 sm:justify-center'>
 											<span
-												className='flex w-fit cursor-pointer items-center justify-center'
+												className='flex w-full cursor-pointer items-center justify-center'
 												onClick={() => {
 													setShowStageModal(true);
 													setSelectedStage(stage);
@@ -92,7 +92,9 @@ const Circuits = ({ circuits, isRosterSelected }) => {
 												{stage.completed && (
 													<BiCheck
 														size={20}
-														className={`stroke-1 text-green-500 ${!stage.isClaimed && "animate-pulse"}`}
+														className={`ml-auto stroke-1 text-green-500 sm:ml-0 ${
+															!stage.isClaimed && "animate-pulse"
+														}`}
 													/>
 												)}
 											</span>

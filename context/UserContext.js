@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import isMobile from "@/utils/isMobile";
 
 export const UserContext = createContext();
 
@@ -46,8 +47,7 @@ const UserContextProvider = (props) => {
 		if (localPackGalleryColumns) {
 			setPackGalleryColumns(localPackGalleryColumns);
 		} else {
-			const isMobile = navigator.maxTouchPoints > 0;
-			if (isMobile) {
+			if (isMobile()) {
 				localStorage.setItem("packGalleryColumns", "2");
 				setPackGalleryColumns("2");
 			} else {

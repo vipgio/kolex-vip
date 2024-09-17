@@ -20,7 +20,7 @@ const CollectionSelect = ({ selectedCol, setSelectedCol, selectedSeason, collect
 				leaveTo='transform opacity-0 scale-95'
 			>
 				{selectedSeason.length > 0 && ( // If a season is selected, show the collections
-					<Listbox.Options className='absolute top-full sm:left-1/3 z-30 sm:w-1/3 w-[60vw] max-h-96 divide-y overflow-auto rounded-md bg-white py-0 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+					<Listbox.Options className='absolute top-12 z-30 max-h-96 w-full divide-y overflow-auto rounded-md bg-white py-0 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 						{collections
 							.find(([season, _]) => season === selectedSeason)?.[1]
 							.filter(([_, subsets]) => !subsets.info?.physical).length > 0 && ( // If there are digital collections, show the header

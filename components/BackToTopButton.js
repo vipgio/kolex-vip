@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { LuArrowUp } from "react-icons/lu";
+import isMobile from "@/utils/isMobile";
 
 function BackToTopButton() {
 	const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
-		const isMobile = navigator.maxTouchPoints > 0;
+		const mobileCheck = isMobile();
 		const handleScroll = () => {
-			setIsVisible(window.scrollY > 300 && isMobile);
+			setIsVisible(window.scrollY > 300 && mobileCheck);
 		};
 
 		window.addEventListener("scroll", handleScroll);
