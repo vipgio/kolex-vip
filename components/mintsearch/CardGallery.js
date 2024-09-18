@@ -261,7 +261,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 	return (
 		<>
 			<div className='ml-1 flex h-full'>
-				<div className='flex flex-col sm:block'>
+				<div className='flex flex-col sm:flex-row'>
 					<button
 						onClick={() =>
 							setSelectedCards(
@@ -276,14 +276,14 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 									}))
 							)
 						}
-						className='simple-button m-1 inline-flex justify-center'
+						className='simple-button order-2 m-1 inline-flex justify-center sm:order-1'
 					>
 						Select All
 					</button>
-					<button onClick={() => setSelectedCards([])} className='simple-button m-1'>
+					<button onClick={() => setSelectedCards([])} className='simple-button order-3 m-1 sm:order-2'>
 						Deselect All
 					</button>
-					<span className='inline-flex w-fit items-center'>
+					<span className='order-1 inline-flex w-fit items-center sm:order-3'>
 						<label htmlFor='need' className='text-gray-custom mr-1 ml-2 hover:cursor-pointer'>
 							Need Only
 						</label>

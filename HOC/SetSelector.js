@@ -34,21 +34,16 @@ const SetSelector = React.memo(
 		const [collections, setCollections] = useState([]);
 		const [loading, setLoading] = useState(true);
 
-		function updatePhysicalKey(section) {
+		const updatePhysicalKey = (section) => {
 			// Update the physical key in the info object
-			if (!section.info) {
-				section.info = {};
-			}
+			section.info = section.info || {};
 			section.info.physical = section.collections.some((collection) => collection.collection.physical);
-		}
+		};
 
 		useEffect(() => {
 			const groupCollections = async () => {
 				setLoading(true);
-				const data = (await getCollections()).map((item) => ({
-					...item,
-					collection: omit(item.collection, "images"),
-				}));
+				const data = await getCollections();
 				const grouped = groupBy(data, (col) => col.collection.properties.seasons[0]);
 				Object.entries(grouped).forEach(([season, seasonCollections]) => {
 					const coreGrouped = {
@@ -136,14 +131,31 @@ const SetSelector = React.memo(
 		}, []);
 
 		const getCollections = async () => {
-			const { result, error } = await fetchData(`/api/collections/users/${user.user.id}/user-summary`, {
-				userId: user.user.id,
-				categoryId: categoryId,
-			});
-			if (error) {
-				console.error(error);
+			const storedData = sessionStorage.getItem("collections");
+			if (storedData) {
+				return JSON.parse(storedData);
+			} else {
+				const { result, error } = await fetchData(`/api/collections/users/${user.user.id}/user-summary`, {
+					userId: user.user.id,
+					categoryId: categoryId,
+				});
+				if (error) {
+					console.error(error);
+				}
+				const stripped = result.map((item) => ({
+					collection: omit(item.collection, [
+						"images",
+						"created",
+						"visible",
+						"groupTreatments",
+						"beta",
+						"updated",
+						"esl",
+					]),
+				}));
+				sessionStorage.setItem("collections", JSON.stringify(stripped));
+				return stripped;
 			}
-			return result;
 		};
 
 		return (

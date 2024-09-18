@@ -9,8 +9,9 @@ import { webApp } from "@/config/config";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import JWTLogin from "@/components/login/JWTLogin";
-import TokenTutorial from "@/components/TokenTutorial";
+import TokenTutorial from "@/components/login/TokenTutorial";
 import Meta from "@/components/Meta";
+import Disclaimer from "@/components/login/Disclaimer";
 
 const Login = () => {
 	const { setUser } = useContext(UserContext);
@@ -232,6 +233,7 @@ const Login = () => {
 				setUser={setUser}
 				onSubmit={onSubmit}
 			/>
+			<Disclaimer />
 			<div className='absolute bottom-0 h-8 w-full border-t border-gray-600 p-1 dark:border-gray-400'>
 				<span className='text-gray-custom text-sm'>
 					Cool site logo by{" "}

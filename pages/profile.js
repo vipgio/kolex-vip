@@ -1,88 +1,22 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { RxCheck, RxCross2 } from "react-icons/rx";
 import "react-toastify/dist/ReactToastify.css";
 import { CDN } from "@/config/config";
-import { useAxios } from "@/hooks/useAxios";
 import { UserContext } from "@/context/UserContext";
 import ImageWrapper from "@/HOC/ImageWrapper";
 import Meta from "@/components/Meta";
-import ActivePacks from "@/components/ActivePacks";
-import TotalDeposit from "@/components/TotalDeposit";
-import LoadingSpin from "@/components/LoadingSpin";
+import ActivePacks from "@/components/profile/ActivePacks";
+import TotalDeposit from "@/components/profile/TotalDeposit";
 import Changelog from "@/components/Changelog";
-import TokenExpiry from "@/components/TokenExpiry";
+import TokenExpiry from "@/components/profile/TokenExpiry";
+import Quests from "@/components/profile/Quests";
 
 const Profile = () => {
 	const { user, setUser, categoryId } = useContext(UserContext);
-	const [achievements, setAchievements] = useState([]);
-	const [loading, setLoading] = useState(false);
 	const [showChangelog, setShowChangelog] = useState(false);
-	const { fetchData, postData } = useAxios();
-
-	const getCategories = async () => {
-		const { result } = await fetchData(`/api/categories`);
-		return result;
-	};
-
-	const getQuest = async () => {
-		setLoading(true);
-		const categories = await getCategories();
-
-		const fetchAchievements = categories.map(async (category) => {
-			try {
-				const { result, error } = await fetchData(`/api/achievements`, {
-					userId: user.user.id,
-					categoryId: category.id,
-				});
-				const general = result?.achievements.filter((quest) => quest.progress.claimAvailable === true) || [];
-				const daily = result?.daily.filter((quest) => quest.progress.claimAvailable === true) || [];
-				const weekly = result?.weekly.filter((quest) => quest.progress.claimAvailable === true) || [];
-				setAchievements((prev) => [...prev, ...general, ...daily, ...weekly]);
-			} catch (error) {
-				console.error(error);
-				toast.error(`${error.response.data.error}`, {
-					position: "top-left",
-				});
-			}
-		});
-		await Promise.all(fetchAchievements);
-		setLoading(false);
-	};
-
-	const claim = async () => {
-		setLoading(true);
-		let counter = 0;
-		for (const questId of achievements.map((achieve) => achieve.id)) {
-			const { result, error } = await postData(`/api/achievements/${questId}/claim`);
-			if (result) {
-				setAchievements((prev) => prev.filter((quest) => quest.id !== questId));
-				counter++;
-				toast.isActive(questId)
-					? toast.update(questId, {
-							render: `Claimed ${counter}x Achievements!`,
-					  })
-					: toast.success(`Claimed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`, {
-							toastId: questId,
-							position: "top-right",
-					  });
-			}
-			if (error) {
-				console.error(error);
-				toast.error(`${error.response.data.error}`, {
-					toastId: questId,
-					position: "top-left",
-				});
-			}
-		}
-		setLoading(false);
-	};
-
-	useEffect(() => {
-		getQuest();
-	}, []);
 
 	return (
 		<>
@@ -196,25 +130,7 @@ const Profile = () => {
 							)}
 							{<TokenExpiry expires={user.expires} />}
 							<div className='inline-flex items-center'>
-								Achievements available:{" "}
-								{loading ? (
-									<span className='ml-1'>
-										<LoadingSpin size={4} />
-									</span>
-								) : (
-									<span className='ml-1 font-semibold text-primary-500'>
-										<span className='mr-1'>{achievements.length}</span>
-										{achievements.length > 0 && (
-											<span>
-												(
-												<button className='hover:text-orange-500' onClick={() => claim()}>
-													Claim
-												</button>
-												)
-											</span>
-										)}
-									</span>
-								)}
+								Achievements available: <Quests user={user} />
 							</div>
 						</>
 					)}

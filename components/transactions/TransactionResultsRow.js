@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaLock, FaBan, FaHistory } from "react-icons/fa";
-import HistoryModal from "../HistoryModal";
+import HistoryModal from "@/components/history/HistoryModal";
 
 const TransactionResultsRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);

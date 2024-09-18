@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import uniqBy from "lodash/uniqBy";
+import pick from "lodash/pick";
+import omit from "lodash/omit";
 import { CDN } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import ImageWrapper from "@/HOC/ImageWrapper";
-import LoadingSpin from "./LoadingSpin";
-import RefreshButton from "./RefreshButton";
+import LoadingSpin from "@/components/LoadingSpin";
+import RefreshButton from "@/components/RefreshButton";
+import stripPack from "@/utils/stripPack";
 
 const ActivePacks = ({ user, categoryId }) => {
 	const { fetchData } = useAxios();
@@ -12,13 +15,34 @@ const ActivePacks = ({ user, categoryId }) => {
 	const [loading, setLoading] = useState(false);
 	let isApiSubscribed = true;
 
+	const getAllPacks = async () => {
+		setLoading(true);
+		const storedData = sessionStorage.getItem("packs");
+		let allPacks = storedData ? JSON.parse(storedData) : [];
+		if (storedData && allPacks[0].categoryId === Number(categoryId)) {
+			setActivePacks(
+				allPacks.filter(
+					(pack) => new Date(pack.purchaseEnd) - new Date() > 0 && pack.categoryId === Number(categoryId)
+				)
+			);
+			setLoading(false);
+		} else {
+			sessionStorage.removeItem("packs");
+			getStorePacks(1);
+		}
+	};
+
 	const getStorePacks = async (page) => {
-		const now = new Date();
 		try {
 			const { result } = await fetchData({ endpoint: `/api/packs?page=${page}`, forceCategoryId: true });
 			if (result.length > 0 && isApiSubscribed) {
-				const active = result.filter(
-					(pack) => new Date(pack.purchaseEnd) - now > 0 && pack.categoryId === Number(categoryId)
+				const strippedPacks = result.map((pack) => stripPack(pack));
+				sessionStorage.setItem(
+					"packs",
+					JSON.stringify([...JSON.parse(sessionStorage.getItem("packs") ?? "[]"), ...strippedPacks])
+				);
+				const active = strippedPacks.filter(
+					(pack) => new Date(pack.purchaseEnd) - new Date() > 0 && pack.categoryId === Number(categoryId)
 				);
 				setActivePacks((prev) => [...prev, ...active]);
 				getStorePacks(++page);
@@ -33,11 +57,12 @@ const ActivePacks = ({ user, categoryId }) => {
 	const getAllStorePacks = async () => {
 		setLoading(true);
 		setActivePacks([]);
-		await getStorePacks(1);
+		sessionStorage.removeItem("packs");
+		await getAllPacks();
 	};
 
 	useEffect(() => {
-		getAllStorePacks();
+		getAllPacks();
 		return () => (isApiSubscribed = false);
 	}, []);
 
@@ -69,7 +94,7 @@ const ActivePacks = ({ user, categoryId }) => {
 							<div key={pack.id} className='flex w-full rounded border border-gray-500 pr-1'>
 								<div className='mr-1 flex h-24 w-1/4 items-center justify-center'>
 									<ImageWrapper
-										src={`${CDN}${pack.images.find((img) => img.name === "pack-store").url}`}
+										src={`${CDN}${pack.images.url}` || ""}
 										width={50}
 										height={75}
 										alt={pack.name}

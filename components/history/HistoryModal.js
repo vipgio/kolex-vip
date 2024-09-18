@@ -4,7 +4,7 @@ import isEqual from "lodash/isEqual";
 import { historyEvents } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import Dialog from "@/HOC/Dialog";
-import LoadingSpin from "./LoadingSpin";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const HistoryModal = React.memo(
 	({ data, isOpen, setIsOpen, type = "card", method = "id" }) => {

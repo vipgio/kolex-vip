@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { templateLimit } from "@/config/config";
 import Meta from "@/components/Meta";
 import Tooltip from "@/components/Tooltip";
-import CardHistory from "@/components/CardHistory";
+import CardHistory from "@/components/history/CardHistory";
 import LoadingSpin from "@/components/LoadingSpin";
 import Toggle from "@/components/history/Toggle";
 import ExportButton from "@/components/history/ExportButton";

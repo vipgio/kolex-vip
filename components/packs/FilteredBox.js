@@ -18,12 +18,7 @@ const FilteredBox = ({ pack }) => {
 				onClick={openModal}
 			>
 				<div className='m-1 flex w-1/3 items-center justify-center sm:h-24'>
-					<ImageWrapper
-						src={`${CDN}${pack.images.find((img) => img.name === "image").url}`}
-						width={75}
-						height={100}
-						alt={pack.name}
-					/>
+					<ImageWrapper src={`${CDN}${pack.images.url}`} width={75} height={100} alt={pack.name} />
 				</div>
 				<div className='text-gray-custom m-1 flex w-full flex-col gap-2 text-center sm:w-2/3'>
 					<div className='text-lg font-semibold'>{pack.name}</div>

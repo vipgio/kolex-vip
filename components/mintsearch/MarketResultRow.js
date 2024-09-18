@@ -4,7 +4,7 @@ import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { webApp } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
-import HistoryModal from "../HistoryModal";
+import HistoryModal from "@/components/history/HistoryModal";
 import LoadingSpin from "../LoadingSpin";
 
 const MarketResultRow = ({ item, allowed }) => {

@@ -1,18 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import pick from "lodash/pick";
+import omit from "lodash/omit";
 import "react-toastify/dist/ReactToastify.css";
 import { useAxios } from "@/hooks/useAxios";
+import { UserContext } from "@/context/UserContext";
 import Meta from "@/components/Meta";
 import Toggle from "@/components/packs/Toggle";
 import ListModeToggle from "@/components/packs/ListModeToggle";
 import Filters from "@/components/packs/Filters";
+import RefreshButton from "@/components/RefreshButton";
 import DirectSearch from "@/components/packs/DirectSearch";
 import ImageModeGallery from "@/components/packs/ImageModeGallery";
 import ListModeTable from "@/components/packs/ListModeTable";
+import stripPack from "@/utils/stripPack";
 
 const PackSearch = () => {
 	const { fetchData } = useAxios();
+	const { categoryId } = useContext(UserContext);
 	const [loading, setLoading] = useState(false);
 	const [listMode, setListMode] = useState(false);
 	const [packs, setPacks] = useState([]);
@@ -31,7 +36,7 @@ const PackSearch = () => {
 			refreshPacks();
 			localStorage.removeItem("packs");
 		} else {
-			refreshPacks();
+			loadPacks();
 		}
 	}, []);
 
@@ -57,42 +62,41 @@ const PackSearch = () => {
 	};
 
 	const getAllPacks = async (page) => {
-		const packs = await getPacks(page);
-		if (packs)
-			if (packs.length > 0) {
-				setPacks((prev) => [
-					...prev,
-					...packs.map((item) =>
-						pick(item, [
-							"id",
-							"name",
-							"description",
-							"entityCount",
-							"inventoryCount",
-							"cost",
-							"costType",
-							"images",
-							"properties",
-							"purchaseStart",
-							"marketStart",
-							"treatmentsChance",
-							"mintCount",
-							"openedCount",
-							"images",
-							"acquireType",
-						])
-					),
-				]);
-				getAllPacks(++page);
-			} else {
-				setLoading(false);
-			}
+		const packsFetch = await getPacks(page);
+		if (packsFetch && packsFetch.length > 0) {
+			const strippedPacks = packsFetch.map((pack) => stripPack(pack));
+			setPacks((prev) => [...prev, ...strippedPacks]);
+			sessionStorage.setItem(
+				"packs",
+				JSON.stringify([...JSON.parse(sessionStorage.getItem("packs") ?? "[]"), ...strippedPacks])
+			);
+			getAllPacks(++page);
+		} else {
+			setLoading(false);
+		}
+	};
+
+	const loadPacks = () => {
+		const storedData = sessionStorage.getItem("packs");
+		let allPacks = storedData ? JSON.parse(storedData) : [];
+		if (
+			storedData &&
+			allPacks.length > 0 &&
+			allPacks.every((pack) => pack.categoryId === Number(categoryId))
+		) {
+			setPacks(allPacks);
+			setLoading(false);
+		} else {
+			sessionStorage.removeItem("packs");
+			getAllPacks(1);
+		}
 	};
 
 	const refreshPacks = () => {
 		setLoading(true);
+		sessionStorage.removeItem("packs");
 		setPacks([]);
-		getAllPacks(1);
+		loadPacks();
 	};
 
 	const onSubmit = async (e) => {
@@ -103,7 +107,7 @@ const PackSearch = () => {
 				/^\d+$/.test(searchQuery)
 					? packs.filter((pack) => pack.id === Number(searchQuery))
 					: packs
-							.filter((pack) => pack.name.toLowerCase().replace(":", "").includes(searchQuery.toLowerCase()))
+							.filter((pack) => pack.name.toLowerCase().replace(/:/g, "").includes(searchQuery.toLowerCase()))
 							.sort((a, b) => b.id - a.id)
 			);
 	};
@@ -123,7 +127,15 @@ const PackSearch = () => {
 				pauseOnHover
 			/>
 			<div className='mt-5 flex flex-col justify-center px-5'>
-				<Toggle filtersMode={filtersMode} setFiltersMode={setFiltersMode} loading={loading} />
+				<div className='relative flex justify-center'>
+					<Toggle filtersMode={filtersMode} setFiltersMode={setFiltersMode} loading={loading} />
+					<RefreshButton
+						loading={loading}
+						func={refreshPacks}
+						title='Refresh Packs'
+						style='absolute top-2 right-0'
+					/>
+				</div>
 				{!filtersMode ? ( //old style
 					<>
 						<DirectSearch

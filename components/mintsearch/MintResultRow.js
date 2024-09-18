@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
 import { webApp } from "@/config/config";
-import HistoryModal from "../HistoryModal";
+import HistoryModal from "@/components/history/HistoryModal";
 
 const MintResultRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);
