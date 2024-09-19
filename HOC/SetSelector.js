@@ -132,7 +132,10 @@ const SetSelector = React.memo(
 
 		const getCollections = async () => {
 			const storedData = sessionStorage.getItem("collections");
-			if (storedData) {
+			if (
+				storedData &&
+				JSON.parse(storedData).some((item) => item.collection.categoryId.toString() === categoryId)
+			) {
 				return JSON.parse(storedData);
 			} else {
 				const { result, error } = await fetchData(`/api/collections/users/${user.user.id}/user-summary`, {

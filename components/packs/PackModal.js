@@ -14,10 +14,15 @@ const PackModal = React.memo(
 			<Dialog isOpen={isOpen} setIsOpen={setIsOpen} closeButton={true} title={pack.name}>
 				<div className='relative flex'>
 					<div className='w-4/12 pt-1 sm:w-1/5'>
-						<ImageWrapper src={`${CDN}${pack.images.url}`} width={200} height={200} alt={pack.name} />
+						<ImageWrapper
+							src={`${CDN}${pack.images.url || pack.images.find((img) => img.name === "image").url}`}
+							width={200}
+							height={200}
+							alt={pack.name}
+						/>
 					</div>
 					<div className='mx-2 w-8/12 space-y-1 text-gray-800 dark:text-gray-200 sm:w-4/5'>
-						<div>{pack.description}</div>
+						<div className='text-sm'>{pack.description}</div>
 						<div>
 							Number of items in pack:{" "}
 							<span className='font-semibold text-primary-500'>{pack.entityCount}</span>
@@ -63,7 +68,7 @@ const PackModal = React.memo(
 								Price:{" "}
 								<span className='font-semibold text-primary-500'>
 									{Number(pack.cost).toLocaleString()}{" "}
-									{pack.costType === "usd"
+									{["usd", "iap"].includes(pack.costType)
 										? pack.costType.toUpperCase()
 										: pack.costType[0].toUpperCase() + pack.costType.slice(1)}
 								</span>

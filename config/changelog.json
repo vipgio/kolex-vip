@@ -1,6 +1,17 @@
 {
 	"changelog": [
 		{
+			"version": "2.11.0",
+			"date": "2024-09-19",
+			"changes": [
+				"Packs and sets are now stored locally for each category.",
+				"Added a leaderboard for scanner (click on the rank).",
+				"Optimized a bunch of stuff but there might be some bugs. Let me know if you find any.",
+				"Fixed a bug in set selector when you changed categories.",
+				"Fixed a bug in scanner compact mode."
+			]
+		},
+		{
 			"version": "2.10.1",
 			"date": "2024-09-16",
 			"changes": [

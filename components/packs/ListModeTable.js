@@ -44,9 +44,9 @@ const ListModeTable = ({ packs, filters }) => {
 					<option value='unopened'>Unopened</option>
 				</select>
 			</div>
-			<div className='mb-10 overflow-x-auto rounded border'>
+			<div className='mb-10 h-[30rem] overflow-x-auto rounded border'>
 				<table className='w-full table-auto'>
-					<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
+					<thead className='text-gray-custom sticky top-0 bg-gray-200 dark:bg-gray-700'>
 						<tr>
 							<th className='table-cell'>Name</th>
 							<th className='table-cell'>Season</th>

@@ -11,7 +11,12 @@ const PackResults = React.memo(
 		return (
 			<div className='relative m-2 flex border-t border-gray-600 p-2 dark:border-gray-400'>
 				<div className='w-4/12 pt-1 sm:w-1/5'>
-					<ImageWrapper src={`${CDN}${pack.images.url}`} width={200} height={200} alt={pack.name} />
+					<ImageWrapper
+						src={`${CDN}${pack.images.url || pack.images.find((img) => img.name === "image").url}`}
+						width={200}
+						height={200}
+						alt={pack.name}
+					/>
 				</div>
 				<div className='mx-2 w-8/12 space-y-1 text-gray-800 dark:text-gray-200 sm:w-4/5'>
 					<div className='mb-2 text-lg font-bold'>{pack.name}</div>

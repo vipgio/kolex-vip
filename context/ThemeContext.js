@@ -1,36 +1,18 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect } from "react";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 export const ThemeContext = createContext();
 
 const ThemeContextProvider = (props) => {
-	const [theme, setTheme] = useState(null);
+	const [theme, setTheme] = useLocalStorage("theme", "dark");
 	const ISSERVER = typeof window === "undefined";
 
 	useEffect(() => {
-		if (theme) {
-			localStorage.setItem("theme", theme === "dark" ? "dark" : "light");
-			if (theme === "dark") {
-				document.documentElement.classList.add("dark");
-			} else {
-				document.documentElement.classList.remove("dark");
-			}
-		}
+		localStorage.setItem("theme", JSON.stringify(theme));
+		document.documentElement.classList.toggle("dark", theme === "dark");
 	}, [theme]);
 
-	useEffect(() => {
-		const storedTheme = localStorage.getItem("theme");
-		if (storedTheme) {
-			setTheme(storedTheme);
-		} else {
-			setTheme("dark");
-		}
-	}, []);
-
-	return (
-		<ThemeContext.Provider value={{ theme, setTheme }}>
-			{props.children}
-		</ThemeContext.Provider>
-	);
+	return <ThemeContext.Provider value={{ theme, setTheme }}>{props.children}</ThemeContext.Provider>;
 };
 
 export default ThemeContextProvider;

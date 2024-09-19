@@ -1,6 +1,6 @@
 const PackOdds = ({ odds }) => {
 	return (
-		<div className='flex max-h-56 flex-col divide-y divide-gray-500 overflow-y-auto overflow-x-hidden rounded border border-gray-400 py-1'>
+		<div className='flex max-h-44 flex-col divide-y divide-gray-500 overflow-y-auto overflow-x-hidden rounded border border-gray-400 py-1'>
 			{odds
 				.sort((a, b) => b.chance - a.chance)
 				.map((odd) => (

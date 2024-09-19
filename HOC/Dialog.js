@@ -1,6 +1,14 @@
 import React, { Fragment } from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
-const Dialog = ({ title, children, isOpen, setIsOpen, closeFunction = null, closeButton = false }) => {
+const Dialog = ({
+	title,
+	children,
+	isOpen,
+	setIsOpen,
+	closeFunction = null,
+	closeButton = false,
+	extraButton = null,
+}) => {
 	const closeModal = () => setIsOpen(false);
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
@@ -39,6 +47,7 @@ const Dialog = ({ title, children, isOpen, setIsOpen, closeFunction = null, clos
 									{children}
 									{closeButton && (
 										<div className='mt-5 flex w-full'>
+											{extraButton && extraButton}
 											<button type='button' className='button ml-auto' onClick={closeModal}>
 												Close
 											</button>

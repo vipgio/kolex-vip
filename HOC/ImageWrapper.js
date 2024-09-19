@@ -9,6 +9,7 @@ const ImageWrapper = ({
 	unoptimized = true,
 	fill = false,
 	noPlaceHolder = false,
+	sizes = "",
 }) => {
 	return (
 		<Image
@@ -24,6 +25,7 @@ const ImageWrapper = ({
 			}
 			className={`${className} rounded-md`}
 			quality={100}
+			sizes={sizes}
 		/>
 	);
 };

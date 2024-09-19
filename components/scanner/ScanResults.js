@@ -13,6 +13,7 @@ import CompactList from "./CompactList";
 import FullList from "./FullList";
 import Tooltip from "../Tooltip";
 import fixDecimal from "@/utils/NumberUtils";
+import Leaderboard from "./Leaderboard";
 
 const ScanResult = React.memo(
 	({
@@ -32,6 +33,7 @@ const ScanResult = React.memo(
 			.toString();
 		const [filterMethod, setFilterMethod] = useState("all");
 		const [leaderboardPoints, setLeaderboardPoints] = useState([]);
+		const [showLeaderboard, setShowLeaderboard] = useState(false);
 
 		const strippedResults = useMemo(
 			() =>
@@ -96,10 +98,14 @@ const ScanResult = React.memo(
 					return uniqueByTemplateId(withoutBest);
 				default:
 					// Handle the "compact" case or other filters here
-					return sorted.map((item) => ({
-						...item,
-						owned: countBy(sorted, (o) => o.templateId)[item.templateId],
-					}));
+					return uniqBy(
+						//compact
+						sorted.map((item) => ({
+							...item,
+							owned: countBy(sorted, (o) => o.templateId)[item.templateId],
+						})),
+						"templateId"
+					);
 			}
 		}, [sorted, filterMethod]);
 
@@ -128,14 +134,18 @@ const ScanResult = React.memo(
 			setFilterMethod(e.target.value);
 		};
 
-		const rank = useMemo(() => sortedIndexBy(leaderboardPoints, sumBy(filteredResults, "rating"), (o) => -o));
+		const rank = useMemo(
+			() => sortedIndexBy(leaderboardPoints, fixDecimal(sumBy(filteredResults, "rating")), (o) => -o),
+			[filterMethod, filteredResults]
+		);
+		const points = useMemo(() => fixDecimal(sumBy(filteredResults, "rating") * 10), [filteredResults]);
 
 		return (
 			<>
 				<div className='my-5 overflow-hidden'>
 					<div className='flex items-end pb-3'>
 						<div className='flex flex-col justify-start sm:flex-row'>
-							<label htmlFor='filter' className='text-gray-custom my-1 sm:m-2'>
+							<label htmlFor='filter' className='text-gray-custom my-1 sm:m-1'>
 								Select a filter method:{" "}
 							</label>
 							<select id='filter' className='dropdown' onChange={handleFilter}>
@@ -198,8 +208,23 @@ const ScanResult = React.memo(
 							filteredResults.length > 0 && (
 								<div className='text-gray-custom mb-1 ml-1 font-semibold'>
 									<div>Items: {filteredResults.length}</div>
-									<div>Total points: {(sumBy(filteredResults, "rating") * 10).toFixed(2)}</div>
-									<div>Rank: {rank > 120 ? "120+" : rank}</div>
+									<div>Total points: {points.toFixed(2)}</div>
+									<div
+										onClick={() => setShowLeaderboard(true)}
+										className='w-fit underline hover:cursor-pointer'
+									>
+										Rank: {rank > 120 ? "120+" : rank + 1}
+									</div>
+									{showLeaderboard && (
+										<Leaderboard
+											isOpen={showLeaderboard}
+											setIsOpen={setShowLeaderboard}
+											Leaderboard={leaderboardPoints}
+											points={points}
+											rank={rank}
+											collection={collection}
+										/>
+									)}
 								</div>
 							)}
 						<div className='relative mb-1 flex flex-col justify-center overflow-hidden rounded-md border border-gray-300'>

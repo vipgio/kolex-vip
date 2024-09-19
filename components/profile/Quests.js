@@ -66,6 +66,10 @@ const Quests = ({ user }) => {
 			const { result, error } = await postData(`/api/achievements/${questId}/claim`);
 			if (result) {
 				setAchievements((prev) => prev.filter((quest) => quest.id !== questId));
+				sessionStorage.setItem(
+					"achievements",
+					JSON.stringify(achievements.filter((quest) => quest.id !== questId))
+				);
 				counter++;
 				toast.isActive(questId)
 					? toast.update(questId, {

@@ -7,17 +7,17 @@ const CircList = ({ data, prices }) => {
 
 	return (
 		<div className='mb-5 flex justify-center px-2'>
-			<div className='grid divide-y divide-primary-400 overflow-hidden rounded border border-primary-400'>
+			<div className='grid divide-y divide-primary-500 overflow-hidden rounded border border-primary-500'>
 				<div className='text-gray-custom flex justify-around p-1 text-center font-semibold'>
 					<div>
 						<>
-							Total Circulation:
-							<div>
+							Total Circulation:{" "}
+							<span>
 								{opened}{" "}
 								<span className='text-primary-500'>
 									{minted > 0 ? `(${((opened / minted) * 100).toFixed(2)}%)` : null}
 								</span>
-							</div>
+							</span>
 						</>
 						<>{minted > 0 ? <div>Total Minted: {minted}</div> : null}</>
 					</div>

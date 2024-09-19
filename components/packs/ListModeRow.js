@@ -13,10 +13,16 @@ const ListModeRow = ({ pack }) => {
 					{pack.name}
 				</td>
 				<td className='table-cell'>{pack.properties.seasons[0]}</td>
-				<td className='table-cell'>{pack.acquireType[0][0].toUpperCase() + pack.acquireType[0].slice(1)}</td>
+				<td className='table-cell'>
+					{pack.acquireType?.[0] === "iap"
+						? pack.acquireType[0].toUpperCase()
+						: pack.acquireType?.[0]?.[0]?.toUpperCase() + pack.acquireType?.[0]?.slice(1) || "-"}
+				</td>
 				<td className='table-cell'>{Number(pack.cost).toLocaleString()}</td>
 				<td className='table-cell'>
-					{pack.costType === "usd" ? "USD" : pack.costType[0].toUpperCase() + pack.costType.slice(1)}
+					{["usd", "iap"].includes(pack.costType)
+						? pack.costType.toUpperCase()
+						: pack.costType[0].toUpperCase() + pack.costType.slice(1)}
 				</td>
 
 				<td className='table-cell'>{pack.mintCount?.toLocaleString() || "-"}</td>

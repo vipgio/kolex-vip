@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Menu, Transition } from "@headlessui/react";
+import pick from "lodash/pick";
 import { CDN } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import { UserContext } from "@/context/UserContext";
@@ -13,7 +14,12 @@ const CategorySelector = () => {
 
 	const getCategories = async () => {
 		const { result } = await fetchData(`/api/categories`);
-		result && setCategories(result.sort((a, b) => a.id - b.id));
+		result &&
+			setCategories(
+				result
+					.map((category) => pick(category, ["name", "id", "iconUrl", "color"]))
+					.sort((a, b) => a.id - b.id)
+			);
 		return result;
 	};
 
@@ -23,7 +29,7 @@ const CategorySelector = () => {
 	};
 
 	useEffect(() => {
-		getCategories();
+		if (categories.length === 0) getCategories();
 	}, []);
 	return (
 		<>
@@ -50,6 +56,7 @@ const CategorySelector = () => {
 												height={32}
 												width={32}
 												noPlaceHolder={true}
+												unoptimized={false}
 											/>
 										</div>
 									) : (

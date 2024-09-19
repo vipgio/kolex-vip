@@ -7,7 +7,7 @@ const PrivateRoute = ({ protectedRoutes, children }) => {
 	const router = useRouter();
 	const { user, initialLoading } = useContext(UserContext);
 
-	const pathIsProtected = protectedRoutes.indexOf(router.pathname) !== -1;
+	const pathIsProtected = protectedRoutes.includes(router.pathname);
 
 	useEffect(() => {
 		if (!initialLoading && !user && pathIsProtected) {
