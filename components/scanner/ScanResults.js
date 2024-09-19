@@ -213,7 +213,7 @@ const ScanResult = React.memo(
 										onClick={() => setShowLeaderboard(true)}
 										className='w-fit underline hover:cursor-pointer'
 									>
-										Rank: {rank > 120 ? "120+" : rank + 1}
+										Rank: {rank >= 120 ? "120+" : rank + 1}
 									</div>
 									{showLeaderboard && (
 										<Leaderboard
