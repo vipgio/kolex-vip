@@ -37,10 +37,9 @@ const Quests = ({ user }) => {
 
 				if (error) throw new Error(error);
 
-				const general =
-					result?.achievements.filter((quest) => quest.progress.claimAllQuestsAvailable === true) || [];
-				const daily = result?.daily.filter((quest) => quest.progress.claimAllQuestsAvailable === true) || [];
-				const weekly = result?.weekly.filter((quest) => quest.progress.claimAllQuestsAvailable === true) || [];
+				const general = result?.achievements.filter((quest) => quest.progress.claimAvailable === true) || [];
+				const daily = result?.daily.filter((quest) => quest.progress.claimAvailable === true) || [];
+				const weekly = result?.weekly.filter((quest) => quest.progress.claimAvailable === true) || [];
 
 				allAchievements = [...allAchievements, ...general, ...daily, ...weekly];
 			} catch (error) {
@@ -64,7 +63,7 @@ const Quests = ({ user }) => {
 		setLoading(true);
 		let counter = 0;
 		for (const questId of achievements.map((achieve) => achieve.id)) {
-			const { result, error } = await postData(`/api/achievements/${questId}/claimAllQuests`);
+			const { result, error } = await postData(`/api/achievements/${questId}/claim`);
 			if (result) {
 				setAchievements((prev) => prev.filter((quest) => quest.id !== questId));
 				sessionStorage.setItem(
