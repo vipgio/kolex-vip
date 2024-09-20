@@ -10,7 +10,7 @@ const UserContextProvider = (props) => {
 	const [user, setUser] = useLocalStorage("user", null);
 	const [initialLoading, setInitialLoading] = useState(true); // used to show loading screen on first load and redirect
 	// const [categoryId, setCategoryId] = useState(null);
-	const [categoryId, setCategoryId] = useLocalStorage("categoryId", null);
+	const [categoryId, setCategoryId] = useLocalStorage("categoryId", "1");
 	// const [categories, setCategories] = useState([]);
 	const [categories, setCategories] = useLocalStorage("categories", []);
 	// const [packGalleryColumns, setPackGalleryColumns] = useState(null);

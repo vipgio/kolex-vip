@@ -50,9 +50,9 @@ const CategorySelector = () => {
 										>
 											<ImageWrapper
 												src={
-													CDN + categories.find((category) => category.id.toString() === categoryId).iconUrl
+													CDN + categories.find((category) => category.id.toString() === categoryId)?.iconUrl
 												}
-												alt={categories.find((category) => category.id.toString() === categoryId).name}
+												alt={categories.find((category) => category.id.toString() === categoryId)?.name}
 												className='h-8 w-8'
 												height={32}
 												width={32}
