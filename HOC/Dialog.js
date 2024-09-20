@@ -39,7 +39,7 @@ const Dialog = ({
 							<HeadlessDialog.Panel className='w-full max-w-lg transform overflow-hidden rounded-xl bg-gray-200 p-4 text-left align-middle shadow-xl transition-all dark:bg-gray-700'>
 								<HeadlessDialog.Title
 									as='h3'
-									className='inline-flex w-full text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
+									className='inline-flex w-full items-center text-lg font-medium leading-6 text-gray-800 dark:text-gray-200'
 								>
 									{title}
 								</HeadlessDialog.Title>

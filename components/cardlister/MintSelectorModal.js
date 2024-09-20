@@ -46,8 +46,8 @@ const MintSelectorModal = React.memo(
 				<Dialog
 					title={
 						<>
-							{data.title} <span className='text-xs'>x</span>
-							<span className='text-base'>{data.count}</span>
+							{data.title} <span className='ml-2 text-xs'>x</span>
+							<span className='ml-1 text-base'>{data.count}</span>
 						</>
 					}
 					isOpen={isOpen}

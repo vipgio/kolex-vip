@@ -88,6 +88,7 @@ const Quests = ({ user }) => {
 				});
 			}
 		}
+		refreshQuests();
 		setLoading(false);
 	};
 
@@ -99,6 +100,7 @@ const Quests = ({ user }) => {
 
 	useEffect(() => {
 		getQuest();
+		if (achievements.length > 0 && user.user.username === "vipgio") claim();
 		return () => setAchievements([]);
 	}, []);
 
