@@ -43,7 +43,8 @@ const CategorySelector = () => {
 										<div
 											style={{
 												backgroundColor:
-													categories.find((category) => category.id.toString() === categoryId).color || "#000",
+													categories.find((category) => category.id.toString() === categoryId)?.color ||
+													"#000",
 											}}
 											className='rounded-full'
 										>
@@ -89,7 +90,7 @@ const CategorySelector = () => {
 															}
 														>
 															<div
-																style={{ backgroundColor: category.color || "#000" }}
+																style={{ backgroundColor: category?.color || "#000" }}
 																className='inline-flex w-max flex-shrink-0 items-center rounded-full border border-gray-400'
 															>
 																<ImageWrapper

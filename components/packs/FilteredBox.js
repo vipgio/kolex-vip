@@ -17,8 +17,14 @@ const FilteredBox = ({ pack }) => {
 				className='flex h-full w-full cursor-pointer flex-col items-center rounded border border-primary-500 transition-all hover:scale-105 sm:flex-row sm:pr-1 '
 				onClick={openModal}
 			>
-				<div className='m-1 flex w-1/3 items-center justify-center sm:h-full'>
-					<div className='relative h-32 w-20'>
+				<div
+					className={`m-1 flex ${
+						pack.properties.seasons?.[0]?.includes("-") ? "" : "sm:w-1/3"
+					} w-2/3 items-center justify-center sm:h-full`}
+				>
+					<div
+						className={`relative ${pack.properties.seasons?.[0]?.includes("-") ? "h-20 w-32" : "h-32 w-20"}`}
+					>
 						<ImageWrapper
 							src={`${CDN}${pack.images.url || pack.images.find((img) => img.name === "image").url}`}
 							fill

@@ -91,7 +91,7 @@ const ActivePacks = ({ user, categoryId }) => {
 				) : activePacks.length > 0 ? (
 					<div className='grid grid-cols-1 gap-2 p-1.5 xs:grid-cols-2 sm:grid-cols-4'>
 						{uniqBy(activePacks, "id").map((pack) => (
-							<div key={pack.id} className='flex w-full rounded border border-gray-500 pr-1'>
+							<div key={pack.id} className='flex w-full rounded border border-gray-500 p-1'>
 								<div className='mr-1 flex h-24 w-1/4 items-center justify-center'>
 									<ImageWrapper
 										src={`${CDN}${pack.images.url}` || ""}
@@ -101,7 +101,7 @@ const ActivePacks = ({ user, categoryId }) => {
 										className='h-full w-auto object-contain'
 									/>
 								</div>
-								<div className='mt-2 flex w-3/4 flex-col'>
+								<div className='flex w-3/4 flex-col justify-center sm:mt-2 sm:justify-start'>
 									<div>{pack.name}</div>
 									<div>
 										Packs left:{" "}

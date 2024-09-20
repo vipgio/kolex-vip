@@ -37,9 +37,10 @@ const Quests = ({ user }) => {
 
 				if (error) throw new Error(error);
 
-				const general = result?.achievements.filter((quest) => quest.progress.claimAvailable === true) || [];
-				const daily = result?.daily.filter((quest) => quest.progress.claimAvailable === true) || [];
-				const weekly = result?.weekly.filter((quest) => quest.progress.claimAvailable === true) || [];
+				const general =
+					result?.achievements.filter((quest) => quest.progress.claimAllQuestsAvailable === true) || [];
+				const daily = result?.daily.filter((quest) => quest.progress.claimAllQuestsAvailable === true) || [];
+				const weekly = result?.weekly.filter((quest) => quest.progress.claimAllQuestsAvailable === true) || [];
 
 				allAchievements = [...allAchievements, ...general, ...daily, ...weekly];
 			} catch (error) {
@@ -59,11 +60,11 @@ const Quests = ({ user }) => {
 		setLoading(false);
 	};
 
-	const claim = async () => {
+	const claimAllQuests = async () => {
 		setLoading(true);
 		let counter = 0;
 		for (const questId of achievements.map((achieve) => achieve.id)) {
-			const { result, error } = await postData(`/api/achievements/${questId}/claim`);
+			const { result, error } = await postData(`/api/achievements/${questId}/claimAllQuests`);
 			if (result) {
 				setAchievements((prev) => prev.filter((quest) => quest.id !== questId));
 				sessionStorage.setItem(
@@ -73,9 +74,9 @@ const Quests = ({ user }) => {
 				counter++;
 				toast.isActive(questId)
 					? toast.update(questId, {
-							render: `Claimed ${counter}x Achievements!`,
+							render: `claimAllQuestsed ${counter}x Achievements!`,
 					  })
-					: toast.success(`Claimed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`, {
+					: toast.success(`claimAllQuestsed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`, {
 							toastId: questId,
 							position: "top-right",
 					  });
@@ -99,8 +100,11 @@ const Quests = ({ user }) => {
 	};
 
 	useEffect(() => {
+		if (achievements.length > 0 && user.user.username === "vipgio") claimAllQuests();
+	}, [achievements]);
+
+	useEffect(() => {
 		getQuest();
-		if (achievements.length > 0 && user.user.username === "vipgio") claim();
 		return () => setAchievements([]);
 	}, []);
 
@@ -116,8 +120,8 @@ const Quests = ({ user }) => {
 					{achievements.length > 0 && (
 						<span>
 							(
-							<button className='hover:text-orange-500' onClick={() => claim()}>
-								Claim
+							<button className='hover:text-orange-500' onClick={claimAllQuests}>
+								claimAllQuests
 							</button>
 							)
 						</span>

@@ -12,8 +12,8 @@ import ExportToCSV from "@/components/ExportToCSV";
 import CompactList from "./CompactList";
 import FullList from "./FullList";
 import Tooltip from "../Tooltip";
-import fixDecimal from "@/utils/NumberUtils";
 import Leaderboard from "./Leaderboard";
+import fixDecimal from "@/utils/NumberUtils";
 
 const ScanResult = React.memo(
 	({

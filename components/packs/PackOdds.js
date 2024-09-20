@@ -6,7 +6,7 @@ const PackOdds = ({ odds }) => {
 				.map((odd) => (
 					<div
 						className='grid grid-cols-10 divide-x divide-gray-500 p-1 hover:bg-gray-300 dark:hover:bg-gray-500 sm:grid-cols-9'
-						key={odd.treatmentId}
+						key={odd.name}
 					>
 						<div className='col-span-7'>
 							{odd.name} ({odd.tier})

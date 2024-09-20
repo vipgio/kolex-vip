@@ -148,7 +148,9 @@ const PackSearch = () => {
 					</>
 				) : (
 					<>
-						<ListModeToggle listMode={listMode} setListMode={setListMode} loading={loading} />
+						<div className='relative flex justify-center'>
+							<ListModeToggle listMode={listMode} setListMode={setListMode} loading={loading} />
+						</div>
 
 						<Filters filters={filters} setFilters={setFilters} packs={packs} />
 						{filters.seasons.length > 0 && filters.show && (
