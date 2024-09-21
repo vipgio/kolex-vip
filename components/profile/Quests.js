@@ -73,9 +73,9 @@ const Quests = ({ user }) => {
 				counter++;
 				toast.isActive(questId)
 					? toast.update(questId, {
-							render: `claimAllQuestsed ${counter}x Achievements!`,
+							render: `Claimed ${counter}x Achievements!`,
 					  })
-					: toast.success(`claimAllQuestsed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`, {
+					: toast.success(`Claimed ${counter}x ${counter === 1 ? "Achievement" : "Achievements"}!`, {
 							toastId: questId,
 							position: "top-right",
 					  });
@@ -120,7 +120,7 @@ const Quests = ({ user }) => {
 						<span>
 							(
 							<button className='hover:text-orange-500' onClick={claimAllQuests}>
-								claimAllQuests
+								Claim
 							</button>
 							)
 						</span>
