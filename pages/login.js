@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaGithub, FaMoon, FaSun, FaDiscord } from "react-icons/fa";
 import { GoLinkExternal } from "react-icons/go";
 import "react-toastify/dist/ReactToastify.css";
-import { webApp } from "@/config/config";
+import { webApp, discord, github } from "@/config/config";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import JWTLogin from "@/components/login/JWTLogin";
@@ -123,16 +123,11 @@ const Login = () => {
 				pauseOnHover
 			/>
 			<div className='text-gray-custom absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold transition-colors'>
-				<a
-					href='https://github.com/vipgio/kolex-vip'
-					target='_blank'
-					rel='noopener noreferrer'
-					title='Source Code'
-				>
+				<a href={github} target='_blank' rel='noopener noreferrer' title='Source Code'>
 					<FaGithub className='text-gray-custom h-6 w-6 hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 				<a
-					href='https://discordapp.com/users/473436055958192128'
+					href={discord}
 					target='_blank'
 					rel='noreferrer'
 					title='Contact me on Discord'

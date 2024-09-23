@@ -1,6 +1,16 @@
 {
 	"changelog": [
 		{
+			"version": "2.11.1",
+			"date": "2024-09-24",
+			"changes": [
+				"New BRL prices for Brazil users.",
+				"Added Stripe payment method. (pix soon TM).",
+				"Added Paypal and Revolut payment methods links to the pricing page.",
+				"Added a FAQ to the pricing page."
+			]
+		},
+		{
 			"version": "2.11.0",
 			"date": "2024-09-19",
 			"changes": [

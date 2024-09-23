@@ -4,7 +4,7 @@ import ImageWrapper from "@/HOC/ImageWrapper";
 const Details = ({ features }) => {
 	return (
 		<>
-			<div className='mt-8 flex justify-center'>
+			<div className='mt-4 flex justify-center'>
 				<h1 className='text-5xl font-semibold text-gray-800 dark:text-gray-200'>Features</h1>
 			</div>
 			<div className='my-10 grid grid-cols-1 place-items-center gap-5 px-2 sm:gap-10 lg:grid-cols-2'>

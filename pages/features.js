@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { supabaseKey, supabaseUrl } from "@/config/config";
 import Meta from "@/components/Meta";
 import Toggle from "@/components/features/Toggle";
 import Details from "@/components/features/Details";
 import Pricing from "@/components/features/Pricing";
 
-const Features = ({ features, bundles }) => {
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const Features = ({ features, bundles, currencies, paymentMethods }) => {
 	const [show, setShow] = useState("features");
 	return (
 		<>
@@ -16,26 +19,48 @@ const Features = ({ features, bundles }) => {
 			{show === "features" ? (
 				<Details features={features} />
 			) : (
-				<Pricing features={features} bundles={bundles} />
+				<Pricing
+					features={features}
+					bundles={bundles}
+					currencies={currencies}
+					paymentMethods={paymentMethods}
+				/>
 			)}
 		</>
 	);
 };
 
 Features.getInitialProps = async () => {
-	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-	const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
-	const supabase = createClient(supabaseUrl, supabaseKey);
 	try {
-		const { data: features, error: featureError } = await supabase.from("kolexFeatures").select("*");
-		const { data: bundles, error: bundleError } = await supabase.from("kolexBundles").select("*");
-		featureError && console.error(featureError);
-		bundleError && console.error(bundleError);
-		if (features && bundles) {
-			return { features: features.sort((a, b) => a.id - b.id), bundles: bundles[0].info };
-		}
+		const [
+			{ data: features, error: featureError },
+			{ data: bundles, error: bundleError },
+			{ data: currencies, error: currencyError },
+			{ data: paymentMethods, error: paymentMethodsError },
+		] = await Promise.all([
+			supabase.from("kolexFeatures").select("*").order("id"),
+			supabase.from("kolexBundles").select("*").order("id"),
+			supabase.from("currencies").select("*").order("id"),
+			supabase.from("paymentMethods").select("*").order("id"),
+		]);
+
+		if (featureError) throw featureError;
+		if (bundleError) throw bundleError;
+		if (currencyError) throw currencyError;
+		if (paymentMethodsError) throw paymentMethodsError;
+
+		return {
+			features: features,
+			bundles: bundles.slice(1),
+			currencies: currencies.map((currency) => ({
+				...currency,
+				ratio: currency.conversion * currency.discount,
+			})),
+			paymentMethods: paymentMethods,
+		};
 	} catch (err) {
-		console.error(err);
+		console.error("Failed to fetch data:", err);
+		return { error: "Failed to load page data" };
 	}
 };
 

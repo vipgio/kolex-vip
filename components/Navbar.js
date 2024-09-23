@@ -15,6 +15,7 @@ import {
 	FaBurn,
 } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
+import { discord, github } from "@/config/config";
 import { UserContext } from "@/context/UserContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
@@ -99,22 +100,12 @@ const NewNavbar = () => {
 				</div>
 			)}
 			<button className='ml-auto mr-2 h-6 w-6' tabIndex={-1}>
-				<a
-					href='https://github.com/vipgio/kolex-vip'
-					target='_blank'
-					rel='noopener noreferrer'
-					title='Source Code'
-				>
+				<a href={github} target='_blank' rel='noopener noreferrer' title='Source Code'>
 					<FaGithub className='h-5 w-5 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 			</button>
 			<button className='mr-1 h-5 w-5' tabIndex={-1}>
-				<a
-					href='https://discordapp.com/users/473436055958192128'
-					target='_blank'
-					rel='noreferrer'
-					title='Contact me on Discord'
-				>
+				<a href={discord} target='_blank' rel='noreferrer' title='Contact me on Discord'>
 					<FaDiscord className='h-full w-full hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 			</button>

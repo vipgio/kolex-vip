@@ -1,12 +1,19 @@
 const dev = process.env.NODE_ENV !== "production";
 export const server = dev ? "http://localhost:3001" : "https://kolex-vip.vercel.app";
 
+export const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+export const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+
 const staging = false;
 export const API = staging ? "https://api-staging1.epics.gg/api/v1" : "https://api.kolex.gg/api/v1";
 
 export const CDN = "https://cdn.kolex.gg";
 
 export const webApp = "https://kolex.gg";
+
+export const github = "https://github.com/vipgio/kolex-vip";
+
+export const discord = "https://discordapp.com/users/473436055958192128";
 
 export const templateLimit = 40;
 
@@ -17,7 +24,7 @@ export const categories = [
 	{ id: "1", name: "csgo", title: "CSGO", color: "rose" },
 	{ id: "2", name: "streamers", title: "Streamers", color: "purple" },
 	{ id: "4", name: "pubgm", title: "PUBG", color: "orange" },
-	// { id: "40", name: "skgaming", title: "SK", color: "violet" },
+	{ id: "40", name: "skgaming", title: "SK", color: "violet" },
 	{ id: "73", name: "kingsleague", title: "Kings", color: "cyan" },
 	{ id: "106", name: "hiroquest", title: "HiROQUEST", color: "emerald" },
 	{ id: "107", name: "csc", title: "CS China", color: "red" },

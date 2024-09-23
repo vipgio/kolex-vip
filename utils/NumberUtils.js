@@ -1,4 +1,4 @@
-const fixDecimal = (input) => {
-	return Number(Number(input).toFixed(6).replace(/0+$/, "").replace(/\.$/, ""));
+const fixDecimal = (input, decimal = 6) => {
+	return Number(Number(input).toFixed(decimal).replace(/0+$/, "").replace(/\.$/, ""));
 };
 export default fixDecimal;

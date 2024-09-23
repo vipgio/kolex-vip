@@ -82,11 +82,11 @@ const UserContextProvider = (props) => {
 		107: "theme-csc",
 	};
 	useEffect(() => {
+		const themeClass = themeMapping[categoryId] || "theme-csgo";
+		document.documentElement.classList.add(themeClass);
 		if (categoryId) {
 			localStorage.setItem("categoryId", categoryId);
 			setCategoryId(categoryId.toString());
-			const themeClass = themeMapping[categoryId] || "theme-csgo";
-			document.documentElement.classList.add(themeClass);
 			console.log("Category ID: ", categoryId);
 		} else {
 			localStorage.removeItem("categoryId");
