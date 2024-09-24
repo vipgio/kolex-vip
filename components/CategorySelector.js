@@ -7,6 +7,13 @@ import { useAxios } from "@/hooks/useAxios";
 import { UserContext } from "@/context/UserContext";
 import ImageWrapper from "@/HOC/ImageWrapper";
 
+const defaultColors = {
+	40: "#a855f7", //skgaming
+	106: "#10b981", //hiroquest
+	107: "#ef4444", //csc
+	default: "#000", //black
+};
+
 const CategorySelector = () => {
 	const { user, categoryId, categories, setCategories, setCategoryId } = useContext(UserContext);
 	const { fetchData } = useAxios();
@@ -17,7 +24,10 @@ const CategorySelector = () => {
 		result &&
 			setCategories(
 				result
-					.map((category) => pick(category, ["name", "id", "iconUrl", "color"]))
+					.map((category) => ({
+						...pick(category, ["name", "id", "iconUrl"]),
+						color: category.color || defaultColors[category.id] || defaultColors.default,
+					}))
 					.sort((a, b) => a.id - b.id)
 			);
 		return result;

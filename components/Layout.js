@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
 		<div
 			className={`${
 				theme === "dark" ? "dark" : ""
-			} container relative mx-auto h-full overflow-x-clip bg-gray-100 transition-colors dark:bg-gray-700`}
+			} bg-main container relative mx-auto h-full overflow-x-clip transition-colors`}
 		>
 			<Navbar />
 			{children}

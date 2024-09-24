@@ -20,16 +20,6 @@ export const templateLimit = 40;
 export const minPrice = 0.1;
 export const maxPrice = 20000;
 
-export const categories = [
-	{ id: "1", name: "csgo", title: "CSGO", color: "rose" },
-	{ id: "2", name: "streamers", title: "Streamers", color: "purple" },
-	{ id: "4", name: "pubgm", title: "PUBG", color: "orange" },
-	{ id: "40", name: "skgaming", title: "SK", color: "violet" },
-	{ id: "73", name: "kingsleague", title: "Kings", color: "cyan" },
-	{ id: "106", name: "hiroquest", title: "HiROQUEST", color: "emerald" },
-	{ id: "107", name: "csc", title: "CS China", color: "red" },
-];
-
 export const historyEvents = {
 	pack: () => "opened from a pack.",
 	spinner: () => "received the item from the spinner.",

@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require("tailwindcss/defaultTheme");
+const colors = require("tailwindcss/colors");
 const { createThemes } = require("tw-colors");
 module.exports = {
 	content: ["./pages/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}", "./HOC/*.{js,jsx,ts,tsx}"],
@@ -37,11 +37,26 @@ module.exports = {
 				sans: ["Helvetica", "Arial", "sans-serif"],
 			},
 		},
+		colors: {
+			transparent: "transparent",
+			current: "currentColor",
+			black: colors.black,
+			white: colors.white,
+			gray: colors.slate,
+			slate: colors.slate,
+			green: colors.green,
+			yellow: colors.yellow,
+			red: colors.red,
+			blue: colors.blue,
+			amber: colors.amber,
+			orange: colors.orange,
+		},
 	},
 	plugins: [
 		require("@headlessui/tailwindcss"),
 		createThemes({
 			csgo: {
+				//blue
 				"primary-300": "#93c5fd",
 				"primary-400": "#60a5fa",
 				"primary-500": "#3b82f6",
@@ -49,13 +64,15 @@ module.exports = {
 				"primary-700": "#1d4ed8",
 			},
 			streamers: {
-				"primary-300": "#d8b4fe",
+				//violet
+				"primary-300": "#c4b5fd",
 				"primary-400": "#a78bfa",
 				"primary-500": "#8b5cf6",
 				"primary-600": "#7c3aed",
 				"primary-700": "#6d28d9",
 			},
 			pubg: {
+				//orange
 				"primary-300": "#fdba74",
 				"primary-400": "#fb923c",
 				"primary-500": "#f97316",
@@ -63,6 +80,7 @@ module.exports = {
 				"primary-700": "#c2410c",
 			},
 			skgaming: {
+				//purple
 				"primary-300": "#d8b4fe",
 				"primary-400": "#c084fc",
 				"primary-500": "#a855f7",
@@ -70,6 +88,7 @@ module.exports = {
 				"primary-700": "#7e22ce",
 			},
 			kingsleague: {
+				//cyan
 				"primary-300": "#67e8f9",
 				"primary-400": "#22d3ee",
 				"primary-500": "#06b6d4",
@@ -77,6 +96,7 @@ module.exports = {
 				"primary-700": "#0e7490",
 			},
 			hiroquest: {
+				//emerald
 				"primary-300": "#6ee7b7",
 				"primary-400": "#34d399",
 				"primary-500": "#10b981",
@@ -84,6 +104,7 @@ module.exports = {
 				"primary-700": "#047857",
 			},
 			csc: {
+				//red
 				"primary-300": "#fca5a5",
 				"primary-400": "#f87171",
 				"primary-500": "#ef4444",

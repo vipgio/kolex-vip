@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 body {
-	@apply bg-gray-100 transition-colors dark:bg-gray-700;
+	@apply bg-main transition-colors;
+}
+
+.bg-main {
+	@apply bg-slate-200 dark:bg-slate-700;
 }
 
 .text-gray-custom {

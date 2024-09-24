@@ -44,7 +44,7 @@ const ModeSelection = ({ transferMode, setTransferMode }) => {
 													</RadioGroup.Label>
 													<RadioGroup.Description
 														as='span'
-														className={`inline ${checked ? "text-sky-100" : "text-gray-500"}`}
+														className={`inline ${checked ? "text-blue-100" : "text-gray-500"}`}
 													>
 														<span>{plan.description}</span>
 													</RadioGroup.Description>
