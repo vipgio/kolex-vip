@@ -51,7 +51,7 @@ Features.getInitialProps = async () => {
 
 		return {
 			features: features,
-			bundles: bundles.slice(1),
+			bundles: bundles,
 			currencies: currencies.map((currency) => ({
 				...currency,
 				ratio: currency.conversion * currency.discount,

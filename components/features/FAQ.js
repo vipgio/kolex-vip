@@ -52,7 +52,10 @@ const FAQ = ({ paymentMethods }) => {
 					</span>
 					{paymentMethods.map((method, index) => (
 						<div key={index}>
-							<span className='font-semibold text-primary-500'>{method.name}</span>:{" "}
+							<span className='font-semibold text-primary-500'>
+								{method.name === "Stripe" ? method.name + " BR" : method.name}
+							</span>
+							:{" "}
 							<span>
 								{method.value.includes("http") ? (
 									<a
