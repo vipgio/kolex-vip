@@ -29,13 +29,13 @@ module.exports = {
 				fadeIn: "fadeIn 0.1s ease-out",
 				fadeOut: "fadeOut 0.15s ease-out forwards",
 			},
-		},
-		screens: {
-			xs: "420px",
-			...defaultTheme.screens,
-		},
-		fontFamily: {
-			comic: ['"Comic Sans MS"', '"Comic Sans"', "cursive"],
+			screens: {
+				xs: "420px",
+			},
+			fontFamily: {
+				comic: ['"Comic Sans MS"', '"Comic Sans"', "cursive"],
+				sans: ["Helvetica", "Arial", "sans-serif"],
+			},
 		},
 	},
 	plugins: [

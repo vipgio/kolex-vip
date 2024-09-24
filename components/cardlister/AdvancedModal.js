@@ -79,9 +79,11 @@ const AdvancedModal = ({ selectedTemplates, showModal, setShowModal, user, templ
 					toast.isActive(template[0])
 						? toast.update(template[0], {
 								render: `Listed ${counter}x ${title} on the market for $${template[1][0].price}!`,
+								progress: 1 - counter / template[1].length,
 						  })
 						: toast.success(`Listed ${counter}x ${title} on the market for $${template[1][0].price}!`, {
 								toastId: template[0],
+								progress: 1 - counter / template[1].length,
 						  });
 				} else {
 					console.error(error);

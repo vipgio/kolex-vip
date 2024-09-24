@@ -117,11 +117,13 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 				toast.isActive("success")
 					? toast.update("success", {
 							render: `Listed ${counter}x ${counter === 1 ? "item" : "items"} on the market for $${price}!`,
+							progress: 1 - counter / selectedCards.length,
 					  })
 					: toast.success(
 							`Listed ${counter}x ${counter === 1 ? "item" : "items"} on the market for $${price}!`,
 							{
 								toastId: "success",
+								progress: 1 - counter / selectedCards.length,
 							}
 					  );
 			} else {
@@ -209,7 +211,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 								name='max'
 								id='max'
 								min={1}
-								max={30000}
+								max={100000}
 								value={filters.max}
 								disabled={cardDetails.length !== selectedTemplates.length}
 								className='diasbled:opacity-50 input-field my-1 ml-1 w-24 disabled:hover:cursor-not-allowed'
@@ -223,7 +225,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 								name='min'
 								id='min'
 								min={1}
-								max={30000}
+								max={100000}
 								value={filters.min}
 								disabled={cardDetails.length !== selectedTemplates.length}
 								className='diasbled:opacity-50 input-field my-1 ml-1 w-24 disabled:hover:cursor-not-allowed'

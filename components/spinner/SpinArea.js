@@ -37,7 +37,15 @@ const SpinArea = ({ info }) => {
 			amount: 1,
 		});
 		if (result) return result;
-		if (error) console.error(error);
+		if (error) {
+			toast.error(error.response.data.error, {
+				toastId: error.response.data.errorCode,
+				autoClose: false,
+			});
+			error.response.data.errorCode === "low_user_balance" && stopSpin();
+			error.response.data.errorCode.includes("jwt") && stopSpin();
+			console.error(error);
+		}
 	};
 
 	const spin = async (id) => {

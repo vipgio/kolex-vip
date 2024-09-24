@@ -97,3 +97,7 @@ body {
 	width: 60%;
 	opacity: 80%;
 }
+
+.Toastify__progress-bar {
+	transition: width 0.3s linear;
+}
