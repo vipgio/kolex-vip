@@ -8,10 +8,10 @@ import { UserContext } from "@/context/UserContext";
 import ImageWrapper from "@/HOC/ImageWrapper";
 
 const defaultColors = {
-	40: "#a855f7", //skgaming
-	106: "#10b981", //hiroquest
-	107: "#ef4444", //csc
-	default: "#000", //black
+	40: "hsl(271, 91%, 65%)", //skgaming
+	106: "hsl(160, 84%, 39%)", //hiroquest
+	107: "hsl(0, 84%, 60%)", //csc
+	default: "hsl(0, 0%, 0%)", //black
 };
 
 const CategorySelector = () => {
@@ -54,7 +54,7 @@ const CategorySelector = () => {
 											style={{
 												backgroundColor:
 													categories.find((category) => category.id.toString() === categoryId)?.color ||
-													"#000",
+													"hsl(0, 0%, 0%)",
 											}}
 											className='rounded-full'
 										>
