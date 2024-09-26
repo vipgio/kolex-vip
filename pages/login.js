@@ -2,16 +2,16 @@ import { useContext, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { FaGithub, FaMoon, FaSun, FaDiscord } from "react-icons/fa";
 import { GoLinkExternal } from "react-icons/go";
 import "react-toastify/dist/ReactToastify.css";
-import { webApp, discord, github } from "@/config/config";
+import { webApp, discordLink, githubLink } from "@/config/config";
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import JWTLogin from "@/components/login/JWTLogin";
 import TokenTutorial from "@/components/login/TokenTutorial";
 import Meta from "@/components/Meta";
 import Disclaimer from "@/components/login/Disclaimer";
+import { DiscordIcon, GithubIcon, MoonIcon, SunIcon } from "@/components/Icons";
 
 const Login = () => {
 	const { setUser } = useContext(UserContext);
@@ -123,30 +123,30 @@ const Login = () => {
 				pauseOnHover
 			/>
 			<div className='text-gray-custom absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold transition-colors'>
-				<a href={github} target='_blank' rel='noopener noreferrer' title='Source Code'>
-					<FaGithub className='text-gray-custom h-6 w-6 hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
+				<a href={githubLink} target='_blank' rel='noopener noreferrer' title='Source Code'>
+					<GithubIcon className='text-gray-custom h-6 w-6 hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 				<a
-					href={discord}
+					href={discordLink}
 					target='_blank'
 					rel='noreferrer'
 					title='Contact me on Discord'
 					// className='rounded-full focus:outline-primary-500 focus-visible:outline-offset-4 focus-visible:outline-primary-500'
 					className='my-outline mx-3 h-8 w-8 rounded-full focus-visible:ring-inset'
 				>
-					<FaDiscord className='h-full w-full hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
+					<DiscordIcon className='h-full w-full hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 				<button
 					className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
 					onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
 				>
 					<div className='relative h-10 w-10 rounded-full' title='Change theme'>
-						<FaSun
+						<SunIcon
 							className={`absolute top-0.5 h-7 w-7 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
 								theme === "dark" ? "" : "animate-fadeOut opacity-0"
 							}`}
 						/>
-						<FaMoon
+						<MoonIcon
 							className={`absolute top-0.5 h-7 w-7 animate-fadeIn cursor-pointer p-1 text-gray-700 transition-transform  ${
 								theme === "dark" ? "animate-fadeOut opacity-0" : ""
 							}`}

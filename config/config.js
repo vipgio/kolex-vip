@@ -11,9 +11,9 @@ export const CDN = "https://cdn.kolex.gg";
 
 export const webApp = "https://kolex.gg";
 
-export const github = "https://github.com/vipgio/kolex-vip";
+export const githubLink = "https://github.com/vipgio/kolex-vip";
 
-export const discord = "https://discordapp.com/users/473436055958192128";
+export const discordLink = "https://discordapp.com/users/473436055958192128";
 
 export const templateLimit = 40;
 
@@ -76,3 +76,13 @@ export const historyEvents = {
 		</>
 	),
 };
+
+export const excludedFeatures = [
+	{ id: 1, name: "cs", excluded: [] },
+	{ id: 2, name: "streamers", excluded: ["spinner", "crafting", "rush"] },
+	{ id: 4, name: "pubgm", excluded: ["spinner", "crafting", "rush"] },
+	{ id: 73, name: "kingsleague", excluded: ["spinner", "crafting", "rush"] },
+	{ id: 40, name: "skgaming", excluded: ["spinner", "crafting", "rush", "packmanager", "packs"] },
+	{ id: 107, name: "csc", excluded: ["spinner", "crafting", "rush", "packmanager", "packs"] },
+	{ id: 106, name: "hiroquest", excluded: ["spinner", "crafting", "rush", "packmanager", "packs"] },
+];

@@ -78,8 +78,10 @@ const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = 
 					{results?.slice(0, 15).map((result) => (
 						<button
 							className={`${
-								selectedUsers.find((user) => user.id === result.id) ? "bg-gray-500" : "hover:bg-gray-600"
-							} text-gray-custom group mx-4 my-2 flex w-fit min-w-[8rem] flex-col items-center rounded-md border border-gray-400 p-2 transition-all hover:cursor-pointer active:scale-110 active:bg-gray-500`}
+								selectedUsers.find((user) => user.id === result.id)
+									? "bg-gray-500"
+									: "hover:bg-gray-400 dark:hover:bg-gray-600"
+							} text-gray-custom group mx-4 my-2 flex w-fit min-w-[8rem] flex-col items-center rounded-md border border-gray-400/30 p-2 transition-all hover:cursor-pointer active:scale-110 active:bg-gray-500`}
 							key={result.id}
 							onClick={() => {
 								setSelectedUsers((prev) => uniqBy([...prev, result], "id"));
@@ -87,7 +89,7 @@ const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = 
 								setResults([]);
 							}}
 						>
-							<div className='relative flex h-16 w-16 overflow-hidden rounded-full border'>
+							<div className='relative flex h-16 w-16 overflow-hidden rounded-full border shadow-md'>
 								<ImageWrapper
 									src={`${CDN}${result.avatar}`}
 									alt={result.username}

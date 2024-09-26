@@ -70,7 +70,10 @@ const History = () => {
 						templateIds.push(result.cardTemplateId);
 						setHistory((prev) => [
 							...prev,
-							pick(result, ["id", "mintBatch", "mintNumber", "history", "images", "cardTemplateId"]),
+							{
+								...pick(result, ["id", "mintBatch", "mintNumber", "history", "images", "cardTemplateId"]),
+								cardImage: result.images.size201 || result.images.size102 || result.images.size402 || "",
+							},
 						]);
 					}
 					if (error) {

@@ -25,7 +25,7 @@ const CategorySelector = () => {
 			setCategories(
 				result
 					.map((category) => ({
-						...pick(category, ["name", "id", "iconUrl"]),
+						...pick(category, ["name", "id", "iconUrl", "slug"]),
 						color: category.color || defaultColors[category.id] || defaultColors.default,
 					}))
 					.sort((a, b) => a.id - b.id)

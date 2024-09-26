@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { supabaseKey, supabaseUrl } from "@/config/config";
+import { UserContext } from "@/context/UserContext";
 import Meta from "@/components/Meta";
 import Toggle from "@/components/features/Toggle";
 import Details from "@/components/features/Details";
@@ -9,6 +10,7 @@ import Pricing from "@/components/features/Pricing";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const Features = ({ features, bundles, currencies, paymentMethods }) => {
+	const { user } = useContext(UserContext);
 	const [show, setShow] = useState("features");
 	return (
 		<>
@@ -17,7 +19,7 @@ const Features = ({ features, bundles, currencies, paymentMethods }) => {
 				<Toggle action={show} setAction={setShow} />
 			</div>
 			{show === "features" ? (
-				<Details features={features} />
+				<Details features={features} allowed={user?.info?.allowed ?? []} />
 			) : (
 				<Pricing
 					features={features}

@@ -73,7 +73,7 @@ const ActivePacks = ({ user, categoryId }) => {
 			}`}
 		>
 			<div className='inline-flex'>
-				<span className='p-1 text-lg font-semibold'>Available Packs: </span>
+				<span className='p-1 text-lg font-semibold'>Available Packs </span>
 				<div className='relative ml-auto mr-2'>
 					<RefreshButton
 						title='Refresh Packs'
@@ -104,8 +104,7 @@ const ActivePacks = ({ user, categoryId }) => {
 								<div className='flex w-3/4 flex-col justify-center sm:mt-2 sm:justify-start'>
 									<div>{pack.name}</div>
 									<div>
-										Packs left:{" "}
-										<span className='text-primary-500'>{pack.inventoryCount.toLocaleString()}</span>
+										<span className='text-primary-500'>{pack.inventoryCount.toLocaleString()}</span> Packs left
 									</div>
 								</div>
 							</div>

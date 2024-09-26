@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { LuArrowDown } from "react-icons/lu";
 import { GoLinkExternal } from "react-icons/go";
-import { FaGithub } from "react-icons/fa";
-import { github, discord } from "@/config/config";
+import { discordLink, githubLink } from "@/config/config";
 import Tooltip from "../Tooltip";
+import { GithubIcon } from "@/components/Icons";
 
 const FAQ = ({ paymentMethods }) => {
 	const faqData = [
@@ -23,13 +23,13 @@ const FAQ = ({ paymentMethods }) => {
 					Yes, this site is safe to use. It does not store any user data, and the only place that your token is
 					sent to is Kolex. If you have any concerns, you can check the source code on{" "}
 					<a
-						href={github}
+						href={githubLink}
 						target='_blank'
 						rel='noopener noreferrer'
 						title='Source Code'
 						className='inline-flex items-center hover:cursor-pointer hover:text-primary-500'
 					>
-						Github <FaGithub className='ml-1' />
+						Github <GithubIcon className='ml-1' />
 					</a>
 				</p>
 			),
@@ -87,7 +87,7 @@ const FAQ = ({ paymentMethods }) => {
 					<div className='mt-2 inline-flex'>
 						Discord:
 						<a
-							href={discord}
+							href={discordLink}
 							target='_blank'
 							rel='noreferrer'
 							title='Contact me on Discord'

@@ -88,7 +88,7 @@ const Scanner = () => {
 			<Meta title='Scanner | Kolex VIP' />
 
 			<div className='text-gray-custom mt-2 flex flex-col justify-center px-2'>
-				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
+				<div className='relative mt-10 mb-5 flex max-h-96 overflow-y-hidden rounded-md border border-gray-700/30 pb-2 transition-all duration-300 dark:border-gray-300/30'>
 					<div className='overflow-hidden'>
 						<div className=' p-2 px-4 font-semibold'>
 							<div>
@@ -128,7 +128,7 @@ const Scanner = () => {
 					</div>
 				</div>
 
-				<div className='relative mb-5 flex max-h-96 overflow-visible rounded-md border border-gray-700 pb-2 transition-all duration-300 dark:border-gray-300'>
+				<div className='relative mb-5 flex max-h-96 overflow-visible rounded-md border border-gray-700/30 pb-2 transition-all duration-300 dark:border-gray-300/30'>
 					<div className='inline-flex w-full flex-col items-center px-1.5 sm:items-start'>
 						<div className='p-2 font-semibold'>
 							Selected Collection:

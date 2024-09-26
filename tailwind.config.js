@@ -40,6 +40,7 @@ module.exports = {
 		colors: {
 			transparent: "transparent",
 			current: "currentColor",
+			inherit: colors.inherit,
 			black: colors.black,
 			white: colors.white,
 			gray: colors.slate,

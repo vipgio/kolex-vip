@@ -100,7 +100,7 @@ const Profile = () => {
 							) : null}
 							{user.user.totalDeposited >= 0 ? <TotalDeposit total={user.user.totalDeposited} /> : null}
 							<div>
-								Account created:{" "}
+								Account created on{" "}
 								<span className='font-semibold text-primary-500'>{user.user.created.split("T")[0]}</span>
 							</div>
 

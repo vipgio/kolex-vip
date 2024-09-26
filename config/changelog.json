@@ -1,6 +1,14 @@
 {
 	"changelog": [
 		{
+			"version": "2.11.2",
+			"date": "2024-09-26",
+			"changes": [
+				"New table for circulation page. You can sort by clicking on the headers (other pages soon TM).",
+				"Changed the menu layout (you'll get used to it)."
+			]
+		},
+		{
 			"version": "2.11.1",
 			"date": "2024-09-24",
 			"changes": [

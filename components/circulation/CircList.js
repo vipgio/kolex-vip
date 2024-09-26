@@ -1,3 +1,6 @@
+import { useMemo, useState } from "react";
+import GridComp from "./GridComp";
+
 const CircList = ({ data, prices }) => {
 	const opened = data.reduce((cur, acc) => cur + acc.inCirculation, 0);
 	const minted =
@@ -5,9 +8,74 @@ const CircList = ({ data, prices }) => {
 		data.reduce((cur, acc) => cur + (acc.mintCount || 0), 0);
 	const setValue = prices.reduce((cur, acc) => (acc.lowestPrice ? cur + Number(acc.lowestPrice) : cur), 0);
 
+	const [columnDefs, setColumnDefs] = useState([
+		{
+			headerName: "Title",
+			field: "title",
+			filter: "agTextColumnFilter",
+			width: "100%",
+			wrapText: true,
+		},
+		{
+			headerName: "Circulation",
+			field: "inCirculation",
+			filter: "agNumberColumnFilter",
+			width: "20%",
+		},
+		{
+			headerName: "Edition of",
+			valueGetter: (p) => p.data.minted || p.data.mintCount || "-",
+			filter: "agNumberColumnFilter",
+			width: "20%",
+		},
+		{
+			headerName: "Floor",
+			valueGetter: (p) => {
+				const price = prices.find((price) => price.entityTemplateId === p.data.templateId);
+				return price ? price.lowestPrice : null; // Return numeric value or null for filtering
+			},
+			valueFormatter: (params) => {
+				const value = params.value;
+				return value !== null && value !== undefined ? `$${value}` : `-`; // Format for display
+			},
+			filter: "agNumberColumnFilter",
+			filterParams: {
+				comparator: (filterValue, cellValue) => {
+					if (cellValue === null || cellValue === undefined || cellValue === "-") {
+						return 1; // Treat blank or non-numeric values as greater than any number
+					}
+					return cellValue - filterValue; // Standard number comparison
+				},
+			},
+			width: "10%",
+		},
+	]);
+
+	const [rowData, setRowData] = useState(data.sort((a, b) => a.inCirculation - b.inCirculation));
+
+	const defaultColDef = useMemo(() => ({
+		// flex: 1,
+		suppressMovable: true,
+		resizable: false,
+		suppressMovable: true,
+		filterParams: {
+			buttons: ["reset"],
+		},
+		initialWidth: 200, // Optional: Set a default size
+		autoHeight: true, // Adjust Cell Height to Fit Wrapped Text
+	}));
+	const gridOptions = {
+		columnDefs: columnDefs,
+		defaultColDef: defaultColDef,
+		rowData: rowData,
+		onGridReady: (event) => event.api.sizeColumnsToFit(),
+		suppressCellFocus: true,
+		enableCellTextSelection: true,
+	};
+
 	return (
-		<div className='mb-5 flex justify-center px-2'>
-			<div className='grid divide-y divide-primary-500 overflow-hidden rounded border border-primary-500'>
+		<div className='mb-5 flex justify-center px-2 md:w-5/6'>
+			<div className='grid w-full divide-y divide-primary-500 overflow-hidden rounded border border-primary-500 md:w-2/3'>
 				<div className='text-gray-custom flex justify-around p-1 text-center font-semibold'>
 					<div>
 						<>
@@ -30,37 +98,8 @@ const CircList = ({ data, prices }) => {
 						</>
 					</div>
 				</div>
-				<div className='max-h-[30rem] overflow-auto'>
-					<table className='w-full table-auto'>
-						<thead className='text-gray-custom sticky top-0 bg-gray-200 dark:bg-gray-700'>
-							<tr>
-								<th className='table-cell'>Title</th>
-								<th className='table-cell'>Circulation</th>
-								<th className='table-cell'>Edition of</th>
-								<th className='table-cell'>Floor</th>
-							</tr>
-						</thead>
-						<tbody>
-							{data
-								.sort((a, b) => a.inCirculation - b.inCirculation)
-								.map((item) => (
-									<tr
-										className='text-gray-custom border-b border-gray-300 bg-gray-100 text-center hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
-										key={item.templateId}
-									>
-										<td className='table-cell'>{item.title}</td>
-										<td className='table-cell'>{item.inCirculation}</td>
-
-										<td className='table-cell'>{item.minted || item.mintCount || "-"}</td>
-										<td className='table-cell'>
-											{prices.find((price) => price.entityTemplateId === item.templateId)
-												? `$${prices.find((price) => price.entityTemplateId === item.templateId).lowestPrice}`
-												: `-`}
-										</td>
-									</tr>
-								))}
-						</tbody>
-					</table>
+				<div>
+					<GridComp gridOptions={gridOptions} />
 				</div>
 			</div>
 		</div>

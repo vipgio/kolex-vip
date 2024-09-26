@@ -105,3 +105,99 @@ body {
 .Toastify__progress-bar {
 	transition: width 0.3s linear;
 }
+
+.ag-cell {
+	@apply text-gray-custom;
+}
+.ag-custom-quartz {
+	--ag-font-size: 13px;
+	--ag-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+		"Helvetica Neue", sans-serif;
+
+	--ag-background-color: #f1f5f9; /*slate-200*/
+	--ag-foreground-color: #1e293b; /*slate-800*/
+	--ag-border-color: #e2e2e2;
+
+	--ag-header-background-color: #e2e8f0; /*slate-200*/
+	--ag-header-foreground-color: #000;
+
+	--ag-row-hover-color: #cbd5e1; /*slate-300*/
+
+	--ag-cell-horizontal-padding: 12px;
+	--ag-cell-vertical-padding: 6px;
+
+	--ag-row-height: 40px;
+	--ag-header-height: 50px;
+
+	/* --ag-selected-row-background-color: rgba(0, 145, 234, 0.1); */
+}
+.dark .ag-custom-quartz {
+	--ag-background-color: #1e293b; /*slate-800*/
+	--ag-foreground-color: #e2e8f0; /*slate-200*/
+	--ag-border-color: #374151;
+
+	--ag-header-background-color: #334155;
+	--ag-header-foreground-color: #cbd5e1;
+
+	--ag-row-hover-color: #475569; /*slate-600*/
+
+	/* --ag-selected-row-background-color: rgba(59, 130, 246, 0.5); */
+}
+
+.ag-custom-quartz .ag-root-wrapper {
+	border: 1px solid var(--ag-border-color);
+	border-radius: 4px;
+}
+
+.ag-custom-quartz .ag-header {
+	border-bottom: 1px solid var(--ag-border-color);
+	font-weight: 600;
+}
+
+.ag-custom-quartz .ag-header-cell {
+	padding-left: var(--ag-cell-horizontal-padding);
+	padding-right: var(--ag-cell-horizontal-padding);
+}
+.ag-custom-quartz .ag-header-cell-label {
+	line-height: var(--ag-header-height);
+	align-items: center;
+	justify-content: center;
+}
+
+.ag-custom-quartz .ag-cell {
+	border-right: 1px solid var(--ag-border-color);
+	padding-left: var(--ag-cell-horizontal-padding);
+	padding-right: var(--ag-cell-horizontal-padding);
+	line-height: calc(var(--ag-row-height) - 2 * var(--ag-cell-vertical-padding));
+}
+
+.ag-custom-quartz .ag-row {
+	border-bottom: 1px solid var(--ag-border-color);
+	text-align: center;
+	align-items: center;
+}
+.ag-row .ag-cell {
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center;
+}
+
+.ag-custom-quartz .ag-row:hover {
+	background-color: var(--ag-row-hover-color);
+}
+
+.ag-custom-quartz .ag-paging-panel {
+	border-top: 1px solid var(--ag-border-color);
+	padding: 10px;
+}
+
+.ag-custom-quartz .ag-cell:focus {
+	outline: none !important;
+	border: none !important;
+}
+.ag-center-cols-container {
+	width: 100% !important;
+}
+.ag-cell-label-container {
+	flex-direction: column !important;
+}

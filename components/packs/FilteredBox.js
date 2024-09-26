@@ -3,7 +3,7 @@ import { CDN } from "@/config/config";
 import ImageWrapper from "@/HOC/ImageWrapper";
 import PackModal from "./PackModal";
 
-const FilteredBox = ({ pack }) => {
+const FilteredBox = ({ pack, circList }) => {
 	const [showModal, setShowModal] = useState(false);
 
 	const openModal = (e) => {
@@ -14,7 +14,9 @@ const FilteredBox = ({ pack }) => {
 	return (
 		<>
 			<div
-				className='flex h-full w-full cursor-pointer flex-col items-center rounded border border-primary-500 transition-all hover:scale-105 sm:flex-row sm:pr-1 '
+				className={`flex h-full w-full cursor-pointer flex-col items-center rounded sm:flex-row sm:pr-1 ${
+					circList ? "" : "border border-primary-500 transition-all hover:scale-105"
+				}`}
 				onClick={openModal}
 			>
 				<div
@@ -23,14 +25,25 @@ const FilteredBox = ({ pack }) => {
 					} w-2/3 items-center justify-center sm:h-full`}
 				>
 					<div
-						className={`relative ${pack.properties.seasons?.[0]?.includes("-") ? "h-20 w-32" : "h-32 w-20"}`}
+						className={`relative ${
+							pack.properties.seasons?.[0]?.includes("-") ? "h-20 w-max" : "h-32 w-20"
+						} inline-flex items-center justify-center`}
 					>
-						<ImageWrapper
-							src={`${CDN}${pack.images.url || pack.images.find((img) => img.name === "image").url}`}
-							fill
-							sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw'
-							alt={pack.name}
-						/>
+						{circList ? (
+							<ImageWrapper
+								src={`${CDN}${pack.images.url || pack.images.find((img) => img.name === "image").url}`}
+								alt={pack.name}
+								width={75}
+								height={100}
+							/>
+						) : (
+							<ImageWrapper
+								src={`${CDN}${pack.images.url || pack.images.find((img) => img.name === "image").url}`}
+								alt={pack.name}
+								fill
+								sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw'
+							/>
+						)}
 					</div>
 					{/* <ImageWrapper src={`${CDN}${pack.images.url}`} width={75} height={100} alt={pack.name} /> */}
 				</div>
