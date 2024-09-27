@@ -60,7 +60,7 @@ const NewNavbar = () => {
 									{pages.map((page) =>
 										excludedFeatures
 											.find((category) => category.id == categoryId)
-											.excluded.includes(page.link) ? null : (
+											?.excluded?.includes(page.link) ? null : (
 											<Menu.Items key={page.link}>
 												<Menu.Item>
 													{({ active }) => (

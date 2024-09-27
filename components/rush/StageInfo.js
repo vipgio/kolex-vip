@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext, useRef, useMemo } from "react";
 import Bottleneck from "bottleneck";
 import { toast } from "react-toastify";
 import { FaLock } from "react-icons/fa";
@@ -27,6 +27,19 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 	const [loading, setLoading] = useState(false);
 	const isUserVIP = user.info.allowed.length > 0;
 
+	const thisStage = useMemo(() => circuit.stages.find((s) => s.id === stage.id), [circuit, stage]);
+
+	const isAllButtonDisabled = () =>
+		thisStage.rosters.reduce(
+			(acc, r) =>
+				acc +
+				Math.max(
+					0,
+					r.wins - (thisStage.rosterProgress.find((p) => p.ut_pve_roster_id === r.ut_pve_roster_id)?.wins || 0)
+				),
+			0
+		) === 0;
+
 	const getRosters = async () => {
 		setLoading(true);
 		const { result, error } = await fetchData("/api/rush/PVERosters", {
@@ -40,10 +53,7 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 					stats: roster.stats,
 					id: roster.id,
 					level: roster.level,
-					wins:
-						circuit.stages
-							.find((s) => s.id === stage.id)
-							.rosterProgress.find((pr) => pr.ut_pve_roster_id === roster.id)?.wins || 0,
+					wins: thisStage.rosterProgress.find((pr) => pr.ut_pve_roster_id === roster.id)?.wins || 0,
 				}))
 			);
 		error &&
@@ -57,7 +67,6 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 		isMountedRef.current = true;
 		getRosters();
 
-		// Clean up function to set isMounted to false when the component unmounts
 		return () => {
 			isMountedRef.current = false;
 		};
@@ -130,7 +139,6 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 
 	const winAll = async () => {
 		setLoading(true);
-		const thisStage = circuit.stages.find((infoStage) => infoStage.id === stage.id);
 		const remainingRosters = thisStage.rosters
 			.map((roster) => {
 				const winsNeeded =
@@ -163,7 +171,6 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 
 	const win20 = async () => {
 		setLoading(true);
-		const thisStage = circuit.stages.find((infoStage) => infoStage.id === stage.id);
 		const remainingRosters = thisStage.rosters
 			.map((roster) => {
 				const winsNeeded =
@@ -242,7 +249,18 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 							)}
 							<span>Win 20</span>
 						</button>
-						<button className='button !rounded-l-none' onClick={winAll} disabled={loading || !isUserVIP}>
+						<button
+							className='button !rounded-l-none'
+							onClick={winAll}
+							disabled={loading || !isUserVIP || isAllButtonDisabled()}
+							title={
+								!isUserVIP
+									? "You need to have any VIP feature to unlock this"
+									: isAllButtonDisabled()
+									? "All rosters are already won"
+									: "Win all games"
+							}
+						>
 							{!isUserVIP && (
 								<span className='mr-1.5'>
 									<FaLock />
@@ -255,7 +273,7 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 							text={
 								!isUserVIP
 									? "You need to have any VIP feature to unlock this"
-									: "You are a lovely VIP user, so this feature is added automatically"
+									: "You are a lovely VIP user, so these features are added automatically"
 							}
 						/>
 					</div>

@@ -60,7 +60,8 @@ const CategorySelector = () => {
 										>
 											<ImageWrapper
 												src={
-													CDN + categories.find((category) => category.id.toString() === categoryId)?.iconUrl
+													CDN +
+													(categories.find((category) => category.id.toString() === categoryId)?.iconUrl || "")
 												}
 												alt={categories.find((category) => category.id.toString() === categoryId)?.name}
 												className='h-8 w-8'
@@ -104,7 +105,7 @@ const CategorySelector = () => {
 																className='inline-flex w-max flex-shrink-0 items-center rounded-full border border-gray-400'
 															>
 																<ImageWrapper
-																	src={CDN + category.iconUrl}
+																	src={CDN + (category.iconUrl || "")}
 																	alt={category.name}
 																	className='h-8 w-8'
 																	height={32}

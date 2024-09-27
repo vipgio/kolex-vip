@@ -37,13 +37,13 @@ const RushRostersDropdown = ({ items, loading }) => {
 						leaveFrom='transform scale-100 opacity-100'
 						leaveTo='transform scale-95 opacity-0'
 					>
-						<Listbox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+						<Listbox.Options className='absolute mt-1 max-h-72 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 							{!loading ? (
 								items.map((item, personIdx) => (
 									<Listbox.Option
 										key={personIdx}
 										className={({ active }) =>
-											`relative cursor-pointer select-none py-2 px-4 ${
+											`relative cursor-pointer select-none py-3 px-4 ${
 												active ? "bg-orange-100 text-orange-900" : "text-gray-900"
 											} ${item.unavailable ? "bg-gray-100" : ""}`
 										}
