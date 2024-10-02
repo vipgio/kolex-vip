@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
-import { SignatureIcon, TrashIcon, CheckCircleIcon } from "@/components/Icons";
+import { SignatureIcon, TrashIcon, CheckCircleIcon, RotateIcon } from "@/components/Icons";
 import fixDecimal from "@/utils/NumberUtils";
 
 const ListedRow = memo(
@@ -143,7 +143,7 @@ const ListedRow = memo(
 										title='Get floor price'
 										onClick={fetchFloor}
 									>
-										<AiOutlineReload size={18} />
+										<RotateIcon size={18} />
 									</button>
 								)}
 								<button
