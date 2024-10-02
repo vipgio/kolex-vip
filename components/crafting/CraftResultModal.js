@@ -1,9 +1,9 @@
-import React from "react";
+import { memo } from "react";
 import isEqual from "lodash/isEqual";
 import Dialog from "@/HOC/Dialog";
 import LoadingSpin from "../LoadingSpin";
 
-const CraftResultModal = React.memo(
+const CraftResultModal = memo(
 	({ data, showResult, setShowResult, loading, craftCount }) => {
 		return (
 			<div className='fixed z-50'>
@@ -32,7 +32,7 @@ const CraftResultModal = React.memo(
 						{data.length > 0 &&
 							data.map((card) => (
 								<div className='flex text-gray-800 dark:text-gray-200' key={card.uuid}>
-									<span className='w-8 text-orange-400'>
+									<span className='w-8 text-primary-400'>
 										{card.mintBatch}
 										{card.mintNumber}
 									</span>

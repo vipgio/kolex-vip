@@ -2,12 +2,12 @@ import { useContext } from "react";
 import Link from "next/link";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-import { FaSignature, FaLock } from "react-icons/fa";
 import { UserContext } from "@/context/UserContext";
 import ExportToCSV from "../ExportToCSV";
 import MintResultRow from "./MintResultRow";
 import BigModal from "@/components/BigModal";
 import Tooltip from "@/components/Tooltip";
+import { LockIcon, SignatureIcon } from "@/components/Icons";
 
 const MintResults = ({
 	showModal,
@@ -46,7 +46,7 @@ const MintResults = ({
 			}
 			counter={
 				<div className='text-center text-sm'>
-					Checked <span className='text-orange-400'>{usersChecked}</span> Accounts
+					Checked <span className='text-primary-400'>{usersChecked}</span> Accounts
 				</div>
 			}
 			showModal={showModal}
@@ -56,7 +56,7 @@ const MintResults = ({
 			stopButton={
 				!finished.current && (
 					<button
-						className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
+						className='my-outline ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
 						onClick={() => (finished.current = true)}
 						title='Stop the search'
 					>
@@ -98,7 +98,7 @@ const MintResults = ({
 			{results.length > 0 && (
 				<div className='flex p-3'>
 					<div className='ml-2 flex items-center text-yellow-500'>
-						<FaSignature className='mr-2' /> Signed
+						<SignatureIcon className='mr-2' /> Signed
 						<span className='ml-1 hidden sm:block'>Item</span>
 					</div>
 
@@ -129,7 +129,7 @@ const MintResults = ({
 									<Tooltip text='You need access to the history feature for this.' direction='left' />
 									<button className='button' disabled title='No Access'>
 										History
-										<FaLock />
+										<LockIcon />
 									</button>
 								</>
 							)}

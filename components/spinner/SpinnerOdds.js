@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LuArrowDown, LuArrowUp } from "react-icons/lu";
+import { ArrowDownIcon, ArrowUpIcon } from "@/components/Icons";
 import isMobile from "@/utils/isMobile";
 
 const SpinnerOdds = ({ spinnerInfo }) => {
@@ -16,7 +16,7 @@ const SpinnerOdds = ({ spinnerInfo }) => {
 					onClick={() => setShowTable((prev) => !prev)}
 				>
 					Spinner odds
-					{showTable ? <LuArrowUp /> : <LuArrowDown />}
+					{showTable ? <ArrowUpIcon /> : <ArrowDownIcon />}
 				</div>
 
 				<table className='h-full'>

@@ -221,7 +221,7 @@ const Delister = ({ selectedTemplates, showModal, setShowModal, user }) => {
 						/>
 					</div>
 
-					<div className='flex border-t border-gray-400 p-3 dark:border-gray-200'>
+					<div className='flex border-t border-gray-700 p-3 dark:border-gray-500'>
 						<div className='flex items-center'>
 							<button onClick={updateToFloor} className='button font-semibold' disabled={loading}>
 								{loading ? <LoadingSpin size={4} /> : "Update to floor"}

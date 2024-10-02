@@ -139,7 +139,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							onChange={(e) => setPrice(e.target.value)} // remove leading zeros and non-numeric characters
 							onFocus={(e) => e.target.select()}
 						/>
-						<div className='flex justify-center'>
+						<div className='flex items-center justify-center'>
 							<label htmlFor='minOffer' className='text-gray-custom'>
 								Min Offer:
 							</label>
@@ -147,7 +147,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 								type='checkbox'
 								name='minOffer'
 								id='minOffer'
-								className='ml-2'
+								className='checkbox ml-2'
 								onChange={(e) => setOfferEnabled(e.target.checked)}
 							/>
 						</div>
@@ -157,15 +157,15 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							id='minOfferPrice'
 							value={minOffer}
 							disabled={!offerEnabled}
-							className='input-field w-28 disabled:cursor-not-allowed'
+							className='input-field w-28'
 							min={0.1}
-							max={(price * 100 - 0.01 * 100) / 100}
-							onChange={(e) => setMinOffer(e.target.value)} // remove leading zeros and non-numeric characters
-							onBlur={(e) => {
-								if (Number(e.target.value) >= Number(price)) {
-									setMinOffer(fixDecimal((price * 100 - 0.01 * 100) / 100));
-								}
-							}}
+							max={Math.max(fixDecimal(price - 0.01), 0.1)}
+							onChange={(e) => setMinOffer(e.target.value)}
+							// onBlur={(e) => {
+							// 	if (Number(e.target.value) >= Number(price)) {
+							// 		setMinOffer(fixDecimal((price * 100 - 0.01 * 100) / 100));
+							// 	}
+							// }}
 							onFocus={(e) => e.target.select()}
 							step={0.01}
 						/>
@@ -187,10 +187,10 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 					</div>
 					<div className='m-2 flex flex-1 flex-col overflow-auto'>
 						{openedCards.length > 0 && (
-							<div className='text-gray-custom my-4 w-full overflow-auto border border-gray-500 px-2'>
+							<div className='text-gray-custom my-4 w-full overflow-auto border border-gray-500 px-2 py-1'>
 								{sortBy(openedCards, ["mintBatch", "mintNumber"]).map((card) => (
 									<div className='flex' key={card.uuid}>
-										<span className='mr-2 text-orange-400'>
+										<span className='mr-2 text-primary-400'>
 											{card.mintBatch}
 											{card.mintNumber}
 										</span>

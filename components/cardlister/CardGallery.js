@@ -44,7 +44,7 @@ const CardGallery = ({ templates, user }) => {
 				<select
 					name='sort'
 					id='sort'
-					className='dropdown mx-2 my-1 sm:mb-0'
+					className='dropdown mx-2 my-1'
 					onChange={(e) => setSortMethod(e.target.value)}
 					value={sortMethod}
 				>

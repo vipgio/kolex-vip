@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
-import { GoLinkExternal } from "react-icons/go";
 import FAQ from "./FAQ";
+import { LinkIcon } from "@/components/Icons";
 import fixDecimal from "@/utils/NumberUtils";
 
 let localCurrencies = [];
@@ -25,7 +25,7 @@ const Pricing = ({ features, bundles, currencies, paymentMethods }) => {
 						className=''
 					>
 						<button className='submit-button inline-flex items-center'>
-							Stripe <GoLinkExternal className='ml-1' />
+							Stripe <LinkIcon className='ml-1' />
 						</button>
 					</a>
 				)}

@@ -1,13 +1,14 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { HiOutlineChevronUpDown } from "react-icons/hi2";
+import { ChevronIcon } from "@/components/Icons";
+
 const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setSelectedSet }) => {
 	return (
 		<Listbox value={selectedSet} onChange={(e) => setSelectedSet(e)} disabled={selectedCol.length === 0}>
-			<Listbox.Button className='relative my-1 h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-4 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 disabled:cursor-not-allowed sm:text-sm'>
+			<Listbox.Button className='input-outline relative my-1 h-10 w-full rounded-lg bg-white py-2 pl-4 pr-10 text-left shadow-md sm:text-sm'>
 				<span className='block truncate'>{selectedSet.length === 0 ? "Set" : selectedSet.name}</span>
 				<span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
-					<HiOutlineChevronUpDown className='h-5 w-5 text-gray-400' />
+					<ChevronIcon className='h-5 w-5 text-gray-400' />
 				</span>
 			</Listbox.Button>
 			<Transition
@@ -20,7 +21,7 @@ const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setS
 				leaveTo='transform opacity-0 scale-95'
 			>
 				{selectedCol.length > 0 && ( // If a collection is selected, show the sets
-					<Listbox.Options className='absolute top-12 z-30 max-h-96 w-full divide-y overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+					<Listbox.Options className='absolute top-12 left-0 z-30 inline-grid max-h-96 w-full gap-1 overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 						{collections
 							.find(([season, _]) => season === selectedSeason)?.[1]
 							.find(([col, _]) => col === selectedCol)?.[1]
@@ -31,8 +32,8 @@ const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setS
 										key={set.collection.id}
 										value={set.collection}
 										className={({ active }) =>
-											`relative cursor-pointer select-none p-2 text-center ${
-												active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+											`relative cursor-pointer select-none rounded p-2 text-center ${
+												active ? "bg-primary-400" : "text-gray-800"
 											}`
 										}
 									>
@@ -44,8 +45,8 @@ const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setS
 											key={set.tier}
 											value={set.tier}
 											className={({ active }) =>
-												`relative select-none border-t border-gray-700 bg-gray-300 p-2 text-center text-xs ${
-													active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+												`relative select-none rounded bg-gray-300 py-2 px-4 text-center ${
+													active ? "bg-primary-400" : "text-gray-800"
 												}`
 											}
 											disabled
@@ -59,8 +60,8 @@ const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setS
 													key={subSet.collection.id}
 													value={subSet.collection}
 													className={({ active }) =>
-														`relative cursor-pointer select-none p-2 text-center ${
-															active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+														`relative cursor-pointer select-none rounded py-2 px-4 text-center ${
+															active ? "bg-primary-400" : "text-gray-800"
 														}`
 													}
 												>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LuArrowUp } from "react-icons/lu";
+import { ArrowUpIcon } from "@/components/Icons";
 import isMobile from "@/utils/isMobile";
 
 function BackToTopButton() {
@@ -30,7 +30,7 @@ function BackToTopButton() {
 			onClick={scrollToTop}
 			title='Back to top'
 		>
-			<LuArrowUp className='h-5 w-5' />
+			<ArrowUpIcon className='h-5 w-5' />
 		</button>
 	);
 }

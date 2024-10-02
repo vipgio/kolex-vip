@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { FaLock, FaBan, FaHistory } from "react-icons/fa";
 import HistoryModal from "@/components/history/HistoryModal";
+import { BanIcon, HistoryIcon, LockIcon } from "@/components/Icons";
 
 const TransactionResultsRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);
@@ -29,16 +29,16 @@ const TransactionResultsRow = ({ item, allowed }) => {
 				<div className='relative flex h-8 items-center justify-center'>
 					{allowed ? (
 						!item.details || item.details.entityType !== "card" ? (
-							<FaBan title='Only works with cards!' />
+							<BanIcon title='Only works with cards!' />
 						) : showHistory ? (
 							<HistoryModal data={historyFakeItem} isOpen={showHistory} setIsOpen={setShowHistory} />
 						) : (
-							<button onClick={openModal}>
-								<FaHistory />
+							<button onClick={openModal} className='my-outline rounded p-1'>
+								<HistoryIcon />
 							</button>
 						)
 					) : (
-						<FaLock className='cursor-not-allowed' title='You need history access for this feature' />
+						<LockIcon className='cursor-not-allowed' title='You need history access for this feature' />
 					)}
 				</div>
 			</td>

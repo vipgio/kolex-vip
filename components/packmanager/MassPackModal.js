@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { HiOutlineArrowCircleRight, HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { CDN } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import PackSelection from "./PackSelection";
 import ModalPage2 from "./ModalPage2";
 import BigModal from "@/components/BigModal";
+import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from "@/components/Icons";
 
 const MassPackModal = ({ packTemplate, showModal, setShowModal }) => {
 	const { fetchData } = useAxios();
@@ -66,25 +66,23 @@ export default MassPackModal;
 
 const Footer = ({ page, setPage, disabled }) => {
 	return (
-		<div className='text-gray-custom relative bottom-0 z-20 mt-auto mb-1 flex h-10 border-t border-gray-700 pt-2 dark:border-gray-300'>
+		<div className='text-gray-custom relative bottom-0 z-20 mt-auto mb-2 flex h-10 border-t border-gray-700 pt-2 dark:border-gray-300'>
 			{page === 1 ? (
 				<button
-					className={`${
-						disabled ? "cursor-not-allowed text-gray-400" : "cursor-pointer hover:text-orange-500"
-					} ml-auto mr-4 flex`}
+					className='simple-button ml-auto mr-4 flex disabled:text-gray-400'
 					onClick={() => !disabled && setPage(2)}
 					disabled={disabled}
 				>
 					<span className='mr-1'>Next </span>
-					<HiOutlineArrowCircleRight size={22} />
+					<ArrowRightCircleIcon size={22} />
 				</button>
 			) : (
 				<button
-					className='mr-auto ml-4 flex cursor-pointer hover:text-orange-500'
+					className='simple-button mr-auto ml-4 flex'
 					onClick={() => setPage(1)}
-					disabled={disabled}
+					disabled={disabled && page === 1}
 				>
-					<HiOutlineArrowCircleLeft size={22} />
+					<ArrowLeftCircleIcon size={22} />
 					<span className='ml-1'>Back </span>
 				</button>
 			)}

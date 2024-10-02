@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { GoLinkExternal } from "react-icons/go";
 import { webApp } from "@/config/config";
 import Dialog from "@/HOC/Dialog";
+import { LinkIcon } from "@/components/Icons";
 import fixDecimal from "@/utils/NumberUtils";
 
 const Leaderboard = ({ isOpen, setIsOpen, Leaderboard, points, rank, collection }) => {
@@ -79,7 +79,7 @@ const ExtraButton = ({ id }) => {
 			rel='noreferrer noopener'
 			className='button inline-flex items-center hover:underline'
 		>
-			Open LB in Kolex <GoLinkExternal />
+			Open LB in Kolex <LinkIcon />
 		</a>
 		// </button>
 	);

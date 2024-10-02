@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { memo, useState, useEffect } from "react";
 import isEqual from "lodash/isEqual";
 import uniqBy from "lodash/uniqBy";
 import sortBy from "lodash/sortBy";
 import Dialog from "@/HOC/Dialog";
 
-const MintSelectorModal = React.memo(
+const MintSelectorModal = memo(
 	({ data, isOpen, setIsOpen, selectedCards, setSelectedCards }) => {
 		const defaultFilters = {
 			batch: "",
@@ -59,7 +59,7 @@ const MintSelectorModal = React.memo(
 							{sortBy(data.cards, ["mintBatch", "mintNumber"])
 								.toReversed()
 								.map((card) => (
-									<div key={card.id} className='text-gray-custom flex w-full px-1'>
+									<div key={card.id} className='text-gray-custom flex w-full items-center px-1'>
 										<label
 											htmlFor={card.id}
 											className={`${card.signatureImage ? "text-yellow-400" : ""} hover:cursor-pointer`}
@@ -71,7 +71,7 @@ const MintSelectorModal = React.memo(
 										<input
 											type='checkbox'
 											name='mint'
-											className='ml-auto hover:cursor-pointer'
+											className='checkbox ml-auto'
 											id={card.id}
 											checked={selectedCards.some((o) => o.id === card.id)}
 											onChange={() => handleSelect(card)}
@@ -88,7 +88,7 @@ const MintSelectorModal = React.memo(
 										<select
 											name='batch'
 											id='batch'
-											className='input-field mx-2 my-1 sm:mb-0'
+											className='dropdown ml-1 sm:mb-0'
 											value={filters.batch}
 											onChange={(e) =>
 												setFilters((prev) => ({
@@ -158,7 +158,7 @@ const MintSelectorModal = React.memo(
 						</div>
 					</div>
 					<div className='mt-4 flex'>
-						<div className='ml-1 rounded-md p-1 font-semibold text-orange-500'>
+						<div className='ml-1 rounded-md p-1 font-semibold text-primary-500'>
 							Count: {selectedCards.length}
 						</div>
 						<div className='ml-auto'>

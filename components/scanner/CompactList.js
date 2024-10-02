@@ -1,6 +1,6 @@
 import { useState } from "react";
 import sortBy from "lodash/sortBy";
-import { FaSignature } from "react-icons/fa";
+import { SignatureIcon } from "@/components/Icons";
 
 const CompactList = ({ results }) => {
 	const [sortMethod, setSortMethod] = useState("mint");
@@ -47,7 +47,7 @@ const CompactList = ({ results }) => {
 									title={item.signatureImage ? "Signed" : undefined}
 								>
 									<div className='flex items-center justify-center'>
-										{item.signatureImage && <FaSignature className='mr-2' />}
+										{item.signatureImage && <SignatureIcon className='mr-2' />}
 										{item.mintBatch}
 										{item.mintNumber}
 									</div>

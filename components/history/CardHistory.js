@@ -1,10 +1,9 @@
-import React, { Fragment } from "react";
+import { memo } from "react";
 import isEqual from "lodash/isEqual";
-import { historyEvents } from "@/config/config";
 import ImageWrapper from "@/HOC/ImageWrapper";
-const CardHistory = React.memo(
+import HistoryContent from "./HistoryContent";
+const CardHistory = memo(
 	({ item, compactMode }) => {
-		const getDate = (event) => event.created.replace("T", " ").split(".")[0];
 		return (
 			<>
 				<div className='m-5 flex basis-11/12 items-start rounded border border-gray-700/50 p-2 dark:border-gray-300/50 lg:basis-[calc(50%_-_40px)]'>
@@ -32,22 +31,7 @@ const CardHistory = React.memo(
 						</div>
 
 						<div className='relative max-h-48 w-full divide-y divide-gray-500 overflow-auto overscroll-contain text-gray-800 dark:text-gray-200'>
-							{item.history.toReversed().map((event) => (
-								<Fragment key={`${item.id}-${event.created}`}>
-									{event.type === "mint" && <div>Minted on {getDate(event)}</div>}
-									{event.type in historyEvents && (
-										<div>
-											<p>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver?.username || event.sender?.username || "null"}{" "}
-												</span>
-												{historyEvents[event.type](event)}{" "}
-												<span className='block text-gray-500'>{getDate(event)}</span>
-											</p>
-										</div>
-									)}
-								</Fragment>
-							))}
+							<HistoryContent item={item} />
 						</div>
 					</div>
 				</div>

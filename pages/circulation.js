@@ -178,11 +178,11 @@ const Circulation = () => {
 					<>
 						{packs.length > 0 && (
 							<div className='relative flex w-full flex-col items-center px-2 text-center'>
-								<button className='text-gray-custom'>
+								<p className='text-gray-custom'>
 									<span>
 										{packs.length} {packs.length > 1 ? "Packs" : "Pack"} containing this set:
 									</span>
-								</button>
+								</p>
 								<PacksList packs={packs} />
 							</div>
 						)}

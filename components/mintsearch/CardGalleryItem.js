@@ -16,10 +16,7 @@ const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {
 			  ]);
 	};
 	return (
-		<button
-			className={`flex cursor-pointer flex-col items-center rounded border border-gray-500 transition-transform hover:scale-105`}
-			onClick={handleItem}
-		>
+		<button className={`gallery-item flex flex-col items-center border border-gray-500`} onClick={handleItem}>
 			<div className='relative aspect-auto w-28 overflow-hidden rounded-md p-0.5 sm:w-36'>
 				<ImageWrapper
 					src={item.images?.size402 || `${CDN}${item.images[0].url}`}

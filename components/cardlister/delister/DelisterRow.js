@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { FaSignature, FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { maxPrice, minPrice } from "@/config/config";
 import LoadingSpin from "@/components/LoadingSpin";
+import { CheckCircleIcon, SignatureIcon, TrashIcon } from "@/components/Icons";
 
 const DelisterRow = ({ item, setListed, loading, setLoading, handleDelete, handleUpdate }) => {
 	const [newPrice, setNewPrice] = useState(0);
@@ -61,7 +61,7 @@ const DelisterRow = ({ item, setListed, loading, setLoading, handleDelete, handl
 					title={item.card.signatureImage && "Signed"}
 				>
 					<div className='flex items-center justify-center'>
-						{item.card.signatureImage && <FaSignature className='mr-2' />}
+						{item.card.signatureImage && <SignatureIcon className='mr-2' />}
 						{item.card.mintBatch}
 						{item.card.mintNumber}
 					</div>
@@ -97,19 +97,19 @@ const DelisterRow = ({ item, setListed, loading, setLoading, handleDelete, handl
 					) : (
 						<>
 							<button
-								className='cursor-pointer text-primary-500 active:text-primary-400 disabled:cursor-not-allowed disabled:text-gray-500'
+								className='my-outline rounded p-1 text-primary-500 active:text-primary-400 disabled:text-gray-500'
 								title='Update listing'
 								onClick={updateItem}
 								disabled={newPrice < minPrice}
 							>
-								<FaRegCheckCircle size={18} />
+								<CheckCircleIcon size={18} />
 							</button>
 							<button
-								className='cursor-pointer text-red-500 active:text-red-400'
+								className='my-outline rounded p-1 text-red-500 active:text-red-400'
 								title='Remove listing'
 								onClick={deleteItem}
 							>
-								<FaRegTrashAlt size={18} />
+								<TrashIcon size={18} />
 							</button>
 						</>
 					)}

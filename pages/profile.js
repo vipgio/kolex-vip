@@ -1,8 +1,6 @@
 import { useContext, useState } from "react";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
-import { AiOutlinePoweroff } from "react-icons/ai";
-import { RxCheck, RxCross2 } from "react-icons/rx";
 import "react-toastify/dist/ReactToastify.css";
 import { CDN } from "@/config/config";
 import { UserContext } from "@/context/UserContext";
@@ -13,6 +11,7 @@ import TotalDeposit from "@/components/profile/TotalDeposit";
 import Changelog from "@/components/Changelog";
 import TokenExpiry from "@/components/profile/TokenExpiry";
 import Quests from "@/components/profile/Quests";
+import { PoweroffIcon, CheckIcon, CloseIcon } from "@/components/Icons";
 
 const Profile = () => {
 	const { user, setUser, categoryId } = useContext(UserContext);
@@ -54,7 +53,7 @@ const Profile = () => {
 						title='Logout'
 					>
 						<div className='rounded bg-red-400 fill-current p-0.5 text-gray-100 hover:bg-red-500 active:bg-red-600'>
-							<AiOutlinePoweroff size={24} />
+							<PoweroffIcon size={24} />
 						</div>
 					</div>
 				</div>
@@ -74,7 +73,7 @@ const Profile = () => {
 											</span>
 										),
 										<Link href={features[option]?.link || ""} key={option}>
-											<a className='my-outline rounded hover:text-orange-500'>{features[option]?.name}</a>
+											<a className='my-outline rounded hover:text-primary-500'>{features[option]?.name}</a>
 										</Link>,
 									])
 								) : (
@@ -120,12 +119,12 @@ const Profile = () => {
 							{user.user.kycCompleted ? (
 								<div className='flex items-center'>
 									<span>KYC completed</span>
-									<RxCheck className='text-primary-500' size={20} />
+									<CheckIcon className='text-primary-500' size={20} />
 								</div>
 							) : (
 								<div className='flex items-center'>
 									<span>KYC not completed</span>
-									<RxCross2 className='text-red-600' size={20} />
+									<CloseIcon className='text-red-600' size={20} />
 								</div>
 							)}
 							{<TokenExpiry expires={user.expires} />}
@@ -141,7 +140,7 @@ const Profile = () => {
 					title='Logout'
 				>
 					<div className='rounded bg-red-400 fill-current p-0.5 text-gray-100 hover:bg-red-500 active:bg-red-600'>
-						<AiOutlinePoweroff size={24} />
+						<PoweroffIcon size={24} />
 					</div>
 				</button>
 				<Changelog showModal={showChangelog} setShowModal={setShowChangelog} />

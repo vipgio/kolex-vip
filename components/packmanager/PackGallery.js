@@ -38,7 +38,7 @@ const PackGallery = ({ packs, searchQuery }) => {
 				<label htmlFor='columns'>Columns: </label>
 				<select
 					id='columns'
-					className='input-field mb-2 mr-3 w-14 text-center sm:mb-0'
+					className='input-field mb-2 mr-3 w-14 sm:mb-0'
 					onChange={(e) => setPackGalleryColumns(() => e.target.value)}
 					value={packGalleryColumns}
 				>
@@ -67,9 +67,9 @@ const PackGallery = ({ packs, searchQuery }) => {
 				</select>
 			</div>
 			<div className='text-gray-custom m-4 mb-2'>
-				<label htmlFor='columns'>Sort: </label>
+				<label htmlFor='sort'>Sort: </label>
 				<select
-					id='columns'
+					id='sort'
 					className='input-field mb-2 mr-3 w-28 sm:mb-0'
 					onChange={(e) => setSortMethod(() => e.target.value)}
 					defaultValue={sortMethod}

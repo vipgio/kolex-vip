@@ -56,7 +56,7 @@ const NewNavbar = () => {
 								leaveFrom='transform opacity-100 scale-100'
 								leaveTo='transform opacity-0 scale-95'
 							>
-								<Menu.Items className='absolute left-0 mt-1 ml-1 grid w-56 origin-top-left grid-cols-1 rounded-lg border border-gray-800/30 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200/30 dark:bg-gray-800 sm:w-80 sm:grid-cols-2'>
+								<Menu.Items className='absolute left-0 mt-1 ml-1 grid w-56 origin-top-left grid-cols-1 gap-1 rounded-lg border border-gray-800/30 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200/30 dark:bg-gray-800 sm:w-[21rem] sm:grid-cols-2'>
 									{pages.map((page) =>
 										excludedFeatures
 											.find((category) => category.id == categoryId)
@@ -112,14 +112,26 @@ const NewNavbar = () => {
 					<CategorySelector />
 				</div>
 			)}
-			<button className='ml-auto mr-2 h-6 w-6' tabIndex={-1}>
-				<a href={githubLink} target='_blank' rel='noopener noreferrer' title='Source Code'>
+			<button className='ml-auto mr-2' tabIndex={-1}>
+				<a
+					href={githubLink}
+					target='_blank'
+					rel='noopener noreferrer'
+					title='Source Code'
+					className='block rounded-full p-1'
+				>
 					<GithubIcon className='h-5 w-5 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 			</button>
-			<button className='mr-1 h-5 w-5' tabIndex={-1}>
-				<a href={discordLink} target='_blank' rel='noreferrer' title='Contact me on Discord'>
-					<DiscordIcon className='h-full w-full hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
+			<button className='mr-1' tabIndex={-1}>
+				<a
+					href={discordLink}
+					target='_blank'
+					rel='noreferrer'
+					title='Contact me on Discord'
+					className='block rounded-full p-1'
+				>
+					<DiscordIcon className='h-5 w-5 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
 				</a>
 			</button>
 			<button
@@ -141,13 +153,13 @@ const NewNavbar = () => {
 			</button>
 			{router.pathname === "/features" ? (
 				<Link href='/'>
-					<a className='my-outline mr-2 rounded bg-gray-100 p-1.5 text-primary-500 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1 active:bg-gray-300 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'>
+					<a className='submit-button mr-2 rounded border border-gray-100 bg-primary-500 !p-1.5 text-gray-100 transition-colors hover:bg-primary-600 active:bg-primary-700 dark:border-none'>
 						Home
 					</a>
 				</Link>
 			) : (
 				<Link href='/features'>
-					<a className='my-outline mr-2 rounded bg-gray-100 p-1.5 text-primary-500 transition-colors hover:bg-gray-200 focus-visible:ring-offset-1 active:bg-gray-300 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'>
+					<a className='submit-button mr-2 rounded border border-gray-100 bg-primary-500 !p-1.5 text-gray-100 transition-colors hover:bg-primary-600 active:bg-primary-700 dark:border-none'>
 						Features
 					</a>
 				</Link>

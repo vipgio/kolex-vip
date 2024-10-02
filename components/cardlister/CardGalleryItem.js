@@ -1,18 +1,16 @@
 import { useState } from "react";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CDN } from "@/config/config";
 import ImageWrapper from "@/HOC/ImageWrapper";
 import PriceDetails from "./PriceDetails";
+import { ShoppingCartIcon } from "@/components/Icons";
 
 const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 	const [showDetails, setShowDetails] = useState(false);
 
 	return (
-		<div
+		<button
 			title={item.count === item.listed ? "All items are already listed" : item.title}
-			className={`relative flex ${
-				item.count === 0 ? "cursor-not-allowed" : "cursor-pointer hover:scale-105"
-			} text-gray-custom flex-col items-center rounded border border-gray-500 shadow-md transition-all`}
+			className='text-gray-custom gallery-item relative flex flex-col items-center border border-gray-500'
 			onClick={() => {
 				selectedTemplates.some((e) => e.id === item.id)
 					? setSelectedTemplates((prev) => prev.filter((selected) => item.id !== selected.id))
@@ -41,7 +39,7 @@ const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 					title={item.listed < item.count ? `Some items are already listed` : "All items are already listed"}
 				>
 					{item.listed}x
-					<AiOutlineShoppingCart size={18} className='h-4 w-4' />
+					<ShoppingCartIcon size={18} className='h-4 w-4' />
 				</div>
 			)}
 			<div className='mb-1 p-1 text-center text-sm'>{item.title}</div>
@@ -79,7 +77,7 @@ const CardGalleryItem = ({ item, selectedTemplates, setSelectedTemplates }) => {
 				</span>
 			</div>
 			{showDetails && <PriceDetails item={item} showModal={showDetails} setShowModal={setShowDetails} />}
-		</div>
+		</button>
 	);
 };
 export default CardGalleryItem;

@@ -32,7 +32,7 @@ const CircList = ({ data, prices }) => {
 			headerName: "Floor",
 			valueGetter: (p) => {
 				const price = prices.find((price) => price.entityTemplateId === p.data.templateId);
-				return price ? price.lowestPrice : null; // Return numeric value or null for filtering
+				return price ? Number(price.lowestPrice) : null; // Return numeric value or null for filtering
 			},
 			valueFormatter: (params) => {
 				const value = params.value;

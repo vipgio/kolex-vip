@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { memo, useState, useEffect } from "react";
 import isEqual from "lodash/isEqual";
 import { maxPrice, minPrice } from "@/config/config";
 import MintSelectorModal from "./MintSelectorModal";
 import fixDecimal from "@/utils/NumberUtils";
 
-const ItemBox = React.memo(
+const ItemBox = memo(
 	({ template, insertFloor, setListingDetails }) => {
 		const [showMintModal, setShowMintModal] = useState(false);
 		const [selectedCards, setSelectedCards] = useState([]);
@@ -39,7 +39,7 @@ const ItemBox = React.memo(
 					key={template.uuid}
 					className='m-1 flex h-56 max-h-56 flex-col justify-between overflow-auto rounded border border-gray-500 p-2 text-gray-800 dark:text-gray-200'
 				>
-					<div className='text-center font-semibold text-orange-500'>
+					<div className='text-center font-semibold text-primary-500'>
 						{template.title} <span className='text-xs'>x</span>
 						<span className='text-base'>{template.cards.length}</span>
 					</div>

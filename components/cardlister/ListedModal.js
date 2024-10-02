@@ -95,7 +95,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 			stopButton={
 				!finished.current && (
 					<button
-						className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
+						className='my-outline ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
 						onClick={() => {
 							finished.current = true;
 							setLoading(false);
@@ -121,7 +121,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 					<select
 						name='sort'
 						id='sort'
-						className='dropdown mx-2 my-1 transition-opacity disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+						className='dropdown mx-2 my-1 sm:mb-0'
 						onChange={(e) => setSortMethod(e.target.value)}
 					>
 						<option value='mint'>Mint</option>

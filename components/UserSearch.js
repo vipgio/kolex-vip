@@ -4,6 +4,7 @@ import uniqBy from "lodash/uniqBy";
 import { CDN } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import ImageWrapper from "@/HOC/ImageWrapper";
+import { SearchIcon } from "@/components/Icons";
 
 const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = "username" }) => {
 	const { fetchData } = useAxios();
@@ -61,17 +62,20 @@ const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = 
 	return (
 		<div>
 			<form onSubmit={(e) => e.preventDefault()} className='px-2'>
-				<input
-					type='text'
-					onChange={(e) => {
-						debounceSearch(e.target.value);
-						setSearchQuery(e.target.value);
-					}}
-					value={searchQuery}
-					className='input-field m-2'
-					disabled={loading || !allowed}
-					placeholder='Search for a user'
-				/>
+				<div className='relative m-2'>
+					<input
+						type='text'
+						onChange={(e) => {
+							debounceSearch(e.target.value);
+							setSearchQuery(e.target.value);
+						}}
+						value={searchQuery}
+						className='input-field'
+						disabled={loading || !allowed}
+						placeholder='Search for a user'
+					/>
+					<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-500' />
+				</div>
 			</form>
 			{searchQuery.length > 1 && (
 				<div className='flex overflow-auto'>

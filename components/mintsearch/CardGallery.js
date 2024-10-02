@@ -1,16 +1,15 @@
-import React, { useState, useRef, useEffect, Fragment } from "react";
+import { memo, useState, useRef, useEffect, Fragment } from "react";
 import sortBy from "lodash/sortBy";
 import pick from "lodash/pick";
-import { FiUser, FiShoppingCart } from "react-icons/fi";
-import { IoSearchOutline } from "react-icons/io5";
 import { API } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
 import CardGalleryItem from "./CardGalleryItem";
+import { ShoppingCartIcon, UserIcon, SearchIcon } from "@/components/Icons";
 import fixDecimal from "@/utils/NumberUtils";
 
-const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned, categoryId }) => {
+const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId }) => {
 	const { fetchData } = useAxios();
 	const [selectedCards, setSelectedCards] = useState([]);
 	const [showMarketResults, setShowMarketResults] = useState(false);
@@ -292,7 +291,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 							name='need'
 							id='need'
 							onChange={(e) => setNeedOnly(e.target.checked)}
-							className='accent-primary-500 hover:cursor-pointer'
+							className='checkbox'
 						/>
 					</span>
 				</div>
@@ -305,7 +304,7 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 						}}
 						disabled={!selectedCards.length}
 					>
-						<FiShoppingCart className='mr-2 text-primary-500' />
+						<ShoppingCartIcon className='mr-2 text-primary-500' />
 						<span>Search Market</span>
 					</button>
 					<button
@@ -316,12 +315,12 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 						}}
 						disabled={!selectedCards.length}
 					>
-						<FiUser className='mr-2 text-primary-500' />
+						<UserIcon className='mr-2 text-primary-500' />
 						<span>Search Users</span>
 					</button>
 				</div>
 			</div>
-			<div className='ml-2 mt-1 flex w-fit items-center'>
+			<div className='my-1 ml-2 flex w-fit items-center'>
 				<div className='relative'>
 					<input
 						type='text'
@@ -330,11 +329,11 @@ const CardGallery = React.memo(({ cards, user, filter, selectedCollection, owned
 						onChange={(e) => setSearchQuery(e.target.value.trimStart())}
 						value={searchQuery}
 					/>
-					<IoSearchOutline className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
+					<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-500' />
 				</div>
-				<div className='text-gray-custom ml-2'>Selected items: {selectedCards.length}</div>
+				<div className='text-gray-custom ml-4'>{selectedCards.length} Items selected</div>
 			</div>
-			<div className='m-2 grid grid-cols-2 gap-3 sm:grid-cols-5'>
+			<div className='m-2 mt-4 grid grid-cols-2 gap-5 sm:grid-cols-5'>
 				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.id])
 					.filter((item) => (needOnly ? !owned.some((owned) => owned.templateId === item.id) : true))
 					.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))

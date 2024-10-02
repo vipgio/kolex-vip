@@ -1,7 +1,7 @@
-import { GoLinkExternal } from "react-icons/go";
 import { webApp } from "@/config/config";
 import ImageWrapper from "@/HOC/ImageWrapper";
 import Tooltip from "../Tooltip";
+import { LinkIcon } from "@/components/Icons";
 
 const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, setPage }) => {
 	const handleSelect = (id) => {
@@ -32,15 +32,18 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 								//if price is bigger than 0, show price
 								<>
 									<div className='flex'>
-										Market floor: <span className='ml-1 text-orange-400'>{marketInfo.market[0][0].price}</span>
-										<span className='text-gray-custom ml-1 hover:no-underline'>USD</span>
+										Market floor:{" "}
+										<span className='ml-1 text-primary-400'>{marketInfo.market[0][0].price}</span>
 										<a
 											href={`${webApp}/market/pack/${packTemplate.id}`}
 											className='ml-1 flex items-center'
 											target='_blank'
 											rel='noreferrer'
 										>
-											<GoLinkExternal />
+											<span className='inline-flex items-center hover:cursor-pointer hover:underline'>
+												<span className='text-gray-custom mx-1'>USD</span>
+												<LinkIcon />
+											</span>
 										</a>
 									</div>
 								</>
@@ -49,7 +52,7 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 									Market floor:{" "}
 									<a
 										href={`${webApp}/market/pack/${packTemplate.id}`}
-										className='ml-1 flex items-center text-orange-400 hover:underline'
+										className='ml-1 flex items-center text-primary-400 hover:underline'
 										target='_blank'
 										rel='noreferrer'
 									>
@@ -61,7 +64,7 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 								Recent sales: {marketInfo.recentSales.length === 0 && "None"}
 								{marketInfo.recentSales.slice(0, 4).map((sale) => (
 									<div className='flex border-b border-gray-600' key={sale.updated}>
-										<span className='text-orange-400'>{sale.price} </span>
+										<span className='text-primary-400'>{sale.price} </span>
 										<span className='ml-1 sm:mr-16'>USD</span>
 										<span className='ml-auto sm:mr-2'>{sale.updated.split("T")[0]}</span>
 									</div>
@@ -75,14 +78,11 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 				<div className='text-gray-custom my-2 flex items-center justify-around sm:w-1/2'>
 					<button
 						onClick={() => setSelected(packTemplate.packs.map((pack) => pack.id))}
-						className='text-gray-custom m-1 cursor-pointer rounded-md border border-gray-800 p-1 text-center transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400 dark:border-gray-200 dark:hover:text-gray-700'
+						className='simple-button'
 					>
 						Select All ({packTemplate.packs.length})
 					</button>
-					<button
-						onClick={() => setSelected([])}
-						className='text-gray-custom m-1 cursor-pointer rounded-md border border-gray-800 p-1 text-center transition-colors hover:bg-gray-300 hover:text-gray-800 active:bg-gray-400 dark:border-gray-200 dark:hover:text-gray-700'
-					>
+					<button onClick={() => setSelected([])} className='simple-button'>
 						Deselect All
 					</button>
 					<span></span>
@@ -93,13 +93,13 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 								setPage(2);
 							}}
 						>
-							<label htmlFor='pack-count'>Pack count:</label>
+							<label htmlFor='pack-count'>Packs:</label>
 							<input
 								type='number'
 								id='pack-count'
 								min={0}
 								max={packTemplate.packs.length}
-								className='ml-2 rounded-md border border-gray-800 p-1 text-black focus:outline-orange-400'
+								className='input-field ml-2'
 								onChange={(e) =>
 									setSelected(packTemplate.packs.slice(0, e.target.value).map((pack) => pack.id))
 								}
@@ -113,7 +113,7 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 						/>
 					</div>
 				</div>
-				<div className='divide-y divide-gray-700 overflow-auto overscroll-contain border-t border-b border-gray-500'>
+				<div className='divide-y divide-gray-700 overflow-auto overscroll-contain border-t border-b border-gray-500 lg:grid-cols-2 xl:grid-cols-3'>
 					{packTemplate.packs
 						.sort((a, b) => a.id - b.id)
 						.map((pack) => (
@@ -126,7 +126,7 @@ const PackSelection = ({ packTemplate, marketInfo, selected, setSelected, CDN, s
 								</label>
 								<input
 									type='checkbox'
-									className='m-2 cursor-pointer'
+									className='checkbox m-2'
 									onChange={() => handleSelect(pack.id)}
 									checked={selected.includes(pack.id)}
 									id={pack.id}

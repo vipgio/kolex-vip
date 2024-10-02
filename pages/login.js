@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { GoLinkExternal } from "react-icons/go";
 import "react-toastify/dist/ReactToastify.css";
 import { webApp, discordLink, githubLink } from "@/config/config";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -11,10 +10,10 @@ import JWTLogin from "@/components/login/JWTLogin";
 import TokenTutorial from "@/components/login/TokenTutorial";
 import Meta from "@/components/Meta";
 import Disclaimer from "@/components/login/Disclaimer";
-import { DiscordIcon, GithubIcon, MoonIcon, SunIcon } from "@/components/Icons";
+import { DiscordIcon, GithubIcon, MoonIcon, SunIcon, LinkIcon } from "@/components/Icons";
 
 const Login = () => {
-	const { setUser } = useContext(UserContext);
+	const { setUser, categoryId, setCategoryId } = useContext(UserContext);
 	const [loading, setLoading] = useState(false);
 	const { theme, setTheme } = useContext(ThemeContext);
 	// const [email, setEmail] = useState("");
@@ -73,6 +72,7 @@ const Login = () => {
 						closeOnClick: false,
 					});
 				} else {
+					setCategoryId(categoryId ?? "1");
 					const now = new Date().getTime();
 					const ends = Date.parse(whitelist.data.ends);
 					whitelist.data.info
@@ -123,31 +123,40 @@ const Login = () => {
 				pauseOnHover
 			/>
 			<div className='text-gray-custom absolute right-0 top-4 flex h-12 items-center justify-center rounded-b-md font-semibold transition-colors'>
-				<a href={githubLink} target='_blank' rel='noopener noreferrer' title='Source Code'>
-					<GithubIcon className='text-gray-custom h-6 w-6 hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
-				</a>
-				<a
-					href={discordLink}
-					target='_blank'
-					rel='noreferrer'
-					title='Contact me on Discord'
-					// className='rounded-full focus:outline-primary-500 focus-visible:outline-offset-4 focus-visible:outline-primary-500'
-					className='my-outline mx-3 h-8 w-8 rounded-full focus-visible:ring-inset'
-				>
-					<DiscordIcon className='h-full w-full hover:text-gray-600 dark:hover:text-gray-300 dark:active:text-gray-400' />
-				</a>
+				<button className='ml-auto mr-2' tabIndex={-1}>
+					<a
+						href={githubLink}
+						target='_blank'
+						rel='noopener noreferrer'
+						title='Source Code'
+						className='block rounded-full p-1'
+					>
+						<GithubIcon className='h-5 w-5 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
+					</a>
+				</button>
+				<button className='mr-1' tabIndex={-1}>
+					<a
+						href={discordLink}
+						target='_blank'
+						rel='noreferrer'
+						title='Contact me on Discord'
+						className='block rounded-full p-1'
+					>
+						<DiscordIcon className='h-5 w-5 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400' />
+					</a>
+				</button>
 				<button
 					className='my-outline mr-2 h-8 w-8 rounded-full focus-visible:ring-inset'
 					onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
 				>
 					<div className='relative h-10 w-10 rounded-full' title='Change theme'>
 						<SunIcon
-							className={`absolute top-0.5 h-7 w-7 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
+							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-300 transition-transform ${
 								theme === "dark" ? "" : "animate-fadeOut opacity-0"
 							}`}
 						/>
 						<MoonIcon
-							className={`absolute top-0.5 h-7 w-7 animate-fadeIn cursor-pointer p-1 text-gray-700 transition-transform  ${
+							className={`absolute top-1 left-1 h-6 w-6 animate-fadeIn cursor-pointer p-1 text-gray-700 transition-transform  ${
 								theme === "dark" ? "animate-fadeOut opacity-0" : ""
 							}`}
 						/>
@@ -156,7 +165,7 @@ const Login = () => {
 				<Link href='/features'>
 					<a
 						title='Site Features'
-						className='my-outline mr-2 rounded bg-primary-500 p-2.5 text-gray-200 transition-colors hover:bg-primary-400 focus-visible:ring-offset-1  active:bg-orange-300 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'
+						className='my-outline mr-2 rounded bg-primary-500 p-2.5 text-gray-200 transition-colors hover:bg-primary-600 focus-visible:ring-offset-1  active:bg-primary-700 dark:bg-primary-500 dark:text-gray-100 dark:hover:bg-primary-600 dark:active:bg-primary-700'
 					>
 						Features
 					</a>
@@ -182,7 +191,7 @@ const Login = () => {
 								className='flex items-center hover:underline'
 							>
 								Kolex
-								<GoLinkExternal />
+								<LinkIcon />
 							</a>
 						</span>
 					</span>

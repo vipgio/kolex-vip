@@ -1,10 +1,10 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import DatePicker from "react-datepicker";
-import { HiCheck, HiOutlineChevronUpDown } from "react-icons/hi2";
 import "react-datepicker/dist/react-datepicker.css";
 import LoadingSpin from "../LoadingSpin";
 import Tooltip from "../Tooltip";
+import { ChevronIcon, CheckIcon } from "@/components/Icons";
 
 const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 	const costTypes = ["usd", "silvercoins", "coronas", "epicoins"];
@@ -43,7 +43,7 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 								value={filters.costType}
 								onChange={(e) => setFilters((prev) => ({ ...prev, costType: e }))}
 							>
-								<Listbox.Button className='relative mt-1 h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
+								<Listbox.Button className='input-outline relative mt-1 h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md sm:text-sm'>
 									<span className='block truncate'>
 										{filters.costType.length > 0
 											? filters.costType.length <= 4
@@ -52,7 +52,7 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 											: "Select a cost type..."}
 									</span>
 									<span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
-										<HiOutlineChevronUpDown className='h-5 w-5 text-gray-400' />
+										<ChevronIcon className='h-5 w-5 text-gray-400' />
 									</span>
 								</Listbox.Button>
 								<Transition
@@ -61,14 +61,14 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 									leaveFrom='opacity-100'
 									leaveTo='opacity-0'
 								>
-									<Listbox.Options className='absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+									<Listbox.Options className='absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 										{costTypes.map((type) => (
 											<Listbox.Option
 												key={type}
 												value={type}
 												className={({ active }) =>
-													`relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-														active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+													`relative cursor-pointer select-none rounded py-2 px-4 text-center ${
+														active ? "bg-primary-400" : "text-gray-800"
 													}`
 												}
 											>
@@ -80,8 +80,8 @@ const Filters = ({ filters, setFilters, loading, onSubmit }) => {
 													{type.length <= 4 ? type.toUpperCase() : type[0].toUpperCase() + type.slice(1)}
 												</span>
 												{filters.costType === type ? (
-													<span className='absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600'>
-														<HiCheck className='h-5 w-5' />
+													<span className='absolute inset-y-0 left-0 flex items-center pl-3 text-gray-800'>
+														<CheckIcon className='h-5 w-5' />
 													</span>
 												) : null}
 											</Listbox.Option>

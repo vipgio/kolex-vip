@@ -1,6 +1,14 @@
 {
 	"changelog": [
 		{
+			"version": "2.11.3",
+			"date": "2024-10-02",
+			"changes": [
+				"Added a lot of colors everywhere.",
+				"Changed some styles here and there. (If you see something that looks off, let me know)"
+			]
+		},
+		{
 			"version": "2.11.2",
 			"date": "2024-09-26",
 			"changes": [

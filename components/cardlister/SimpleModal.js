@@ -169,7 +169,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 						cardDetails.map((item) => (
 							<div key={item.id} className='flex'>
 								<span className='ml-1'>{item.title}</span>
-								<span className='ml-auto mr-1 self-center text-orange-500'>x{item.cards?.length}</span>
+								<span className='ml-auto mr-1 self-center text-primary-500'>x{item.cards?.length}</span>
 							</div>
 						))}
 				</div>
@@ -177,7 +177,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 					{/* right half, inputs */}
 					<div className='flex flex-col p-1 text-gray-900 dark:text-gray-200'>
 						<div>
-							<span className='text-orange-500'>A) </span>
+							<span className='text-primary-500'>A) </span>
 							Choose a mint range:
 						</div>
 						<div>
@@ -187,7 +187,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 								id='batch'
 								value={filters.batch}
 								disabled={cardDetails.length !== selectedTemplates.length}
-								className='dropdown mx-2 my-1 sm:mb-0'
+								className='dropdown ml-1 sm:mb-0'
 								onChange={(e) =>
 									setFilters((prev) => ({
 										...prev,
@@ -214,7 +214,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 								max={100000}
 								value={filters.max}
 								disabled={cardDetails.length !== selectedTemplates.length}
-								className='diasbled:opacity-50 input-field my-1 ml-1 w-24 disabled:hover:cursor-not-allowed'
+								className='input-field my-1 ml-1 w-24'
 								onChange={(e) => setFilters((prev) => ({ ...prev, max: e.target.value }))}
 							/>
 						</div>
@@ -228,7 +228,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 								max={100000}
 								value={filters.min}
 								disabled={cardDetails.length !== selectedTemplates.length}
-								className='diasbled:opacity-50 input-field my-1 ml-1 w-24 disabled:hover:cursor-not-allowed'
+								className='input-field my-1 ml-1 w-24'
 								onChange={(e) => setFilters((prev) => ({ ...prev, min: e.target.value }))}
 							/>
 						</div>
@@ -238,7 +238,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 					</div>
 					<div className='flex flex-col p-1 text-gray-900 dark:text-gray-200'>
 						<div>
-							<span className='text-orange-500'>B) </span>
+							<span className='text-primary-500'>B) </span>
 							{selectedTemplates.length === 1 ? "Enter the Number of items:" : "Enter the number of sets:"}
 						</div>
 						<div className='flex flex-col'>
@@ -253,7 +253,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 									min={0}
 									max={min(cardDetails.map((item) => item.cards.length))}
 									disabled={cardDetails.length !== selectedTemplates.length}
-									className='diasbled:opacity-50 input-field my-1 w-24 disabled:hover:cursor-not-allowed'
+									className='input-field my-1 w-24'
 									onChange={(e) => {
 										setFilters(defaultFilters);
 										setSelectedCards([
@@ -299,7 +299,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 			</div>
 
 			<div className='flex items-center border-t border-gray-400 p-2 dark:border-gray-200'>
-				<div className='text-orange-500'>Count: {selectedCards.length}</div>
+				<div className='text-primary-500'>Count: {selectedCards.length}</div>
 
 				<div className='ml-auto mt-2 self-center sm:mt-0 sm:mb-0'>
 					<button

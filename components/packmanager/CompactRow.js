@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import minBy from "lodash/minBy";
 import maxBy from "lodash/maxBy";
-import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
+import { TrashIcon, CheckCircleIcon } from "@/components/Icons";
 
 const CompactRow = ({ packs, setListed, insertFloor }) => {
 	const { patchData, deleteData } = useAxios();
@@ -119,19 +119,19 @@ const CompactRow = ({ packs, setListed, insertFloor }) => {
 					) : (
 						<>
 							<button
-								className='ml-2 cursor-pointer text-primary-500 active:text-primary-400 disabled:cursor-not-allowed disabled:text-gray-500'
+								className='ml-2 text-primary-500 active:text-primary-400 disabled:text-gray-500'
 								title='Update listing'
 								onClick={handleUpdate}
 								disabled={newPrice < minPrice}
 							>
-								<FaRegCheckCircle size={18} />
+								<CheckCircleIcon size={18} />
 							</button>
 							<button
 								className='ml-auto mr-2 cursor-pointer text-red-500 active:text-red-400'
 								title='Remove listing'
 								onClick={handleRemove}
 							>
-								<FaRegTrashAlt size={18} />
+								<TrashIcon size={18} />
 							</button>
 						</>
 					)}

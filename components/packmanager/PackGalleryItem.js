@@ -7,8 +7,8 @@ const PackGalleryItem = ({ packTemplate }) => {
 	const [showModal, setShowModal] = useState(false);
 	return (
 		<>
-			<div
-				className='relative m-2 flex flex-col items-center rounded-md border border-gray-600 p-2 text-gray-800 transition-transform duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-xl dark:text-gray-200'
+			<button
+				className='gallery-item relative m-2 flex flex-col items-center border border-gray-600 p-2 text-gray-800 dark:text-gray-200'
 				onClick={() => setShowModal(true)}
 			>
 				<div className='relative aspect-auto w-28 overflow-hidden'>
@@ -37,7 +37,7 @@ const PackGalleryItem = ({ packTemplate }) => {
 						<span>${(packTemplate.floor * packTemplate.packs.length).toFixed(2)}</span>
 					</div>
 				</div>
-			</div>
+			</button>
 			{showModal && (
 				<div className='fixed z-50'>
 					<MassPackModal packTemplate={packTemplate} showModal={showModal} setShowModal={setShowModal} />

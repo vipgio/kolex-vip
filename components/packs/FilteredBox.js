@@ -13,9 +13,9 @@ const FilteredBox = ({ pack, circList }) => {
 
 	return (
 		<>
-			<div
-				className={`flex h-full w-full cursor-pointer flex-col items-center rounded sm:flex-row sm:pr-1 ${
-					circList ? "" : "border border-primary-500 transition-all hover:scale-105"
+			<button
+				className={`gallery-item flex h-full w-full flex-col items-center sm:flex-row sm:pr-1 ${
+					circList ? "" : "border border-primary-500/50"
 				}`}
 				onClick={openModal}
 			>
@@ -40,8 +40,9 @@ const FilteredBox = ({ pack, circList }) => {
 							<ImageWrapper
 								src={`${CDN}${pack.images.url || pack.images.find((img) => img.name === "image").url}`}
 								alt={pack.name}
-								fill
-								sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw'
+								width={100}
+								height={75}
+								// sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw'
 							/>
 						)}
 					</div>
@@ -59,7 +60,7 @@ const FilteredBox = ({ pack, circList }) => {
 					</div>
 				</div>
 				{showModal ? <PackModal pack={pack} isOpen={showModal} setIsOpen={setShowModal} /> : null}
-			</div>
+			</button>
 		</>
 	);
 };

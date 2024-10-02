@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { FaRegEdit } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import Dialog from "HOC/Dialog";
 import Tooltip from "../Tooltip";
+import { EditIcon } from "@/components/Icons";
 
 const SpinnerLimit = ({ info, funds, limit, setLimit, spinActive }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -45,11 +45,10 @@ const SpinnerLimit = ({ info, funds, limit, setLimit, spinActive }) => {
 					</div>
 					<button
 						title={spinActive ? "Cannot edit while spinning" : "Edit limit"}
-						className='hover:cursor-pointer disabled:cursor-not-allowed'
 						onClick={() => setIsOpen(true)}
 						disabled={spinActive}
 					>
-						<FaRegEdit size={14} />
+						<EditIcon size={14} />
 					</button>
 				</div>
 			) : (

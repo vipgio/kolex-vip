@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { memo, useState } from "react";
 import isEqual from "lodash/isEqual";
-import { GoLinkExternal } from "react-icons/go";
 import { CDN, webApp } from "@/config/config";
 import ImageWrapper from "@/HOC/ImageWrapper";
 import PackOdds from "./PackOdds";
+import { LinkIcon } from "@/components/Icons";
 
-const PackResults = React.memo(
-	({ pack }) => {
+const PackData = memo(
+	({ pack, title }) => {
 		const [showOdds, setShowOdds] = useState(false);
 		return (
-			<div className='relative m-2 flex border-t border-gray-600 p-2 dark:border-gray-400'>
+			<div className='relative m-2 flex p-2'>
 				<div className='w-4/12 pt-1 sm:w-1/5'>
 					<ImageWrapper
 						src={`${CDN}${pack.images.url || pack.images.find((img) => img.name === "image").url}`}
@@ -19,7 +19,7 @@ const PackResults = React.memo(
 					/>
 				</div>
 				<div className='mx-2 w-8/12 space-y-1 text-gray-800 dark:text-gray-200 sm:w-4/5'>
-					<div className='mb-2 text-lg font-bold'>{pack.name}</div>
+					{title && <div className='mb-2 text-lg font-bold'>{pack.name}</div>}
 					<div>{pack.description}</div>
 					<div>
 						Number of items in pack: <span className='font-semibold text-primary-500'>{pack.entityCount}</span>
@@ -49,7 +49,7 @@ const PackResults = React.memo(
 					</div>
 					<div>
 						Packs Unopened:{" "}
-						<span className='font-semibold text-orange-500'>
+						<span className='font-semibold text-primary-500'>
 							{(pack.mintCount - pack.openedCount).toLocaleString()}
 						</span>
 						{pack.inventoryCount > 0 ? (
@@ -84,7 +84,7 @@ const PackResults = React.memo(
 							rel='noreferrer'
 						>
 							Here
-							<GoLinkExternal size={14} />
+							<LinkIcon size={14} />
 						</a>
 					</div>
 					<div className='mb-1 flex'>
@@ -96,7 +96,7 @@ const PackResults = React.memo(
 							rel='noreferrer'
 						>
 							Here
-							<GoLinkExternal size={14} />
+							<LinkIcon size={14} />
 						</a>
 					</div>
 					<button onClick={() => setShowOdds((prev) => !prev)} className='simple-button'>
@@ -109,5 +109,5 @@ const PackResults = React.memo(
 	},
 	(oldProps, newProps) => isEqual(oldProps, newProps)
 );
-PackResults.displayName = "PackResults";
-export default PackResults;
+PackData.displayName = "PackData";
+export default PackData;

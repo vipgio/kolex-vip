@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
 import { webApp } from "@/config/config";
 import HistoryModal from "@/components/history/HistoryModal";
+import { HistoryIcon, LockIcon, SignatureIcon } from "@/components/Icons";
 
 const MintResultRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);
@@ -16,7 +16,7 @@ const MintResultRow = ({ item, allowed }) => {
 				title={item.signatureImage && "Signed"}
 			>
 				<div className='flex items-center justify-center'>
-					{item.signatureImage && <FaSignature className='mr-2' />}
+					{item.signatureImage && <SignatureIcon className='mr-2' />}
 					{item.mintBatch}
 					{item.mintNumber}
 				</div>
@@ -61,12 +61,12 @@ const MintResultRow = ({ item, allowed }) => {
 						) : item.type === "sticker" ? (
 							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} type='sticker' />
 						) : (
-							<button onClick={openModal}>
-								<FaHistory />
+							<button onClick={openModal} className='my-outline rounded p-1'>
+								<HistoryIcon />
 							</button>
 						)
 					) : (
-						<FaLock className='cursor-not-allowed' title='You need history access for this feature' />
+						<LockIcon className='cursor-not-allowed' title='You need history access for this feature' />
 					)}
 				</div>
 			</td>

@@ -28,7 +28,7 @@ const KolexLogin = ({
 					onChange={(e) => setEmail(e.target.value)}
 					autoComplete='email'
 					disabled={loading}
-					className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+					className='input-field'
 				/>
 
 				<input
@@ -40,7 +40,7 @@ const KolexLogin = ({
 					onChange={(e) => setPassword(e.target.value)}
 					autoComplete='current-password'
 					disabled={loading}
-					className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+					className='input-field'
 				/>
 
 				{codeEnabled && (
@@ -52,7 +52,7 @@ const KolexLogin = ({
 						value={code}
 						onChange={(e) => setCode(e.target.value)}
 						disabled={loading}
-						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+						className='input-field'
 					/>
 				)}
 				<button type='submit' disabled={loading} className='submit-button'>

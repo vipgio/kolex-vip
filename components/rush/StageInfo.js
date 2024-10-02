@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext, useRef, useMemo } from "react";
 import Bottleneck from "bottleneck";
 import { toast } from "react-toastify";
-import { FaLock } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { useAxios } from "@/hooks/useAxios";
 import { UserContext } from "@/context/UserContext";
@@ -10,6 +9,7 @@ import BigModal from "@/components/BigModal";
 import Tooltip from "@/components/Tooltip";
 import StageInfoRoster from "./StageInfoRoster";
 import LoadingSpin from "../LoadingSpin";
+import { LockIcon } from "@/components/Icons";
 
 const limiter = new Bottleneck({
 	maxConcurrent: 1,
@@ -244,7 +244,7 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 						>
 							{!isUserVIP && (
 								<span className='mr-1.5'>
-									<FaLock />
+									<LockIcon />
 								</span>
 							)}
 							<span>Win 20</span>
@@ -263,7 +263,7 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 						>
 							{!isUserVIP && (
 								<span className='mr-1.5'>
-									<FaLock />
+									<LockIcon />
 								</span>
 							)}
 							<span>Complete all</span>

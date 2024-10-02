@@ -97,7 +97,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 				stopButton={
 					!finished.current && (
 						<button
-							className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
+							className='my-outline ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
 							onClick={() => {
 								finished.current = true;
 								setLoading(false);
@@ -124,7 +124,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 							name='sort'
 							id='sort'
 							disabled={compactMode}
-							className='dropdown mx-2 my-1 sm:mb-0'
+							className='dropdown mx-2 my-1'
 							onChange={(e) => setSortMethod(e.target.value)}
 						>
 							<option value='templateId'>Template ID</option>
@@ -165,7 +165,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 							id='undercut'
 							checked={undercuts}
 							onChange={(e) => setUndercuts(e.target.checked)}
-							className='cursor-pointer'
+							className='checkbox'
 						/>
 						<label htmlFor='undercut' className='text-gray-custom ml-1 cursor-pointer'>
 							Only show undercuts

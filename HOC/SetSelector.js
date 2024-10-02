@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import { memo, useContext, useState, useEffect } from "react";
 import groupBy from "lodash/groupBy";
 import pickBy from "lodash/pickBy";
 import sortBy from "lodash/sortBy";
@@ -6,9 +6,7 @@ import isEqual from "lodash/isEqual";
 import omit from "lodash/omit";
 import { useAxios } from "@/hooks/useAxios";
 import { UserContext } from "@/context/UserContext";
-import SetSelectorDropdown from "@/components/SetSelectorDropdown";
 import NewSetSelector from "@/components/NewSetSelector";
-import { set } from "lodash";
 
 const coreNames = [
 	"Common",
@@ -27,7 +25,7 @@ const coreNames = [
 ];
 const seasons = ["2024", "2023", "2022", "2021", "2020", "2019", "2018", "Founders Edition"];
 
-const SetSelector = React.memo(
+const SetSelector = memo(
 	({ setSelectedCollection }) => {
 		const { user, categoryId } = useContext(UserContext);
 		const { fetchData } = useAxios();

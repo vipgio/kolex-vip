@@ -105,7 +105,7 @@ const Searcher = () => {
 	return (
 		<>
 			<Meta title='Mint Search | Kolex VIP' />
-			<div className='m-2 my-10 rounded border border-gray-800 p-2 dark:border-gray-200'>
+			<div className='m-2 my-10 rounded p-2'>
 				{selectedCollection && (
 					<RefreshButton
 						title='Refresh Items'
@@ -134,7 +134,7 @@ const Searcher = () => {
 							type='checkbox'
 							name='sigs'
 							id='sigs'
-							className='ml-1 mt-1 accent-primary-500 hover:cursor-pointer'
+							className='checkbox ml-1'
 							checked={filter.sigsOnly}
 							onChange={(e) => setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))}
 						/>
@@ -147,7 +147,7 @@ const Searcher = () => {
 							type='checkbox'
 							name='upgrade'
 							id='upgrade'
-							className='ml-1 mr-1 mt-1 accent-primary-500 hover:cursor-pointer sm:mr-0'
+							className='checkbox ml-1 mr-1 sm:mr-0'
 							checked={filter.upgradesOnly}
 							onChange={(e) => setFilter((prev) => ({ ...prev, upgradesOnly: e.target.checked }))}
 						/>
@@ -158,7 +158,7 @@ const Searcher = () => {
 						<label htmlFor='batch'>Mint Batch: </label>
 						<select
 							id='batch'
-							className='input-field mb-2 mr-3 w-24 p-0 sm:mb-0'
+							className='input-field mb-2 mr-3 w-24 p-0 !py-1.5 sm:mb-0'
 							onChange={(e) => setFilter((prev) => ({ ...prev, batch: e.target.value }))}
 							disabled={filter.sigsOnly || filter.upgradesOnly}
 						>

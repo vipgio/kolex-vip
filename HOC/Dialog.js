@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
 const Dialog = ({
 	title,
@@ -10,9 +10,15 @@ const Dialog = ({
 	extraButton = null,
 }) => {
 	const closeModal = () => setIsOpen(false);
+	const closeButtonRef = useRef(null);
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
-			<HeadlessDialog as='div' className='relative z-30' onClose={closeFunction ? closeFunction : closeModal}>
+			<HeadlessDialog
+				as='div'
+				className='relative z-30'
+				onClose={closeFunction ? closeFunction : closeModal}
+				initialFocus={closeButtonRef}
+			>
 				<Transition.Child
 					as={Fragment}
 					enter='ease-out duration-300'
@@ -48,7 +54,12 @@ const Dialog = ({
 									{closeButton && (
 										<div className='mt-5 flex w-full'>
 											{extraButton && extraButton}
-											<button type='button' className='button ml-auto' onClick={closeModal}>
+											<button
+												type='button'
+												className='button ml-auto'
+												onClick={closeModal}
+												ref={closeButtonRef}
+											>
 												Close
 											</button>
 										</div>

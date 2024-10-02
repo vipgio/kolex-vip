@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { webApp } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import HistoryModal from "@/components/history/HistoryModal";
 import LoadingSpin from "../LoadingSpin";
+import { HistoryIcon, LockIcon, SignatureIcon } from "@/components/Icons";
 
 const MarketResultRow = ({ item, allowed }) => {
 	const [showHistory, setShowHistory] = useState(false);
@@ -53,7 +53,7 @@ const MarketResultRow = ({ item, allowed }) => {
 					title={item.card.signatureImage && "Signed"}
 				>
 					<div className='flex items-center justify-center'>
-						{item.card.signatureImage && <FaSignature className='mr-2' />}
+						{item.card.signatureImage && <SignatureIcon className='mr-2' />}
 						{item.card.mintBatch}
 						{item.card.mintNumber}
 					</div>
@@ -105,11 +105,11 @@ const MarketResultRow = ({ item, allowed }) => {
 							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} type='sticker' />
 						) : (
 							<button onClick={openModal}>
-								<FaHistory />
+								<HistoryIcon />
 							</button>
 						)
 					) : (
-						<FaLock className='cursor-not-allowed' title='You need history access for this feature' />
+						<LockIcon className='cursor-not-allowed' title='You need history access for this feature' />
 					)}
 				</div>
 			</td>

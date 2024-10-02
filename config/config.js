@@ -33,16 +33,14 @@ export const historyEvents = {
 	gift: () => "received the item from an airdrop.",
 	trade: (event) => (
 		<>
-			received the item from{" "}
-			<span className='font-medium text-red-400'>{event.sender.username || "null"} </span>
+			received the item from <span className='font-medium text-red-400'>{event.sender.username || "?"} </span>
 			in a trade.
 		</>
 	),
 	market: (event) => (
 		<>
-			purchased the item from{" "}
-			<span className='font-medium text-red-400'>{event.sender.username || "null"}</span> for{" "}
-			<span>{event.value}</span> {event.costType === "usd" ? "USD" : "coins"}.
+			purchased the item from <span className='font-medium text-red-400'>{event.sender.username || "?"}</span>{" "}
+			for <span>{event.value}</span> {event.costType === "usd" ? "USD" : "coins"}.
 		</>
 	),
 	"imx-market": (event) => (

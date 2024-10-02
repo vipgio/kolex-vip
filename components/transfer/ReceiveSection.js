@@ -127,7 +127,7 @@ const ReceiveSection = ({ selectedUser, loading, setLoading }) => {
 					{progress === 0 ? (
 						<div className='mt-2'>
 							{selectedUser.username} has sent you
-							<span className='text-orange-500'> {trades.length} </span>
+							<span className='text-primary-500'> {trades.length} </span>
 							trades.
 						</div>
 					) : (

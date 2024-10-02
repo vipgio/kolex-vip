@@ -8,7 +8,7 @@ const PacksList = ({ packs }) => {
 			}`}
 		>
 			{packs.map((pack) => (
-				<div key={pack.id} className='flex w-1/2 flex-shrink-0 p-2 sm:w-1/3 sm:p-3'>
+				<div key={pack.id} className='flex w-1/2 flex-shrink-0 p-2 sm:w-5/12 sm:p-3'>
 					<FilteredBox pack={pack} circList />
 				</div>
 			))}

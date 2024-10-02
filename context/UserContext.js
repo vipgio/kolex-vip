@@ -47,24 +47,6 @@ const UserContextProvider = (props) => {
 	// 	}
 	// }, []);
 
-	// useEffect(() => {
-	// 	const localPackGalleryColumns = JSON.parse(localStorage.getItem("packGalleryColumns"));
-	// 	if (localPackGalleryColumns) {
-	// 		setPackGalleryColumns(localPackGalleryColumns);
-	// 	} else {
-	// 		if (isMobile()) {
-	// 			localStorage.setItem("packGalleryColumns", "2");
-	// 			setPackGalleryColumns("2");
-	// 		} else {
-	// 			localStorage.setItem("packGalleryColumns", "4");
-	// 			setPackGalleryColumns("4");
-	// 		}
-	// 	}
-	// }, []);
-	// useEffect(() => {
-	// 	localStorage.setItem("packGalleryColumns", packGalleryColumns);
-	// }, [packGalleryColumns]);
-
 	useEffect(() => {
 		if (packGalleryColumns === null) {
 			const newValue = isMobile() ? "2" : "4";

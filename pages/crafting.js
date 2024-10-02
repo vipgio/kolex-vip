@@ -83,7 +83,7 @@ const Crafting = () => {
 				{loading ? (
 					<LoadingSpin />
 				) : plans.length > 0 ? (
-					<div className='grid grid-cols-1 gap-5 self-start px-5 sm:grid-cols-3'>
+					<div className='grid grid-cols-1 gap-8 self-start px-5 sm:grid-cols-4'>
 						{plans
 							.sort((a, b) => b.id - a.id)
 							.map((plan) => (

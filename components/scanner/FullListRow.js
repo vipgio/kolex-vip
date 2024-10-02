@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
-import { FaSignature, FaLock, FaHistory } from "react-icons/fa";
+import { memo, useContext, useState } from "react";
 import { UserContext } from "@/context/UserContext";
 import HistoryModal from "@/components/history/HistoryModal";
+import { LockIcon, SignatureIcon, HistoryIcon } from "@/components/Icons";
 
-const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
+const FullListRow = memo(({ item, isSelfScan, singleUserSearch }) => {
 	const { user } = useContext(UserContext);
 	const [showHistory, setShowHistory] = useState(false);
 
@@ -22,7 +22,7 @@ const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 				title={item.signatureImage ? "Signed" : undefined}
 			>
 				<span className='flex items-center justify-center'>
-					{item.signatureImage && <FaSignature className='mr-2' />}
+					{item.signatureImage && <SignatureIcon className='mr-2' />}
 					{item.mintBatch}
 					{item.mintNumber}
 				</span>
@@ -53,11 +53,11 @@ const FullListRow = React.memo(({ item, isSelfScan, singleUserSearch }) => {
 							/>
 						) : (
 							<button onClick={openModal}>
-								<FaHistory />
+								<HistoryIcon />
 							</button>
 						)
 					) : (
-						<FaLock className='cursor-not-allowed' title='You need the "history" access for this feature' />
+						<LockIcon className='cursor-not-allowed' title='You need the "history" access for this feature' />
 					)}
 				</span>
 			</td>

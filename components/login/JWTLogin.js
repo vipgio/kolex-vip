@@ -18,7 +18,7 @@ const JWTLogin = ({ jwt, setJwt, loading, onSubmit }) => {
 					onChange={(e) => setJwt(e.target.value)}
 					autoComplete='off'
 					disabled={loading}
-					className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+					className='input-field'
 				/>
 
 				<button type='submit' disabled={loading} className='submit-button'>

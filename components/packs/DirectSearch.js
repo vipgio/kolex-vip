@@ -1,6 +1,7 @@
 import LoadingSpin from "../LoadingSpin";
 import Tooltip from "../Tooltip";
-import PackResults from "./PackResults";
+import PackData from "./PackData";
+import { SearchIcon } from "@/components/Icons";
 
 const DirectSearch = ({ loading, searchQuery, setSearchQuery, results, onSubmit }) => {
 	return (
@@ -13,32 +14,33 @@ const DirectSearch = ({ loading, searchQuery, setSearchQuery, results, onSubmit 
 					/>
 					Enter pack ID or pack name
 				</label>
-				<input
-					type='text'
-					name='pack'
-					id='pack'
-					className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-					value={searchQuery}
-					placeholder='Pack ID / Pack name'
-					onChange={(e) => setSearchQuery(e.target.value)}
-					autoComplete='off'
-				/>
+				<div className='relative'>
+					<input
+						type='text'
+						name='pack'
+						id='pack'
+						className='input-field'
+						value={searchQuery}
+						placeholder='Pack ID / Pack name'
+						onChange={(e) => setSearchQuery(e.target.value)}
+						autoComplete='off'
+					/>
+					<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-500' />
+				</div>
 				{loading ? (
 					<LoadingSpin />
 				) : (
-					<button
-						type='submit'
-						disabled={loading}
-						className={`submit-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-					>
+					<button type='submit' disabled={loading} className='submit-button'>
 						Search for packs
 					</button>
 				)}
 			</form>
-			{results?.length > 0
-				? results.map((res) => <PackResults pack={res} key={res.id} />)
-				: searchQuery.length > 0 &&
-				  results && <div className='text-gray-custom mt-2 flex justify-center'>No results found</div>}
+			<div className='flex flex-col divide-y divide-gray-600 pt-5 dark:divide-gray-400'>
+				{results?.length > 0
+					? results.map((res) => <PackData pack={res} key={res.id} title={true} />)
+					: searchQuery.length > 0 &&
+					  results && <div className='text-gray-custom mt-2 flex justify-center'>No results found</div>}
+			</div>
 		</>
 	);
 };

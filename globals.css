@@ -6,6 +6,14 @@ body {
 	@apply bg-main transition-colors;
 }
 
+a {
+	@apply my-outline rounded;
+}
+
+button:disabled {
+	@apply cursor-not-allowed opacity-50;
+}
+
 .bg-main {
 	@apply bg-slate-200 dark:bg-slate-700;
 }
@@ -14,41 +22,44 @@ body {
 	@apply text-gray-700 dark:text-gray-300;
 }
 
+.my-outline {
+	@apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400;
+}
+
+.input-outline {
+	@apply focus:outline-none focus-visible:border-primary-500 focus-visible:ring-2 focus-visible:ring-gray-100 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-400;
+}
+
 .table-cell {
 	@apply py-1 px-2 sm:py-3 sm:px-6;
 }
 
 .input-field {
-	@apply rounded-md border border-gray-700 px-2 py-1 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-300 sm:px-3;
+	@apply input-outline rounded-md border border-gray-700 px-2 py-1 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-300 sm:px-3;
 }
 
 .submit-button {
-	/*	@apply bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md;*/
-	@apply rounded-md bg-primary-500 py-2 px-4 text-center font-bold text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 enabled:hover:bg-primary-600 enabled:active:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50;
+	@apply rounded-md bg-primary-500 py-2 px-4 text-center font-bold text-gray-200 focus:outline-none focus:ring-primary-500/50 focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-1 enabled:hover:bg-primary-600 enabled:active:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 .simple-button {
-	@apply inline-flex cursor-pointer items-center rounded-md border border-gray-800 bg-gray-100 px-3 py-2 text-center text-gray-700 shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-200 dark:text-gray-800 dark:hover:text-gray-800;
+	@apply input-outline inline-flex cursor-pointer items-center rounded-md border border-gray-800 bg-gray-100 px-3 py-2 text-center text-gray-700 shadow-lg transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-200 dark:text-gray-800;
 }
 
 .button {
-	@apply inline-flex cursor-pointer items-center justify-center rounded-md border border-transparent border-gray-200 bg-gray-800 py-2 px-3 text-center font-medium text-primary-500 shadow-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 active:shadow-lg enabled:hover:bg-gray-700 enabled:hover:text-primary-600 enabled:active:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-100 dark:enabled:hover:bg-gray-300 dark:enabled:active:bg-gray-400;
+	@apply input-outline inline-flex cursor-pointer items-center justify-center rounded-md border border-transparent border-gray-200 bg-gray-800 py-2 px-3 text-center font-medium text-primary-500 shadow-lg transition-colors active:shadow-lg enabled:hover:bg-gray-700 enabled:hover:text-primary-600 enabled:active:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-100 dark:enabled:hover:bg-gray-300 dark:enabled:active:bg-gray-400;
+}
+
+.checkbox {
+	@apply my-outline rounded text-primary-400 hover:cursor-pointer focus:ring-primary-400;
 }
 
 .dropdown {
-	@apply rounded-md border border-gray-700 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-300;
-}
-
-.indicator {
-	@apply pointer-events-none absolute top-3 h-12 w-12 rounded-full border-4 border-gray-700 bg-primary-400 transition-all duration-500;
+	@apply input-outline rounded-md border border-gray-700 py-1 text-gray-900 transition-opacity disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-300;
 }
 
 .tooltip {
 	@apply pointer-events-none absolute bottom-1/2 z-50 h-fit w-48 translate-y-1/2 bg-primary-400 p-1 text-center text-sm text-white opacity-0 transition-opacity duration-300 after:absolute after:top-1/2 after:-mt-2.5 after:border-8 after:border-transparent after:content-["_"] group-hover:opacity-90;
-}
-
-.my-outline {
-	@apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500;
 }
 
 .loader {
@@ -57,21 +68,12 @@ body {
 	-webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 4px), #000 0);
 }
 
-::-webkit-scrollbar {
-	width: 10px;
-	height: 10px;
+.gallery-item {
+	@apply my-outline cursor-pointer rounded transition disabled:cursor-not-allowed enabled:hocus:scale-105 enabled:hocus:shadow-xl;
 }
-::-webkit-scrollbar-track {
-	border-radius: 50vh;
-	background: #6b7280;
-}
-::-webkit-scrollbar-thumb {
-	background: #fb923c; /*navbar blue*/
-	border-radius: 100vh;
-	border: 2px solid #6b7280;
-}
-::-webkit-scrollbar-thumb:hover {
-	background: #f97316;
+
+.navbar-icon-bar {
+	@apply absolute left-1 origin-center rounded-sm bg-gray-100 transition-all duration-300 ease-in-out;
 }
 
 .no-highlight {
@@ -79,13 +81,26 @@ body {
 	-webkit-tap-highlight-color: transparent;
 }
 
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+::-webkit-scrollbar-track {
+	border-radius: 50vh;
+	background: theme(colors.slate.700); /* slate-700 */
+}
+::-webkit-scrollbar-thumb {
+	background: theme(colors.slate.400); /* slate-400 */
+	border-radius: 100vh;
+	border: 2px solid theme(colors.slate.600); /* slate-600 */
+}
+::-webkit-scrollbar-thumb:hover {
+	background: theme(colors.slate.500); /* slate-500 */
+}
+
 .Toastify__toast-container--top-right {
 	position: fixed !important;
 	z-index: 9999;
-}
-
-.navbar-icon-bar {
-	@apply absolute left-1 origin-center rounded-sm bg-white transition-all duration-300 ease-in-out;
 }
 
 .half-border {
@@ -128,6 +143,8 @@ body {
 
 	--ag-row-height: 40px;
 	--ag-header-height: 50px;
+
+	--ag-active-color: theme("colors.inherit") !important;
 
 	/* --ag-selected-row-background-color: rgba(0, 145, 234, 0.1); */
 }

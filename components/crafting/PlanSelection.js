@@ -10,9 +10,7 @@ const PlanSelection = ({ plan }) => {
 	return (
 		<>
 			<button
-				className={`max-w-xs rounded border border-gray-800 transition-transform ${
-					comingSoon ? "cursor-not-allowed" : "hover:scale-105 hover:cursor-pointer"
-				} dark:border-gray-200`}
+				className={`gallery-item max-w-[15rem] border border-gray-800 dark:border-gray-200`}
 				onClick={() => !comingSoon && setShowModal(true)}
 				disabled={comingSoon}
 				title={
@@ -49,7 +47,7 @@ const PlanSelection = ({ plan }) => {
 						{plan.requirements.map((item, i) => [
 							i > 0 && ", ",
 							<Fragment key={item.id}>
-								<span className='text-orange-500'>{item.count}x</span> {item.name}
+								<span className='text-primary-500'>{item.count}x</span> {item.name}
 							</Fragment>,
 						])}
 					</div>

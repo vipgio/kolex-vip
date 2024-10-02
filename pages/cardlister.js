@@ -6,7 +6,6 @@ import SetSelector from "@/HOC/SetSelector";
 import Meta from "@/components/Meta";
 import LoadingSpin from "@/components/LoadingSpin";
 import CardGallery from "@/components/cardlister/CardGallery";
-import ListedModal from "@/components/cardlister/ListedModal";
 import RefreshButton from "@/components/RefreshButton";
 
 const Cardlister = () => {
@@ -14,7 +13,6 @@ const Cardlister = () => {
 	const { fetchData } = useAxios();
 	const [selectedCollection, setSelectedCollection] = useState(null);
 	const [templates, setTemplates] = useState([]);
-	const [showListedModal, setShowListedModal] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -202,7 +200,6 @@ const Cardlister = () => {
 				</div>
 			)}
 			{templates.length > 0 && <CardGallery templates={templates} user={user} />}
-			{showListedModal && <ListedModal showModal={showListedModal} setShowModal={setShowListedModal} />}
 		</>
 	);
 };

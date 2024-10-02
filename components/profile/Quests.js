@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { TbRotate } from "react-icons/tb";
 import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "@/components/LoadingSpin";
+import { RotateIcon } from "@/components/Icons";
 
 const Quests = ({ user }) => {
 	const [loading, setLoading] = useState(false);
@@ -119,17 +119,19 @@ const Quests = ({ user }) => {
 					{achievements.length > 0 && (
 						<span>
 							(
-							<button className='hover:text-orange-500' onClick={claimAllQuests}>
+							<button className='hover:text-primary-500' onClick={claimAllQuests}>
 								Claim
 							</button>
 							)
 						</span>
 					)}
-					<TbRotate
-						title='Refresh Achievements'
-						className='text-gray-custom cursor-pointer'
-						onClick={refreshQuests}
-					/>
+					<button className='my-outline rounded'>
+						<RotateIcon
+							title='Refresh Achievements'
+							className='text-gray-custom cursor-pointer'
+							onClick={refreshQuests}
+						/>
+					</button>
 				</span>
 			)}
 		</>

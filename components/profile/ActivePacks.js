@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import uniqBy from "lodash/uniqBy";
-import pick from "lodash/pick";
-import omit from "lodash/omit";
-import { CDN } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
-import ImageWrapper from "@/HOC/ImageWrapper";
 import LoadingSpin from "@/components/LoadingSpin";
 import RefreshButton from "@/components/RefreshButton";
 import stripPack from "@/utils/stripPack";
+import ActivePackBox from "./ActivePackBox";
 
 const ActivePacks = ({ user, categoryId }) => {
 	const { fetchData } = useAxios();
 	const [activePacks, setActivePacks] = useState([]);
 	const [loading, setLoading] = useState(false);
+
 	let isApiSubscribed = true;
 
 	const getAllPacks = async () => {
@@ -89,27 +87,13 @@ const ActivePacks = ({ user, categoryId }) => {
 						<LoadingSpin />
 					</div>
 				) : activePacks.length > 0 ? (
-					<div className='grid grid-cols-1 gap-2 p-1.5 xs:grid-cols-2 sm:grid-cols-4'>
-						{uniqBy(activePacks, "id").map((pack) => (
-							<div key={pack.id} className='flex w-full rounded border border-gray-500 p-1'>
-								<div className='mr-1 flex h-24 w-1/4 items-center justify-center'>
-									<ImageWrapper
-										src={`${CDN}${pack.images.url}` || ""}
-										width={50}
-										height={75}
-										alt={pack.name}
-										className='h-full w-auto object-contain'
-									/>
-								</div>
-								<div className='flex w-3/4 flex-col justify-center sm:mt-2 sm:justify-start'>
-									<div>{pack.name}</div>
-									<div>
-										<span className='text-primary-500'>{pack.inventoryCount.toLocaleString()}</span> Packs left
-									</div>
-								</div>
-							</div>
-						))}
-					</div>
+					<>
+						<div className='grid grid-cols-1 gap-4 p-3 xs:grid-cols-2 sm:grid-cols-4'>
+							{uniqBy(activePacks, "id").map((pack) => (
+								<ActivePackBox key={pack.id} pack={pack} />
+							))}
+						</div>
+					</>
 				) : (
 					<div className='text-center'>No packs available</div>
 				)}

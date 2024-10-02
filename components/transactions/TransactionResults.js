@@ -23,11 +23,7 @@ const TransactionResults = ({ results, filters }) => {
 				<label htmlFor='filter' className='text-gray-custom font-semibold sm:m-1'>
 					Show:{" "}
 				</label>
-				<select
-					id='filter'
-					className='h-8 rounded-md border border-gray-700 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-gray-300'
-					onChange={handleFilter}
-				>
+				<select id='filter' className='input-field input-outline !pr-8' onChange={handleFilter}>
 					<option value='both'>Income & Expense</option>
 					<option value='income'>Income</option>
 					<option value='expense'>Expense</option>
@@ -66,26 +62,28 @@ const TransactionResults = ({ results, filters }) => {
 					/>
 				</div>
 			</div>
-			<div className='mx-1 mb-5 flex flex-col justify-center overflow-x-auto rounded border border-gray-300'>
-				<table className='w-full table-auto'>
-					<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
-						<tr>
-							<th className='table-cell'>Date</th>
-							<th className='table-cell'>Description</th>
-							<th className='table-cell'>Amount</th>
-							<th className='table-cell'>Type</th>
-							{results[0]?.costType !== "silvercoins" && <th className='table-cell'>Details</th>}
-							<th className='table-cell'>Cost Type</th>
-							<th className='table-cell'>History</th>
-						</tr>
-					</thead>
-					<tbody>
-						{uniqBy(filteredResults, (o) => o.id).map((tr) => (
-							<TransactionResultsRow item={tr} allowed={user.info.allowed.includes("history")} key={tr.id} />
-						))}
-					</tbody>
-				</table>
-			</div>
+			{filteredResults.length > 0 ? (
+				<div className='mx-1 mb-5 flex flex-col justify-center overflow-x-auto rounded border border-gray-300'>
+					<table className='w-full table-auto'>
+						<thead className='text-gray-custom bg-gray-200 dark:bg-gray-700'>
+							<tr>
+								<th className='table-cell'>Date</th>
+								<th className='table-cell'>Description</th>
+								<th className='table-cell'>Amount</th>
+								<th className='table-cell'>Type</th>
+								{results[0]?.costType !== "silvercoins" && <th className='table-cell'>Details</th>}
+								<th className='table-cell'>Cost Type</th>
+								<th className='table-cell'>History</th>
+							</tr>
+						</thead>
+						<tbody>
+							{uniqBy(filteredResults, (o) => o.id).map((tr) => (
+								<TransactionResultsRow item={tr} allowed={user.info.allowed.includes("history")} key={tr.id} />
+							))}
+						</tbody>
+					</table>
+				</div>
+			) : null}
 		</div>
 	);
 };

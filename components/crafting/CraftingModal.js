@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
@@ -10,7 +10,7 @@ import { useAxios } from "@/hooks/useAxios";
 import BigModal from "@/components/BigModal";
 import CraftResultModal from "./CraftResultModal";
 
-const CraftingModal = React.memo(
+const CraftingModal = memo(
 	({ showModal, setShowModal, plan }) => {
 		const { fetchData, postData } = useAxios();
 		const [loading, setLoading] = useState(true);
@@ -247,7 +247,7 @@ const CraftingModal = React.memo(
 								))}
 							<>
 								Total crafts possible:{" "}
-								<span className='text-orange-500'>
+								<span className='text-primary-500'>
 									{Math.min(
 										...(plan.userLimit === 0
 											? dataToShow.map((requirement) =>
@@ -292,7 +292,7 @@ const CraftingModal = React.memo(
 										/>
 									</div>
 									<div className='flex flex-col sm:ml-5'>
-										<div className='flex'>
+										<div className='flex items-center'>
 											<label htmlFor='dupe' className='mr-1 hover:cursor-pointer'>
 												Only use dupe items
 											</label>
@@ -305,7 +305,7 @@ const CraftingModal = React.memo(
 												className='hover:cursor-pointer'
 											/>
 										</div>
-										<div className='flex'>
+										<div className='flex items-center'>
 											<label htmlFor='any' className='mr-1 hover:cursor-pointer'>
 												Use any worst mint
 											</label>
@@ -320,10 +320,10 @@ const CraftingModal = React.memo(
 										</div>
 									</div>
 								</div>
-								<div className='mt-2 flex items-center border-t border-gray-800 pt-2 dark:border-gray-300'>
+								<div className='mt-2 flex items-center border-t border-gray-800 pt-3 dark:border-gray-300'>
 									<div>Crafting recipe mint range:</div>
 									{dataToShow.length > 0 && dataToShow[0].items.length > 0 && (
-										<div className='my-1 ml-1 mr-5 flex flex-col divide-y divide-gray-700 dark:divide-gray-500'>
+										<div className='my-1 ml-2 mr-5 flex flex-col divide-y divide-gray-700 dark:divide-gray-500'>
 											{craftCount > 0 && (
 												<>
 													{dataToShow.map((req) => {
@@ -358,7 +358,11 @@ const CraftingModal = React.memo(
 										</div>
 									)}
 
-									<button className='button ml-auto mt-auto' onClick={doCraft} disabled={craftCount === 0}>
+									<button
+										className='button ml-auto mr-1 mb-1 mt-auto'
+										onClick={doCraft}
+										disabled={craftCount === 0}
+									>
 										Craft
 									</button>
 								</div>

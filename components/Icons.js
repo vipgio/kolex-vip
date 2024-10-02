@@ -1,6 +1,5 @@
 import {
 	FaPeopleArrows as TransferIcon,
-	FaSearch as MintsearchIcon,
 	FaHistory as HistoryIcon,
 	FaLock as LockIcon,
 	FaUnlock as UnlockIcon,
@@ -8,9 +7,31 @@ import {
 	FaMoon as MoonIcon,
 	FaGithub as GithubIcon,
 	FaDiscord as DiscordIcon,
+	FaSignature as SignatureIcon,
+	FaRegTrashAlt as TrashIcon,
+	FaRegCheckCircle as CheckCircleIcon,
+	FaBan as BanIcon,
+	FaRegEdit as EditIcon,
+	FaStop as StopIcon,
 } from "react-icons/fa";
-import { AiOutlineScan as ScannerIcon, AiOutlineHome as HomeIcon } from "react-icons/ai";
-import { TbArrowMerge as CraftingIcon } from "react-icons/tb";
+import { BiCheck as CheckIcon, BiPlayCircle as PlayIcon } from "react-icons/bi";
+import {
+	AiOutlineScan as ScannerIcon,
+	AiOutlineHome as HomeIcon,
+	AiOutlinePoweroff as PoweroffIcon,
+} from "react-icons/ai";
+import { TbArrowMerge as CraftingIcon, TbRotate as RotateIcon } from "react-icons/tb";
+import { HiOutlineChevronUpDown as ChevronIcon } from "react-icons/hi2";
+import { GoLinkExternal as LinkIcon } from "react-icons/go";
+import {
+	LuArrowDown as ArrowDownIcon,
+	LuArrowUp as ArrowUpIcon,
+	LuArrowRightCircle as ArrowRightCircleIcon,
+	LuArrowLeftCircle as ArrowLeftCircleIcon,
+} from "react-icons/lu";
+import { FiUser as UserIcon, FiShoppingCart as ShoppingCartIcon } from "react-icons/fi";
+import { IoSearchOutline as SearchIcon, IoClose as CloseIcon } from "react-icons/io5";
+import { BsQuestionCircle as QuestionIcon } from "react-icons/bs";
 
 const CirculationIcon = () => {
 	return (
@@ -83,11 +104,7 @@ const TransactionsIcon = () => {
 };
 
 const PackmanagerIcon = () => {
-	return (
-		<svg width='14' height='14' viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'>
-			<path d='M507.519,116.384C503.721,111.712,498.021,109,492,109H129.736l-1.484-13.632l-0.053-0.438C121.099,40.812,74.583,0,20,0 C8.954,0,0,8.954,0,20s8.954,20,20,20c34.506,0,63.923,25.749,68.512,59.928l23.773,218.401C91.495,327.765,77,348.722,77,373 c0,0.167,0.002,0.334,0.006,0.5C77.002,373.666,77,373.833,77,374c0,33.084,26.916,60,60,60h8.138 c-2.034,5.964-3.138,12.355-3.138,19c0,32.532,26.467,59,59,59s59-26.468,59-59c0-6.645-1.104-13.036-3.138-19h86.277 c-2.034,5.964-3.138,12.355-3.138,19c0,32.532,26.467,59,59,59c32.533,0,59-26.468,59-59c0-32.532-26.467-59-59-59H137 c-11.028,0-20-8.972-20-20c0-0.167-0.002-0.334-0.006-0.5c0.004-0.166,0.006-0.333,0.006-0.5c0-11.028,8.972-20,20-20h255.331 c35.503,0,68.084-21.966,83.006-55.962c4.439-10.114-0.161-21.912-10.275-26.352c-10.114-4.439-21.912,0.161-26.352,10.275 C430.299,300.125,411.661,313,392.331,313h-240.39L134.09,149h333.308l-9.786,46.916c-2.255,10.813,4.682,21.407,15.495,23.662 c1.377,0.288,2.75,0.426,4.104,0.426c9.272,0,17.59-6.484,19.558-15.92l14.809-71C512.808,127.19,511.317,121.056,507.519,116.384 z M399,434c10.477,0,19,8.523,19,19s-8.523,19-19,19s-19-8.523-19-19S388.523,434,399,434z M201,434c10.477,0,19,8.524,19,19 c0,10.477-8.523,19-19,19s-19-8.523-19-19S190.523,434,201,434z'></path>
-		</svg>
-	);
+	return <ShoppingCartIcon />;
 };
 
 const CardlisterIcon = () => {
@@ -96,6 +113,10 @@ const CardlisterIcon = () => {
 			<path d='M7.67353846,0 C6.87692308,0 6.23076923,0.64 6.23076923,1.42818182 C6.23076923,2.21727273 6.87692308,2.85727273 7.67353846,2.85727273 L16.3264615,2.85727273 C17.1230769,2.85727273 17.7692308,2.21727273 17.7692308,1.42818182 C17.7692308,0.64 17.1230769,0 16.3264615,0 L7.67353846,0 Z M3.34615385,5.71454545 C3.34615385,4.92545455 3.99230769,4.28545455 4.78892308,4.28545455 L19.212,4.28545455 C20.0076923,4.28545455 20.6538462,4.92545455 20.6538462,5.71454545 C20.6538462,6.50363636 20.0076923,7.14272727 19.212,7.14272727 L4.78892308,7.14272727 C3.99230769,7.14272727 3.34615385,6.50363636 3.34615385,5.71454545 Z M0.461538462,11.4281818 C0.461538462,9.85090909 1.75292308,8.57181818 3.34615385,8.57181818 L20.6538462,8.57181818 C22.2470769,8.57181818 23.5384615,9.85090909 23.5384615,11.4281818 L23.5384615,17.1427273 C23.5384615,18.7209091 22.2470769,20 20.6538462,20 L3.34615385,20 C1.75292308,20 0.461538462,18.7209091 0.461538462,17.1427273 L0.461538462,11.4281818 Z'></path>
 		</svg>
 	);
+};
+
+const MintsearchIcon = () => {
+	return <SearchIcon />;
 };
 
 export {
@@ -118,4 +139,25 @@ export {
 	RushIcon,
 	TransactionsIcon,
 	CardlisterIcon,
+	SignatureIcon,
+	TrashIcon,
+	CheckCircleIcon,
+	BanIcon,
+	CheckIcon,
+	PlayIcon,
+	ChevronIcon,
+	LinkIcon,
+	ArrowDownIcon,
+	ArrowUpIcon,
+	EditIcon,
+	StopIcon,
+	RotateIcon,
+	ArrowRightCircleIcon,
+	ArrowLeftCircleIcon,
+	UserIcon,
+	ShoppingCartIcon,
+	SearchIcon,
+	PoweroffIcon,
+	CloseIcon,
+	QuestionIcon,
 };

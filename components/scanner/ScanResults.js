@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { memo, useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
@@ -6,16 +6,16 @@ import sumBy from "lodash/sumBy";
 import uniqBy from "lodash/uniqBy";
 import countBy from "lodash/countBy";
 import sortedIndexBy from "lodash/sortedIndexBy";
-import { FaLock } from "react-icons/fa";
 import { useAxios } from "@/hooks/useAxios";
 import ExportToCSV from "@/components/ExportToCSV";
 import CompactList from "./CompactList";
 import FullList from "./FullList";
 import Tooltip from "../Tooltip";
 import Leaderboard from "./Leaderboard";
+import { LockIcon } from "@/components/Icons";
 import fixDecimal from "@/utils/NumberUtils";
 
-const ScanResult = React.memo(
+const ScanResult = memo(
 	({
 		scanResults,
 		user,
@@ -143,9 +143,9 @@ const ScanResult = React.memo(
 		return (
 			<>
 				<div className='my-5 overflow-hidden'>
-					<div className='flex items-end pb-3'>
+					<div className='flex items-end p-1 pb-3'>
 						<div className='flex flex-col justify-start sm:flex-row'>
-							<label htmlFor='filter' className='text-gray-custom my-1 sm:m-1'>
+							<label htmlFor='filter' className='text-gray-custom my-1'>
 								Select a filter method:{" "}
 							</label>
 							<select id='filter' className='dropdown' onChange={handleFilter}>
@@ -185,7 +185,7 @@ const ScanResult = React.memo(
 											<Tooltip text='You need access to the history feature for this.' direction='left' />
 											<button className='button' disabled title='No Access'>
 												History
-												<FaLock />
+												<LockIcon />
 											</button>
 										</>
 									)}
@@ -209,12 +209,12 @@ const ScanResult = React.memo(
 								<div className='text-gray-custom mb-1 ml-1 font-semibold'>
 									<div>Items: {filteredResults.length}</div>
 									<div>Total points: {points.toFixed(2)}</div>
-									<div
+									<button
 										onClick={() => setShowLeaderboard(true)}
-										className='w-fit underline hover:cursor-pointer'
+										className='my-outline w-fit rounded underline'
 									>
 										Rank: {rank >= 120 ? "120+" : rank + 1}
-									</div>
+									</button>
 									{showLeaderboard && (
 										<Leaderboard
 											isOpen={showLeaderboard}

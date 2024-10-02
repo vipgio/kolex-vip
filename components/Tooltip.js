@@ -1,5 +1,6 @@
-import { BsQuestionCircle } from "react-icons/bs";
+import { QuestionIcon } from "@/components/Icons";
 import { Tooltip as NewTooltip } from "react-tooltip";
+
 const Tooltip = ({ direction, text, color }) => {
 	const id = Buffer.from(text, "utf8").toString("base64");
 	let extra = "";
@@ -43,7 +44,7 @@ const Tooltip = ({ direction, text, color }) => {
 	return (
 		<>
 			<a data-tooltip-id={id} data-tooltip-place={direction}>
-				<BsQuestionCircle
+				<QuestionIcon
 					className={`relative block text-white opacity-50 transition-opacity duration-300 hover:opacity-100 ${
 						direction === "right" ? "ml-2" : direction === "top" ? "mb-2" : "mr-2"
 					} ${customColor}`}

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
+import { CheckCircleIcon, TrashIcon } from "@/components/Icons";
 import fixDecimal from "@/utils/NumberUtils";
 
 const ListedRow = ({ pack, setListed, insertFloor }) => {
@@ -98,19 +98,19 @@ const ListedRow = ({ pack, setListed, insertFloor }) => {
 					) : (
 						<>
 							<button
-								className='ml-2 cursor-pointer text-primary-500 active:text-primary-400 disabled:cursor-not-allowed disabled:text-gray-500'
+								className='my-outline ml-2 rounded p-1 text-primary-500 hover:text-primary-600 active:text-primary-700 disabled:text-gray-500'
 								title='Update listing'
 								onClick={handleUpdate}
 								disabled={newPrice < minPrice}
 							>
-								<FaRegCheckCircle size={18} />
+								<CheckCircleIcon size={18} />
 							</button>
 							<button
-								className='ml-auto mr-2 cursor-pointer text-red-500 active:text-red-400'
+								className='my-outline ml-auto mr-2 rounded p-1 text-red-500 hover:text-red-600 active:text-red-700'
 								title='Remove listing'
 								onClick={handleRemove}
 							>
-								<FaRegTrashAlt size={18} />
+								<TrashIcon size={18} />
 							</button>
 						</>
 					)}

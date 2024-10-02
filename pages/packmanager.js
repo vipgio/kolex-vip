@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from "react";
 import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
 import chunk from "lodash/chunk";
-import { IoSearchOutline } from "react-icons/io5";
 import { templateLimit } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import { UserContext } from "@/context/UserContext";
@@ -13,6 +12,7 @@ import Tooltip from "@/components/Tooltip";
 import ListedModal from "@/components/packmanager/ListedModal";
 import PurchaseToggle from "@/components/packmanager/PurchaseToggle";
 import PurchasePage from "@/components/packmanager/PurchasePage";
+import { SearchIcon } from "@/components/Icons";
 
 const Packmanager = () => {
 	const { user, categoryId } = useContext(UserContext);
@@ -166,7 +166,7 @@ const Packmanager = () => {
 												onChange={(e) => setSearchQuery(e.target.value.trimStart())}
 												value={searchQuery}
 											/>
-											<IoSearchOutline className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
+											<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
 										</div>
 										<div className='text-gray-custom my-2 flex flex-col font-semibold sm:ml-4 sm:-mt-2'>
 											<span>
@@ -184,7 +184,7 @@ const Packmanager = () => {
 											</span>
 										</div>
 									</div>
-									<div className='mb-3 mr-4 mt-5 flex items-start justify-end sm:items-center'>
+									<div className='mb-3 mr-4 mt-5 flex items-center justify-end'>
 										<Tooltip
 											direction='left'
 											text={`It will load ALL your packs. If you have too many it's gonna take a while or you can stop loading the items by clicking on "Stop".`}

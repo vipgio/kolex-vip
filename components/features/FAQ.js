@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { LuArrowDown } from "react-icons/lu";
-import { GoLinkExternal } from "react-icons/go";
 import { discordLink, githubLink } from "@/config/config";
 import Tooltip from "../Tooltip";
-import { GithubIcon } from "@/components/Icons";
+import { ArrowDownIcon, GithubIcon, LinkIcon } from "@/components/Icons";
 
 const FAQ = ({ paymentMethods }) => {
 	const faqData = [
@@ -65,7 +63,7 @@ const FAQ = ({ paymentMethods }) => {
 										title={method.name}
 										className='inline-flex items-center hover:cursor-pointer hover:text-primary-500'
 									>
-										Click to pay with {method.name} <GoLinkExternal className='ml-1' />
+										Click to pay with {method.name} <LinkIcon className='ml-1' />
 									</a>
 								) : (
 									method.value
@@ -93,7 +91,7 @@ const FAQ = ({ paymentMethods }) => {
 							title='Contact me on Discord'
 							className='ml-1 inline-flex items-center hover:cursor-pointer hover:text-orange-500'
 						>
-							Click <GoLinkExternal className='ml-1' />
+							Click <LinkIcon className='ml-1' />
 						</a>
 					</div>
 				</>
@@ -155,7 +153,7 @@ const FAQItem = ({ item, isOpen, onToggle }) => {
 				aria-expanded={isOpen}
 			>
 				<span className='text-lg font-medium'>{item.question}</span>
-				<LuArrowDown
+				<ArrowDownIcon
 					className={`h-5 w-5 transform transition-all duration-300 ${
 						isOpen ? "rotate-180 text-primary-500" : ""
 					}`}

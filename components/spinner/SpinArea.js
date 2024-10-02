@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import isEmpty from "lodash/isEmpty";
-import { FaRegTrashAlt, FaPlay, FaStop } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { API } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
@@ -9,6 +8,7 @@ import SpinResult from "./SpinResult";
 import Recap from "./Recap";
 import SpinnerLimit from "./SpinnerLimit";
 import Tooltip from "../Tooltip";
+import { TrashIcon, PlayIcon, StopIcon } from "@/components/Icons";
 
 const SpinArea = ({ info }) => {
 	const { fetchData, postData } = useAxios();
@@ -194,16 +194,16 @@ const SpinArea = ({ info }) => {
 								onClick={stopSpin}
 								className='text-gray-custom inline-flex items-center rounded-md bg-red-500 p-2 font-semibold hover:bg-red-600 active:bg-red-700'
 							>
-								<FaStop className='mr-1 hidden sm:block' />
+								<StopIcon className='mr-1 hidden sm:block' />
 								Stop Spinning
 							</button>
 						) : (
 							<button
 								onClick={startSpin}
 								disabled={!info.id || !limit.isSet}
-								className='text-gray-custom inline-flex items-center rounded-md bg-green-500 p-2 font-semibold enabled:hover:bg-green-600 enabled:active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50'
+								className='text-gray-custom inline-flex items-center rounded-md bg-green-500 p-2 font-semibold enabled:hover:bg-green-600 enabled:active:bg-green-700'
 							>
-								<FaPlay className='mr-1 hidden sm:block' />
+								<PlayIcon className='mr-1 hidden sm:block' />
 								Start Spinning
 							</button>
 						)}
@@ -219,10 +219,7 @@ const SpinArea = ({ info }) => {
 							{spinRes.length === 1 ? "time" : "times"}
 						</div>
 						{spinRes.length > 0 && (
-							<button
-								onClick={() => setShowRecap(true)}
-								className='ml-2 inline-flex cursor-pointer items-center rounded-md border border-gray-800 bg-gray-100 px-1 py-0.5 text-center text-gray-700 shadow-lg transition-colors enabled:hover:bg-gray-300 enabled:hover:text-gray-800 enabled:active:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-200 dark:text-gray-800 dark:hover:text-gray-800'
-							>
+							<button onClick={() => setShowRecap(true)} className='button ml-2 !p-1 !px-2'>
 								Recap
 							</button>
 						)}
@@ -231,14 +228,14 @@ const SpinArea = ({ info }) => {
 						) : null}
 						<div className='ml-auto'>
 							<button
-								className='flex items-center rounded-md bg-red-500 p-2 enabled:hover:bg-red-600 enabled:active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-200'
+								className='flex items-center rounded-md bg-red-500 p-2 enabled:hover:bg-red-600 enabled:active:bg-red-700 dark:text-gray-200'
 								onClick={() => {
 									setSpinRes([]);
 								}}
 								title={spinRes.length === 0 ? "No spins to clear" : "Clear spins"}
 								disabled={spinRes.length === 0}
 							>
-								<FaRegTrashAlt />
+								<TrashIcon />
 							</button>
 						</div>
 					</div>

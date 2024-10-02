@@ -4,6 +4,7 @@ import _ from "lodash";
 import { useAxios } from "@/hooks/useAxios";
 import PurchaseTable from "./PurchaseTable";
 import LoadingSpin from "../LoadingSpin";
+import { SearchIcon } from "@/components/Icons";
 
 const PurchasePage = () => {
 	const { fetchData, postData } = useAxios();
@@ -111,15 +112,18 @@ const PurchasePage = () => {
 			<div className='mt-4 mb-8 w-full'>
 				<div className='flex flex-col items-center justify-center gap-y-3'>
 					<form onSubmit={handleSubmit} className='flex flex-col items-center justify-center gap-y-3'>
-						<input
-							type='text'
-							name='packid'
-							id='packid'
-							className='input-field'
-							placeholder='Enter Pack ID'
-							value={packId}
-							onChange={(e) => setPackId(e.target.value)}
-						/>
+						<div className='relative'>
+							<input
+								type='text'
+								name='packid'
+								id='packid'
+								className='input-field'
+								placeholder='Enter Pack ID'
+								value={packId}
+								onChange={(e) => setPackId(e.target.value)}
+							/>
+							<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-500' />
+						</div>
 						<button className='submit-button' type='submit' disabled={!packId || loading}>
 							{loading ? <LoadingSpin /> : "Get listings"}
 						</button>

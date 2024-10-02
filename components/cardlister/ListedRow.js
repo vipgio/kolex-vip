@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { memo, useState, useEffect } from "react";
 import isEqual from "lodash/isEqual";
 import { toast } from "react-toastify";
-import { FaSignature, FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
-import { AiOutlineReload } from "react-icons/ai";
 import { maxPrice, minPrice } from "@/config/config";
 import { useAxios } from "@/hooks/useAxios";
 import LoadingSpin from "../LoadingSpin";
+import { SignatureIcon, TrashIcon, CheckCircleIcon } from "@/components/Icons";
 import fixDecimal from "@/utils/NumberUtils";
 
-const ListedRow = React.memo(
+const ListedRow = memo(
 	({ item, setListed, insertFloor }) => {
 		const { patchData, deleteData, fetchData } = useAxios();
 		const [newPrice, setNewPrice] = useState(0);
@@ -96,7 +95,7 @@ const ListedRow = React.memo(
 						title={item.signatureImage && "Signed"}
 					>
 						<div className='flex items-center justify-center'>
-							{item.signatureImage && <FaSignature className='mr-2' />}
+							{item.signatureImage && <SignatureIcon className='mr-2' />}
 							{item.mintBatch}
 							{item.mintNumber}
 						</div>
@@ -131,12 +130,12 @@ const ListedRow = React.memo(
 						) : (
 							<>
 								<button
-									className='ml-1 mr-auto cursor-pointer text-primary-500 active:text-primary-400 disabled:cursor-not-allowed disabled:text-gray-500'
+									className='ml-1 mr-auto text-primary-500 active:text-primary-400'
 									title='Update listing'
 									onClick={handleUpdate}
 									disabled={newPrice < minPrice}
 								>
-									<FaRegCheckCircle size={18} />
+									<CheckCircleIcon size={18} />
 								</button>
 								{item.floor ? null : (
 									<button
@@ -152,7 +151,7 @@ const ListedRow = React.memo(
 									title='Remove listing'
 									onClick={handleRemove}
 								>
-									<FaRegTrashAlt size={18} />
+									<TrashIcon size={18} />
 								</button>
 							</>
 						)}

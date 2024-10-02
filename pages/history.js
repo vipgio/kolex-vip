@@ -147,13 +147,9 @@ const History = () => {
 							disabled={loading}
 							autoComplete='off'
 							required={true}
-							className={`input-field w-80 ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+							className='input-field w-80'
 						/>
-						<button
-							type='submit'
-							disabled={loading}
-							className={`submit-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-						>
+						<button type='submit' disabled={loading} className='submit-button'>
 							{loading ? <LoadingSpin /> : "Get history"}
 						</button>
 					</form>

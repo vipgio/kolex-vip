@@ -49,7 +49,8 @@ const CategorySelector = () => {
 						{({ open }) => (
 							<>
 								<Menu.Button className='my-outline text-smtext-gray-100 inline-flex h-12 w-full items-center justify-center rounded-full focus-visible:ring-inset'>
-									{categories.length > 0 ? (
+									{categories.length > 0 &&
+									categories.find((category) => category.id.toString() === categoryId)?.iconUrl ? (
 										<div
 											style={{
 												backgroundColor:

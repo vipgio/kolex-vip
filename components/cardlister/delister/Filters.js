@@ -9,7 +9,7 @@ const Filters = ({ filter, setFilter, setSortMethod }) => {
 					<select
 						name='sort'
 						id='sort'
-						className='dropdown mx-2 my-1 transition-opacity disabled:cursor-not-allowed disabled:opacity-50'
+						className='dropdown mx-2 my-1'
 						onChange={(e) => setSortMethod(e.target.value)}
 					>
 						<option value='mint'>Mint</option>
@@ -27,7 +27,7 @@ const Filters = ({ filter, setFilter, setSortMethod }) => {
 						type='checkbox'
 						name='undercut'
 						id='undercut'
-						className='ml-1 mr-3 mt-1 accent-primary-500 hover:cursor-pointer'
+						className='checkbox ml-2 mr-3 mt-1'
 						checked={filter.undercut}
 						onChange={(e) => setFilter((prev) => ({ ...prev, undercut: e.target.checked }))}
 					/>
