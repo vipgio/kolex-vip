@@ -62,7 +62,7 @@ const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = 
 	return (
 		<div>
 			<form onSubmit={(e) => e.preventDefault()} className='px-2'>
-				<div className='relative m-2'>
+				<div className='relative m-2 w-fit'>
 					<input
 						type='text'
 						onChange={(e) => {
@@ -74,7 +74,7 @@ const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = 
 						disabled={loading || !allowed}
 						placeholder='Search for a user'
 					/>
-					<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-500' />
+					<SearchIcon className='pointer-events-none absolute top-2 right-2 text-gray-500' />
 				</div>
 			</form>
 			{searchQuery.length > 1 && (
@@ -101,7 +101,6 @@ const UserSearch = ({ setSelectedUsers, selectedUsers, allowed = true, method = 
 									height={64}
 									quality={80}
 									className='object-cover'
-									unoptimized={true}
 								/>
 							</div>
 							<span className='text-gray-custom mt-2 font-semibold group-hover:text-gray-300'>

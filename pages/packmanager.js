@@ -166,7 +166,7 @@ const Packmanager = () => {
 												onChange={(e) => setSearchQuery(e.target.value.trimStart())}
 												value={searchQuery}
 											/>
-											<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-400' />
+											<SearchIcon className='pointer-events-none absolute top-2 right-2 text-gray-400' />
 										</div>
 										<div className='text-gray-custom my-2 flex flex-col font-semibold sm:ml-4 sm:-mt-2'>
 											<span>

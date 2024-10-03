@@ -122,7 +122,7 @@ const PurchasePage = () => {
 								value={packId}
 								onChange={(e) => setPackId(e.target.value)}
 							/>
-							<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-500' />
+							<SearchIcon className='pointer-events-none absolute top-2 right-2 text-gray-500' />
 						</div>
 						<button className='submit-button' type='submit' disabled={!packId || loading}>
 							{loading ? <LoadingSpin /> : "Get listings"}

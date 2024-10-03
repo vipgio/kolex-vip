@@ -14,7 +14,7 @@ const UserContextProvider = (props) => {
 	// const [categories, setCategories] = useState([]);
 	const [categories, setCategories] = useLocalStorage("categories", []);
 	// const [packGalleryColumns, setPackGalleryColumns] = useState(null);
-	const [packGalleryColumns, setPackGalleryColumns] = useLocalStorage("packGalleryColumns", null);
+	const [packGalleryColumns, setPackGalleryColumns] = useLocalStorage("packGalleryColumns", "5");
 	const router = useRouter();
 
 	useEffect(() => {
@@ -47,12 +47,12 @@ const UserContextProvider = (props) => {
 	// 	}
 	// }, []);
 
-	useEffect(() => {
-		if (packGalleryColumns === null) {
-			const newValue = isMobile() ? "2" : "4";
-			setPackGalleryColumns(newValue);
-		}
-	}, [packGalleryColumns, setPackGalleryColumns]);
+	// useEffect(() => {
+	// 	if (packGalleryColumns === null) {
+	// 		const newValue = isMobile() ? "2" : "5";
+	// 		setPackGalleryColumns(newValue);
+	// 	}
+	// }, [packGalleryColumns, setPackGalleryColumns]);
 
 	const themeMapping = {
 		1: "theme-csgo",

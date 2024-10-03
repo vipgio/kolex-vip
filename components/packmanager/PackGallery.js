@@ -9,7 +9,7 @@ const PackGallery = ({ packs, searchQuery }) => {
 	const [sortMethod, setSortMethod] = useState("newest");
 
 	const getGridColumnClass = (columns) => {
-		columns = columns.toString();
+		columns = columns?.toString() || "";
 
 		switch (columns) {
 			case "1":

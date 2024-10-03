@@ -25,7 +25,7 @@ const DirectSearch = ({ loading, searchQuery, setSearchQuery, results, onSubmit 
 						onChange={(e) => setSearchQuery(e.target.value)}
 						autoComplete='off'
 					/>
-					<SearchIcon className='pointer-events-none absolute top-2.5 right-1.5 text-gray-500' />
+					<SearchIcon className='pointer-events-none absolute top-2 right-2 text-gray-500' />
 				</div>
 				{loading ? (
 					<LoadingSpin />

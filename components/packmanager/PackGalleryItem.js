@@ -18,6 +18,7 @@ const PackGalleryItem = ({ packTemplate }) => {
 						width={200}
 						height={300}
 						alt={packTemplate.name || "loading"}
+						unoptimized={true}
 					/>
 				</div>
 				<div className='mt-2 flex w-full flex-grow flex-col justify-between divide-y divide-gray-700/20 text-center dark:divide-gray-300/20'>
