@@ -15,6 +15,7 @@ const CircList = ({ data, prices }) => {
 			filter: "agTextColumnFilter",
 			width: "100%",
 			wrapText: true,
+			comparator: (valueA, valueB) => valueA.localeCompare(valueB, "en", { sensitivity: "base" }),
 		},
 		{
 			headerName: "Circulation",
