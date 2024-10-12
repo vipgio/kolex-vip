@@ -69,7 +69,7 @@ button:disabled {
 }
 
 .gallery-item {
-	@apply my-outline cursor-pointer rounded transition disabled:cursor-not-allowed enabled:hocus:scale-105 enabled:hocus:shadow-xl;
+	@apply my-outline cursor-pointer rounded transition enabled:hover:scale-105 enabled:hover:shadow-xl disabled:cursor-not-allowed;
 }
 
 .navbar-icon-bar {

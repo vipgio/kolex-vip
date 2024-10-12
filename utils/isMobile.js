@@ -1,5 +1,5 @@
 const isMobile = () => {
-	if (navigator.maxTouchPoints > 0) {
+	if (navigator.maxTouchPoints > 0 && navigator.maxTouchPoints !== 256) {
 		return true;
 	}
 	// If `navigator.maxTouchPoints` is not available or returns 0, use `userAgent` as a fallback
