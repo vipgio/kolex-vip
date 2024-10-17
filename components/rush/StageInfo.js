@@ -35,7 +35,9 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 				acc +
 				Math.max(
 					0,
-					r.wins - (thisStage.rosterProgress.find((p) => p.ut_pve_roster_id === r.ut_pve_roster_id)?.wins || 0)
+					r.wins -
+						(thisStage.rosterProgress.find((p) => p.ut_pve_roster_id === r.ut_pve_roster_id)
+							?.wins || 0)
 				),
 			0
 		) === 0;
@@ -142,8 +144,8 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 		const remainingRosters = thisStage.rosters
 			.map((roster) => {
 				const winsNeeded =
-					thisStage.rosterProgress.find((rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id)?.wins ||
-					0;
+					thisStage.rosterProgress.find((rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id)
+						?.wins || 0;
 				return {
 					won: winsNeeded,
 					id: roster.ut_pve_roster_id,
@@ -174,8 +176,8 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 		const remainingRosters = thisStage.rosters
 			.map((roster) => {
 				const winsNeeded =
-					thisStage.rosterProgress.find((rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id)?.wins ||
-					0;
+					thisStage.rosterProgress.find((rstr) => rstr.ut_pve_roster_id === roster.ut_pve_roster_id)
+						?.wins || 0;
 				const rosterInfo = rosters.find((rstr) => rstr.id === roster.ut_pve_roster_id);
 				return {
 					won: winsNeeded,
@@ -193,7 +195,10 @@ const StageInfo = ({ stage, circuit, showModal, setShowModal }) => {
 
 	const claimReward = async () => {
 		setLoading(true);
-		const { result, error } = await postData(`/api/rush/claim`, { circuitId: circuit.id, stageId: stage.id });
+		const { result, error } = await postData(`/api/rush/claim`, {
+			circuitId: circuit.id,
+			stageId: stage.id,
+		});
 		if (!error) {
 			toast.success("Claimed the reward!");
 		}
