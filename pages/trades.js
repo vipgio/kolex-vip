@@ -6,7 +6,7 @@ import TradesGallery from "@/components/trades/TradesGallery";
 import LoadingSpin from "@/components/LoadingSpin";
 import Meta from "@/components/Meta";
 
-const trades = () => {
+const Trades = () => {
 	const { fetchData } = useAxios();
 	const [trades, setTrades] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -59,4 +59,4 @@ const trades = () => {
 		</>
 	);
 };
-export default trades;
+export default Trades;
