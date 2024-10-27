@@ -7,16 +7,16 @@ export default async function handler(req, res) {
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 	try {
 		const getMarketInfo = async (jwt, price, page, type, templateIds, collectionIds, categoryId = 1) => {
-			return http(
-				`${API}/market/templates?page=${page}&price=${price}&templateIds=${templateIds}&type=${type}&categoryId=${categoryId}&collectionIds=${collectionIds}`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						"x-user-jwt": jwt,
-					},
-				}
-			);
+			const endpoint = collectionIds
+				? `${API}/market/templates?page=${page}&price=${price}&templateIds=${templateIds}&type=${type}&categoryId=${categoryId}&collectionIds=${collectionIds}`
+				: `${API}/market/templates?page=${page}&price=${price}&templateIds=${templateIds}&type=${type}&categoryId=${categoryId}`;
+			return http(endpoint, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"x-user-jwt": jwt,
+				},
+			});
 		};
 		const { data } = await getMarketInfo(jwt, price, page, type, templateIds, collectionIds, categoryId);
 		res.status(200).json(data);

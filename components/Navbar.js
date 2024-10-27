@@ -34,7 +34,7 @@ const NewNavbar = () => {
 	const { theme, setTheme } = useContext(ThemeContext);
 	const router = useRouter();
 
-	return router.pathname === "/" && !user ? null : (
+	return (router.pathname === "/" && !user) || router.pathname === "/admin" ? null : (
 		<nav className='text-gray-custom flex h-12 items-center justify-center rounded-b-md bg-primary-500 shadow-lg transition-colors dark:bg-slate-500'>
 			{user && (
 				<Menu as='div' className='relative z-30 inline-block h-full w-12 text-left'>

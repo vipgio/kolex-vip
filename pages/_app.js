@@ -28,6 +28,7 @@ const App = ({ Component, pageProps }) => {
 		"/delist",
 		"/feed",
 		"/transactions",
+		"/trades",
 	];
 	const premiumRoutes = [
 		"/packmanager",
