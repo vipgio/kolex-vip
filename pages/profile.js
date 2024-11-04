@@ -73,7 +73,9 @@ const Profile = () => {
 											</span>
 										),
 										<Link href={features[option]?.link || ""} key={option}>
-											<a className='my-outline rounded hover:text-primary-500'>{features[option]?.name}</a>
+											<a className='my-outline rounded hover:text-primary-500'>
+												{features[option]?.name}
+											</a>
 										</Link>,
 									])
 								) : (
@@ -97,10 +99,14 @@ const Profile = () => {
 									{user.info.ends === 1 ? "day" : "days"}
 								</div>
 							) : null}
-							{user.user.totalDeposited >= 0 ? <TotalDeposit total={user.user.totalDeposited} /> : null}
+							{user.user.totalDeposited >= 0 ? (
+								<TotalDeposit total={user.user.totalDeposited} />
+							) : null}
 							<div>
 								Account created on{" "}
-								<span className='font-semibold text-primary-500'>{user.user.created.split("T")[0]}</span>
+								<span className='font-semibold text-primary-500'>
+									{user.user.created.split("T")[0]}
+								</span>
 							</div>
 
 							<div>{user.user.banned ? "Banned lol" : "Not banned (yet)"}</div>
@@ -112,7 +118,9 @@ const Profile = () => {
 							{user.user.ethAddress && (
 								<div>
 									ETH Wallet:{" "}
-									<span className='break-all font-semibold text-primary-500'>{user.user.ethAddress}</span>
+									<span className='break-all font-semibold text-primary-500'>
+										{user.user.ethAddress}
+									</span>
 								</div>
 							)}
 
@@ -156,7 +164,8 @@ const features = {
 	mintsearch: { name: "Mint Search", link: "/mintsearch" },
 	cardlister: { name: "Card Lister", link: "/cardlister" },
 	history: { name: "History", link: "/history" },
-	feed: { name: "Custom Feed", link: "/feed" },
+	feed: { name: "Kolex Feed", link: "/feed" },
+	feedKL: { name: "Kings Feed", link: "/feed" },
 	transfer: { name: "Account Transfer", link: "/transfer" },
 	vip: { name: "Stuff", link: "/vip" },
 };
