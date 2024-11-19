@@ -1,6 +1,14 @@
 {
 	"changelog": [
 		{
+			"version": "2.11.4",
+			"date": "2024-11-19",
+			"changes": [
+				"Published new extensions for Chrome and Firefox. Much easier login process and trade value in kolex site. (go download <3)",
+				"Fixed a bug that only affected vot_tot."
+			]
+		},
+		{
 			"version": "2.11.3",
 			"date": "2024-10-02",
 			"changes": [
@@ -145,7 +153,10 @@
 		{
 			"version": "2.7.10",
 			"date": "2024-08-07",
-			"changes": ["Added circulation to cardlister.", "Added market and recent sales details to cardlister."]
+			"changes": [
+				"Added circulation to cardlister.",
+				"Added market and recent sales details to cardlister."
+			]
 		},
 		{
 			"version": "2.7.9",

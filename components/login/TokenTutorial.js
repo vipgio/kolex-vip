@@ -1,7 +1,8 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { toast } from "react-toastify";
 import ImageWrapper from "@/HOC/ImageWrapper";
+import { LinkIcon } from "@/components/Icons";
+import { extensionChrome, extensionFirefox } from "@/config/config";
 
 const TokenTutorial = ({ showModal, setShowModal, handleCopyClick }) => {
 	const closeModal = () => setShowModal((prev) => ({ ...prev, show: false }));
@@ -29,8 +30,9 @@ const TokenTutorial = ({ showModal, setShowModal, handleCopyClick }) => {
 							<AndroidTutorial handleCopyClick={handleCopyClick} />
 						)}
 						<p className='mt-1 border-t-0 border-gray-300 sm:mt-4 sm:border-t'>
-							<span className='font-bold text-red-400 underline'>NEVER</span> paste anything in the console if
-							you don&apos;t know or trust the person sending you the code or what the code does.
+							<span className='font-bold text-red-400 underline'>NEVER</span> paste anything in
+							the console if you don&apos;t know or trust the person sending you the code or what
+							the code does.
 						</p>
 					</Dialog.Panel>
 				</div>
@@ -45,7 +47,36 @@ const WebTutorial = ({ handleCopyClick }) => {
 		<>
 			<div className='inline-flex w-full flex-col md:flex-row'>
 				<ol className='list-inside list-decimal marker:text-blue-500 md:w-1/2'>
-					<li className='m-2 border-gray-300'>Login to your Kolex account from the official website.</li>
+					<div className='font-semibold text-red-500'>
+						Download the new extensions (
+						<span>
+							<a
+								href={extensionChrome}
+								target='_blank'
+								rel='noopener noreferrer'
+								className='inline-flex items-center hover:underline'
+							>
+								Chrome
+								<LinkIcon />
+							</a>
+						</span>{" "}
+						-{" "}
+						<span>
+							<a
+								href={extensionFirefox}
+								target='_blank'
+								rel='noopener noreferrer'
+								className='inline-flex items-center hover:underline'
+							>
+								Firefox
+								<LinkIcon />
+							</a>
+						</span>
+						) for a much easier method or follow the following steps:
+					</div>
+					<li className='m-2 border-gray-300'>
+						Login to your Kolex account from the official website.
+					</li>
 					<li className='m-2 border-t border-gray-300 pt-2'>
 						Open Developer Console (usually F12) and navigate to the Console tab.
 					</li>
@@ -56,16 +87,20 @@ const WebTutorial = ({ handleCopyClick }) => {
 						</span>{" "}
 						code in the console and hit enter.{" "}
 						<span>
-							(If you see the warning about pasting codes into console, type &quot;allow pasting&quot; and try
-							again)
+							(If you see the warning about pasting codes into console, type &quot;allow
+							pasting&quot; and try again)
 						</span>
 					</li>
 					<div className='m-2 mb-0 border-t border-gray-300 pt-2'>
-						In Chromium browsers, (Chrome, Opera, etc.), it automatically copies the token so you can skip this
-						step.
+						In Chromium browsers, (Chrome, Opera, etc.), it automatically copies the token so you
+						can skip this step.
 					</div>
-					<li className='m-2 mt-0 pt-2'>Right click on the output and hit &quot;Copy object&quot;.</li>
-					<li className='m-2 border-t border-gray-300 pt-2'>Paste the text in the token field below.</li>
+					<li className='m-2 mt-0 pt-2'>
+						Right click on the output and hit &quot;Copy object&quot;.
+					</li>
+					<li className='m-2 border-t border-gray-300 pt-2'>
+						Paste the text in the token field below.
+					</li>
 				</ol>
 				<div className='relative md:w-1/2'>
 					<ImageWrapper
@@ -99,12 +134,13 @@ const AndroidTutorial = ({ handleCopyClick }) => {
 						(it&apos;s the only easy way to use the console on Android that I know of)
 					</li>
 					<li>
-						Open the browser and navigate to the Kolex website. (You can use the &quot;Desktop site&quot;
-						option in the menu to make it easier.)
+						Open the browser and navigate to the Kolex website. (You can use the &quot;Desktop
+						site&quot; option in the menu to make it easier.)
 					</li>
 					<li>
-						Open the menu by tapping on the three dots in the top right corner, then tap on &quot;Developer
-						tools&quot; in the menu to open the console and navigate to the Console tab.
+						Open the menu by tapping on the three dots in the top right corner, then tap on
+						&quot;Developer tools&quot; in the menu to open the console and navigate to the Console
+						tab.
 					</li>
 					<li>
 						Paste{" "}
@@ -114,8 +150,8 @@ const AndroidTutorial = ({ handleCopyClick }) => {
 						code in the console and hit enter.
 					</li>
 					<li>
-						Your Token should be copied to your clipboard by default, if not, long press on the output and hit
-						&quot;Copy object&quot;.
+						Your Token should be copied to your clipboard by default, if not, long press on the
+						output and hit &quot;Copy object&quot;.
 					</li>
 					<li>Paste the text in the field below.</li>
 				</ol>

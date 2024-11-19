@@ -2,7 +2,7 @@ import { useContext, forwardRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Menu, Transition } from "@headlessui/react";
-import { discordLink, githubLink, excludedFeatures } from "@/config/config";
+import { discordLink, githubLink, excludedFeatures, extensionChrome, extensionFirefox } from "@/config/config";
 import { UserContext } from "@/context/UserContext";
 import { ThemeContext } from "@/context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
@@ -26,6 +26,8 @@ import {
 	SunIcon,
 	DiscordIcon,
 	GithubIcon,
+	ExtensionIcon,
+	LinkIcon,
 } from "./Icons";
 import isMobile from "@/utils/isMobile";
 
@@ -101,6 +103,30 @@ const NewNavbar = () => {
 											</Menu.Items>
 										)
 									)}
+									<Menu.Item>
+										{({ active }) => (
+											<a
+												href={linkExtensionStore()}
+												target='_blank'
+												rel='noopener noreferrer'
+												className={`${
+													active
+														? "bg-primary-500 fill-gray-200 text-gray-200 dark:bg-gray-200 dark:fill-gray-700 dark:text-gray-700"
+														: "text-gray-custom fill-gray-700 dark:fill-gray-200"
+												} flex w-full items-center justify-center rounded-md px-3 py-4 pt-3 text-sm transition-colors active:bg-gray-800 active:shadow-md dark:active:bg-gray-300`}
+											>
+												<span className='mr-1 scale-125'>
+													<ExtensionIcon />
+												</span>
+												<span className='ml-1 inline-flex items-center'>
+													Extension <LinkIcon className='ml-1' />
+												</span>
+												<span className='ml-auto rounded bg-red-500 p-1 text-xs text-gray-100'>
+													New
+												</span>
+											</a>
+										)}
+									</Menu.Item>
 								</Menu.Items>
 							</Transition>
 						</>
@@ -204,3 +230,9 @@ const pages = [
 	// 	new: true,
 	// },
 ];
+
+const linkExtensionStore = () => {
+	const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+	const isFirefox = /Firefox/.test(navigator.userAgent);
+	return isFirefox ? extensionFirefox : isChrome ? extensionChrome : extensionChrome;
+};

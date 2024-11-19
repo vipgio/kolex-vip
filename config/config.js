@@ -15,6 +15,11 @@ export const githubLink = "https://github.com/vipgio/kolex-vip";
 
 export const discordLink = "https://discordapp.com/users/473436055958192128";
 
+export const extensionChrome =
+	"https://chromewebstore.google.com/detail/kolex-vip/jegjeaelpabneacnegnmbgpidlinkhbh";
+
+export const extensionFirefox = "https://addons.mozilla.org/en-US/firefox/addon/kolex-vip/";
+
 export const templateLimit = 40;
 
 export const minPrice = 0.1;
@@ -33,14 +38,16 @@ export const historyEvents = {
 	gift: () => "received the item from an airdrop.",
 	trade: (event) => (
 		<>
-			received the item from <span className='font-medium text-red-400'>{event.sender.username || "?"} </span>
+			received the item from{" "}
+			<span className='font-medium text-red-400'>{event.sender.username || "?"} </span>
 			in a trade.
 		</>
 	),
 	market: (event) => (
 		<>
-			purchased the item from <span className='font-medium text-red-400'>{event.sender.username || "?"}</span>{" "}
-			for <span>{event.value}</span> {event.costType === "usd" ? "USD" : "coins"}.
+			purchased the item from{" "}
+			<span className='font-medium text-red-400'>{event.sender.username || "?"}</span> for{" "}
+			<span>{event.value}</span> {event.costType === "usd" ? "USD" : "coins"}.
 		</>
 	),
 	"imx-market": (event) => (

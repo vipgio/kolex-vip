@@ -30,7 +30,11 @@ import {
 	LuArrowLeftCircle as ArrowLeftCircleIcon,
 } from "react-icons/lu";
 import { FiUser as UserIcon, FiShoppingCart as ShoppingCartIcon } from "react-icons/fi";
-import { IoSearchOutline as SearchIcon, IoClose as CloseIcon } from "react-icons/io5";
+import {
+	IoSearchOutline as SearchIcon,
+	IoClose as CloseIcon,
+	IoExtensionPuzzleSharp as ExtensionIcon,
+} from "react-icons/io5";
 import { BsQuestionCircle as QuestionIcon } from "react-icons/bs";
 
 const CirculationIcon = () => {
@@ -160,4 +164,5 @@ export {
 	PoweroffIcon,
 	CloseIcon,
 	QuestionIcon,
+	ExtensionIcon,
 };
