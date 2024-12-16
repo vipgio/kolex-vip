@@ -17,10 +17,17 @@ const CardGallery = ({ templates, user }) => {
 	const [sortMethod, setSortMethod] = useState("listed");
 	const defaultFilters = { minOwned: 1, minFloor: minPrice, maxFloor: maxPrice };
 	const [filters, setFilters] = useState(defaultFilters);
+	const [searchQuery, setSearchQuery] = useState("");
+	const [totalValue, setTotalValue] = useState(0);
 
-	const totalValue = templates
-		.filter((item) => item.count)
-		.reduce((acc, cur) => acc + (cur.floor ? cur.floor * cur.count : 0), 0);
+	useEffect(() => {
+		setTotalValue(
+			templates
+				.filter((item) => item.count)
+				.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+				.reduce((acc, cur) => acc + (cur.floor ? cur.floor * cur.count : 0), 0)
+		);
+	}, [searchQuery]);
 
 	useEffect(() => {
 		setSelectedTemplates((prev) =>
@@ -74,6 +81,9 @@ const CardGallery = ({ templates, user }) => {
 								setSelectedTemplates(
 									templates
 										.filter((item) => item.count)
+										.filter((item) =>
+											item.title.toLowerCase().includes(searchQuery.toLowerCase())
+										)
 										.filter(
 											(item) =>
 												item.count >= filters.minOwned &&
@@ -90,7 +100,12 @@ const CardGallery = ({ templates, user }) => {
 							onClick={() =>
 								setSelectedTemplates(
 									templates
-										.filter((item) => item.count && !item.listed && item.listed !== item.count)
+										.filter(
+											(item) => item.count && !item.listed && item.listed !== item.count
+										)
+										.filter((item) =>
+											item.title.toLowerCase().includes(searchQuery.toLowerCase())
+										)
 										.filter(
 											(item) =>
 												item.count >= filters.minOwned &&
@@ -108,6 +123,9 @@ const CardGallery = ({ templates, user }) => {
 								setSelectedTemplates(
 									templates
 										.filter((item) => item.count && item.listed)
+										.filter((item) =>
+											item.title.toLowerCase().includes(searchQuery.toLowerCase())
+										)
 										.filter(
 											(item) =>
 												item.count >= filters.minOwned &&
@@ -151,10 +169,20 @@ const CardGallery = ({ templates, user }) => {
 					</div>
 				</div>
 			</div>
-
+			<div className='p-2'>
+				<input
+					type='text'
+					name='search'
+					id='search'
+					className='input-field'
+					placeholder='Search'
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+				/>
+			</div>
 			{totalValue > 0 && (
 				<div className='text-gray-custom ml-2 mt-1 flex items-center font-semibold'>
-					Total set value: ${totalValue.toFixed(2)}
+					Total value: ${totalValue.toFixed(2)}
 					<Tooltip
 						direction='right'
 						text='Total value of all items based on floor price, regardless of mint'
@@ -181,6 +209,7 @@ const CardGallery = ({ templates, user }) => {
 							!(item.floor > filters.maxFloor) &&
 							!(item.floor < filters.minFloor)
 					)
+					.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
 					.map((item) => (
 						<CardGalleryItem
 							item={item}

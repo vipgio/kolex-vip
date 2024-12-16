@@ -102,7 +102,9 @@ const Packmanager = () => {
 			const results = await Promise.all(promises);
 			setPacks((prev) => {
 				return prev.map((pack) => {
-					const marketInfo = results.flat().find((template) => template.entityTemplateId === pack.id);
+					const marketInfo = results
+						.flat()
+						.find((template) => template.entityTemplateId === pack.id);
 					const floorPrice = marketInfo?.lowestPrice || 0;
 					return {
 						...pack,
@@ -172,14 +174,26 @@ const Packmanager = () => {
 											<span>
 												Total packs:{" "}
 												{packs
-													.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
+													.filter((pack) =>
+														pack.name
+															.toLowerCase()
+															.includes(searchQuery.toLowerCase())
+													)
 													.reduce((acc, pack) => acc + pack.packs.length, 0)}
 											</span>
 											<span>
 												Total value: $
 												{packs
-													.filter((pack) => pack.name.toLowerCase().includes(searchQuery.toLowerCase()))
-													.reduce((acc, pack) => acc + Number(pack.floor) * pack.packs.length, 0)
+													.filter((pack) =>
+														pack.name
+															.toLowerCase()
+															.includes(searchQuery.toLowerCase())
+													)
+													.reduce(
+														(acc, pack) =>
+															acc + Number(pack.floor) * pack.packs.length,
+														0
+													)
 													.toFixed(2)}
 											</span>
 										</div>
@@ -198,7 +212,10 @@ const Packmanager = () => {
 								<PackGallery packs={packs} searchQuery={searchQuery} />
 
 								{showListedModal && (
-									<ListedModal showModal={showListedModal} setShowModal={setShowListedModal} />
+									<ListedModal
+										showModal={showListedModal}
+										setShowModal={setShowListedModal}
+									/>
 								)}
 							</>
 						) : (
