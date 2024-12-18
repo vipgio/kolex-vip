@@ -156,7 +156,15 @@ const CraftingModal = memo(
 														? {
 																...o,
 																items: sortBy(
-																	[...o.items, { templateId: cardTemplateId, mintBatch, mintNumber, id }],
+																	[
+																		...o.items,
+																		{
+																			templateId: cardTemplateId,
+																			mintBatch,
+																			mintNumber,
+																			id,
+																		},
+																	],
 																	["mintBatch", "mintNumber"]
 																).reverse(),
 														  }
@@ -199,7 +207,10 @@ const CraftingModal = memo(
 						...req,
 						items: uniqBy(req.items, "id")
 							.toReversed()
-							.filter((item, index, self) => index !== self.findIndex((t) => t.templateId === item.templateId))
+							.filter(
+								(item, index, self) =>
+									index !== self.findIndex((t) => t.templateId === item.templateId)
+							)
 							.toReversed(),
 				  }))
 				: uniqBy(ownedCards, "id");
@@ -241,22 +252,24 @@ const CraftingModal = memo(
 								.sort((a, b) => b.id - a.id)
 								.map((requirement) => (
 									<div key={requirement.id} className='text-gray-custom'>
-										You own {requirement.items.length} available items from {requirement.count}{" "}
-										{requirement.name} items needed for this craft.
+										You own {requirement.items.length} available items from{" "}
+										{requirement.count} {requirement.name} items needed for this craft.
 									</div>
 								))}
 							<>
 								Total crafts possible:{" "}
 								<span className='text-primary-500'>
 									{Math.min(
-										...(plan.userLimit === 0
+										...(!plan.userLimit
 											? dataToShow.map((requirement) =>
 													Math.floor(requirement.items.length / requirement.count)
 											  )
 											: [
 													plan.userLimit,
 													...dataToShow.map((requirement) =>
-														Math.floor(requirement.items.length / requirement.count)
+														Math.floor(
+															requirement.items.length / requirement.count
+														)
 													),
 											  ])
 									)}
@@ -274,14 +287,19 @@ const CraftingModal = memo(
 											id='craftCount'
 											min={0}
 											max={Math.min(
-												...(plan.userLimit === 0
+												...(!plan.userLimit
 													? dataToShow.map((requirement) =>
-															Math.floor(requirement.items.length / requirement.count)
+															Math.floor(
+																requirement.items.length / requirement.count
+															)
 													  )
 													: [
 															plan.userLimit,
 															...dataToShow.map((requirement) =>
-																Math.floor(requirement.items.length / requirement.count)
+																Math.floor(
+																	requirement.items.length /
+																		requirement.count
+																)
 															),
 													  ])
 											)} // if user limit is set, use that to compare that to the available cards count. else use the minimum of all the available cards
@@ -338,10 +356,14 @@ const CraftingModal = memo(
 																{" - "}
 																<span
 																	className={`${
-																		best.mintBatch === "A" && best.mintNumber < 200 ? "text-red-500" : ""
+																		best.mintBatch === "A" &&
+																		best.mintNumber < 200
+																			? "text-red-500"
+																			: ""
 																	}`}
 																	title={
-																		best.mintBatch === "A" && best.mintNumber < 200
+																		best.mintBatch === "A" &&
+																		best.mintNumber < 200
 																			? "SUB 200, BE CAREFUL"
 																			: ""
 																	}
@@ -352,7 +374,10 @@ const CraftingModal = memo(
 															</div>
 														);
 													})}
-													<div>Silver Cost: {(plan.silvercoinCost * craftCount).toLocaleString()}</div>
+													<div>
+														Silver Cost:{" "}
+														{(plan.silvercoinCost * craftCount).toLocaleString()}
+													</div>
 												</>
 											)}
 										</div>
