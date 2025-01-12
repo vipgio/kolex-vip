@@ -20,7 +20,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 	const [price, setPrice] = useState(0);
 	const defaultFilters = {
 		batch: "",
-		max: 5000,
+		max: 50000,
 		min: 100,
 	};
 	const [filters, setFilters] = useState(defaultFilters);
@@ -116,11 +116,15 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 				counter++;
 				toast.isActive("success")
 					? toast.update("success", {
-							render: `Listed ${counter}x ${counter === 1 ? "item" : "items"} on the market for $${price}!`,
+							render: `Listed ${counter}x ${
+								counter === 1 ? "item" : "items"
+							} on the market for $${price}!`,
 							progress: 1 - counter / selectedCards.length,
 					  })
 					: toast.success(
-							`Listed ${counter}x ${counter === 1 ? "item" : "items"} on the market for $${price}!`,
+							`Listed ${counter}x ${
+								counter === 1 ? "item" : "items"
+							} on the market for $${price}!`,
 							{
 								toastId: "success",
 								progress: 1 - counter / selectedCards.length,
@@ -169,7 +173,9 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 						cardDetails.map((item) => (
 							<div key={item.id} className='flex'>
 								<span className='ml-1'>{item.title}</span>
-								<span className='ml-auto mr-1 self-center text-primary-500'>x{item.cards?.length}</span>
+								<span className='ml-auto mr-1 self-center text-primary-500'>
+									x{item.cards?.length}
+								</span>
 							</div>
 						))}
 				</div>
@@ -239,7 +245,9 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 					<div className='flex flex-col p-1 text-gray-900 dark:text-gray-200'>
 						<div>
 							<span className='text-primary-500'>B) </span>
-							{selectedTemplates.length === 1 ? "Enter the Number of items:" : "Enter the number of sets:"}
+							{selectedTemplates.length === 1
+								? "Enter the Number of items:"
+								: "Enter the number of sets:"}
 						</div>
 						<div className='flex flex-col'>
 							<div className='flex items-center'>
@@ -257,7 +265,9 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 									onChange={(e) => {
 										setFilters(defaultFilters);
 										setSelectedCards([
-											...cardDetails.map((template) => template.cards.slice(0, e.target.value)).flat(),
+											...cardDetails
+												.map((template) => template.cards.slice(0, e.target.value))
+												.flat(),
 										]);
 									}}
 								/>
@@ -303,7 +313,9 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 
 				<div className='ml-auto mt-2 self-center sm:mt-0 sm:mb-0'>
 					<button
-						disabled={cardDetails.length !== selectedTemplates.length || !price || !selectedCards.length}
+						disabled={
+							cardDetails.length !== selectedTemplates.length || !price || !selectedCards.length
+						}
 						onClick={listAll}
 						className='button sm:mb-0'
 					>

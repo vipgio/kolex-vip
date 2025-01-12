@@ -9,13 +9,14 @@ import "react-toastify/dist/ReactToastify.css";
 const Trade = () => {
 	const { postData } = useAxios();
 	const [selectedUsers, setSelectedUsers] = useState([]);
-	const [cardsToSend, setCardsToSend] = useState([]);
-	const [cardsToGet, setCardsToGet] = useState([]);
+	const [cardsToSend, setCardsToSend] = useState("");
+	const [cardsToGet, setCardsToGet] = useState("");
 	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
+		console.log(cardsToSend);
 		const sendItems = uniq(
 			cardsToSend
 				.replace(/\s/g, "") // remove spaces
@@ -41,8 +42,8 @@ const Trade = () => {
 		});
 		if (error) {
 			setLoading(false);
-			toast.error(`${error.response.data.error} ${cardId}`, {
-				toastId: cardId,
+			toast.error(`${error.response.data.error}`, {
+				toastId: "error",
 			});
 		}
 		if (result) {
