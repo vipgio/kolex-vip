@@ -1,8 +1,12 @@
 import { useState } from "react";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { maxPrice, minPrice } from "@/config/config";
+
 import { useAxios } from "@/hooks/useAxios";
+
 import LoadingSpin from "@/components/LoadingSpin";
 import Meta from "@/components/Meta";
 
@@ -28,11 +32,11 @@ const Feed = () => {
 				error.response.data.errorCode === "market_price_changed"
 					? "Market price changed!"
 					: error.response.data.errorCode === "low_user_balance"
-					? "You don't have enough balance, peasant."
-					: error.response.data.error,
+						? "You don't have enough balance, peasant."
+						: error.response.data.error,
 				{
 					toastId: item.marketId,
-				}
+				},
 			);
 		}
 		setLoading(false);

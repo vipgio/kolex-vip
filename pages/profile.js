@@ -1,17 +1,22 @@
-import { useContext, useState } from "react";
 import Link from "next/link";
+import { useContext, useState } from "react";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { CDN } from "@/config/config";
+
 import { UserContext } from "@/context/UserContext";
+
 import ImageWrapper from "@/HOC/ImageWrapper";
+
+import Changelog from "@/components/Changelog";
+import { CheckIcon, CloseIcon, PoweroffIcon } from "@/components/Icons";
 import Meta from "@/components/Meta";
 import ActivePacks from "@/components/profile/ActivePacks";
-import TotalDeposit from "@/components/profile/TotalDeposit";
-import Changelog from "@/components/Changelog";
-import TokenExpiry from "@/components/profile/TokenExpiry";
 import Quests from "@/components/profile/Quests";
-import { PoweroffIcon, CheckIcon, CloseIcon } from "@/components/Icons";
+import TokenExpiry from "@/components/profile/TokenExpiry";
+import TotalDeposit from "@/components/profile/TotalDeposit";
 
 const Profile = () => {
 	const { user, setUser, categoryId } = useContext(UserContext);
@@ -90,8 +95,8 @@ const Profile = () => {
 											user.info.ends < 2
 												? "text-red-500"
 												: user.info.ends < 8
-												? "text-amber-500"
-												: "text-green-500"
+													? "text-amber-500"
+													: "text-green-500"
 										}`}
 									>
 										{user.info.ends}

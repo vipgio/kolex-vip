@@ -1,5 +1,6 @@
-import http from "@/utils/httpClient";
 import { API } from "@/config/config";
+
+import http from "@/utils/httpClient";
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
@@ -8,7 +9,7 @@ export default async function handler(req, res) {
 
 	try {
 		const getInfo = async (jwt, categoryId = 1) => {
-			return http(`${API}/spinner?categoryId=${categoryId}`, {
+			return http(`${API}/spinner/?categoryId=${categoryId}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

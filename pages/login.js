@@ -1,16 +1,20 @@
-import { useContext, useState } from "react";
 import Link from "next/link";
+import { useContext, useState } from "react";
+
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { webApp, discordLink, githubLink } from "@/config/config";
+
+import { discordLink, githubLink, webApp } from "@/config/config";
+
 import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
-import JWTLogin from "@/components/login/JWTLogin";
-import TokenTutorial from "@/components/login/TokenTutorial";
+
+import { DiscordIcon, GithubIcon, LinkIcon, MoonIcon, SunIcon } from "@/components/Icons";
 import Meta from "@/components/Meta";
 import Disclaimer from "@/components/login/Disclaimer";
-import { DiscordIcon, GithubIcon, MoonIcon, SunIcon, LinkIcon } from "@/components/Icons";
+import JWTLogin from "@/components/login/JWTLogin";
+import TokenTutorial from "@/components/login/TokenTutorial";
 
 const Login = () => {
 	const { setUser, categoryId, setCategoryId } = useContext(UserContext);
@@ -26,7 +30,7 @@ const Login = () => {
 	const handleCopyClick = async () => {
 		try {
 			await navigator.clipboard.writeText(
-				"(() => { const copyToClipboard = t => { const e = document.createElement('textarea'); e.value = t; document.body.appendChild(e); e.select(); const s = document.execCommand('copy'); document.body.removeChild(e); if (!s) { console.log('Failed to copy token to clipboard. Please copy manually using \"Copy Object\"');console.log(JSON.parse(t)); alert(`Failed to copy token to clipboard. Please copy manually:${t}`);} else { console.log('JWT Token copied to clipboard successfully! (Thanks vot)'); } }; copyToClipboard(JSON.stringify((() => { const { jwt, expires } = JSON.parse(localStorage.getItem(\"session\")); return {jwt, expires}; })())); })();"
+				"(() => { const copyToClipboard = t => { const e = document.createElement('textarea'); e.value = t; document.body.appendChild(e); e.select(); const s = document.execCommand('copy'); document.body.removeChild(e); if (!s) { console.log('Failed to copy token to clipboard. Please copy manually using \"Copy Object\"');console.log(JSON.parse(t)); alert(`Failed to copy token to clipboard. Please copy manually:${t}`);} else { console.log('JWT Token copied to clipboard successfully! (Thanks vot)'); } }; copyToClipboard(JSON.stringify((() => { const { jwt, expires } = JSON.parse(localStorage.getItem(\"session\")); return {jwt, expires}; })())); })();",
 			);
 			toast.success(`Code copied!`, {
 				toastId: "copy",
@@ -88,7 +92,7 @@ const Login = () => {
 										}), //if not expired, add "ends"
 									},
 								};
-						  })
+							})
 						: setUser({ ...data.data, info: { allowed: [] } });
 				}
 				setLoading(false);
@@ -174,7 +178,8 @@ const Login = () => {
 
 			<div className='mt-16 flex h-1/4 w-full flex-col items-center justify-center text-primary-500 lg:mt-11'>
 				<p className='p-1 text-center'>
-					Kolex added a security feature (CAPTCHA) which prevents logging in through third-party tools. <br />
+					Kolex added a security feature (CAPTCHA) which prevents logging in through third-party
+					tools. <br />
 					I tried working with Kolex to get this fixed, but I&apos;ve been waiting for a few months.
 					<br />
 					So until they fix it, you can use your JWT to use the site.

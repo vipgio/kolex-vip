@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
 	try {
 		const getCategories = async (jwt) => {
-			return http(`${API}/categories`, {
+			return http(`${API}/categories/`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

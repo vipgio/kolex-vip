@@ -1,6 +1,14 @@
 {
 	"changelog": [
 		{
+			"version": "2.11.5",
+			"date": "2025-01-17",
+			"changes": [
+				"Fixed some bugs caused by Kolex. If you find any, please let me know.",
+				"Yeah that's it."
+			]
+		},
+		{
 			"version": "2.11.4",
 			"date": "2024-11-19",
 			"changes": [

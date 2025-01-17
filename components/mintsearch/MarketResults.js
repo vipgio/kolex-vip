@@ -1,13 +1,17 @@
-import { useContext, useState } from "react";
 import Link from "next/link";
+import { useContext, useState } from "react";
+
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
+
 import { UserContext } from "@/context/UserContext";
+
 import BigModal from "@/components/BigModal";
-import ExportToCSV from "../ExportToCSV";
-import Tooltip from "@/components/Tooltip";
-import MarketResultRow from "./MarketResultRow";
 import { LockIcon, SignatureIcon } from "@/components/Icons";
+import Tooltip from "@/components/Tooltip";
+
+import ExportToCSV from "../ExportToCSV";
+import MarketResultRow from "./MarketResultRow";
 
 const MarketResults = ({
 	showModal,
@@ -17,16 +21,19 @@ const MarketResults = ({
 	finished,
 	filter,
 	selectedCollection,
+	test = false,
 }) => {
 	const { user } = useContext(UserContext);
 	const [hideBadDeals, setHideBadDeals] = useState(false);
-	const [sortMethod, setSortMethod] = useState("mint");
+	const [sortMethod, setSortMethod] = useState("ppp");
 
-	const suffix = filter.sigsOnly
-		? "Signatures"
-		: filter.upgradesOnly
-		? "Point Upgrades"
-		: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
+	const suffix = test
+		? ""
+		: filter.sigsOnly
+			? "Signatures"
+			: filter.upgradesOnly
+				? "Point Upgrades"
+				: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
 
 	const uniqResults = uniqBy(
 		sortBy(
@@ -36,33 +43,33 @@ const MarketResults = ({
 						(o) => (o.card || o.sticker).mintBatch,
 						(o) => (o.card || o.sticker).mintNumber,
 						(o) => o.card?.cardTemplateId || o.stickerTemplateId,
-				  ]
+					]
 				: sortMethod === "price"
-				? [
-						(o) => Number(o.price),
-						(o) => (o.card || o.sticker).mintBatch,
-						(o) => (o.card || o.sticker).mintNumber,
-						(o) => o.card?.cardTemplateId || o.stickerTemplateId,
-				  ]
-				: sortMethod === "point"
-				? [
-						(o) => -Number(Math.max(Number(o.delta), 0)),
-						(o) => Number(o.price),
-						(o) => (o.card || o.sticker).mintBatch,
-						(o) => (o.card || o.sticker).mintNumber,
-						(o) => o.card?.cardTemplateId || o.stickerTemplateId,
-				  ]
-				: sortMethod === "ppp"
-				? [
-						(o) => -(Math.max(Number(o.delta), 0) / Number(o.price)),
-						(o) => Number(o.price),
-						(o) => (o.card || o.sticker).mintBatch,
-						(o) => (o.card || o.sticker).mintNumber,
-						(o) => o.card?.cardTemplateId || o.stickerTemplateId,
-				  ]
-				: []
+					? [
+							(o) => Number(o.price),
+							(o) => (o.card || o.sticker).mintBatch,
+							(o) => (o.card || o.sticker).mintNumber,
+							(o) => o.card?.cardTemplateId || o.stickerTemplateId,
+						]
+					: sortMethod === "point"
+						? [
+								(o) => -Number(Math.max(Number(o.delta), 0)),
+								(o) => Number(o.price),
+								(o) => (o.card || o.sticker).mintBatch,
+								(o) => (o.card || o.sticker).mintNumber,
+								(o) => o.card?.cardTemplateId || o.stickerTemplateId,
+							]
+						: sortMethod === "ppp"
+							? [
+									(o) => -(Math.max(Number(o.delta), 0) / Number(o.price)),
+									(o) => Number(o.price),
+									(o) => (o.card || o.sticker).mintBatch,
+									(o) => (o.card || o.sticker).mintNumber,
+									(o) => o.card?.cardTemplateId || o.stickerTemplateId,
+								]
+							: [],
 		),
-		(o) => o.marketId
+		(o) => o.marketId,
 	);
 
 	const shownResults = hideBadDeals
@@ -74,10 +81,10 @@ const MarketResults = ({
 							betterItem.title === item.title &&
 							Number(betterItem.price) <= Number(item.price) &&
 							(betterItem[betterItem.type].mintBatch <= item[item.type].mintBatch ||
-								betterItem[betterItem.type].mintNumber <= item[item.type].mintNumber)
+								betterItem[betterItem.type].mintNumber <= item[item.type].mintNumber),
 					);
 				return sameTitles ? false : true;
-		  })
+			})
 		: uniqResults;
 
 	return (
@@ -131,7 +138,9 @@ const MarketResults = ({
 									<th className='table-cell'>Mint</th>
 									<th className='table-cell'>Title</th>
 									<th className='table-cell'>Price</th>
-									<th className='hidden py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>Min Offer</th>
+									<th className='hidden py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
+										Min Offer
+									</th>
 									<th className='table-cell'>Point gain</th>
 									<th className='table-cell'>Seller</th>
 									<th className='table-cell'>Link</th>
@@ -162,7 +171,10 @@ const MarketResults = ({
 									onChange={(e) => setHideBadDeals(e.target.checked)}
 									className='checkbox'
 								/>
-								<label htmlFor='badDeals' className='text-gray-custom ml-1 w-min cursor-pointer sm:w-auto'>
+								<label
+									htmlFor='badDeals'
+									className='text-gray-custom ml-1 w-min cursor-pointer sm:w-auto'
+								>
 									Hide bad deals
 								</label>
 								<Tooltip
@@ -179,27 +191,38 @@ const MarketResults = ({
 							<div className='flex items-center'>
 								{user.info.allowed.includes("history") ? (
 									<>
-										<Tooltip text="Don't use it on like a million cards all at once." direction='left' />
+										<Tooltip
+											text="Don't use it on like a million cards all at once."
+											direction='left'
+										/>
 										<Link
 											href={{
 												pathname: "/history",
 												query: {
 													href: JSON.stringify(
-														results.filter((item) => item.type === "card").map((item) => item.card.id)
+														results
+															.filter((item) => item.type === "card")
+															.map((item) => item.card.id),
 													),
 												},
 											}}
 											as='/history'
 											passHref
 										>
-											<button className='button' disabled={!user.info.allowed.includes("history")}>
+											<button
+												className='button'
+												disabled={!user.info.allowed.includes("history")}
+											>
 												History
 											</button>
 										</Link>
 									</>
 								) : (
 									<>
-										<Tooltip text='You need access to the history feature for this.' direction='left' />
+										<Tooltip
+											text='You need access to the history feature for this.'
+											direction='left'
+										/>
 										<button className='button' disabled title='No Access'>
 											History
 											<LockIcon />
@@ -207,11 +230,13 @@ const MarketResults = ({
 									</>
 								)}
 							</div>
-							<ExportToCSV
-								data={shownResults}
-								filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - ${suffix} - Market`}
-								type='market'
-							/>
+							{!test && (
+								<ExportToCSV
+									data={shownResults}
+									filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - ${suffix} - Market`}
+									type='market'
+								/>
+							)}
 						</div>
 					</div>
 				</>

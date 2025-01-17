@@ -29,6 +29,7 @@ const App = ({ Component, pageProps }) => {
 		"/feed",
 		"/transactions",
 		"/trade",
+		"/test",
 	];
 	const premiumRoutes = [
 		"/packmanager",

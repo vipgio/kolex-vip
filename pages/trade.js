@@ -16,7 +16,6 @@ const Trade = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		console.log(cardsToSend);
 		const sendItems = uniq(
 			cardsToSend
 				.replace(/\s/g, "") // remove spaces
@@ -35,7 +34,6 @@ const Trade = () => {
 			id: item,
 			type: "card",
 		}));
-		console.log(entities);
 		const { result, error } = await postData("/api/trade/create-offer", {
 			userId: selectedUsers[0].id,
 			entities: entities,

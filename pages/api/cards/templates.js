@@ -1,5 +1,6 @@
-import http from "@/utils/httpClient";
 import { API } from "@/config/config";
+
+import http from "@/utils/httpClient";
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
@@ -7,7 +8,7 @@ export default async function handler(req, res) {
 	if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 	try {
 		const getCardInfo = async (jwt) => {
-			return http(`${API}/card-template?ids=${cardIds.toString()}`, {
+			return http(`${API}/card-template/?ids=${cardIds.toString()}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

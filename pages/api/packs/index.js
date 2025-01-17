@@ -1,5 +1,6 @@
-import http from "@/utils/httpClient";
 import { API } from "@/config/config";
+
+import http from "@/utils/httpClient";
 
 export default async function handler(req, res) {
 	const { jwt } = req.headers;
@@ -8,7 +9,7 @@ export default async function handler(req, res) {
 
 	try {
 		const getStorePacks = async (jwt, page, categoryId = 1) => {
-			return http(`${API}/packs?page=${page}&categoryId=${categoryId}`, {
+			return http(`${API}/packs/?page=${page}&categoryId=${categoryId}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
