@@ -83,7 +83,7 @@ export const historyEvents = {
 };
 
 export const excludedFeatures = [
-	{ id: 1, name: "cs", excluded: [] },
+	{ id: 1, name: "cs", excluded: ["spinner", "crafting"] },
 	{ id: 2, name: "streamers", excluded: ["spinner", "crafting", "rush"] },
 	{ id: 4, name: "pubgm", excluded: ["spinner", "crafting", "rush"] },
 	{ id: 73, name: "kingsleague", excluded: ["spinner", "crafting", "rush"] },

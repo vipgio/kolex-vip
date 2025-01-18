@@ -1,35 +1,40 @@
-import { useContext, forwardRef } from "react";
+import { Menu, Transition } from "@headlessui/react";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Menu, Transition } from "@headlessui/react";
-import { discordLink, githubLink, excludedFeatures, extensionChrome, extensionFirefox } from "@/config/config";
-import { UserContext } from "@/context/UserContext";
+import { forwardRef, useContext } from "react";
+
+import { discordLink, excludedFeatures, extensionChrome, extensionFirefox, githubLink } from "@/config/config";
+
 import { ThemeContext } from "@/context/ThemeContext";
+import { UserContext } from "@/context/UserContext";
+
+import isMobile from "@/utils/isMobile";
+
 import BurgerMenuIcon from "./BurgerMenuIcon";
 import CategorySelector from "./CategorySelector";
 import {
+	CardlisterIcon,
 	CirculationIcon,
+	CraftingIcon,
+	DiscordIcon,
+	ExtensionIcon,
+	GithubIcon,
+	HistoryIcon,
+	HomeIcon,
+	LinkIcon,
+	LockIcon,
+	MintsearchIcon,
+	MoonIcon,
+	PackmanagerIcon,
 	PacksIcon,
 	RushIcon,
-	SpinnerIcon,
-	TransactionsIcon,
-	CardlisterIcon,
-	PackmanagerIcon,
-	TransferIcon,
-	MintsearchIcon,
-	HistoryIcon,
-	CraftingIcon,
 	ScannerIcon,
-	HomeIcon,
-	LockIcon,
-	MoonIcon,
+	SpinnerIcon,
 	SunIcon,
-	DiscordIcon,
-	GithubIcon,
-	ExtensionIcon,
-	LinkIcon,
+	TransactionsIcon,
+	TransferIcon,
 } from "./Icons";
-import isMobile from "@/utils/isMobile";
 
 const NewNavbar = () => {
 	const { user, categoryId } = useContext(UserContext);
@@ -59,50 +64,53 @@ const NewNavbar = () => {
 								leaveTo='transform opacity-0 scale-95'
 							>
 								<Menu.Items className='absolute left-0 mt-1 ml-1 grid w-56 origin-top-left grid-cols-1 gap-1 rounded-lg border border-gray-800/30 bg-gray-200 p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-200/30 dark:bg-gray-800 sm:w-[21rem] sm:grid-cols-2'>
-									{pages.map((page) =>
-										excludedFeatures
-											.find((category) => category.id == categoryId)
-											?.excluded?.includes(page.link) ? null : (
-											<Menu.Items key={page.link}>
-												<Menu.Item>
-													{({ active }) => (
-														<MyLink
-															href={
-																page.paid
-																	? user.info.allowed.includes(page.link)
-																		? `/${page.link}`
-																		: "/features"
-																	: `/${page.link}`
-															}
-															className={`${
-																active
-																	? "bg-primary-500 fill-gray-200 text-gray-200 dark:bg-gray-200 dark:fill-gray-700 dark:text-gray-700"
-																	: "text-gray-custom fill-gray-700 dark:fill-gray-200"
-															} group flex w-full items-center rounded-md px-3 py-4 text-sm transition-colors active:bg-gray-800 active:shadow-md dark:active:bg-gray-300`}
-														>
-															<span className='mr-1 scale-125'>
-																{page.paid ? (
-																	user.info.allowed.includes(page.link) ? (
-																		page.icon
-																	) : (
-																		<LockIcon />
-																	)
-																) : (
+									{pages.map((page) => (
+										<Menu.Items key={page.link}>
+											<Menu.Item
+												disabled={excludedFeatures
+													.find((category) => category.id == categoryId)
+													?.excluded?.includes(page.link)}
+											>
+												{({ active }) => (
+													<MyLink
+														href={
+															page.paid
+																? user.info.allowed.includes(page.link)
+																	? `/${page.link}`
+																	: "/features"
+																: `/${page.link}`
+														}
+														className={`${
+															active
+																? "bg-primary-500 fill-gray-200 text-gray-200 dark:bg-gray-200 dark:fill-gray-700 dark:text-gray-700"
+																: "text-gray-custom fill-gray-700 dark:fill-gray-200"
+														} group flex w-full items-center rounded-md px-3 py-4 text-sm transition-colors active:bg-gray-800 active:shadow-md dark:active:bg-gray-300`}
+														disabled={excludedFeatures
+															.find((category) => category.id == categoryId)
+															?.excluded?.includes(page.link)}
+													>
+														<span className='mr-1 scale-125'>
+															{page.paid ? (
+																user.info.allowed.includes(page.link) ? (
 																	page.icon
-																)}
-															</span>
-															<span className='ml-1'>{page.title}</span>
-															{page.new && (
-																<span className='ml-auto rounded bg-red-500 p-1 text-xs text-gray-100'>
-																	New
-																</span>
+																) : (
+																	<LockIcon />
+																)
+															) : (
+																page.icon
 															)}
-														</MyLink>
-													)}
-												</Menu.Item>
-											</Menu.Items>
-										)
-									)}
+														</span>
+														<span className='ml-1'>{page.title}</span>
+														{page.new && (
+															<span className='ml-auto rounded bg-red-500 p-1 text-xs text-gray-100'>
+																New
+															</span>
+														)}
+													</MyLink>
+												)}
+											</Menu.Item>
+										</Menu.Items>
+									))}
 									<Menu.Item>
 										{({ active }) => (
 											<a
@@ -197,7 +205,14 @@ const NewNavbar = () => {
 export default NewNavbar;
 
 const MyLink = forwardRef((props, ref) => {
-	const { href, children, ...rest } = props;
+	const { href, children, disabled, ...rest } = props;
+	if (disabled) {
+		return (
+			<div className=' group flex w-full items-center rounded-md px-3 py-4 text-sm transition-colors active:bg-gray-800 active:shadow-md dark:active:bg-gray-300 text-gray-custom fill-gray-700 dark:fill-gray-200 opacity-50 cursor-not-allowed'>
+				{children}
+			</div>
+		);
+	}
 	return (
 		<Link href={href}>
 			<a ref={ref} {...rest}>

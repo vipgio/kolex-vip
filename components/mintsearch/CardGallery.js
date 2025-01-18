@@ -1,13 +1,19 @@
-import { memo, useState, useRef, useEffect, Fragment } from "react";
-import sortBy from "lodash/sortBy";
+import { Fragment, memo, useEffect, useRef, useState } from "react";
+
 import pick from "lodash/pick";
+import sortBy from "lodash/sortBy";
+
 import { API } from "@/config/config";
+
 import { useAxios } from "@/hooks/useAxios";
+
+import { SearchIcon, ShoppingCartIcon, UserIcon } from "@/components/Icons";
+
+import fixDecimal from "@/utils/NumberUtils";
+
+import CardGalleryItem from "./CardGalleryItem";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
-import CardGalleryItem from "./CardGalleryItem";
-import { ShoppingCartIcon, UserIcon, SearchIcon } from "@/components/Icons";
-import fixDecimal from "@/utils/NumberUtils";
 
 const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId }) => {
 	const { fetchData } = useAxios();
@@ -57,9 +63,14 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 	};
 
 	const searchUser = async (userId, collectionId, categoryId) => {
-		const { result, error } = await fetchData({
-			endpoint: `${API}/collections/${collectionId}/users/${userId}/owned2?categoryId=${categoryId}`,
-			direct: true,
+		// const { result, error } = await fetchData({
+		// 	endpoint: `${API}/collections/${collectionId}/users/${userId}/owned2?categoryId=${categoryId}`,
+		// 	direct: false,
+		// });
+		const { result, error } = await fetchData(`/api/users/scan`, {
+			collectionId: collectionId,
+			userId: userId,
+			categoryId: categoryId,
 		});
 		if (error) {
 			console.error(error);
@@ -80,7 +91,11 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 				for (const leaderboardUser of users) {
 					if (!finished.current) {
 						try {
-							const items = await searchUser(leaderboardUser.id, selectedCollection.collection.id, categoryId);
+							const items = await searchUser(
+								leaderboardUser.id,
+								selectedCollection.collection.id,
+								categoryId,
+							);
 							if (items) {
 								setUsersChecked((prev) => prev + 1);
 								if (!filter.sigsOnly && !filter.upgradesOnly) {
@@ -91,10 +106,12 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 												(filter.batch === "any" || item.mintBatch === filter.batch) &&
 												item.mintNumber >= filter.min &&
 												item.mintNumber <= filter.max &&
-												selectedCards.some((selCard) => selCard.id === item.cardTemplateId)
+												selectedCards.some(
+													(selCard) => selCard.id === item.cardTemplateId,
+												),
 										),
 										"cardTemplateId",
-										leaderboardUser
+										leaderboardUser,
 									);
 									if (foundCards.length > 0) setResults((prev) => [...prev, ...foundCards]);
 
@@ -104,36 +121,44 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 												(filter.batch === "any" || item.mintBatch === filter.batch) &&
 												item.mintNumber >= filter.min &&
 												item.mintNumber <= filter.max &&
-												selectedCards.some((selCard) => selCard.id === item.stickerTemplateId)
+												selectedCards.some(
+													(selCard) => selCard.id === item.stickerTemplateId,
+												),
 										),
 										"stickerTemplateId",
-										leaderboardUser
+										leaderboardUser,
 									);
-									if (foundStickers.length > 0) setResults((prev) => [...prev, ...foundStickers]);
+									if (foundStickers.length > 0)
+										setResults((prev) => [...prev, ...foundStickers]);
 								} else if (filter.sigsOnly) {
 									const found = processItems(
 										items.cards.filter(
 											(card) =>
 												card.signatureImage &&
-												selectedCards.some((selCard) => selCard.id === card.cardTemplateId)
+												selectedCards.some(
+													(selCard) => selCard.id === card.cardTemplateId,
+												),
 										),
 										"cardTemplateId",
-										leaderboardUser
+										leaderboardUser,
 									);
 
 									if (found.length > 0) setResults((prev) => [...prev, ...found]);
 								} else if (filter.upgradesOnly) {
-									const foundCards = processItems(items.cards, "cardTemplateId", leaderboardUser).filter(
-										(item) => item && item.delta > 0
-									);
+									const foundCards = processItems(
+										items.cards,
+										"cardTemplateId",
+										leaderboardUser,
+									).filter((item) => item && item.delta > 0);
 									if (foundCards.length > 0) setResults((prev) => [...prev, ...foundCards]);
 
 									const foundStickers = processItems(
 										items.stickers,
 										"stickerTemplateId",
-										leaderboardUser
+										leaderboardUser,
 									).filter((item) => item && item.delta > 0);
-									if (foundStickers.length > 0) setResults((prev) => [...prev, ...foundStickers]);
+									if (foundStickers.length > 0)
+										setResults((prev) => [...prev, ...foundStickers]);
 								}
 							}
 						} catch (err) {
@@ -193,16 +218,22 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 									Number(listing.price) <= filter.price &&
 									listing.card.mintNumber >= filter.min &&
 									listing.card.mintNumber <= filter.max &&
-									(filter.batch === "any" || listing.card.mintBatch === filter.batch)
+									(filter.batch === "any" || listing.card.mintBatch === filter.batch),
 							)
 							.map((listing) => sizeReducer(listing));
 					} else if (filter.sigsOnly) {
 						accepted = data.market[0]
-							.filter((listing) => Number(listing.price) <= filter.price && listing.card.signatureImage)
+							.filter(
+								(listing) =>
+									Number(listing.price) <= filter.price && listing.card.signatureImage,
+							)
 							.map((listing) => sizeReducer(listing));
 					} else if (filter.upgradesOnly) {
 						accepted = data.market[0]
-							.filter((listing) => listing.card.rating > ownedRating && Number(listing.price) <= filter.price)
+							.filter(
+								(listing) =>
+									listing.card.rating > ownedRating && Number(listing.price) <= filter.price,
+							)
 							.map((listing) => sizeReducer(listing));
 					}
 				}
@@ -214,7 +245,7 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 									Number(listing.price) <= filter.price &&
 									listing.sticker.mintNumber >= filter.min &&
 									listing.sticker.mintNumber <= filter.max &&
-									(filter.batch === "any" || listing.sticker.mintBatch === filter.batch)
+									(filter.batch === "any" || listing.sticker.mintBatch === filter.batch),
 							)
 							.map((listing) => sizeReducer(listing));
 					} else if (filter.upgradesOnly) {
@@ -265,21 +296,28 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 						onClick={() =>
 							setSelectedCards(
 								cards
-									.filter((item) => (needOnly ? !owned.some((owned) => owned.templateId === item.id) : true))
-									.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+									.filter((item) =>
+										needOnly ? !owned.some((owned) => owned.templateId === item.id) : true,
+									)
+									.filter((item) =>
+										item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+									)
 									.map((template) => ({
 										title: template.title,
 										type: template.cardType ? "card" : "sticker",
 										uuid: template.uuid,
 										id: template.id,
-									}))
+									})),
 							)
 						}
 						className='simple-button order-2 m-1 inline-flex justify-center sm:order-1'
 					>
 						Select All
 					</button>
-					<button onClick={() => setSelectedCards([])} className='simple-button order-3 m-1 sm:order-2'>
+					<button
+						onClick={() => setSelectedCards([])}
+						className='simple-button order-3 m-1 sm:order-2'
+					>
 						Deselect All
 					</button>
 					<span className='order-1 inline-flex w-fit items-center sm:order-3'>
@@ -339,7 +377,11 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 					.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
 					.map((item) => (
 						<Fragment key={item.uuid}>
-							<CardGalleryItem item={item} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />
+							<CardGalleryItem
+								item={item}
+								selectedCards={selectedCards}
+								setSelectedCards={setSelectedCards}
+							/>
 						</Fragment>
 					))}
 			</div>

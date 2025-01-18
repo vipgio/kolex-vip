@@ -1,6 +1,14 @@
 {
 	"changelog": [
 		{
+			"version": "2.11.6",
+			"date": "2025-01-18",
+			"changes": [
+				"Ignore the last one.",
+				"Some parts of the site can't be fixed until Kolex updates the API, or I make them a paid feature. I'm not doing that, so for now, no spinner or crafting. Hopefully it's fixed before the next content drop."
+			]
+		},
+		{
 			"version": "2.11.5",
 			"date": "2025-01-17",
 			"changes": [
