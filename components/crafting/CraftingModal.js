@@ -1,13 +1,18 @@
 import { memo, useEffect, useState } from "react";
+
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
-import uniqBy from "lodash/uniqBy";
 import uniq from "lodash/uniq";
-import { toast, ToastContainer } from "react-toastify";
+import uniqBy from "lodash/uniqBy";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { API } from "@/config/config";
+
 import { useAxios } from "@/hooks/useAxios";
+
 import BigModal from "@/components/BigModal";
+
 import CraftResultModal from "./CraftResultModal";
 
 const CraftingModal = memo(
@@ -26,7 +31,7 @@ const CraftingModal = memo(
 				name: requirement.name,
 				cost: plan.silvercoinCost,
 				items: [],
-			}))
+			})),
 		);
 
 		if (!Array.prototype.toReversed) {
@@ -119,7 +124,7 @@ const CraftingModal = memo(
 							planId: plan.id,
 							reqId: reqId,
 						},
-						controller
+						controller,
 					);
 					if (error) {
 						console.error(error);
@@ -129,14 +134,14 @@ const CraftingModal = memo(
 						// return;
 					}
 					result.cardTemplatesByCollection.map((collection) => {
-						if (collection.collection.id === 11518) return; // ignore the duplicate core collection for now
+						if (collection.collection.id === 13432) return; // ignore the duplicate core collection for now
 						setCheckedCollectionsCount((prev) => [
 							prev[0],
 							prev[1] + collection.cardTemplates.filter((o) => o.userCount).length,
 						]);
 					});
 					for (const collection of result.cardTemplatesByCollection) {
-						if (collection.collection.id === 11518) {
+						if (collection.collection.id === 13432) {
 							continue;
 							// ignore the duplicate core collection for now
 						}
@@ -165,10 +170,10 @@ const CraftingModal = memo(
 																			id,
 																		},
 																	],
-																	["mintBatch", "mintNumber"]
+																	["mintBatch", "mintNumber"],
 																).reverse(),
-														  }
-														: o // if the id matches, add the card to the ownedCards array. else return the object as is
+															}
+														: o, // if the id matches, add the card to the ownedCards array. else return the object as is
 											);
 										});
 									});
@@ -209,10 +214,10 @@ const CraftingModal = memo(
 							.toReversed()
 							.filter(
 								(item, index, self) =>
-									index !== self.findIndex((t) => t.templateId === item.templateId)
+									index !== self.findIndex((t) => t.templateId === item.templateId),
 							)
 							.toReversed(),
-				  }))
+					}))
 				: uniqBy(ownedCards, "id");
 
 		// useEffect(() => {
@@ -262,16 +267,16 @@ const CraftingModal = memo(
 									{Math.min(
 										...(!plan.userLimit
 											? dataToShow.map((requirement) =>
-													Math.floor(requirement.items.length / requirement.count)
-											  )
+													Math.floor(requirement.items.length / requirement.count),
+												)
 											: [
 													plan.userLimit,
 													...dataToShow.map((requirement) =>
 														Math.floor(
-															requirement.items.length / requirement.count
-														)
+															requirement.items.length / requirement.count,
+														),
 													),
-											  ])
+												]),
 									)}
 								</span>
 							</>
@@ -290,18 +295,18 @@ const CraftingModal = memo(
 												...(!plan.userLimit
 													? dataToShow.map((requirement) =>
 															Math.floor(
-																requirement.items.length / requirement.count
-															)
-													  )
+																requirement.items.length / requirement.count,
+															),
+														)
 													: [
 															plan.userLimit,
 															...dataToShow.map((requirement) =>
 																Math.floor(
 																	requirement.items.length /
-																		requirement.count
-																)
+																		requirement.count,
+																),
 															),
-													  ])
+														]),
 											)} // if user limit is set, use that to compare that to the available cards count. else use the minimum of all the available cards
 											disabled={loading}
 											value={craftCount}
@@ -407,7 +412,7 @@ const CraftingModal = memo(
 			</>
 		);
 	},
-	(oldProps, newProps) => isEqual(oldProps, newProps)
+	(oldProps, newProps) => isEqual(oldProps, newProps),
 );
 CraftingModal.displayName = "CraftingModal";
 export default CraftingModal;
