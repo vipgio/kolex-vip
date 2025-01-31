@@ -1,41 +1,42 @@
 import {
-	FaPeopleArrows as TransferIcon,
-	FaHistory as HistoryIcon,
-	FaLock as LockIcon,
-	FaUnlock as UnlockIcon,
-	FaSun as SunIcon,
-	FaMoon as MoonIcon,
-	FaGithub as GithubIcon,
-	FaDiscord as DiscordIcon,
-	FaSignature as SignatureIcon,
-	FaRegTrashAlt as TrashIcon,
-	FaRegCheckCircle as CheckCircleIcon,
-	FaBan as BanIcon,
-	FaRegEdit as EditIcon,
-	FaStop as StopIcon,
-} from "react-icons/fa";
-import { BiCheck as CheckIcon, BiPlayCircle as PlayIcon } from "react-icons/bi";
-import {
-	AiOutlineScan as ScannerIcon,
 	AiOutlineHome as HomeIcon,
 	AiOutlinePoweroff as PoweroffIcon,
+	AiOutlineScan as ScannerIcon,
 } from "react-icons/ai";
-import { TbArrowMerge as CraftingIcon, TbRotate as RotateIcon } from "react-icons/tb";
-import { HiOutlineChevronUpDown as ChevronIcon } from "react-icons/hi2";
+import { BiCheck as CheckIcon, BiPlayCircle as PlayIcon } from "react-icons/bi";
+import { BsQuestionCircle as QuestionIcon } from "react-icons/bs";
+import {
+	FaBan as BanIcon,
+	FaRegCheckCircle as CheckCircleIcon,
+	FaDiscord as DiscordIcon,
+	FaDownload as DownloadIcon,
+	FaRegEdit as EditIcon,
+	FaGithub as GithubIcon,
+	FaHistory as HistoryIcon,
+	FaLock as LockIcon,
+	FaMoon as MoonIcon,
+	FaSignature as SignatureIcon,
+	FaStop as StopIcon,
+	FaSun as SunIcon,
+	FaPeopleArrows as TransferIcon,
+	FaRegTrashAlt as TrashIcon,
+	FaUnlock as UnlockIcon,
+} from "react-icons/fa";
+import { FiShoppingCart as ShoppingCartIcon, FiUser as UserIcon } from "react-icons/fi";
 import { GoLinkExternal as LinkIcon } from "react-icons/go";
+import { HiOutlineChevronUpDown as ChevronIcon } from "react-icons/hi2";
 import {
-	LuArrowDown as ArrowDownIcon,
-	LuArrowUp as ArrowUpIcon,
-	LuArrowRightCircle as ArrowRightCircleIcon,
-	LuArrowLeftCircle as ArrowLeftCircleIcon,
-} from "react-icons/lu";
-import { FiUser as UserIcon, FiShoppingCart as ShoppingCartIcon } from "react-icons/fi";
-import {
-	IoSearchOutline as SearchIcon,
 	IoClose as CloseIcon,
 	IoExtensionPuzzleSharp as ExtensionIcon,
+	IoSearchOutline as SearchIcon,
 } from "react-icons/io5";
-import { BsQuestionCircle as QuestionIcon } from "react-icons/bs";
+import {
+	LuArrowDown as ArrowDownIcon,
+	LuArrowLeftCircle as ArrowLeftCircleIcon,
+	LuArrowRightCircle as ArrowRightCircleIcon,
+	LuArrowUp as ArrowUpIcon,
+} from "react-icons/lu";
+import { TbArrowMerge as CraftingIcon, TbRotate as RotateIcon } from "react-icons/tb";
 
 const CirculationIcon = () => {
 	return (
@@ -165,4 +166,5 @@ export {
 	CloseIcon,
 	QuestionIcon,
 	ExtensionIcon,
+	DownloadIcon,
 };

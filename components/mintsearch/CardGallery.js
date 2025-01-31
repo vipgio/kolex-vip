@@ -7,10 +7,11 @@ import { API } from "@/config/config";
 
 import { useAxios } from "@/hooks/useAxios";
 
-import { SearchIcon, ShoppingCartIcon, UserIcon } from "@/components/Icons";
+import { DownloadIcon, SearchIcon, ShoppingCartIcon, UserIcon } from "@/components/Icons";
 
 import fixDecimal from "@/utils/NumberUtils";
 
+import Downloader from "../Downloader";
 import CardGalleryItem from "./CardGalleryItem";
 import MarketResults from "./MarketResults";
 import MintResults from "./MintResults";
@@ -358,18 +359,23 @@ const CardGallery = memo(({ cards, filter, selectedCollection, owned, categoryId
 					</button>
 				</div>
 			</div>
-			<div className='my-1 ml-2 flex w-fit items-center'>
-				<div className='relative'>
-					<input
-						type='text'
-						placeholder='Search item name'
-						className='input-field'
-						onChange={(e) => setSearchQuery(e.target.value.trimStart())}
-						value={searchQuery}
-					/>
-					<SearchIcon className='pointer-events-none absolute top-2 right-2 text-gray-500' />
+			<div className='my-1 ml-2 flex w-full justify-between items-center'>
+				<div className='flex items-center'>
+					<div className='relative'>
+						<input
+							type='text'
+							placeholder='Search item name'
+							className='input-field'
+							onChange={(e) => setSearchQuery(e.target.value.trimStart())}
+							value={searchQuery}
+						/>
+						<SearchIcon className='pointer-events-none absolute top-2 right-2 text-gray-500' />
+					</div>
+					<div className='text-gray-custom ml-4'>{selectedCards.length} Items selected</div>
 				</div>
-				<div className='text-gray-custom ml-4'>{selectedCards.length} Items selected</div>
+				<div className='pr-4 text-gray-custom hover:cursor-pointer'>
+					<Downloader cards={cards} collection={selectedCollection} />
+				</div>
 			</div>
 			<div className='m-2 mt-4 grid grid-cols-2 gap-5 sm:grid-cols-5'>
 				{sortBy(cards, [(o) => o.treatmentId, (o) => o.team?.id, (o) => o.id])

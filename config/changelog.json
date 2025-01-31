@@ -1,6 +1,14 @@
 {
 	"changelog": [
 		{
+			"version": "2.11.7",
+			"date": "2025-01-31",
+			"changes": [
+				"Added a button to download all card images in mintsearch",
+				"Still waiting on Kolex to fix the API to enable spinner and crafting. It's out of my hands."
+			]
+		},
+		{
 			"version": "2.11.6",
 			"date": "2025-01-18",
 			"changes": [
