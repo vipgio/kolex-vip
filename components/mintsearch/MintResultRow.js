@@ -1,14 +1,10 @@
-import { useState } from "react";
+import { memo } from "react";
+
 import { webApp } from "@/config/config";
-import HistoryModal from "@/components/history/HistoryModal";
+
 import { HistoryIcon, LockIcon, SignatureIcon } from "@/components/Icons";
 
-const MintResultRow = ({ item, allowed }) => {
-	const [showHistory, setShowHistory] = useState(false);
-
-	const openModal = () => {
-		setShowHistory(true);
-	};
+const MintResultRow = memo(({ item, allowed, openModal }) => {
 	return (
 		<tr className='text-gray-custom border-b border-gray-300 bg-gray-100 text-center hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
 			<td
@@ -48,29 +44,21 @@ const MintResultRow = ({ item, allowed }) => {
 				</a>
 			</td>
 			<td className='table-cell'>
-				<div className='relative flex h-8 items-center justify-center text-gray-200'>
+				<span className='relative flex h-8 items-center justify-center'>
 					{allowed ? (
-						item.type === "card" ? (
-							<HistoryModal
-								data={item}
-								isOpen={showHistory}
-								setIsOpen={setShowHistory}
-								type='card'
-								method='uuid'
-							/>
-						) : item.type === "sticker" ? (
-							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} type='sticker' />
-						) : (
-							<button onClick={openModal} className='my-outline rounded p-1'>
-								<HistoryIcon />
-							</button>
-						)
+						<button onClick={() => openModal(item)}>
+							<HistoryIcon />
+						</button>
 					) : (
-						<LockIcon className='cursor-not-allowed' title='You need history access for this feature' />
+						<LockIcon
+							className='cursor-not-allowed'
+							title='You need the "history" access for this feature'
+						/>
 					)}
-				</div>
+				</span>
 			</td>
 		</tr>
 	);
-};
+});
+MintResultRow.displayName = "MintResultRow";
 export default MintResultRow;

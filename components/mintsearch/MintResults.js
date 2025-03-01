@@ -1,13 +1,18 @@
-import { useContext } from "react";
 import Link from "next/link";
+import { useContext, useState } from "react";
+
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
+
 import { UserContext } from "@/context/UserContext";
+
+import BigModal from "@/components/BigModal";
+import { LockIcon, SignatureIcon } from "@/components/Icons";
+import Tooltip from "@/components/Tooltip";
+import HistoryModal from "@/components/history/HistoryModal";
+
 import ExportToCSV from "../ExportToCSV";
 import MintResultRow from "./MintResultRow";
-import BigModal from "@/components/BigModal";
-import Tooltip from "@/components/Tooltip";
-import { LockIcon, SignatureIcon } from "@/components/Icons";
 
 const MintResults = ({
 	showModal,
@@ -25,8 +30,14 @@ const MintResults = ({
 	const suffix = filter.sigsOnly
 		? "Signatures"
 		: filter.upgradesOnly
-		? "Point Upgrades"
-		: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
+			? "Point Upgrades"
+			: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
+	const [selectedItem, setSelectedItem] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const openModal = (item) => {
+		setSelectedItem(item);
+		setIsModalOpen(true);
+	};
 
 	return (
 		<BigModal
@@ -88,12 +99,26 @@ const MintResults = ({
 								(o) => -o.rating,
 								(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
 							]),
-							(o) => o.id
+							(o) => o.id,
 						).map((item) => (
-							<MintResultRow item={item} allowed={user.info.allowed.includes("history")} key={item.id} />
+							<MintResultRow
+								item={item}
+								allowed={user.info.allowed.includes("history")}
+								key={item.id}
+								openModal={openModal}
+							/>
 						))}
 					</tbody>
 				</table>
+				{isModalOpen && selectedItem && (
+					<HistoryModal
+						data={selectedItem}
+						isOpen={isModalOpen}
+						setIsOpen={setIsModalOpen}
+						type={selectedItem.type}
+						method={selectedItem.type === "card" ? "uuid" : undefined}
+					/>
+				)}
 			</div>
 			{results.length > 0 && (
 				<div className='flex p-3'>
@@ -106,27 +131,38 @@ const MintResults = ({
 						<div className='flex items-center'>
 							{user.info.allowed.includes("history") ? (
 								<>
-									<Tooltip text="Don't use it on like a million cards all at once." direction='left' />
+									<Tooltip
+										text="Don't use it on like a million cards all at once."
+										direction='left'
+									/>
 									<Link
 										href={{
 											pathname: "/history",
 											query: {
 												href: JSON.stringify(
-													results.filter((item) => item.type === "card").map((item) => item.id)
+													results
+														.filter((item) => item.type === "card")
+														.map((item) => item.id),
 												),
 											},
 										}}
 										as='/history'
 										passHref
 									>
-										<button className='button' disabled={!user.info.allowed.includes("history")}>
+										<button
+											className='button'
+											disabled={!user.info.allowed.includes("history")}
+										>
 											History
 										</button>
 									</Link>
 								</>
 							) : (
 								<>
-									<Tooltip text='You need access to the history feature for this.' direction='left' />
+									<Tooltip
+										text='You need access to the history feature for this.'
+										direction='left'
+									/>
 									<button className='button' disabled title='No Access'>
 										History
 										<LockIcon />
@@ -141,7 +177,7 @@ const MintResults = ({
 									(o) => o.mintNumber,
 									(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
 								]),
-								(o) => o.id
+								(o) => o.id,
 							)}
 							filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - ${suffix} - Users`}
 							type='mint'

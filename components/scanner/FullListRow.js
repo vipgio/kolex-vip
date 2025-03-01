@@ -1,17 +1,8 @@
-import { memo, useContext, useState } from "react";
-import { UserContext } from "@/context/UserContext";
-import HistoryModal from "@/components/history/HistoryModal";
-import { LockIcon, SignatureIcon, HistoryIcon } from "@/components/Icons";
+import { memo } from "react";
 
-const FullListRow = memo(({ item, isSelfScan, singleUserSearch }) => {
-	const { user } = useContext(UserContext);
-	const [showHistory, setShowHistory] = useState(false);
+import { HistoryIcon, LockIcon, SignatureIcon } from "@/components/Icons";
 
-	const openModal = (e) => {
-		e.stopPropagation();
-		setShowHistory(true);
-	};
-
+const FullListRow = memo(({ item, isSelfScan, singleUserSearch, openModal, openMarket, user }) => {
 	return (
 		<tr
 			className='border-b border-gray-200 transition-colors hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
@@ -29,7 +20,19 @@ const FullListRow = memo(({ item, isSelfScan, singleUserSearch }) => {
 			</td>
 			<td className='table-cell min-w-[10rem]'>{item.title}</td>
 			<td className='table-cell'>{item.inCirculation}</td>
-			<td className='table-cell'>{item.status === "market" ? "Yes" : "No"}</td>
+			<td className='table-cell'>
+				<span className='relative flex h-8 items-center justify-center'>
+					{user.info.allowed.includes("cardlister") && user.user.username === item.owner ? (
+						<button onClick={() => openMarket(item)} className='underline'>
+							{item.status === "market" ? "Yes" : "No"}
+						</button>
+					) : item.status === "market" ? (
+						"Yes"
+					) : (
+						"No"
+					)}
+				</span>
+			</td>
 			<td className='table-cell'>{(item.rating * 10).toFixed(2)}</td>
 			<td className='table-cell'>{item.id}</td>
 			{!singleUserSearch && <td className='table-cell'>{item.owner}</td>}
@@ -41,23 +44,14 @@ const FullListRow = memo(({ item, isSelfScan, singleUserSearch }) => {
 			<td className='table-cell'>
 				<span className='relative flex h-8 items-center justify-center'>
 					{user.info.allowed.includes("history") ? (
-						item.type === "sticker" ? (
-							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} type='sticker' />
-						) : item.type === "card" ? (
-							<HistoryModal
-								data={item}
-								isOpen={showHistory}
-								setIsOpen={setShowHistory}
-								type='card'
-								method='uuid'
-							/>
-						) : (
-							<button onClick={openModal}>
-								<HistoryIcon />
-							</button>
-						)
+						<button onClick={() => openModal(item)}>
+							<HistoryIcon />
+						</button>
 					) : (
-						<LockIcon className='cursor-not-allowed' title='You need the "history" access for this feature' />
+						<LockIcon
+							className='cursor-not-allowed'
+							title='You need the "history" access for this feature'
+						/>
 					)}
 				</span>
 			</td>

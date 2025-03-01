@@ -1,6 +1,14 @@
 {
 	"changelog": [
 		{
+			"version": "2.12",
+			"date": "2025-03-01",
+			"changes": [
+				"Added direct market stuff to scanner (if you have cardlister).",
+				"Massively improved the performance of scanner, mintsearch and marketsearch results."
+			]
+		},
+		{
 			"version": "2.11.7",
 			"date": "2025-01-31",
 			"changes": [

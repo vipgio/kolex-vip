@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { memo, useState } from "react";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { webApp } from "@/config/config";
+
 import { useAxios } from "@/hooks/useAxios";
-import HistoryModal from "@/components/history/HistoryModal";
-import LoadingSpin from "../LoadingSpin";
+
 import { HistoryIcon, LockIcon, SignatureIcon } from "@/components/Icons";
 
-const MarketResultRow = ({ item, allowed }) => {
-	const [showHistory, setShowHistory] = useState(false);
+import fixDecimal from "@/utils/NumberUtils";
+
+import LoadingSpin from "../LoadingSpin";
+
+const MarketResultRow = memo(({ item, allowed, adv = false, openModal }) => {
 	const [loading, setLoading] = useState(false);
 	const { postData } = useAxios();
 
@@ -24,7 +29,7 @@ const MarketResultRow = ({ item, allowed }) => {
 				`Purchased ${item[item.type].mintBatch}${item[item.type].mintNumber} ${item.title} for ${
 					item.price
 				}!\n`,
-				{ toastId: item.marketId, autoClose: 3000, position: "top-left" }
+				{ toastId: item.marketId, autoClose: 3000, position: "top-left" },
 			);
 		} else {
 			toast.error(
@@ -35,14 +40,10 @@ const MarketResultRow = ({ item, allowed }) => {
 					toastId: item.marketId,
 					autoClose: 3000,
 					position: "top-left",
-				}
+				},
 			);
 		}
 		setLoading(false);
-	};
-
-	const openModal = () => {
-		setShowHistory(true);
 	};
 
 	return (
@@ -70,6 +71,14 @@ const MarketResultRow = ({ item, allowed }) => {
 				{item.minOffer ? `$${item.minOffer}` : "-"}
 			</td>
 			<td className='table-cell'>{item.delta > 0 ? `+${item.delta}` : 0}</td>
+			{adv && (
+				<td className='table-cell'>
+					{fixDecimal(Math.max(fixDecimal(item.delta / item.price), 0), 3)}
+				</td>
+			)}
+			{adv && (
+				<td className='table-cell'>{fixDecimal(Number(item.price) * item[item.type].mintNumber)}</td>
+			)}
 			<td className='table-cell'>
 				<a
 					target='_blank'
@@ -80,6 +89,14 @@ const MarketResultRow = ({ item, allowed }) => {
 					{item.user.username}
 				</a>
 			</td>
+			{adv && (
+				<td className='table-cell'>
+					{fixDecimal(
+						Math.pow(item.delta / (item.price * item.price * item[item.type].mintNumber), 1),
+						3,
+					)}
+				</td>
+			)}
 			<td className='table-cell'>
 				<a
 					href={`${webApp}/${item.type}/${item.templateUUID}/${item.uuid}`}
@@ -91,27 +108,18 @@ const MarketResultRow = ({ item, allowed }) => {
 				</a>
 			</td>
 			<td className='table-cell'>
-				<div className='relative flex h-8 items-center justify-center'>
+				<span className='relative flex h-8 items-center justify-center'>
 					{allowed ? (
-						item.type === "card" ? (
-							<HistoryModal
-								data={item}
-								isOpen={showHistory}
-								setIsOpen={setShowHistory}
-								type='card'
-								method='uuid'
-							/>
-						) : item.type === "sticker" ? (
-							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} type='sticker' />
-						) : (
-							<button onClick={openModal}>
-								<HistoryIcon />
-							</button>
-						)
+						<button onClick={() => openModal(item)}>
+							<HistoryIcon />
+						</button>
 					) : (
-						<LockIcon className='cursor-not-allowed' title='You need history access for this feature' />
+						<LockIcon
+							className='cursor-not-allowed'
+							title='You need the "history" access for this feature'
+						/>
 					)}
-				</div>
+				</span>
 			</td>
 			<td className='table-cell'>
 				<button onClick={buyItem} title='Quick buy' className='simple-button p-0.5'>
@@ -120,5 +128,6 @@ const MarketResultRow = ({ item, allowed }) => {
 			</td>
 		</tr>
 	);
-};
+});
+MarketResultRow.displayName = "MarketResultRow";
 export default MarketResultRow;

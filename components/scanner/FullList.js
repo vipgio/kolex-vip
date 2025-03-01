@@ -1,11 +1,22 @@
-import { useState } from "react";
-import { useInView } from "react-intersection-observer";
-import sortBy from "lodash/sortBy";
-import FullListRow from "./FullListRow";
+import { useContext, useState } from "react";
 
-const FullList = ({ results, owner, isSelfScan, ownedItems, singleUserSearch }) => {
+import sortBy from "lodash/sortBy";
+import { useInView } from "react-intersection-observer";
+
+import { UserContext } from "@/context/UserContext";
+
+import HistoryModal from "@/components/history/HistoryModal";
+
+import FullListRow from "./FullListRow";
+import MarketModal from "./MarketModal";
+
+const FullList = ({ results, isSelfScan, singleUserSearch }) => {
 	const [sortMethod, setSortMethod] = useState("mint");
 	const [show, setShow] = useState(0);
+	const [selectedItem, setSelectedItem] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isMarketOpen, setIsMarketOpen] = useState(false);
+	const { user } = useContext(UserContext);
 
 	const handleSort = (e) => {
 		setSortMethod(e.target.value);
@@ -21,6 +32,16 @@ const FullList = ({ results, owner, isSelfScan, ownedItems, singleUserSearch }) 
 		},
 	});
 
+	const openModal = (item) => {
+		setSelectedItem(item);
+		setIsModalOpen(true);
+	};
+
+	const openMarket = (item) => {
+		setSelectedItem(item);
+		setIsMarketOpen(true);
+	};
+
 	return (
 		<>
 			<div className='flex items-center p-2'>
@@ -30,8 +51,9 @@ const FullList = ({ results, owner, isSelfScan, ownedItems, singleUserSearch }) 
 					</label>
 					<select name='sort' id='sort' className='dropdown' onChange={handleSort}>
 						<option value='mint'>Mint</option>
-						{!isSelfScan && <option value='points'>Point gain</option>}
+						{!isSelfScan && <option value='gain'>Point gain</option>}
 						<option value='circ'>Circulation</option>
+						<option value='points'>Points</option>
 					</select>
 				</div>
 			</div>
@@ -54,20 +76,47 @@ const FullList = ({ results, owner, isSelfScan, ownedItems, singleUserSearch }) 
 						{sortBy(
 							results,
 							sortMethod === "mint"
-								? ["mintBatch", "mintNumber", (o) => -o.signatureImage, (o) => -o.delta, "inCirculation"]
-								: sortMethod === "points"
-								? [(o) => -o.delta, "mintBatch", "mintNumber", (o) => -o.signatureImage, "inCirculation"]
-								: ["inCirculation", "mintBatch", "mintNumber", (o) => -o.signatureImage, (o) => -o.delta]
+								? [
+										"mintBatch",
+										"mintNumber",
+										(o) => -o.signatureImage,
+										(o) => -o.delta,
+										"inCirculation",
+									]
+								: sortMethod === "gain"
+									? [
+											(o) => -o.delta,
+											"mintBatch",
+											"mintNumber",
+											(o) => -o.signatureImage,
+											"inCirculation",
+										]
+									: sortMethod === "points"
+										? [
+												(o) => -o.rating,
+												"mintBatch",
+												"mintNumber",
+												"inCirculation",
+												(o) => -o.signatureImage,
+											]
+										: [
+												"inCirculation",
+												"mintBatch",
+												"mintNumber",
+												(o) => -o.signatureImage,
+												(o) => -o.delta,
+											],
 						)
 							.slice(0, show + 100)
 							.map((item) => (
 								<FullListRow
 									key={item.id}
 									item={item}
-									owner={owner}
 									isSelfScan={isSelfScan}
-									ownedItems={ownedItems}
 									singleUserSearch={singleUserSearch}
+									openModal={openModal}
+									openMarket={openMarket}
+									user={user}
 								/>
 							))}
 						<tr>
@@ -75,6 +124,23 @@ const FullList = ({ results, owner, isSelfScan, ownedItems, singleUserSearch }) 
 						</tr>
 					</tbody>
 				</table>
+				{isModalOpen && selectedItem && (
+					<HistoryModal
+						data={selectedItem}
+						isOpen={isModalOpen}
+						setIsOpen={setIsModalOpen}
+						type={selectedItem.type}
+						method={selectedItem.type === "card" ? "uuid" : undefined}
+					/>
+				)}
+				{isMarketOpen && selectedItem && (
+					<MarketModal
+						item={selectedItem}
+						isOpen={isMarketOpen}
+						setIsOpen={setIsMarketOpen}
+						user={user}
+					/>
+				)}
 			</div>
 		</>
 	);

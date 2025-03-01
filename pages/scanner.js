@@ -1,14 +1,19 @@
 import { useContext, useState } from "react";
+
 import sortBy from "lodash/sortBy";
 import "react-toastify/dist/ReactToastify.css";
-import { useAxios } from "@/hooks/useAxios";
+
 import { UserContext } from "@/context/UserContext";
+
+import { useAxios } from "@/hooks/useAxios";
+
 import SetSelector from "@/HOC/SetSelector";
+
+import LoadingSpin from "@/components/LoadingSpin";
 import Meta from "@/components/Meta";
+import Tooltip from "@/components/Tooltip";
 import UserSearch from "@/components/UserSearch";
 import ScanResult from "@/components/scanner/ScanResults";
-import Tooltip from "@/components/Tooltip";
-import LoadingSpin from "@/components/LoadingSpin";
 
 const Scanner = () => {
 	const { fetchData } = useAxios();
@@ -53,7 +58,7 @@ const Scanner = () => {
 		const own = await scanUser(user.user.id, selectedCollection.collection.id);
 		if (selectedUsers.some((usr) => usr.id === user.user.id))
 			setScanResults(
-				[...own.cards, ...own.stickers].map((item) => pickObj(item, selectedCollection, user.user))
+				[...own.cards, ...own.stickers].map((item) => pickObj(item, selectedCollection, user.user)),
 			);
 
 		// for (const selectedUser of selectedUsers) {
@@ -65,20 +70,22 @@ const Scanner = () => {
 					setScanResults((prev) => [
 						...(prev ?? []),
 						...[...data.cards, ...data.stickers].map((item) =>
-							pickObj(item, selectedCollection, selectedUser)
+							pickObj(item, selectedCollection, selectedUser),
 						),
 					]);
 				}
-			})
+			}),
 		);
 
 		own && //if scanning someone else
 			setOwnedItems(
 				//pick the best set
 				sortBy(
-					[...own.cards, ...own.stickers].map((item) => pickObj(item, selectedCollection, user.user.username)),
-					["mintBatch", "mintNumber"]
-				)
+					[...own.cards, ...own.stickers].map((item) =>
+						pickObj(item, selectedCollection, user.user.username),
+					),
+					["mintBatch", "mintNumber"],
+				),
 			);
 
 		setLoading(false);
@@ -103,8 +110,14 @@ const Scanner = () => {
 													className='ml-1 mr-1 cursor-pointer text-red-500'
 													title='Clear selection'
 													onClick={() => {
-														setSelectedUsers((prev) => prev.filter((oldUser) => oldUser.id !== user.id));
-														setScanResults((prev) => prev?.filter((items) => items.owner !== user.username));
+														setSelectedUsers((prev) =>
+															prev.filter((oldUser) => oldUser.id !== user.id),
+														);
+														setScanResults((prev) =>
+															prev?.filter(
+																(items) => items.owner !== user.username,
+															),
+														);
 													}}
 												>
 													x
@@ -136,7 +149,8 @@ const Scanner = () => {
 								<span>
 									{" "}
 									{selectedCollection.collection.properties.seasons[0]} -{" "}
-									{selectedCollection.collection.properties.tiers[0]} - {selectedCollection.collection.name}
+									{selectedCollection.collection.properties.tiers[0]} -{" "}
+									{selectedCollection.collection.name}
 								</span>
 							)}
 						</div>
@@ -197,7 +211,7 @@ const pickObj = (item, selectedCollection, owner) => {
 		collectionId: selectedCollection.collection.id,
 		owner: owner.username,
 		owenrId: owner.id,
-		marketId: item.isMarketList ? item.marketId : "-",
+		marketId: item.isMarketList ? item.marketId : null,
 		uuid: item.uuid,
 		minted: item.minted,
 	};

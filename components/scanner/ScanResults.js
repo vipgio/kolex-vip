@@ -1,19 +1,25 @@
-import { memo, useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import sortBy from "lodash/sortBy";
+import { memo, useEffect, useMemo, useState } from "react";
+
+import countBy from "lodash/countBy";
 import isEqual from "lodash/isEqual";
+import sortBy from "lodash/sortBy";
+import sortedIndexBy from "lodash/sortedIndexBy";
 import sumBy from "lodash/sumBy";
 import uniqBy from "lodash/uniqBy";
-import countBy from "lodash/countBy";
-import sortedIndexBy from "lodash/sortedIndexBy";
+import { ToastContainer, toast } from "react-toastify";
+
 import { useAxios } from "@/hooks/useAxios";
+
 import ExportToCSV from "@/components/ExportToCSV";
+import { LockIcon } from "@/components/Icons";
+
+import fixDecimal from "@/utils/NumberUtils";
+
+import Tooltip from "../Tooltip";
 import CompactList from "./CompactList";
 import FullList from "./FullList";
-import Tooltip from "../Tooltip";
 import Leaderboard from "./Leaderboard";
-import { LockIcon } from "@/components/Icons";
-import fixDecimal from "@/utils/NumberUtils";
 
 const ScanResult = memo(
 	({
@@ -39,7 +45,7 @@ const ScanResult = memo(
 			() =>
 				scanResults.map((result) => {
 					const ownedItem = sortBy(ownedItems, ["mintBatch", "mintNumber"]).find(
-						(own) => own.templateId === result.templateId
+						(own) => own.templateId === result.templateId,
 					);
 					const ownedRating = ownedItem?.rating || 0;
 
@@ -57,7 +63,7 @@ const ScanResult = memo(
 						minted: result.type === "card" && template?.minted,
 					};
 				}),
-			[scanResults, ownedItems, templates, isSelfScan, fixDecimal]
+			[scanResults, ownedItems, templates, isSelfScan, fixDecimal],
 		);
 
 		const sortedInc = sortBy(strippedResults, ["mintBatch", "mintNumber", (o) => -o.signatureImage]);
@@ -65,10 +71,14 @@ const ScanResult = memo(
 			return sortedInc.map((item, index, self) => {
 				const firstPosition = self.findIndex((o) => o.templateId === item.templateId);
 				if (firstPosition === index) {
-					const nextPosition = sortedInc.slice(index + 1).find((o) => o.templateId === item.templateId);
+					const nextPosition = sortedInc
+						.slice(index + 1)
+						.find((o) => o.templateId === item.templateId);
 					return {
 						...item,
-						pointsToLose: nextPosition ? fixDecimal(item.rating - nextPosition.rating) : item.rating,
+						pointsToLose: nextPosition
+							? fixDecimal(item.rating - nextPosition.rating)
+							: item.rating,
 					};
 				} else {
 					return {
@@ -82,7 +92,9 @@ const ScanResult = memo(
 		const filteredResults = useMemo(() => {
 			const uniqueByTemplateId = (data) => uniqBy(data, "templateId");
 			const removeBest = (data) =>
-				data.filter((item, index, self) => index !== self.findIndex((o) => o.templateId === item.templateId));
+				data.filter(
+					(item, index, self) => index !== self.findIndex((o) => o.templateId === item.templateId),
+				);
 
 			switch (filterMethod) {
 				case "all":
@@ -104,7 +116,7 @@ const ScanResult = memo(
 							...item,
 							owned: countBy(sorted, (o) => o.templateId)[item.templateId],
 						})),
-						"templateId"
+						"templateId",
 					);
 			}
 		}, [sorted, filterMethod]);
@@ -136,12 +148,23 @@ const ScanResult = memo(
 
 		const rank = useMemo(
 			() => sortedIndexBy(leaderboardPoints, fixDecimal(sumBy(filteredResults, "rating")), (o) => -o),
-			[filterMethod, filteredResults]
+			[filterMethod, filteredResults],
 		);
 		const points = useMemo(() => fixDecimal(sumBy(filteredResults, "rating") * 10), [filteredResults]);
 
 		return (
 			<>
+				<ToastContainer
+					position='top-right'
+					autoClose={3500}
+					hideProgressBar={false}
+					newestOnTop
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+				/>
 				<div className='my-5 overflow-hidden'>
 					<div className='flex items-end p-1 pb-3'>
 						<div className='flex flex-col justify-start sm:flex-row'>
@@ -162,13 +185,18 @@ const ScanResult = memo(
 								<div className='flex items-center'>
 									{isHistoryAllowed ? (
 										<>
-											<Tooltip text="Don't use it on like a million cards all at once." direction='left' />
+											<Tooltip
+												text="Don't use it on like a million cards all at once."
+												direction='left'
+											/>
 											<Link
 												href={{
 													pathname: "/history",
 													query: {
 														href: JSON.stringify(
-															filteredResults.filter((item) => item.type === "card").map((item) => item.id)
+															filteredResults
+																.filter((item) => item.type === "card")
+																.map((item) => item.id),
 														),
 													},
 												}}
@@ -182,7 +210,10 @@ const ScanResult = memo(
 										</>
 									) : (
 										<>
-											<Tooltip text='You need access to the history feature for this.' direction='left' />
+											<Tooltip
+												text='You need access to the history feature for this.'
+												direction='left'
+											/>
 											<button className='button' disabled title='No Access'>
 												History
 												<LockIcon />
@@ -231,14 +262,12 @@ const ScanResult = memo(
 							{filterMethod !== "compact" ? (
 								<FullList
 									results={filteredResults}
-									owner={user}
 									isSelfScan={isSelfScan}
-									ownedItems={isSelfScan ? ownedItems : uniqBy(ownedItems, "templateId")}
-									filterMethod={filterMethod}
 									singleUserSearch={singleUserSearch}
+									user={user}
 								/>
 							) : (
-								<CompactList results={filteredResults} owner={user} />
+								<CompactList results={filteredResults} />
 							)}
 						</div>
 					</>
@@ -246,7 +275,7 @@ const ScanResult = memo(
 			</>
 		);
 	},
-	(oldProps, newProps) => isEqual(oldProps, newProps)
+	(oldProps, newProps) => isEqual(oldProps, newProps),
 );
 ScanResult.displayName = "ScanResult";
 export default ScanResult;

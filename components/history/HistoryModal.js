@@ -1,13 +1,19 @@
-import { memo, useState, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
+
 import isEqual from "lodash/isEqual";
+
 import { useAxios } from "@/hooks/useAxios";
+
 import Dialog from "@/HOC/Dialog";
-import LoadingSpin from "@/components/LoadingSpin";
-import HistoryContent from "./HistoryContent";
+
 import { HistoryIcon } from "@/components/Icons";
+import LoadingSpin from "@/components/LoadingSpin";
+
+import HistoryContent from "./HistoryContent";
 
 const HistoryModal = memo(
 	({ data, isOpen, setIsOpen, type = "card", method = "id" }) => {
+		console.log("rendering HistoryModal");
 		const { fetchData } = useAxios();
 		const [item, setItem] = useState({});
 
@@ -95,7 +101,7 @@ const HistoryModal = memo(
 			</>
 		);
 	},
-	(oldProps, newProps) => isEqual(oldProps, newProps)
+	(oldProps, newProps) => isEqual(oldProps, newProps),
 );
 HistoryModal.displayName = "HistoryModal";
 export default HistoryModal;
