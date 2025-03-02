@@ -1,7 +1,7 @@
 {
 	"changelog": [
 		{
-			"version": "2.12",
+			"version": "2.12.0",
 			"date": "2025-03-01",
 			"changes": [
 				"Added direct market stuff to scanner (if you have cardlister).",
