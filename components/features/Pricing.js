@@ -1,8 +1,12 @@
-import { useState } from "react";
 import { Switch } from "@headlessui/react";
-import FAQ from "./FAQ";
+
+import { useState } from "react";
+
 import { LinkIcon } from "@/components/Icons";
+
 import fixDecimal from "@/utils/NumberUtils";
+
+import FAQ from "./FAQ";
 
 let localCurrencies = [];
 const findCurrency = (currency) => {
@@ -14,7 +18,9 @@ const Pricing = ({ features, bundles, currencies, paymentMethods }) => {
 	const [currency, setCurrency] = useState("usd");
 	return (
 		<div className='text-gray-custom mt-4 flex flex-col justify-center px-2'>
-			<h1 className='mb-2 text-center text-4xl font-semibold text-gray-800 dark:text-gray-200'>Pricing</h1>
+			<h1 className='mb-2 text-center text-4xl font-semibold text-gray-800 dark:text-gray-200'>
+				Pricing
+			</h1>
 			<div className='mx-1 flex h-10 max-w-full items-center'>
 				{currency === "brl" && (
 					<a
@@ -53,11 +59,14 @@ const Features = ({ features, currency }) => {
 							<th className='table-cell'>Feature</th>
 							<th className='table-cell'>1 Month</th>
 							<th className='table-cell'>2 Months</th>
+							<th className='table-cell'>6 Months</th>
 						</tr>
 					</thead>
 					<tbody className='text-center'>
 						{features
-							.filter((feature) => feature.price > 0 && !feature.info.perUse && feature.info.locked)
+							.filter(
+								(feature) => feature.price > 0 && !feature.info.perUse && feature.info.locked,
+							)
 							.map((feature) => (
 								<tr
 									className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
@@ -71,6 +80,10 @@ const Features = ({ features, currency }) => {
 									<td className='table-cell'>
 										{findCurrency(currency).sign}
 										{fixDecimal(feature.price2 * findCurrency(currency).ratio, 2)}
+									</td>
+									<td className='table-cell'>
+										{findCurrency(currency).sign}
+										{fixDecimal(feature.price6 * findCurrency(currency).ratio, 2)}
 									</td>
 								</tr>
 							))}
@@ -92,6 +105,7 @@ const Bundles = ({ bundles, currency }) => {
 							<th className='table-cell'>Features</th>
 							<th className='table-cell'>1 Month</th>
 							<th className='table-cell'>2 Months</th>
+							<th className='table-cell'>6 Months</th>
 						</tr>
 					</thead>
 					<tbody className='text-center'>
@@ -100,9 +114,11 @@ const Bundles = ({ bundles, currency }) => {
 								className='border-t bg-white hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
 								key={bundle.id}
 							>
-								<td className='table-cell w-1/3'>{bundle.features.join(" + ")}</td>
+								<td className={`table-cell w-1/3 ${bundle.id === 4 ? "text-amber-500" : ""}`}>
+									{bundle.features.join(" + ")}
+								</td>
 								<td className='table-cell'>
-									<span className='mr-1.5 line-through decoration-red-500'>
+									<span className='mr-1.5 line-through decoration-red-500 decoration-2'>
 										{findCurrency(currency).sign}
 										{fixDecimal(bundle.oldPrice * findCurrency(currency).ratio, 2)}
 									</span>
@@ -112,13 +128,23 @@ const Bundles = ({ bundles, currency }) => {
 									</span>
 								</td>
 								<td className='table-cell'>
-									<span className='mr-1.5 line-through decoration-red-500'>
+									<span className='mr-1.5 line-through decoration-red-500 decoration-2'>
 										{findCurrency(currency).sign}
 										{fixDecimal(bundle.oldPrice2 * findCurrency(currency).ratio, 2)}
 									</span>
 									<span>
 										{findCurrency(currency).sign}
 										{fixDecimal(bundle.price2 * findCurrency(currency).ratio, 2)}
+									</span>
+								</td>
+								<td className='table-cell'>
+									<span className='mr-1.5 line-through decoration-red-500 decoration-2'>
+										{findCurrency(currency).sign}
+										{fixDecimal(bundle.oldPrice6 * findCurrency(currency).ratio, 2)}
+									</span>
+									<span>
+										{findCurrency(currency).sign}
+										{fixDecimal(bundle.price6 * findCurrency(currency).ratio, 2)}
 									</span>
 								</td>
 							</tr>
