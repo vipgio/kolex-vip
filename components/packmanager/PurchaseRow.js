@@ -1,6 +1,9 @@
 import { toast } from "react-toastify";
+
 import { webApp } from "@/config/config";
+
 import { useAxios } from "@/hooks/useAxios";
+
 import LoadingSpin from "../LoadingSpin";
 
 const PurchaseRow = ({ item, loading, setLoading }) => {
@@ -28,7 +31,7 @@ const PurchaseRow = ({ item, loading, setLoading }) => {
 					toastId: item.marketId,
 					autoClose: 3000,
 					position: "top-left",
-				}
+				},
 			);
 		}
 		setLoading(false);
@@ -52,7 +55,9 @@ const PurchaseRow = ({ item, loading, setLoading }) => {
 				<td className='hidden h-full min-w-[10rem] items-end py-1 px-2 sm:table-cell sm:py-3 sm:px-6'>
 					{item.minOffer ? `$${item.minOffer}` : "-"}
 				</td>
-				<td className='table-cell'>{item.pack.created.split("T")[0]}</td>
+				<td className='table-cell'>
+					{item.pack.created.split("T")[0]} - {item.pack.created.split("T")[1].split(".")[0]}
+				</td>
 				<td className='hidden sm:table-cell'>{item.created.split("T")[0]}</td>
 				<td className='table-cell'>
 					<button onClick={buyItem} title='Quick buy' className='simple-button p-0.5'>
