@@ -1,6 +1,8 @@
-import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { createContext, useEffect, useState } from "react";
+
 import useLocalStorage from "@/hooks/useLocalStorage";
+
 import isMobile from "@/utils/isMobile";
 
 export const UserContext = createContext();
@@ -62,6 +64,7 @@ const UserContextProvider = (props) => {
 		73: "theme-kingsleague",
 		106: "theme-hiroquest",
 		107: "theme-csc",
+		172: "theme-hro",
 	};
 	useEffect(() => {
 		const themeClass = themeMapping[categoryId] || "theme-csgo";

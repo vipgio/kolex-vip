@@ -111,7 +111,7 @@ const NewNavbar = () => {
 											</Menu.Item>
 										</Menu.Items>
 									))}
-									<Menu.Item>
+									{/* <Menu.Item>
 										{({ active }) => (
 											<a
 												href={linkExtensionStore()}
@@ -134,7 +134,7 @@ const NewNavbar = () => {
 												</span>
 											</a>
 										)}
-									</Menu.Item>
+									</Menu.Item> */}
 								</Menu.Items>
 							</Transition>
 						</>

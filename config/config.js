@@ -50,6 +50,7 @@ export const historyEvents = {
 			<span>{event.value}</span> {event.costType === "usd" ? "USD" : "coins"}.
 		</>
 	),
+	transfer: () => "received the item from the migration.",
 	"imx-market": (event) => (
 		<>
 			{event.receiver ? (
@@ -90,4 +91,5 @@ export const excludedFeatures = [
 	{ id: 40, name: "skgaming", excluded: ["spinner", "crafting", "rush", "packmanager", "packs"] },
 	{ id: 107, name: "csc", excluded: ["spinner", "crafting", "rush", "packmanager", "packs"] },
 	{ id: 106, name: "hiroquest", excluded: ["spinner", "crafting", "rush", "packmanager", "packs"] },
+	{ id: 172, name: "hro", excluded: ["spinner", "crafting", "rush"] },
 ];

@@ -1,11 +1,15 @@
-import { memo, useContext, useState, useEffect } from "react";
+import { memo, useContext, useEffect, useState } from "react";
+
 import groupBy from "lodash/groupBy";
-import pickBy from "lodash/pickBy";
-import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
 import omit from "lodash/omit";
-import { useAxios } from "@/hooks/useAxios";
+import pickBy from "lodash/pickBy";
+import sortBy from "lodash/sortBy";
+
 import { UserContext } from "@/context/UserContext";
+
+import { useAxios } from "@/hooks/useAxios";
+
 import NewSetSelector from "@/components/NewSetSelector";
 
 const coreNames = [
@@ -22,6 +26,8 @@ const coreNames = [
 	"Tier 3 Legendary",
 	"Pinnacle",
 	"Signature Series",
+	"Mythic",
+	"Onboarding",
 ];
 const seasons = ["2024", "2023", "2022", "2021", "2020", "2019", "2018", "Founders Edition"];
 
@@ -47,9 +53,11 @@ const SetSelector = memo(
 					const coreGrouped = {
 						collections: Object.entries(
 							groupBy(
-								pickBy(seasonCollections, (col) => coreNames.includes(col.collection.properties.tiers[0])),
-								(col) => col.collection?.properties.tiers[0]
-							)
+								pickBy(seasonCollections, (col) =>
+									coreNames.includes(col.collection.properties.tiers[0]),
+								),
+								(col) => col.collection?.properties.tiers[0],
+							),
 						).map(([tier, collections]) => {
 							const entry = {
 								tier,
@@ -69,9 +77,12 @@ const SetSelector = memo(
 					const eventsGrouped = {
 						collections: Object.entries(
 							groupBy(
-								pickBy(seasonCollections, (col) => col.collection.properties.types[0] === "event_primary"),
-								(col) => col.collection?.properties.tiers[0]
-							)
+								pickBy(
+									seasonCollections,
+									(col) => col.collection.properties.types[0] === "event_primary",
+								),
+								(col) => col.collection?.properties.tiers[0],
+							),
 						).map(([tier, collections]) => {
 							const entry = {
 								tier,
@@ -95,10 +106,10 @@ const SetSelector = memo(
 									seasonCollections,
 									(col) =>
 										col.collection.properties.types[0] !== "event_primary" &&
-										!coreNames.includes(col.collection.properties.tiers[0])
+										!coreNames.includes(col.collection.properties.tiers[0]),
 								),
-								(col) => col.collection.properties.tiers[0]
-							)
+								(col) => col.collection.properties.tiers[0],
+							),
 						).reduce((acc, [key, value]) => {
 							const entry = {
 								collections: value,
@@ -136,10 +147,13 @@ const SetSelector = memo(
 			) {
 				return JSON.parse(storedData);
 			} else {
-				const { result, error } = await fetchData(`/api/collections/users/${user.user.id}/user-summary`, {
-					userId: user.user.id,
-					categoryId: categoryId,
-				});
+				const { result, error } = await fetchData(
+					`/api/collections/users/${user.user.id}/user-summary`,
+					{
+						userId: user.user.id,
+						categoryId: categoryId,
+					},
+				);
 				if (error) {
 					console.error(error);
 				}
@@ -173,7 +187,7 @@ const SetSelector = memo(
 			</div>
 		);
 	},
-	(oldProps, newProps) => isEqual(oldProps, newProps)
+	(oldProps, newProps) => isEqual(oldProps, newProps),
 );
 SetSelector.displayName = "SetSelector";
 export default SetSelector;

@@ -1,8 +1,12 @@
-import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import ImageWrapper from "@/HOC/ImageWrapper";
-import { LinkIcon } from "@/components/Icons";
+
+import { Fragment } from "react";
+
 import { extensionChrome, extensionFirefox } from "@/config/config";
+
+import ImageWrapper from "@/HOC/ImageWrapper";
+
+import { LinkIcon } from "@/components/Icons";
 
 const TokenTutorial = ({ showModal, setShowModal, handleCopyClick }) => {
 	const closeModal = () => setShowModal((prev) => ({ ...prev, show: false }));
@@ -47,7 +51,7 @@ const WebTutorial = ({ handleCopyClick }) => {
 		<>
 			<div className='inline-flex w-full flex-col md:flex-row'>
 				<ol className='list-inside list-decimal marker:text-blue-500 md:w-1/2'>
-					<div className='font-semibold text-red-500'>
+					{/* <div className='font-semibold text-red-500'>
 						Download the new extensions (
 						<span>
 							<a
@@ -73,7 +77,7 @@ const WebTutorial = ({ handleCopyClick }) => {
 							</a>
 						</span>
 						) for a much easier method or follow the following steps:
-					</div>
+					</div> */}
 					<li className='m-2 border-gray-300'>
 						Login to your Kolex account from the official website.
 					</li>

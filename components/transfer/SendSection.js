@@ -1,11 +1,16 @@
-import { useState, useEffect, useRef, useContext } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { toast } from "react-toastify";
+
+import { useContext, useEffect, useRef, useState } from "react";
+
 import chunk from "lodash/chunk";
-import { useAxios } from "@/hooks/useAxios";
-import { UserContext } from "@/context/UserContext";
-import LoadingSpin from "../LoadingSpin";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { UserContext } from "@/context/UserContext";
+
+import { useAxios } from "@/hooks/useAxios";
+
+import LoadingSpin from "../LoadingSpin";
 
 const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 	const { fetchData, postData } = useAxios();
@@ -36,15 +41,15 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 							render: `Sent ${counter.current} ${counter.current === 1 ? "trade" : "trades"} to ${
 								selectedUser.username
 							}!`,
-					  })
+						})
 					: toast.success(
 							`Sent ${counter.current} ${counter.current === 1 ? "trade" : "trades"} to ${
 								selectedUser.username
 							}!`,
 							{
 								toastId: "success",
-							}
-					  );
+							},
+						);
 			} else {
 				console.error(error);
 				toast.error(error.response.data.error);
@@ -56,15 +61,19 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 	const scanSet = async (id) => {
 		const { result, error } =
 			transferMode.id === "cardid"
-				? await fetchData(`/api/collections/users/${user.user.id}/cardids`, {
-						userId: user.user.id,
-						collectionId: id,
-				  })
+				? await fetchData({
+						endpoint: `/api/collections/users/${user.user.id}/cardids`,
+						params: {
+							userId: user.user.id,
+							collectionId: id,
+						},
+						forceCategoryId: true,
+					})
 				: await fetchData("/api/users/scan", {
 						//transferMode.id === 'scan'
 						userId: user.user.id,
 						collectionId: id,
-				  });
+					});
 		if (result) {
 			setProgress((prev) => ({ ...prev, collections: prev.collections + 1 }));
 			const items =
@@ -112,7 +121,11 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 		counter.current = 0;
 		setProgress({ collections: 0, trades: 0 });
 		try {
-			const { result, error } = await fetchData(`/api/collections/users/${user.user.id}/user-summary`);
+			const { result, error } = await fetchData({
+				endpoint: `/api/collections/users/${user.user.id}/user-summary`,
+				forceCategoryId: true,
+			});
+			console.log(result);
 			const miniCollections = result.map((collection) => ({
 				id: collection.collection.id,
 				name: collection.collection.name,
@@ -172,7 +185,8 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 				</div>
 				{progress.trades > 0 && (
 					<div>
-						{progress.trades} / {Math.ceil(items.length / 50)} {items.length > 50 ? "Trades" : "Trade"} sent
+						{progress.trades} / {Math.ceil(items.length / 50)}{" "}
+						{items.length > 50 ? "Trades" : "Trade"} sent
 					</div>
 				)}
 				<div className='mt-2 flex xs:mt-auto'>

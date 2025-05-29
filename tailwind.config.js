@@ -121,6 +121,15 @@ module.exports = {
 					700: colors.red[700],
 				},
 			},
+			hro: {
+				primary: {
+					300: colors.green[300],
+					400: colors.green[400],
+					500: colors.green[500],
+					600: colors.green[600],
+					700: colors.green[700],
+				},
+			},
 		}),
 		plugin(function ({ addVariant }) {
 			addVariant("hocus", ["&:hover", "&:focus"]);

@@ -98,16 +98,29 @@ const CraftingModal = memo(
 						entityIds: req.items.slice(i * req.count, (i + 1) * req.count).map((item) => item.id),
 					})),
 				};
+
 				const { result, error } = await postData(`/api/crafting/${plan.id}`, payload);
 				if (result) {
+					console.log(result);
 					// open the full slot
-					await openSlot(result.slots.find((slot) => slot.used).id);
+					if (result.slots && result.slots.length > 0) {
+						// await openSlot(result.slots?.find((slot) => slot.used).id);
+						await openSlot(result.slots[0].id);
+						// await openSlot(result.slots[1].id);
+					} else {
+						console.log(result);
+					}
 				}
 				if (error) {
 					console.error(error);
 					toast.error(error.response.data.error, {
 						toastId: error.response.data.errorCode,
 					});
+				}
+
+				// Add delay between requests
+				if (i < craftCount - 1) {
+					await new Promise((resolve) => setTimeout(resolve, 10000));
 				}
 			}
 			setLoading(false);
@@ -152,35 +165,41 @@ const CraftingModal = memo(
 										endpoint: `${API}/crafting/user-cards/${template.id}`,
 										direct: true,
 									});
-									setCheckedCollectionsCount((prev) => [prev[0] + 1, prev[1]]);
-									cards.cards.forEach(({ cardTemplateId, mintBatch, mintNumber, id }) => {
-										setOwnedCards((prev) => {
-											return prev.map(
-												(o) =>
-													o.id === reqId
-														? {
-																...o,
-																items: sortBy(
-																	[
-																		...o.items,
-																		{
-																			templateId: cardTemplateId,
-																			mintBatch,
-																			mintNumber,
-																			id,
-																		},
-																	],
-																	["mintBatch", "mintNumber"],
-																).reverse(),
-															}
-														: o, // if the id matches, add the card to the ownedCards array. else return the object as is
-											);
-										});
-									});
+									if (!cards.cards || cards.cards.length === 0) {
+										console.log(cards);
+									} else {
+										setCheckedCollectionsCount((prev) => [prev[0] + 1, prev[1]]);
+										cards.cards.forEach(
+											({ cardTemplateId, mintBatch, mintNumber, id }) => {
+												setOwnedCards((prev) => {
+													return prev.map(
+														(o) =>
+															o.id === reqId
+																? {
+																		...o,
+																		items: sortBy(
+																			[
+																				...o.items,
+																				{
+																					templateId: cardTemplateId,
+																					mintBatch,
+																					mintNumber,
+																					id,
+																				},
+																			],
+																			["mintBatch", "mintNumber"],
+																		).reverse(),
+																	}
+																: o, // if the id matches, add the card to the ownedCards array. else return the object as is
+													);
+												});
+											},
+										);
+									}
 								} catch (err) {
 									console.error(err);
-									toast.error(err.response.data.error, {
-										toastId: err.response.data.errorCode,
+									toast.error(err.response?.data?.error, {
+										toastId: err.response?.data?.errorCode,
 									});
 								}
 							}
