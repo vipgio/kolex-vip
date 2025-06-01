@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
-import { FiPlus, FiCheck, FiX, FiEdit2, FiTrash2, FiSave } from "react-icons/fi";
 import { createClient } from "@supabase/supabase-js";
+
+import { useEffect, useState } from "react";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FiCheck, FiEdit2, FiPlus, FiSave, FiTrash2, FiX } from "react-icons/fi";
+
 import { supabaseKey, supabaseUrl } from "@/config/config";
+
 import LoadingSpin from "../LoadingSpin";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -60,9 +64,9 @@ const AdminPanel = ({ features, users }) => {
 										? u.info.allowed.filter((f) => f !== feature)
 										: [...u.info.allowed, feature],
 								},
-						  }
-						: u
-				)
+							}
+						: u,
+				),
 			);
 
 			const { error: updateError } = await kolexDB
@@ -79,7 +83,7 @@ const AdminPanel = ({ features, users }) => {
 			if (updateError) {
 				// 4. Revert the UI update if the database update fails
 				setUsersLocal((prevUsersLocal) =>
-					prevUsersLocal.map((u) => (u.username === username ? { ...userToUpdate } : u))
+					prevUsersLocal.map((u) => (u.username === username ? { ...userToUpdate } : u)),
 				);
 				throw updateError;
 			}
@@ -116,7 +120,7 @@ const AdminPanel = ({ features, users }) => {
 				if (error) {
 					// 3. Revert the UI update if the database insert fails
 					setUsersLocal((prevUsersLocal) =>
-						prevUsersLocal.filter((u) => u.username !== user.username)
+						prevUsersLocal.filter((u) => u.username !== user.username),
 					);
 					throw error;
 				}
@@ -143,7 +147,7 @@ const AdminPanel = ({ features, users }) => {
 
 				// 2. Optimistically update the UI
 				setUsersLocal((prevUsersLocal) =>
-					prevUsersLocal.map((u) => (u.username === username ? { ...u, ends: date } : u))
+					prevUsersLocal.map((u) => (u.username === username ? { ...u, ends: date } : u)),
 				);
 
 				// 3. Update the user's end date in Supabase
@@ -152,7 +156,7 @@ const AdminPanel = ({ features, users }) => {
 				if (error) {
 					// 4. Revert the UI update if the database update fails
 					setUsersLocal((prevUsersLocal) =>
-						prevUsersLocal.map((u) => (u.username === username ? { ...userToUpdate } : u))
+						prevUsersLocal.map((u) => (u.username === username ? { ...userToUpdate } : u)),
 					);
 					throw error;
 				}
@@ -175,7 +179,7 @@ const AdminPanel = ({ features, users }) => {
 		setLoading(true);
 		try {
 			setUsersLocal(
-				usersLocal.map((user) => (user.username === editingUser.username ? editingUser : user))
+				usersLocal.map((user) => (user.username === editingUser.username ? editingUser : user)),
 			);
 
 			const userForDB = { ...editingUser };
@@ -222,7 +226,7 @@ const AdminPanel = ({ features, users }) => {
 					<h2 className='text-2xl font-bold text-gray-800'>Admin Panel</h2>
 				</div> */}
 				<div className='p-6'>
-					<div className='max-h-[44rem] overflow-auto'>
+					<div className='max-h-[70rem] overflow-auto'>
 						<table className='w-full table-auto text-left text-sm text-gray-500'>
 							<thead className='sticky top-0 z-10 bg-gray-50 text-xs uppercase text-gray-700'>
 								<tr>
