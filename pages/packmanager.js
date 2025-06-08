@@ -1,18 +1,23 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+
+import chunk from "lodash/chunk";
 import findIndex from "lodash/findIndex";
 import uniq from "lodash/uniq";
-import chunk from "lodash/chunk";
+
 import { templateLimit } from "@/config/config";
-import { useAxios } from "@/hooks/useAxios";
+
 import { UserContext } from "@/context/UserContext";
+
+import { useAxios } from "@/hooks/useAxios";
+
+import { SearchIcon } from "@/components/Icons";
 import Meta from "@/components/Meta";
-import PackGallery from "@/components/packmanager/PackGallery";
 import RefreshButton from "@/components/RefreshButton";
 import Tooltip from "@/components/Tooltip";
 import ListedModal from "@/components/packmanager/ListedModal";
-import PurchaseToggle from "@/components/packmanager/PurchaseToggle";
+import PackGallery from "@/components/packmanager/PackGallery";
 import PurchasePage from "@/components/packmanager/PurchasePage";
-import { SearchIcon } from "@/components/Icons";
+import PurchaseToggle from "@/components/packmanager/PurchaseToggle";
 
 const Packmanager = () => {
 	const { user, categoryId } = useContext(UserContext);
@@ -44,7 +49,7 @@ const Packmanager = () => {
 						? templates[index].packs.push({
 								id: pack.id,
 								created: pack.created.split("T")[0],
-						  }) // add the pack to the array
+							}) // add the pack to the array
 						: templates.push({
 								name: pack.packTemplate.name,
 								id: pack.packTemplate.id,
@@ -54,7 +59,7 @@ const Packmanager = () => {
 								userLimit: pack.packTemplate.userLimit,
 								categoryId: pack.packTemplate.categoryId,
 								packs: [{ id: pack.id, created: pack.created.split("T")[0] }],
-						  }); // add the pack template to the array
+							}); // add the pack template to the array
 				});
 				getAllPacks(++page);
 			} else {
@@ -75,7 +80,7 @@ const Packmanager = () => {
 	const getMarketInfo = async () => {
 		const templateChunks = chunk(
 			templates.map((pack) => pack.id),
-			templateLimit
+			templateLimit,
 		);
 
 		try {
@@ -177,7 +182,7 @@ const Packmanager = () => {
 													.filter((pack) =>
 														pack.name
 															.toLowerCase()
-															.includes(searchQuery.toLowerCase())
+															.includes(searchQuery.toLowerCase()),
 													)
 													.reduce((acc, pack) => acc + pack.packs.length, 0)}
 											</span>
@@ -187,14 +192,26 @@ const Packmanager = () => {
 													.filter((pack) =>
 														pack.name
 															.toLowerCase()
-															.includes(searchQuery.toLowerCase())
+															.includes(searchQuery.toLowerCase()),
 													)
 													.reduce(
 														(acc, pack) =>
 															acc + Number(pack.floor) * pack.packs.length,
-														0
+														0,
 													)
-													.toFixed(2)}
+													.toFixed(2)}{" "}
+												{`($${packs
+													.filter((pack) =>
+														pack.name
+															.toLowerCase()
+															.includes(searchQuery.toLowerCase()),
+													)
+													.reduce(
+														(acc, pack) =>
+															acc + Number(pack.floor) * pack.packs.length * 0.9,
+														0,
+													)
+													.toFixed(2)} AT)`}
 											</span>
 										</div>
 									</div>

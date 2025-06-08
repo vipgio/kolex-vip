@@ -1,6 +1,11 @@
 {
 	"changelog": [
 		{
+			"version": "2.12.2",
+			"date": "2025-06-08",
+			"changes": ["Added pack value after tax in pack manager because eirik is lazy."]
+		},
+		{
 			"version": "2.12.1",
 			"date": "2025-03-09",
 			"changes": [

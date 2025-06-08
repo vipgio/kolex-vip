@@ -1,6 +1,9 @@
 import { useState } from "react";
+
 import { CDN } from "@/config/config";
+
 import ImageWrapper from "@/HOC/ImageWrapper";
+
 import MassPackModal from "./MassPackModal";
 
 const PackGalleryItem = ({ packTemplate }) => {
@@ -35,13 +38,23 @@ const PackGalleryItem = ({ packTemplate }) => {
 					</div>
 					<div className='flex justify-between'>
 						<span>Value:</span>
-						<span>${(packTemplate.floor * packTemplate.packs.length).toFixed(2)}</span>
+						<span>
+							<span>${(packTemplate.floor * packTemplate.packs.length).toFixed(2)}</span>
+							<span>
+								{" "}
+								(${(packTemplate.floor * packTemplate.packs.length * 0.9).toFixed(2)} AT)
+							</span>
+						</span>
 					</div>
 				</div>
 			</button>
 			{showModal && (
 				<div className='fixed z-50'>
-					<MassPackModal packTemplate={packTemplate} showModal={showModal} setShowModal={setShowModal} />
+					<MassPackModal
+						packTemplate={packTemplate}
+						showModal={showModal}
+						setShowModal={setShowModal}
+					/>
 				</div>
 			)}
 		</>
