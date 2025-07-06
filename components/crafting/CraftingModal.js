@@ -147,14 +147,14 @@ const CraftingModal = memo(
 						// return;
 					}
 					result.cardTemplatesByCollection.map((collection) => {
-						if (collection.collection.id === 13432) return; // ignore the duplicate core collection for now
+						if (collection.collection.id === 14390) return; // ignore the duplicate core collection for now
 						setCheckedCollectionsCount((prev) => [
 							prev[0],
 							prev[1] + collection.cardTemplates.filter((o) => o.userCount).length,
 						]);
 					});
 					for (const collection of result.cardTemplatesByCollection) {
-						if (collection.collection.id === 13432) {
+						if (collection.collection.id === 14390) {
 							continue;
 							// ignore the duplicate core collection for now
 						}

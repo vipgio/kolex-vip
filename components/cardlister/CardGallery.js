@@ -183,6 +183,16 @@ const CardGallery = ({ templates, user }) => {
 					onChange={(e) => setSearchQuery(e.target.value)}
 				/>
 			</div>
+			{templates.length > 0 && totalValue > 0 && (
+				<div className='text-gray-custom ml-2 mt-1 flex items-center font-semibold'>
+					Set value: $
+					{templates
+						.filter((item) => item.count)
+						.reduce((acc, cur) => acc + (cur.floor ? Number(cur.floor) : 0), 0)
+						.toFixed(2)}
+					<Tooltip direction='right' text='Total value of one set based on floor price.' />
+				</div>
+			)}
 			{totalValue > 0 && (
 				<div className='text-gray-custom ml-2 mt-1 flex items-center font-semibold'>
 					Total value: ${totalValue.toFixed(2)}
