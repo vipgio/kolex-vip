@@ -30,7 +30,6 @@ const CardGallery = ({ templates, user }) => {
 				.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
 				.reduce((acc, cur) => acc + (cur.floor ? cur.floor * cur.count : 0), 0),
 		);
-		console.log(templates);
 	}, [templates, searchQuery]);
 
 	useEffect(() => {
