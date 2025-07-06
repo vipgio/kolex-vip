@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+
 import sortBy from "lodash/sortBy";
+
 import { maxPrice, minPrice } from "@/config/config";
-import AdvancedModal from "./AdvancedModal";
-import SimpleModal from "./SimpleModal";
+
 import Tooltip from "../Tooltip";
-import FiltersModal from "./FiltersModal";
+import AdvancedModal from "./AdvancedModal";
 import CardGalleryItem from "./CardGalleryItem";
+import FiltersModal from "./FiltersModal";
+import SimpleModal from "./SimpleModal";
 import Delister from "./delister/Delister";
 
 const CardGallery = ({ templates, user }) => {
@@ -25,9 +28,10 @@ const CardGallery = ({ templates, user }) => {
 			templates
 				.filter((item) => item.count)
 				.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
-				.reduce((acc, cur) => acc + (cur.floor ? cur.floor * cur.count : 0), 0)
+				.reduce((acc, cur) => acc + (cur.floor ? cur.floor * cur.count : 0), 0),
 		);
-	}, [searchQuery]);
+		console.log(templates);
+	}, [templates, searchQuery]);
 
 	useEffect(() => {
 		setSelectedTemplates((prev) =>
@@ -37,8 +41,8 @@ const CardGallery = ({ templates, user }) => {
 					(item) =>
 						item.count >= filters.minOwned &&
 						!(item.floor > filters.maxFloor) &&
-						!(item.floor < filters.minFloor)
-				)
+						!(item.floor < filters.minFloor),
+				),
 		);
 	}, [filters.minFloor, filters.maxFloor, filters.minOwned]);
 
@@ -82,14 +86,14 @@ const CardGallery = ({ templates, user }) => {
 									templates
 										.filter((item) => item.count)
 										.filter((item) =>
-											item.title.toLowerCase().includes(searchQuery.toLowerCase())
+											item.title.toLowerCase().includes(searchQuery.toLowerCase()),
 										)
 										.filter(
 											(item) =>
 												item.count >= filters.minOwned &&
 												!(item.floor > filters.maxFloor) &&
-												!(item.floor < filters.minFloor)
-										)
+												!(item.floor < filters.minFloor),
+										),
 								)
 							}
 							className='simple-button m-1'
@@ -101,17 +105,17 @@ const CardGallery = ({ templates, user }) => {
 								setSelectedTemplates(
 									templates
 										.filter(
-											(item) => item.count && !item.listed && item.listed !== item.count
+											(item) => item.count && !item.listed && item.listed !== item.count,
 										)
 										.filter((item) =>
-											item.title.toLowerCase().includes(searchQuery.toLowerCase())
+											item.title.toLowerCase().includes(searchQuery.toLowerCase()),
 										)
 										.filter(
 											(item) =>
 												item.count >= filters.minOwned &&
 												!(item.floor > filters.maxFloor) &&
-												!(item.floor < filters.minFloor)
-										)
+												!(item.floor < filters.minFloor),
+										),
 								)
 							}
 							className='simple-button m-1'
@@ -124,14 +128,14 @@ const CardGallery = ({ templates, user }) => {
 									templates
 										.filter((item) => item.count && item.listed)
 										.filter((item) =>
-											item.title.toLowerCase().includes(searchQuery.toLowerCase())
+											item.title.toLowerCase().includes(searchQuery.toLowerCase()),
 										)
 										.filter(
 											(item) =>
 												item.count >= filters.minOwned &&
 												!(item.floor > filters.maxFloor) &&
-												!(item.floor < filters.minFloor)
-										)
+												!(item.floor < filters.minFloor),
+										),
 								)
 							}
 							className='simple-button m-1'
@@ -195,19 +199,19 @@ const CardGallery = ({ templates, user }) => {
 					sortMethod === "owned"
 						? [(o) => -o.count, (o) => -o.floor]
 						: sortMethod === "floor"
-						? [(o) => -o.floor, (o) => -o.count]
-						: sortMethod === "circ"
-						? [(o) => -o.inCirculation, (o) => -o.count]
-						: sortMethod === "value"
-						? [(o) => -o.floor * o.count, (o) => -o.count]
-						: [(o) => o.listed, (o) => -o.count, (o) => -o.floor] //listed
+							? [(o) => -o.floor, (o) => -o.count]
+							: sortMethod === "circ"
+								? [(o) => -o.inCirculation, (o) => -o.count]
+								: sortMethod === "value"
+									? [(o) => -o.floor * o.count, (o) => -o.count]
+									: [(o) => o.listed, (o) => -o.count, (o) => -o.floor], //listed
 				)
 					.filter((item) => item.count)
 					.filter(
 						(item) =>
 							item.count >= filters.minOwned &&
 							!(item.floor > filters.maxFloor) &&
-							!(item.floor < filters.minFloor)
+							!(item.floor < filters.minFloor),
 					)
 					.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
 					.map((item) => (
