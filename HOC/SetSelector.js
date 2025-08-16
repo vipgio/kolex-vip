@@ -108,7 +108,10 @@ const SetSelector = memo(
 										col.collection.properties.types[0] !== "event_primary" &&
 										!coreNames.includes(col.collection.properties.tiers[0]),
 								),
-								(col) => col.collection.properties.tiers[0],
+								(col) =>
+									col.collection.properties.tiers[0] +
+									"_" +
+									(col.collection.physical ? "physical" : "digital"),
 							),
 						).reduce((acc, [key, value]) => {
 							const entry = {

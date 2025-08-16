@@ -1,12 +1,20 @@
-import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
+
+import { Fragment } from "react";
+
 import { ChevronIcon } from "@/components/Icons";
 
 const CollectionSelect = ({ selectedCol, setSelectedCol, selectedSeason, collections }) => {
 	return (
-		<Listbox value={selectedCol} onChange={(e) => setSelectedCol(e)} disabled={selectedSeason.length === 0}>
+		<Listbox
+			value={selectedCol}
+			onChange={(e) => setSelectedCol(e)}
+			disabled={selectedSeason.length === 0}
+		>
 			<Listbox.Button className='input-outline relative my-1 h-10 w-full rounded-lg bg-white py-2 pl-4 pr-10 text-left shadow-md sm:text-sm'>
-				<span className='block truncate'>{selectedCol.length === 0 ? "Collection" : selectedCol}</span>
+				<span className='block truncate'>
+					{selectedCol.length === 0 ? "Collection" : selectedCol.split("_")[0]}
+				</span>
 				<span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
 					<ChevronIcon className='h-5 w-5 text-gray-400' />
 				</span>
@@ -50,7 +58,7 @@ const CollectionSelect = ({ selectedCol, setSelectedCol, selectedSeason, collect
 										}`
 									}
 								>
-									<span className={`block text-ellipsis`}>{col}</span>
+									<span className={`block text-ellipsis`}>{col.split("_")[0]}</span>
 								</Listbox.Option>
 							))}
 						{collections
@@ -81,7 +89,7 @@ const CollectionSelect = ({ selectedCol, setSelectedCol, selectedSeason, collect
 										}`
 									}
 								>
-									<span className={`block text-ellipsis`}>{col}</span>
+									<span className={`block text-ellipsis`}>{col.split("_")[0]}</span>
 								</Listbox.Option>
 							))}
 					</Listbox.Options>
