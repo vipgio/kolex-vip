@@ -79,7 +79,7 @@ const SetSelector = memo(
 							groupBy(
 								pickBy(
 									seasonCollections,
-									(col) => col.collection.properties.types[0] === "event_primary",
+									(col) => col.collection.properties.types?.[0] === "event_primary",
 								),
 								(col) => col.collection?.properties.tiers[0],
 							),
@@ -105,7 +105,7 @@ const SetSelector = memo(
 								pickBy(
 									seasonCollections,
 									(col) =>
-										col.collection.properties.types[0] !== "event_primary" &&
+										col.collection.properties.types?.[0] !== "event_primary" &&
 										!coreNames.includes(col.collection.properties.tiers[0]),
 								),
 								(col) =>
