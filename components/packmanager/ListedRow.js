@@ -77,7 +77,7 @@ const ListedRow = ({ pack, setListed, insertFloor }) => {
 			<td className='table-cell min-w-[10rem]'>{pack.title}</td>
 			<td className='table-cell'>{pack.minted}</td>
 			<td className='table-cell'>${pack.price}</td>
-			<td className='table-cell'>${pack.floor}</td>
+			<td className='table-cell'>{pack.floor ? `$${pack.floor}` : "?"}</td>
 			<td className='table-cell'>
 				<input
 					type='number'

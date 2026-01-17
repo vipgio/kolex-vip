@@ -52,7 +52,7 @@ const ListedModal = ({ showModal, setShowModal }) => {
 						season: item.pack.packTemplate.properties.seasons[0],
 						title: item.pack.packTemplate.name,
 						floor: floorData.templates.find((res) => res.entityTemplateId === item.pack.packTemplate.id)
-							.lowestPrice,
+							?.lowestPrice,
 					};
 					return obj;
 				}),
