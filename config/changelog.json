@@ -1,6 +1,11 @@
 {
 	"changelog": [
 		{
+			"version": "2.12.3",
+			"date": "2026-02-11",
+			"changes": ["Added fantasy reward in history events."]
+		},
+		{
 			"version": "2.12.2",
 			"date": "2025-06-08",
 			"changes": ["Added pack value after tax in pack manager because eirik is lazy."]

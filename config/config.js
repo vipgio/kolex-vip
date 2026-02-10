@@ -81,6 +81,7 @@ export const historyEvents = {
 			upgraded the card to level <span className='font-medium text-red-400'>{event.value}</span>.
 		</>
 	),
+	"fantasy-reward": () => "received as reward for fantasy.",
 };
 
 export const excludedFeatures = [
