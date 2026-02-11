@@ -1,18 +1,22 @@
-import { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import uniq from "lodash/uniq";
-import pick from "lodash/pick";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
 import chunk from "lodash/chunk";
-import { useAxios } from "@/hooks/useAxios";
+import pick from "lodash/pick";
+import uniq from "lodash/uniq";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { templateLimit } from "@/config/config";
+
+import { useAxios } from "@/hooks/useAxios";
+
+import LoadingSpin from "@/components/LoadingSpin";
 import Meta from "@/components/Meta";
 import Tooltip from "@/components/Tooltip";
 import CardHistory from "@/components/history/CardHistory";
-import LoadingSpin from "@/components/LoadingSpin";
-import Toggle from "@/components/history/Toggle";
 import ExportButton from "@/components/history/ExportButton";
-import { useRouter } from "next/router";
+import Toggle from "@/components/history/Toggle";
 
 const History = () => {
 	const router = useRouter();
@@ -37,9 +41,13 @@ const History = () => {
 				setHistory((items) =>
 					items.map((history) => {
 						return history.cardTemplateId === template.id
-							? { ...history, ...pick(template, ["title", "images"]) }
+							? {
+									...history,
+									...pick(template, ["title", "images"]),
+									templateUuid: template.uuid,
+								}
 							: { ...history };
-					})
+					}),
 				);
 			});
 			setIsDone(true);
@@ -58,7 +66,7 @@ const History = () => {
 				.replace(/\s/g, "") // remove spaces
 				.split(",") // split into array
 				.filter((item) => item !== "") // remove empty items
-				.filter((id) => !isNaN(id)) // remove non-numbers
+				.filter((id) => !isNaN(id)), // remove non-numbers
 		);
 
 		if (inputList.length > 0) {
@@ -71,8 +79,20 @@ const History = () => {
 						setHistory((prev) => [
 							...prev,
 							{
-								...pick(result, ["id", "mintBatch", "mintNumber", "history", "images", "cardTemplateId"]),
-								cardImage: result.images.size201 || result.images.size102 || result.images.size402 || "",
+								...pick(result, [
+									"id",
+									"mintBatch",
+									"mintNumber",
+									"history",
+									"images",
+									"cardTemplateId",
+									"uuid",
+								]),
+								cardImage:
+									result.images.size201 ||
+									result.images.size102 ||
+									result.images.size402 ||
+									"",
 							},
 						]);
 					}
@@ -82,7 +102,7 @@ const History = () => {
 							toastId: cardId,
 						});
 					}
-				})
+				}),
 			);
 
 			if (templateIds.length > 0) {
@@ -155,7 +175,8 @@ const History = () => {
 					</form>
 					{history.length > 0 && (
 						<div className='text-gray-custom mt-1 text-center'>
-							{history.length}/{cardId.split(/\s|,/).filter((id) => !isNaN(id) && id !== "").length}
+							{history.length}/
+							{cardId.split(/\s|,/).filter((id) => !isNaN(id) && id !== "").length}
 						</div>
 					)}
 				</div>

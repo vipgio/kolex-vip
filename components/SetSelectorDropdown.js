@@ -1,14 +1,17 @@
-import { useState, Fragment } from "react";
 import {
+	FocusableItem,
+	MenuButton,
+	MenuDivider,
+	MenuGroup,
 	Menu as MenuInner,
 	MenuItem as MenuItemInner,
 	SubMenu as SubMenuInner,
-	MenuButton,
-	MenuDivider,
-	FocusableItem,
-	MenuGroup,
 } from "@szhsin/react-menu";
+
+import { Fragment, useState } from "react";
+
 import LoadingSpin from "./LoadingSpin";
+
 // import "@szhsin/react-menu/dist/index.css";
 const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 	const [filter, setFilter] = useState("");
@@ -55,7 +58,9 @@ const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 								<MenuGroup takeOverflow>
 									{seasonCollections.map(([tier, tierCollections], idx) => (
 										<Fragment key={`${season}-${tier}`}>
-											{idx !== 0 && <MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />}
+											{idx !== 0 && (
+												<MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />
+											)}
 											<SubMenu
 												label={tier}
 												onMenuChange={() => setFilter("")}
@@ -79,26 +84,34 @@ const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 													{tierCollections
 														.filter((col) =>
 															col.collection
-																? col.collection.name.toUpperCase().includes(filter.trim().toUpperCase())
-																: true
+																? col.collection.name
+																		.toUpperCase()
+																		.includes(filter.trim().toUpperCase())
+																: true,
 														)
 														.filter((col) =>
 															!col.collection
-																? col[0].toUpperCase().includes(filter.trim().toUpperCase())
-																: true
+																? col[0]
+																		.toUpperCase()
+																		.includes(filter.trim().toUpperCase())
+																: true,
 														)
 
 														.map((col, idx) => (
 															<Fragment
 																key={`${season}-${tier}-${col.collection ? col.collection.id : col[0]}`}
 															>
-																{idx !== 0 && <MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />}
+																{idx !== 0 && (
+																	<MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />
+																)}
 
 																{col.collection ? ( // if collection is true, then it is a collection
 																	<MenuItem
 																		key={col.collection.name}
 																		value={col}
-																		onClick={(e) => setSelectedCollection(e.value)}
+																		onClick={(e) =>
+																			setSelectedCollection(e.value)
+																		}
 																	>
 																		{col.collection.name}
 																	</MenuItem>
@@ -106,14 +119,22 @@ const SetSelectorDropdown = ({ collections, setSelectedCollection }) => {
 																	// if collection is false, then it is a set
 																	<SubMenu label={col[0]}>
 																		{col[1].map((subCol, idx) => (
-																			<Fragment key={subCol.collection.name}>
+																			<Fragment
+																				key={subCol.collection.name}
+																			>
 																				{idx !== 0 && (
 																					<MenuDivider className='mx-2.5 my-1.5 h-px bg-gray-200' />
 																				)}
 																				<MenuItem
-																					key={subCol.collection.name}
+																					key={
+																						subCol.collection.name
+																					}
 																					value={subCol}
-																					onClick={(e) => setSelectedCollection(e.value)}
+																					onClick={(e) =>
+																						setSelectedCollection(
+																							e.value,
+																						)
+																					}
 																				>
 																					{subCol.collection.name}
 																				</MenuItem>

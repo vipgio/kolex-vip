@@ -1,14 +1,26 @@
-import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import LoadingSpin from "@/components/LoadingSpin";
+
+import { Fragment } from "react";
+
 import { ChevronIcon } from "@/components/Icons";
+import LoadingSpin from "@/components/LoadingSpin";
 
 const SeasonSelect = ({ selectedSeason, setSelectedSeason, collections, loading }) => {
 	return (
-		<Listbox value={selectedSeason} onChange={(e) => setSelectedSeason(e)} disabled={collections.length === 0}>
+		<Listbox
+			value={selectedSeason}
+			onChange={(e) => setSelectedSeason(e)}
+			disabled={collections.length === 0}
+		>
 			<Listbox.Button className='input-outline relative my-1 h-10 w-full cursor-pointer rounded-lg bg-white py-2 pl-4 pr-10 text-left shadow-md sm:text-sm'>
 				<span className='block truncate'>
-					{loading ? <LoadingSpin size={4} /> : selectedSeason.length === 0 ? "Season" : selectedSeason}
+					{loading ? (
+						<LoadingSpin size={4} />
+					) : selectedSeason.length === 0 ? (
+						"Season"
+					) : (
+						selectedSeason
+					)}
 				</span>
 				<span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
 					<ChevronIcon className='h-5 w-5 text-gray-400' />
@@ -26,7 +38,7 @@ const SeasonSelect = ({ selectedSeason, setSelectedSeason, collections, loading 
 				<Listbox.Options className='absolute top-12 left-0 z-30 inline-grid w-full gap-1 rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
 					{collections.map(
 						(
-							[season, _] // Show all seasons
+							[season, _], // Show all seasons
 						) => (
 							<Listbox.Option
 								key={season}
@@ -39,7 +51,7 @@ const SeasonSelect = ({ selectedSeason, setSelectedSeason, collections, loading 
 							>
 								<span className={`block truncate`}>{season}</span>
 							</Listbox.Option>
-						)
+						),
 					)}
 				</Listbox.Options>
 			</Transition>

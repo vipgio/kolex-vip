@@ -1,5 +1,7 @@
-import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
+
+import { Fragment } from "react";
+
 import { ChevronIcon } from "@/components/Icons";
 
 const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setSelectedSet }) => {
@@ -54,7 +56,9 @@ const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setS
 											<span className={`block text-ellipsis`}>{set.tier}</span>
 										</Listbox.Option>
 										{set.collections
-											.sort((a, b) => a.collection?.name.localeCompare(b.collection?.name))
+											.sort((a, b) =>
+												a.collection?.name.localeCompare(b.collection?.name),
+											)
 											.map((subSet) => (
 												<Listbox.Option
 													key={subSet.collection.id}
@@ -65,11 +69,13 @@ const SetSelect = ({ selectedCol, selectedSet, selectedSeason, collections, setS
 														}`
 													}
 												>
-													<span className={`block text-ellipsis`}>{subSet.collection.name}</span>
+													<span className={`block text-ellipsis`}>
+														{subSet.collection.name}
+													</span>
 												</Listbox.Option>
 											))}
 									</Fragment>
-								)
+								),
 							)}
 					</Listbox.Options>
 				)}

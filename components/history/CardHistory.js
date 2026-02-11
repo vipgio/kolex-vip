@@ -1,7 +1,12 @@
+import Link from "next/link";
 import { memo } from "react";
+
 import isEqual from "lodash/isEqual";
+
 import ImageWrapper from "@/HOC/ImageWrapper";
+
 import HistoryContent from "./HistoryContent";
+
 const CardHistory = memo(
 	({ item, compactMode }) => {
 		return (
@@ -11,7 +16,9 @@ const CardHistory = memo(
 						<div className='mr-2 min-w-fit'>
 							<a href={item.cardImage || ""} target='_blank' rel='noreferrer noopener'>
 								<ImageWrapper
-									src={item.images.size201 || item.images.size102 || item.images.size402 || ""}
+									src={
+										item.images.size201 || item.images.size102 || item.images.size402 || ""
+									}
 									alt={item.id}
 									width={50 * 1.5}
 									height={75 * 1.5}
@@ -21,11 +28,18 @@ const CardHistory = memo(
 					)}
 					<div className='w-full'>
 						<div className='mb-2 w-full border-b border-gray-700/50 text-gray-800 dark:border-gray-300/50 dark:text-gray-200'>
-							<span className='text-orange-400'>
-								{item.mintBatch}
-								{item.mintNumber}{" "}
-							</span>
+							<a
+								href={`https://kolex.gg/card/${item.templateUuid}/${item.uuid}`}
+								target='_blank'
+								rel='noreferrer noopener'
+							>
+								<span className='text-orange-400 cursor-pointer'>
+									{item.mintBatch}
+									{item.mintNumber}
+								</span>
+							</a>
 							<span>
+								{" "}
 								{item.title}: {item.id}
 							</span>
 						</div>
@@ -38,7 +52,7 @@ const CardHistory = memo(
 			</>
 		);
 	},
-	(oldProps, newProps) => isEqual(oldProps, newProps)
+	(oldProps, newProps) => isEqual(oldProps, newProps),
 );
 CardHistory.displayName = "CardHistory";
 export default CardHistory;
