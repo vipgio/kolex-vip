@@ -48,15 +48,18 @@ const SetSelector = memo(
 			const groupCollections = async () => {
 				setLoading(true);
 				const data = await getCollections();
-				const grouped = groupBy(data, (col) => col.collection.properties.seasons[0]);
+				const grouped = groupBy(
+					data,
+					(col) => col.collection.properties?.seasons?.[0] || "Unknown Season",
+				);
 				Object.entries(grouped).forEach(([season, seasonCollections]) => {
 					const coreGrouped = {
 						collections: Object.entries(
 							groupBy(
 								pickBy(seasonCollections, (col) =>
-									coreNames.includes(col.collection.properties.tiers[0]),
+									coreNames.includes(col.collection.properties?.tiers?.[0]),
 								),
-								(col) => col.collection?.properties.tiers[0],
+								(col) => col.collection?.properties?.tiers?.[0],
 							),
 						).map(([tier, collections]) => {
 							const entry = {
@@ -79,9 +82,9 @@ const SetSelector = memo(
 							groupBy(
 								pickBy(
 									seasonCollections,
-									(col) => col.collection.properties.types?.[0] === "event_primary",
+									(col) => col.collection.properties?.types?.[0] === "event_primary",
 								),
-								(col) => col.collection?.properties.tiers[0],
+								(col) => col.collection?.properties?.tiers?.[0],
 							),
 						).map(([tier, collections]) => {
 							const entry = {
@@ -105,13 +108,13 @@ const SetSelector = memo(
 								pickBy(
 									seasonCollections,
 									(col) =>
-										col.collection.properties.types?.[0] !== "event_primary" &&
-										!coreNames.includes(col.collection.properties.tiers[0]),
+										col.collection.properties?.types?.[0] !== "event_primary" &&
+										!coreNames.includes(col.collection.properties?.tiers?.[0]),
 								),
 								(col) =>
-									col.collection.properties.tiers[0] +
+									col.collection.properties?.tiers?.[0] +
 									"_" +
-									(col.collection.physical ? "physical" : "digital"),
+									(col.collection?.physical ? "physical" : "digital"),
 							),
 						).reduce((acc, [key, value]) => {
 							const entry = {
