@@ -49,8 +49,8 @@ const SetSelector = memo(
 				setLoading(true);
 				const data = await getCollections();
 				const grouped = groupBy(
-					data,
-					(col) => col.collection.properties?.seasons?.[0] || "Unknown Season",
+					data.filter((col) => col.collection.properties),
+					(col) => col.collection.properties?.seasons?.[0],
 				);
 				Object.entries(grouped).forEach(([season, seasonCollections]) => {
 					const coreGrouped = {
